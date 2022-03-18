@@ -18,11 +18,11 @@ export default class Main extends Component<RouteComponentProps<{}, {}, unknown>
         var url = this.props.match.url;
 
         if(url.indexOf("/dir") == 0) {
-            component = <Explorer path={url.replace("/dir", "")}/>;
+            component = <Explorer path={decodeURI(url.replace("/dir", ""))}/>;
         }
 
         if(url.indexOf("/edit") == 0) {
-            component = <Editor path={Utils.base64ToStr(this.props.location.search.replace("?path=", ""))}/>;
+            component = <Editor path={this.props.location.search.replace("?path=", "").replaceAll("/", "\\")}/>;
         }
 
         return component;

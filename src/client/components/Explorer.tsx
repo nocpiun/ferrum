@@ -101,7 +101,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         if(this.state.itemSelected == null) return;
         
         if(this.state.itemSelected.isFile) {
-            window.location.href = "http://"+ window.location.host +"/edit/?path="+ Utils.toBase64(this.path.replace("C:", "") +"/"+ this.state.itemSelected.fullName);
+            window.location.href = "http://"+ window.location.host +"/edit/?path="+ (this.path.replace("C:", "") +"/"+ this.state.itemSelected.fullName).replaceAll("/", "\\");
         } else {
             window.location.href = "http://"+ window.location.host +"/dir/"+ this.path.replace("C:", "") +"/"+ this.state.itemSelected.fullName;
         }
@@ -116,7 +116,11 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
     }
     
     private handleDownloadFile(): void {
-        
+        if(this.state.itemSelected == null) return;
+
+        if(this.state.itemSelected.isFile) {
+            window.location.href = "http://"+ window.location.hostname +":3001/getFileData?path="+ (this.path.replace("C:", "") +"/"+ this.state.itemSelected.fullName).replaceAll("/", "\\");
+        }
     }
     
     private handleUploadFile(): void {
@@ -147,21 +151,17 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                     <div className="toolbuttons-container">
                         <Button
                             id="open-file"
-                            onClick={() => this.handleOpenFile()}
-                            disabled>Open</Button>
+                            onClick={() => this.handleOpenFile()}>Open</Button>
                         <Button
                             id="delete-file"
                             onClick={() => this.handleDeleteFile()}
-                            variant="danger"
-                            disabled>Delete</Button>
+                            variant="danger">Delete</Button>
                         <Button
                             id="rename-file"
-                            onClick={() => this.handleRenameFile()}
-                            disabled>Rename</Button>
+                            onClick={() => this.handleRenameFile()}>Rename</Button>
                         <Button
                             id="download-file"
-                            onClick={() => this.handleDownloadFile()}
-                            disabled>Download</Button>
+                            onClick={() => this.handleDownloadFile()}>Download</Button>
                         <Button
                             id="upload-file"
                             onClick={() => this.handleUploadFile()}>Upload</Button>
@@ -205,7 +205,10 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         document.title = "Ferrum - "+ this.path;
         var apiUrl = "http://"+ window.location.hostname +":3001";
 
-        Axios.get(apiUrl +"/fetchDirInfo?path="+ Utils.toBase64(this.path))
+        // The control buttons is defaultly disabled
+        this.setControlButtonsDisabled(true);
+
+        Axios.get(apiUrl +"/fetchDirInfo?path="+ this.path.replaceAll("/", "\\"))
             .then((res: FetchDirInfoResponse) => {
                 if(res.data.err == 404) {
                     alert("Cannot find the specified directory.\nPlease check your input.");
@@ -224,11 +227,11 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
             })
             .catch((err) => {throw err});
         
-        // Axios.get(apiUrl +"/getIsStarred?path="+ Utils.toBase64(this.path))
-        //     .then((res) => {
-
-        //     })
-        //     .catch((err) => {throw err});
+        Axios.get(apiUrl +"/getStarred")
+            .then((res) => {
+                
+            })
+            .catch((err) => {throw err});
     }
 
     private setControlButtonsDisabled(is: boolean): void {

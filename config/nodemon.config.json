@@ -7,6 +7,6 @@
         "public/**"
     ],
     "watch": ["src/server/"],
-    "ext": "mts",
+    "ext": "js",
     "exec": "cross-env NODE_ENV=development node --inspect ./src/server/Server.js"
 }

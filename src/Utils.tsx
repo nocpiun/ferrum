@@ -18,14 +18,6 @@ export default class Utils {
         return s;
     }
 
-    public static toBase64(str: string): string {
-        return new Buffer(str).toString("base64");
-    }
-
-    public static base64ToStr(str: string): string {
-        return new Buffer(str, "base64").toString();
-    }
-
     public static itemMoveToFirst(key: number, arr: any[]): any[] {
         var str = arr.splice(key, 1);
         arr.push(str[0]);

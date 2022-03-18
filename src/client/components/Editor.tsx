@@ -8,7 +8,7 @@ export default class Editor extends Component<EditorProps, {}> {
     public constructor(props: EditorProps) {
         super(props);
 
-        this.path = "C:"+ this.props.path;
+        this.path = "C:"+ this.props.path.replaceAll("\\", "/");
     }
 
     public render(): ReactElement {
