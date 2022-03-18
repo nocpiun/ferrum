@@ -1,0 +1,87 @@
+.explorer {
+    .main-container {
+        margin: 0 auto;
+        width: 700px;
+        height: 100%;
+        .header-container {
+            margin-top: 30px;
+            height: 120px;
+            top: 0;
+            .path-input {
+                margin-top: 20px;
+                width: 660px;
+                display: inline-block;
+            }
+            .star {
+                width: 20px;
+                height: 20px;
+                margin: 10px;
+                border: none;
+                background-color: transparent;
+                background-image: url(../../icons/star_outline.svg);
+                background-position: center center;
+            }
+        }
+        .toolbuttons-container {
+            margin-top: 7px;
+            margin-bottom: 20px;
+            height: 30px;
+            button {
+                margin-right: 10px;
+                color: @white !important;
+            }
+        }
+        .list-container {
+            overflow-y: scroll;
+            height: 450px;
+            .list-item {
+                outline: none;
+                .list-item-name {
+                    color: @black;
+                }
+                .list-item-size {
+                    font-size: 9pt;
+                    color: @light-gray2 !important;
+                    float: right;
+                    padding-top: 3px;
+                }
+                &:focus {
+                    background-color: #e2e2e2;
+                }
+            }
+        }
+        .footer-container {
+            height: 130px;
+            p {
+                text-align: center;
+            }
+            .copy-info {
+                padding-top: 20px;
+                font-style: italic;
+                color: @light-gray3 !important;
+            }
+        }
+    }
+    .sidebar-left-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 350px;
+        background-color: @light-gray4;
+        .header-container {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .body-container {
+            padding-left: 25px;
+        }
+    }
+    .sidebar-right-container {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100%;
+        width: 350px;
+    }
+}
