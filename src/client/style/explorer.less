@@ -37,6 +37,7 @@
             .list-item {
                 outline: none;
                 .list-item-name {
+                    margin-left: 30px;
                     color: @black;
                 }
                 .list-item-size {
@@ -44,6 +45,19 @@
                     color: @light-gray2 !important;
                     float: right;
                     padding-top: 3px;
+                }
+                &::before {
+                    content: "";
+                    position: absolute;
+                    background-repeat: no-repeat;
+                    width: 20px;
+                    height: 20px;
+                }
+                &[data-type="folder"]::before {
+                    background-image: url(../../icons/folder.svg);
+                }
+                &[data-type="file"]::before {
+                    background-image: url(../../icons/file.svg);
                 }
                 &:focus {
                     background-color: #e2e2e2;
@@ -89,8 +103,8 @@
                     position: absolute;
                     background-image: url(../../icons/star_rate.svg);
                     background-repeat: no-repeat;
-                    width: 24px;
-                    height: 24px;
+                    width: 20px;
+                    height: 20px;
                 }
             }
         }

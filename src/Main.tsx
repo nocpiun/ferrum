@@ -1,10 +1,13 @@
+/* eslint-disable eqeqeq */
 import { Component, ReactElement } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import Utils from "./Utils";
 
-import Explorer from "./client/components/Explorer";
-import Editor from "./client/components/Editor";
+// pages
+import Explorer from "./client/pages/Explorer";
+import Editor from "./client/pages/Editor";
 
+// style sheets
 import "bootstrap/dist/css/bootstrap.css";
 import "./client/style/layout.less";
 

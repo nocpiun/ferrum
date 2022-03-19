@@ -1,15 +1,20 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable eqeqeq */
 import { Component, ReactElement } from "react";
 import { Button, Form, ListGroup } from "react-bootstrap";
 import Axios from "axios";
+
+// components
+import ListItem from "../components/ListItem";
+import StarredItem from "../components/StarredItem";
+
 import Utils from "../../Utils";
-import { FetchDirInfoResponse, DirectoryItem, ExplorerProps, ExplorerState } from "../types";
+import { FetchDirInfoResponse, ExplorerProps, ExplorerState } from "../types";
 
 // icons
-import starOutline from "../../icons/star_outline.svg";
 import starRate from "../../icons/star_rate.svg";
 
-const hostname = "http://"+ window.location.hostname;
+export const hostname = "http://"+ window.location.hostname;
 const apiUrl = hostname +":3001";
 
 export default class Explorer extends Component<ExplorerProps, ExplorerState> {        
@@ -20,55 +25,11 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         super(props);
 
         this.state = {
-            itemSelected: null
+            itemSelected: null,
+            itemList: null,
+            starredList: null
         };
         this.path = "C:"+ this.props.path;
-    }
-
-    /**
-     * List the items in the directory
-     */
-    private addDirItem(itemInfo: DirectoryItem): void {
-        var listElem = Utils.getElem("list");
-
-        var item = document.createElement("button");
-        item.className = "list-group-item list-group-item-action list-item";
-        item.title = "Click to select, Double click to open.";
-        item.setAttribute("data-info", JSON.stringify(itemInfo));
-        if(itemInfo.isDirectory) {
-            item.addEventListener("dblclick", function() {
-                window.location.href += "/"+ this.innerText;
-            });
-        }
-        item.addEventListener("click", (e) => this.handleItemSelect(e));
-        var itemName = document.createElement("span");
-        itemName.className = "list-item-name";
-        itemName.innerText = itemInfo.fullName;
-        item.appendChild(itemName);
-        var itemSize = document.createElement("span");
-        itemSize.className = "list-item-size";
-        itemSize.innerText = itemInfo.size ? Utils.fomatFloat(itemInfo.size / 1024, 1) +"KB" : "";
-        item.appendChild(itemSize);
-        listElem.appendChild(item);
-    }
-
-    /**
-     * List the starred directories
-     */
-    private addStarredDir(dirPath: string): void {
-        var listElem = Utils.getElem("starred-dir-list");
-
-        var item = document.createElement("button");
-        item.className = "list-group-item list-group-item-action";
-        item.title = "Double click to open.";
-        item.addEventListener("dblclick", function() {
-            window.location.href = hostname +":3000/dir/"+ this.innerText.replace("C:/", "");
-        });
-        var itemPath = document.createElement("span");
-        itemPath.className = "list-item-name";
-        itemPath.innerText = dirPath;
-        item.appendChild(itemPath);
-        listElem.appendChild(item);
     }
 
     /**
@@ -113,8 +74,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
     /**
      * When item is selected
      */
-    private handleItemSelect(e: MouseEvent): void {
-        var elem = e.target as HTMLButtonElement;
+    private handleItemSelect(elem: HTMLButtonElement): void {
         var info = elem.getAttribute("data-info");
         if(info == null) return;
 
@@ -163,7 +123,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         if(this.state.itemSelected == null) return;
 
         if(this.state.itemSelected.isFile) {
-            window.location.href = hostname +":3001/getFileData?path="+ (this.path.replace("C:", "") +"/"+ this.state.itemSelected.fullName).replaceAll("/", "\\");
+            window.location.href = hostname +":3001/getFileData?path="+ (this.path +"/"+ this.state.itemSelected.fullName).replaceAll("/", "\\");
         }
     }
     
@@ -219,10 +179,11 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                     </div>
                     <div className="list-container">
                         <ListGroup id="list">
-                            <ListGroup.Item action className="list-item" onClick={() => this.handleBack()}>
+                            <ListGroup.Item action className="list-item" onClick={() => this.handleBack()} data-type="folder">
                                 <span className="list-item-name">..</span>
                                 <span className="list-item-size">Back to the parent directory</span>
                             </ListGroup.Item>
+                            {this.state.itemList}
                         </ListGroup>
                     </div>
                     <div className="footer-container">
@@ -235,11 +196,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                         <h3>Starred Directory</h3>
                     </div>
                     <div className="body-container">
-                        <ListGroup id="starred-dir-list">
-                            {/* <ListGroup.Item action>
-                                <span className="list-item-name">C:/Users/iron</span>
-                            </ListGroup.Item> */}
-                        </ListGroup>
+                        <ListGroup id="starred-dir-list">{this.state.starredList}</ListGroup>
                     </div>
                 </div>
                 <div className="sidebar-right-container">
@@ -285,9 +242,25 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                         list = Utils.itemMoveToFirst(i, list);
                     }
                 }
-                for(let j = 0; j < list.length; j++) {
-                    this.addDirItem(list[j]);
-                }
+
+                this.setState({
+                    itemList: (
+                        <>
+                            {
+                                list.map((value, index) => {
+                                    return <ListItem
+                                        itemType={value.isFile ? "file" : "folder"}
+                                        itemName={value.fullName}
+                                        itemSize={value.size ? value.size : -1}
+                                        itemInfo={JSON.stringify(value)}
+                                        onClick={(e) => this.handleItemSelect(e)}
+                                        key={index}
+                                    />;
+                                })
+                            }
+                        </>
+                    )
+                });
             })
             .catch((err) => {throw err});
         
@@ -302,9 +275,21 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                         this.isStarred = true;
                     }
                 });
+
+                var listArr: [any, any][] = Array.from(list);
                 // list the starred directories
-                list.forEach((value, index) => {
-                    this.addStarredDir(value as string);
+                this.setState({
+                    starredList: (
+                        <>
+                            {
+                                listArr.map((value, index) => {
+                                    if(typeof value[1] == "string") {
+                                        return <StarredItem itemPath={value[1] as string} key={index}/>;
+                                    }
+                                })
+                            }
+                        </>
+                    )
                 });
             })
             .catch((err) => {throw err});
