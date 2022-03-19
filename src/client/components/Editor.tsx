@@ -1,6 +1,8 @@
 import { Component, ReactElement } from "react";
-import { Button, Form, ListGroup } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import Axios from "axios";
+import Utils from "../../Utils";
+import { EditorProps } from "../types";
 
 export default class Editor extends Component<EditorProps, {}> {
     private path: string;
@@ -29,8 +31,4 @@ export default class Editor extends Component<EditorProps, {}> {
             </div>
         );
     }
-}
-
-interface EditorProps {
-    path: string
 }

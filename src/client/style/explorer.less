@@ -74,7 +74,25 @@
             text-align: center;
         }
         .body-container {
+            margin-top: 30px;
             padding-left: 25px;
+            padding-right: 25px;
+            button {
+                padding-left: 10px;
+                .list-item-name {
+                    margin-left: 30px;
+                    font-size: 11pt;
+                    vertical-align: top;
+                }
+                &::before {
+                    content: "";
+                    position: absolute;
+                    background-image: url(../../icons/star_rate.svg);
+                    background-repeat: no-repeat;
+                    width: 24px;
+                    height: 24px;
+                }
+            }
         }
     }
     .sidebar-right-container {

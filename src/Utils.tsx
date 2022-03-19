@@ -23,4 +23,10 @@ export default class Utils {
         arr.push(str[0]);
         return arr;
     }
+
+    public static getElem(id: string): HTMLElement {
+        var elem = document.getElementById(id);
+        if(!elem) return document.body;
+        return elem;
+    }
 }
