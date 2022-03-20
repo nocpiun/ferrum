@@ -8,6 +8,13 @@ import Axios from "axios";
 import ListItem from "../components/ListItem";
 import StarredItem from "../components/StarredItem";
 
+// containers
+import Header from "../containers/explorer/Header";
+import ToolButtons from "../containers/explorer/ToolButtons";
+import List from "../containers/explorer/List";
+import LeftSidebar from "../containers/explorer/LeftSidebar";
+import RightSidebar from "../containers/explorer/RightSidebar";
+
 import Utils from "../../Utils";
 import { FetchDirInfoResponse, ExplorerProps, ExplorerState } from "../types";
 
@@ -139,69 +146,28 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         return (
             <div className="explorer">
                 <div className="main-container" id="main">
-                    <div className="header-container">
-                        <h1>Ferrum Explorer</h1>
-                        <Form.Control 
-                            type="text"
-                            className="path-input"
-                            defaultValue={this.path}
-                            placeholder="File path to explorer..."
-                            onKeyDown={(e) => this.handleEnter(e)}/>
-                        <button
-                            className="star"
-                            id="star"
-                            onClick={() => this.handleStar()}></button>
-                    </div>
-                    <div className="toolbuttons-container">
-                        <Button
-                            id="open-file"
-                            onClick={() => this.handleOpenFile()}>Open</Button>
-                        <Button
-                            id="delete-file"
-                            onClick={() => this.handleDeleteFile()}
-                            variant="danger">Delete</Button>
-                        <Button
-                            id="rename-file"
-                            onClick={() => this.handleRenameFile()}>Rename</Button>
-                        <Button
-                            id="download-file"
-                            onClick={() => this.handleDownloadFile()}>Download</Button>
-                        <Button
-                            id="upload-file"
-                            onClick={() => this.handleUploadFile()}>Upload</Button>
-                        
-                        <Button
-                            id="create-file"
-                            onClick={() => this.handleCreateFile()}
-                            variant="success"
-                            style={{float: "right", marginRight: "0"}}
-                            >New File</Button>
-                    </div>
-                    <div className="list-container">
-                        <ListGroup id="list">
-                            <ListGroup.Item action className="list-item" onClick={() => this.handleBack()} data-type="folder">
-                                <span className="list-item-name">..</span>
-                                <span className="list-item-size">Back to the parent directory</span>
-                            </ListGroup.Item>
-                            {this.state.itemList}
-                        </ListGroup>
-                    </div>
+                    <Header
+                        path={this.path}
+                        onEnter={(e) => this.handleEnter(e)}
+                        onStar={() => this.handleStar()}/>
+                    <ToolButtons
+                        onOpenFile={() => this.handleOpenFile()}
+                        onDeleteFile={() => this.handleDeleteFile()}
+                        onRenameFile={() => this.handleRenameFile()}
+                        onDownloadFile={() => this.handleDownloadFile()}
+                        onUploadFile={() => this.handleUploadFile()}
+                        onCreateFile={() => this.handleCreateFile()}/>
+                    <List
+                        onBack={() => this.handleBack()}
+                        itemList={this.state.itemList}/>
+
                     <div className="footer-container">
                         <p className="copy-info">Copyright (c) NriotHrreion {new Date().getFullYear()}</p>
                         <p>Ferrum Explorer - Current Path: {this.path}</p>
                     </div>
                 </div>
-                <div className="sidebar-left-container">
-                    <div className="header-container">
-                        <h3>Starred Directory</h3>
-                    </div>
-                    <div className="body-container">
-                        <ListGroup id="starred-dir-list">{this.state.starredList}</ListGroup>
-                    </div>
-                </div>
-                <div className="sidebar-right-container">
-                     
-                </div>
+                <LeftSidebar starredList={this.state.starredList}/>
+                <RightSidebar/>
             </div>
         );
     }

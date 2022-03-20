@@ -1,4 +1,4 @@
-import { ReactElement } from "react"
+import React, { ReactElement } from "react"
 
 // Explorer
 
@@ -24,6 +24,30 @@ export interface ExplorerState {
     starredList: ReactElement | null
 }
 
+export interface ExplorerHeaderProps {
+    path: string
+    onEnter: (e: React.KeyboardEvent) => any
+    onStar: () => any
+}
+
+export interface ExplorerToolButtonsProps {
+    onOpenFile: () => any
+    onDeleteFile: () => any
+    onRenameFile: () => any
+    onDownloadFile: () => any
+    onUploadFile: () => any
+    onCreateFile: () => any
+}
+
+export interface ExplorerListProps {
+    onBack: () => any
+    itemList: React.ReactElement | null
+}
+
+export interface ExplorerLeftSidebarProps {
+    starredList: React.ReactElement | null
+}
+
 // Editor
 
 export interface EditorProps {
@@ -37,7 +61,7 @@ export interface ListItemProps {
     itemName: string
     itemSize: number
     itemInfo: string
-    onClick: (e: any) => any
+    onClick: (e: HTMLButtonElement) => any
 }
 
 // StarredItem Component
