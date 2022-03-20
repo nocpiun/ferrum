@@ -10,6 +10,7 @@ const getStarredApi = require("./api/GetStarred");
 const addStarredApi = require("./api/AddStarred");
 const deleteStarredApi = require("./api/DeleteStarred");
 const getFileDataApi = require("./api/GetFileData");
+const getFileContent = require("./api/GetFileContent");
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.get("/getStarred", (req, res) => getStarredApi(req, res));
 app.post("/addStarred", (req, res) => addStarredApi(req, res));
 app.post("/deleteStarred", (req, res) => deleteStarredApi(req, res));
 app.get("/getFileData", (req, res) => getFileDataApi(req, res));
+app.get("/getFileContent", (req, res) => getFileContent(req, res));
 
 // listen & launch
 app.listen(3001, () => {

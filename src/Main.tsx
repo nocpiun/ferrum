@@ -1,7 +1,6 @@
 /* eslint-disable eqeqeq */
 import { Component, ReactElement } from "react";
 import { RouteComponentProps } from "react-router-dom";
-import Utils from "./Utils";
 
 // pages
 import Explorer from "./client/pages/Explorer";

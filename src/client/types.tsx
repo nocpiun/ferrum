@@ -50,7 +50,20 @@ export interface ExplorerLeftSidebarProps {
 
 // Editor
 
+export interface GetFileContentResponse {
+    data: {format: string, content: string, err?: number}
+}
+
 export interface EditorProps {
+    path: string
+}
+
+export interface EditorState {
+    editorLanguage: string
+    editorValue: string
+}
+
+export interface EditorHeaderProps {
     path: string
 }
 
