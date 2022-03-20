@@ -118,7 +118,14 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
     }
     
     private handleDeleteFile(): void {
-        
+        if(this.state.itemSelected == null) return;
+
+        Axios.post(apiUrl +"/deleteFile", {path: (this.path +"/"+ this.state.itemSelected.fullName).replaceAll("/", "\\")})
+            .then(() => {
+                alert("Deleted.");
+                window.location.reload();
+            })
+            .catch((err) => {throw err});
     }
     
     private handleRenameFile(): void {
@@ -141,6 +148,10 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         
     }
 
+    private handleCreateDirectory(): void {
+
+    }
+
     public render(): ReactElement {
         return (
             <div className="explorer">
@@ -155,7 +166,8 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                         onRenameFile={() => this.handleRenameFile()}
                         onDownloadFile={() => this.handleDownloadFile()}
                         onUploadFile={() => this.handleUploadFile()}
-                        onCreateFile={() => this.handleCreateFile()}/>
+                        onCreateFile={() => this.handleCreateFile()}
+                        onCreateDirectory={() => this.handleCreateDirectory()}/>
                     <List
                         onBack={() => this.handleBack()}
                         itemList={this.state.itemList}/>

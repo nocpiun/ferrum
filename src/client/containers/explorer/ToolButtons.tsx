@@ -29,6 +29,12 @@ export default class ToolButtons extends Component<ExplorerToolButtonsProps, {}>
                     onClick={() => this.props.onUploadFile()}>Upload</Button>
                 
                 <Button
+                    id="create-directory"
+                    onClick={() => this.props.onCreateDirectory()}
+                    variant="success"
+                    style={{float: "right", marginLeft: "10px", marginRight: "0"}}
+                    >New Directory</Button>
+                <Button
                     id="create-file"
                     onClick={() => this.props.onCreateFile()}
                     variant="success"

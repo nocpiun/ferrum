@@ -84,6 +84,8 @@ function getLangFromExtname(extname) {
         case ".mjs":
         case ".es6":
             return "javascript";
+        case ".json":
+            return "json";
         case ".jl":
             return "julia";
         case ".kt":

@@ -37,6 +37,7 @@ export interface ExplorerToolButtonsProps {
     onDownloadFile: () => any
     onUploadFile: () => any
     onCreateFile: () => any
+    onCreateDirectory: () => any
 }
 
 export interface ExplorerListProps {

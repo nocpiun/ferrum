@@ -1,12 +1,11 @@
+/* eslint-disable eqeqeq */
 import { Component, ReactElement } from "react";
-import { Button, Form } from "react-bootstrap";
 import MonacoEditor from "@monaco-editor/react";
 import Axios from "axios";
 
 // containers
 import Header from "../containers/editor/Header";
 
-import Utils from "../../Utils";
 import { EditorProps, EditorState, GetFileContentResponse } from "../types";
 
 const hostname = "http://"+ window.location.hostname;
@@ -30,14 +29,14 @@ export default class Editor extends Component<EditorProps, EditorState> {
             <div className="editor">
                 <div className="main-container">
                     <Header path={decodeURI(this.path)}/>
-                    <div className="toolbar-container">
-                        
-                    </div>
                     <div className="text-container">
                         <MonacoEditor
                             defaultLanguage={this.state.editorLanguage}
                             value={this.state.editorValue}
-                            theme="vs-light"/>
+                            theme="vs-dark"
+                            onChange={(value) => {
+                                this.setState({editorValue: value ? value : ""})
+                            }}/>
                     </div>
                 </div>
             </div>
@@ -45,6 +44,8 @@ export default class Editor extends Component<EditorProps, EditorState> {
     }
 
     public componentDidMount(): void {
+        document.title = "Ferrum - "+ this.path;
+
         Axios.get(apiUrl +"/getFileContent?path="+ this.path.replaceAll("/", "\\"))
             .then((res: GetFileContentResponse) => {
                 if(res.data.err == 404) {
@@ -58,5 +59,17 @@ export default class Editor extends Component<EditorProps, EditorState> {
                 });
             })
             .catch((err) => {throw err});
+        
+        document.addEventListener("keydown", (e: KeyboardEvent) => {
+            if(e.ctrlKey && e.key == "s") {
+                e.preventDefault();
+
+                Axios.post(apiUrl +"/saveFileContent", {path: this.path, content: this.state.editorValue})
+                    .then(() => {
+                        alert("File Saved.\nPath: "+ this.path);
+                    })
+                    .catch((err) => {throw err});
+            }
+        });
     }
 }
