@@ -1,10 +1,13 @@
 /* eslint-disable eqeqeq */
 import { Component, ReactElement } from "react";
-import MonacoEditor from "@monaco-editor/react";
+import MonacoEditor, { Monaco } from "@monaco-editor/react";
 import Axios from "axios";
 
 // containers
 import Header from "../containers/editor/Header";
+
+// theme
+import { theme } from "../theme";
 
 import { EditorProps, EditorState, GetFileContentResponse } from "../types";
 
@@ -34,9 +37,12 @@ export default class Editor extends Component<EditorProps, EditorState> {
                             defaultLanguage={this.state.editorLanguage}
                             value={this.state.editorValue}
                             theme="vs-dark"
+                            beforeMount={(e) => this.monacoWillMount(e)}
+                            onMount={(e) => this.monacoDidMount(e)}
                             onChange={(value) => {
                                 this.setState({editorValue: value ? value : ""})
-                            }}/>
+                            }}
+                            options={{lineNumbers: false}}/>
                     </div>
                 </div>
             </div>
@@ -71,5 +77,15 @@ export default class Editor extends Component<EditorProps, EditorState> {
                     .catch((err) => {throw err});
             }
         });
+    }
+
+    private monacoWillMount(monaco: Monaco): void {
+        monaco.editor.defineTheme("vs-dark", theme);
+        monaco.editor.setTheme("vs-dark");
+        console.log(monaco);
+    }
+
+    private monacoDidMount(editor: any): void {
+        editor.focus();
     }
 }

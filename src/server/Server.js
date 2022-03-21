@@ -20,6 +20,15 @@ app.use(express.json());
 app.use(cors({origin: "*"}));
 app.use(bodyParser.urlencoded({extended: false}));
 
+app.get("/*", (req, res, next) => {
+    logger.info(`Receive a ${chalk.cyan("GET")} request: ${chalk.blue(JSON.stringify(req.query))}`);
+    next();
+});
+app.post("/*", (req, res, next) => {
+    logger.info(`Receive a ${chalk.cyan("POST")} request: ${chalk.yellow(JSON.stringify(req.body))}`);
+    next();
+});
+
 // routes
 app.get("/fetchDirInfo", (req, res) => fetchDirInfoApi(req, res));
 app.get("/getStarred", (req, res) => getStarredApi(req, res));
