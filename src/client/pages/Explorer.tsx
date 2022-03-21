@@ -16,12 +16,14 @@ import RightSidebar from "../containers/explorer/RightSidebar";
 
 import Utils from "../../Utils";
 import { FetchDirInfoResponse, ExplorerProps, ExplorerState } from "../types";
+import config from "../../config.json";
 
 // icons
 import starRate from "../../icons/star_rate.svg";
 
 export const hostname = "http://"+ window.location.hostname;
 const apiUrl = hostname +":3001";
+const root = config.explorer.root;
 
 export default class Explorer extends Component<ExplorerProps, ExplorerState> {        
     private path: string;
@@ -35,14 +37,14 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
             itemList: null,
             starredList: null
         };
-        this.path = "C:"+ this.props.path;
+        this.path = root + this.props.path;
     }
 
     /**
      * Back to the parent directory
      */
     private handleBack(): void {
-        if(this.path == "C:/") {
+        if(this.path == root +"/") {
             alert("You are in the root directory.");
             return;
         }
@@ -61,7 +63,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
     private handleEnter(e: React.KeyboardEvent): void {
         if(e.key == "Enter") {
             var elem = e.target as HTMLInputElement;
-            window.location.href = hostname +":3000/dir"+ elem.value.replace("C:", "");
+            window.location.href = hostname +":3000/dir"+ elem.value.replace(root, "");
         }
     }
 
@@ -111,7 +113,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         if(this.state.itemSelected == null) return;
         
         if(this.state.itemSelected.isFile) {
-            window.location.href = hostname +":3000/edit/?path="+ (this.path.replace("C:", "") +"/"+ this.state.itemSelected.fullName).replaceAll("/", "\\");
+            window.location.href = hostname +":3000/edit/?path="+ (this.path.replace(root, "") +"/"+ this.state.itemSelected.fullName).replaceAll("/", "\\");
         } else {
             window.location.href += "/"+ this.state.itemSelected.fullName;
         }

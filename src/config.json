@@ -1,0 +1,9 @@
+{
+    "explorer": {
+        "root": "D:"
+    },
+    "editor": {
+        "theme": "csb-github",
+        "lineNumber": false
+    }
+}

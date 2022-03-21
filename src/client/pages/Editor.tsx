@@ -10,9 +10,11 @@ import Header from "../containers/editor/Header";
 import { theme } from "../theme";
 
 import { EditorProps, EditorState, GetFileContentResponse } from "../types";
+import config from "../../config.json";
 
 const hostname = "http://"+ window.location.hostname;
 const apiUrl = hostname +":3001";
+const root = config.explorer.root;
 
 export default class Editor extends Component<EditorProps, EditorState> {
     private path: string;
@@ -24,7 +26,7 @@ export default class Editor extends Component<EditorProps, EditorState> {
             editorLanguage: "text",
             editorValue: ""
         };
-        this.path = "C:"+ this.props.path.replaceAll("\\", "/");
+        this.path = root + this.props.path.replaceAll("\\", "/");
     }
 
     public render(): ReactElement {
@@ -36,13 +38,13 @@ export default class Editor extends Component<EditorProps, EditorState> {
                         <MonacoEditor
                             defaultLanguage={this.state.editorLanguage}
                             value={this.state.editorValue}
-                            theme="vs-dark"
+                            theme={config.editor.theme}
                             beforeMount={(e) => this.monacoWillMount(e)}
                             onMount={(e) => this.monacoDidMount(e)}
                             onChange={(value) => {
                                 this.setState({editorValue: value ? value : ""})
                             }}
-                            options={{lineNumbers: false}}/>
+                            options={{lineNumbers: config.editor.lineNumber}}/>
                     </div>
                 </div>
             </div>
@@ -80,8 +82,7 @@ export default class Editor extends Component<EditorProps, EditorState> {
     }
 
     private monacoWillMount(monaco: Monaco): void {
-        monaco.editor.defineTheme("vs-dark", theme);
-        monaco.editor.setTheme("vs-dark");
+        monaco.editor.defineTheme("csb-github", theme);
         console.log(monaco);
     }
 
