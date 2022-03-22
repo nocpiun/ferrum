@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react"
+import { Variant } from "react-bootstrap/esm/types"
 
 // Explorer
 
@@ -49,6 +50,13 @@ export interface ExplorerLeftSidebarProps {
     starredList: React.ReactElement | null
 }
 
+export interface RightSidebarState {
+    alertBox1: boolean
+    alertBox2: boolean
+    alertBox3: boolean
+    alertBox4: boolean
+}
+
 // Editor
 
 export interface GetFileContentResponse {
@@ -82,4 +90,12 @@ export interface ListItemProps {
 
 export interface StarredItemProps {
     itemPath: string
+}
+
+// AlertBox Component
+
+export interface AlertBoxProps extends React.HTMLAttributes<HTMLDivElement> {
+    variant: Variant
+    heading: string
+    alertId: number
 }

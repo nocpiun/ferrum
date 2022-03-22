@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-script-url */
 /* eslint-disable array-callback-return */
 /* eslint-disable eqeqeq */
 import { Component, ReactElement } from "react";
@@ -16,6 +18,7 @@ import RightSidebar from "../containers/explorer/RightSidebar";
 
 import Utils from "../../Utils";
 import { FetchDirInfoResponse, ExplorerProps, ExplorerState } from "../types";
+import Emitter from "../emitter";
 import config from "../../config.json";
 
 // icons
@@ -45,7 +48,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
      */
     private handleBack(): void {
         if(this.path == root +"/") {
-            alert("You are in the root directory.");
+            Emitter.get().emit("displayAlert", 1); // You are in the root directory.
             return;
         }
 
@@ -124,8 +127,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
 
         Axios.post(apiUrl +"/deleteFile", {path: (this.path +"/"+ this.state.itemSelected.fullName).replaceAll("/", "\\")})
             .then(() => {
-                alert("Deleted.");
-                window.location.reload();
+                Emitter.get().emit("displayAlert", 3) // Deleted.
             })
             .catch((err) => {throw err});
     }
@@ -175,7 +177,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                         itemList={this.state.itemList}/>
 
                     <div className="footer-container">
-                        <p className="copy-info">Copyright (c) NriotHrreion {new Date().getFullYear()}</p>
+                        <p className="copy-info">Copyright (c) NriotHrreion {new Date().getFullYear()} - <span style={{textDecoration: "underline", cursor: "pointer"}} onClick={() => Emitter.get().emit("displayAlert", 4)}>About</span></p>
                         <p>Ferrum Explorer - Current Path: {this.path}</p>
                     </div>
                 </div>
@@ -211,7 +213,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         Axios.get(apiUrl +"/fetchDirInfo?path="+ this.path.replaceAll("/", "\\"))
             .then((res: FetchDirInfoResponse) => {
                 if(res.data.err == 404) {
-                    alert("Cannot find the specified directory.\nPlease check your input.");
+                    Emitter.get().emit("displayAlert", 2) // Cannot find the specified directory.\nPlease check your input.
                     return;
                 }
 

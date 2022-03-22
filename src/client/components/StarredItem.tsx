@@ -12,8 +12,8 @@ export default class StarredItem extends Component<StarredItemProps, {}> {
         return (
             <ListGroup.Item
                 action
-                title="Double click to open."
-                onDoubleClick={() => {
+                title="Click to open."
+                onClick={() => {
                     window.location.href = hostname +":3000/dir/"+ this.props.itemPath.replace("C:/", "");
                 }}
             >
