@@ -8,6 +8,7 @@ import Editor from "./client/pages/Editor";
 
 // style sheets
 import "bootstrap/dist/css/bootstrap.css";
+import "filepond/dist/filepond.min.css";
 import "./client/style/layout.less";
 
 export default class Main extends Component<RouteComponentProps<{}, {}, unknown>, {}> {

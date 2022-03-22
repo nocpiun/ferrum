@@ -2,6 +2,7 @@ const chalk = require("chalk");
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const multer = require("multer");
 const logger = require("nriot-logger");
 
 // apis
@@ -13,6 +14,7 @@ const getFileDataApi = require("./api/GetFileData");
 const getFileContentApi = require("./api/GetFileContent");
 const saveFileContentApi = require("./api/SaveFileContent");
 const deleteFileApi = require("./api/DeleteFile");
+const uploadFileApi = require("./api/UploadFile");
 
 const app = express();
 
@@ -38,6 +40,7 @@ app.get("/getFileData", (req, res) => getFileDataApi(req, res));
 app.get("/getFileContent", (req, res) => getFileContentApi(req, res));
 app.post("/saveFileContent", (req, res) => saveFileContentApi(req, res));
 app.post("/deleteFile", (req, res) => deleteFileApi(req, res));
+app.post("/uploadFile", multer({dest: "upload_tmp/"}).any(), (req, res) => uploadFileApi(req, res));
 
 // listen & launch
 app.listen(3001, () => {

@@ -1,46 +1,52 @@
 import { Component, ReactElement } from "react";
+import { FilePond } from "react-filepond";
 
 import AlertBox from "../../components/AlertBox";
-import { RightSidebarState } from "../../types";
+import { ExplorerRightSidebarProps, ExplorerRightSidebarState } from "../../types";
 import Emitter from "../../emitter";
 
-export default class RightSidebar<P, S> extends Component<{}, RightSidebarState> {
-    public constructor(props: P) {
+const apiUrl = "http://"+ window.location.hostname +":3001";
+
+export default class RightSidebar extends Component<ExplorerRightSidebarProps, ExplorerRightSidebarState> {
+    private pond: FilePond | null = null;
+    
+    public constructor(props: ExplorerRightSidebarProps) {
         super(props);
 
         this.state = {
-            alertBox1: false,
-            alertBox2: false,
-            alertBox3: false,
-            alertBox4: true
+            alertBox1: true,
+            alertBox2: false
         };
+    }
+
+    private handleFilepondInit(): void {
+        console.log("Filepond is ready.", this.pond);
     }
 
     public render(): ReactElement {
         return (
             <div className="sidebar-right-container">
                 <AlertBox
-                    variant="danger"
-                    heading="Error"
-                    style={{display: this.state.alertBox1 ? "block" : "none"}}
-                    alertId={1}>You are in the root directory.</AlertBox>
-                <AlertBox
-                    variant="danger"
-                    heading="Error"
-                    style={{display: this.state.alertBox2 ? "block" : "none"}}
-                    alertId={2}>Cannot find the specified directory. Please check your input!</AlertBox>
-                <AlertBox
-                    variant="success"
-                    heading="Info"
-                    style={{display: this.state.alertBox3 ? "block" : "none"}}
-                    alertId={3}>Deleted.</AlertBox>
-                <AlertBox
                     variant="primary"
                     heading="About"
-                    style={{display: this.state.alertBox4 ? "block" : "none"}}
-                    alertId={4}
+                    style={{display: this.state.alertBox1 ? "block" : "none"}}
+                    alertId={1}
                 >
                     <b>Ferrum Explorer</b> is a web-based file explorer which is written in React + Typescript by NriotHrreion
+                </AlertBox>
+                <AlertBox
+                    variant="success"
+                    heading="Upload File"
+                    style={{display: this.state.alertBox2 ? "block" : "none"}}
+                    alertId={2}
+                >
+                    <p>Drag or browse to upload file(s)<br/>[up to 5] to the directory</p>
+                    <FilePond
+                        ref={(ref) => {this.pond = ref}}
+                        allowMultiple={true}
+                        maxFiles={5}
+                        server={apiUrl +"/uploadFile?path="+ this.props.path.replaceAll("/", "\\")}
+                        oninit={() => this.handleFilepondInit()}/>
                 </AlertBox>
             </div>
         );
@@ -55,12 +61,6 @@ export default class RightSidebar<P, S> extends Component<{}, RightSidebarState>
                 case 2:
                     this.setState({alertBox2: true});
                     break;
-                case 3:
-                    this.setState({alertBox3: true});
-                    break;
-                case 4:
-                    this.setState({alertBox4: true});
-                    break;
             }
         });
         Emitter.get().on("closeAlert", (id: number) => {
@@ -70,14 +70,6 @@ export default class RightSidebar<P, S> extends Component<{}, RightSidebarState>
                     break;
                 case 2:
                     this.setState({alertBox2: false});
-                    window.history.go(-1);
-                    break;
-                case 3:
-                    this.setState({alertBox3: false});
-                    window.location.reload();
-                    break;
-                case 4:
-                    this.setState({alertBox4: false});
                     break;
             }
         });

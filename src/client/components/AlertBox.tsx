@@ -13,7 +13,9 @@ export default class AlertBox extends Component<AlertBoxProps, {}> {
         return (
             <Alert variant={this.props.variant} className="alert-box" style={this.props.style}>
                 <Alert.Heading>{this.props.heading}</Alert.Heading>
-                <p>{this.props.children}</p>
+                <div>
+                    {this.props.children}
+                </div>
                 <hr/>
                 <div className="close-button-container">
                     <Button variant={"outline-"+ this.props.variant} onClick={() => {

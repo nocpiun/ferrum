@@ -50,11 +50,13 @@ export interface ExplorerLeftSidebarProps {
     starredList: React.ReactElement | null
 }
 
-export interface RightSidebarState {
+export interface ExplorerRightSidebarProps {
+    path: string
+}
+
+export interface ExplorerRightSidebarState {
     alertBox1: boolean
     alertBox2: boolean
-    alertBox3: boolean
-    alertBox4: boolean
 }
 
 // Editor

@@ -3,6 +3,7 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable eqeqeq */
 import { Component, ReactElement } from "react";
+import { toast, Toaster } from "react-hot-toast";
 import Axios from "axios";
 
 // components
@@ -48,7 +49,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
      */
     private handleBack(): void {
         if(this.path == root +"/") {
-            Emitter.get().emit("displayAlert", 1); // You are in the root directory.
+            toast.error("You are in the root directory.");
             return;
         }
 
@@ -127,7 +128,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
 
         Axios.post(apiUrl +"/deleteFile", {path: (this.path +"/"+ this.state.itemSelected.fullName).replaceAll("/", "\\")})
             .then(() => {
-                Emitter.get().emit("displayAlert", 3) // Deleted.
+                toast.success("Deleted.")
             })
             .catch((err) => {throw err});
     }
@@ -145,7 +146,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
     }
     
     private handleUploadFile(): void {
-        
+        Emitter.get().emit("displayAlert", 2);
     }
     
     private handleCreateFile(): void {
@@ -159,6 +160,9 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
     public render(): ReactElement {
         return (
             <div className="explorer">
+                <div className="toast-container">
+                    <Toaster position="bottom-right"/>
+                </div>
                 <div className="main-container" id="main">
                     <Header
                         path={this.path}
@@ -177,12 +181,12 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                         itemList={this.state.itemList}/>
 
                     <div className="footer-container">
-                        <p className="copy-info">Copyright (c) NriotHrreion {new Date().getFullYear()} - <span style={{textDecoration: "underline", cursor: "pointer"}} onClick={() => Emitter.get().emit("displayAlert", 4)}>About</span></p>
+                        <p className="copy-info">Copyright (c) NriotHrreion {new Date().getFullYear()} - <span style={{textDecoration: "underline", cursor: "pointer"}} onClick={() => Emitter.get().emit("displayAlert", 1)}>About</span></p>
                         <p>Ferrum Explorer - Current Path: {this.path}</p>
                     </div>
                 </div>
                 <LeftSidebar starredList={this.state.starredList}/>
-                <RightSidebar/>
+                <RightSidebar path={this.path}/>
             </div>
         );
     }
@@ -213,7 +217,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         Axios.get(apiUrl +"/fetchDirInfo?path="+ this.path.replaceAll("/", "\\"))
             .then((res: FetchDirInfoResponse) => {
                 if(res.data.err == 404) {
-                    Emitter.get().emit("displayAlert", 2) // Cannot find the specified directory.\nPlease check your input.
+                    toast.error("Cannot find the specified directory.");
                     return;
                 }
 

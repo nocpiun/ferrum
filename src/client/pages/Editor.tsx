@@ -1,6 +1,7 @@
 /* eslint-disable eqeqeq */
 import { Component, ReactElement } from "react";
 import MonacoEditor, { Monaco } from "@monaco-editor/react";
+import { toast, Toaster } from "react-hot-toast";
 import Axios from "axios";
 
 // containers
@@ -33,6 +34,9 @@ export default class Editor extends Component<EditorProps, EditorState> {
         return (
             <div className="editor">
                 <div className="main-container">
+                    <div className="toast-container">
+                        <Toaster/>
+                    </div>
                     <Header path={decodeURI(this.path)}/>
                     <div className="text-container">
                         <MonacoEditor
@@ -57,7 +61,7 @@ export default class Editor extends Component<EditorProps, EditorState> {
         Axios.get(apiUrl +"/getFileContent?path="+ this.path.replaceAll("/", "\\"))
             .then((res: GetFileContentResponse) => {
                 if(res.data.err == 404) {
-                    alert("Cannot find the specified file.\nPlease check your path.");
+                    toast.error("Cannot find the specified file.");
                     return;
                 }
 
@@ -74,7 +78,7 @@ export default class Editor extends Component<EditorProps, EditorState> {
 
                 Axios.post(apiUrl +"/saveFileContent", {path: this.path, content: this.state.editorValue})
                     .then(() => {
-                        alert("File Saved.\nPath: "+ this.path);
+                        toast.success("File Saved. ("+ this.path +")");
                     })
                     .catch((err) => {throw err});
             }
