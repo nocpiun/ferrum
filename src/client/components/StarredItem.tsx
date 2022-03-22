@@ -14,7 +14,7 @@ export default class StarredItem extends Component<StarredItemProps, {}> {
                 action
                 title="Click to open."
                 onClick={() => {
-                    window.location.href = hostname +":3000/dir/"+ this.props.itemPath.replace("C:/", "");
+                    window.location.href = hostname +":3300/dir/"+ this.props.itemPath.replace("C:/", "");
                 }}
             >
                 <span className="list-item-name">{this.props.itemPath}</span>

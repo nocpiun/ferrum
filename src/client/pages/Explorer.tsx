@@ -26,7 +26,7 @@ import config from "../../config.json";
 import starRate from "../../icons/star_rate.svg";
 
 export const hostname = "http://"+ window.location.hostname;
-const apiUrl = hostname +":3001";
+const apiUrl = hostname +":3301";
 const root = config.explorer.root;
 
 export default class Explorer extends Component<ExplorerProps, ExplorerState> {        
@@ -58,7 +58,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         for(let i = 1; i < pathArr.length - 1; i++) {
             newPath += "/"+ pathArr[i];
         }
-        window.location.href = hostname +":3000/dir"+ newPath;
+        window.location.href = hostname +":3300/dir"+ newPath;
     }
 
     /**
@@ -67,7 +67,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
     private handleEnter(e: React.KeyboardEvent): void {
         if(e.key == "Enter") {
             var elem = e.target as HTMLInputElement;
-            window.location.href = hostname +":3000/dir"+ elem.value.replace(root, "");
+            window.location.href = hostname +":3300/dir"+ elem.value.replace(root, "");
         }
     }
 
@@ -117,7 +117,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         if(this.state.itemSelected == null) return;
         
         if(this.state.itemSelected.isFile) {
-            window.location.href = hostname +":3000/edit/?path="+ (this.path.replace(root, "") +"/"+ this.state.itemSelected.fullName).replaceAll("/", "\\");
+            window.location.href = hostname +":3300/edit/?path="+ (this.path.replace(root, "") +"/"+ this.state.itemSelected.fullName).replaceAll("/", "\\");
         } else {
             window.location.href += "/"+ this.state.itemSelected.fullName;
         }

@@ -14,7 +14,7 @@ import { EditorProps, EditorState, GetFileContentResponse } from "../types";
 import config from "../../config.json";
 
 const hostname = "http://"+ window.location.hostname;
-const apiUrl = hostname +":3001";
+const apiUrl = hostname +":3301";
 const root = config.explorer.root;
 
 export default class Editor extends Component<EditorProps, EditorState> {

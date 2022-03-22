@@ -5,7 +5,7 @@ import AlertBox from "../../components/AlertBox";
 import { ExplorerRightSidebarProps, ExplorerRightSidebarState } from "../../types";
 import Emitter from "../../emitter";
 
-const apiUrl = "http://"+ window.location.hostname +":3001";
+const apiUrl = "http://"+ window.location.hostname +":3301";
 
 export default class RightSidebar extends Component<ExplorerRightSidebarProps, ExplorerRightSidebarState> {
     private pond: FilePond | null = null;

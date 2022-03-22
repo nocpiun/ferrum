@@ -43,6 +43,6 @@ app.post("/deleteFile", (req, res) => deleteFileApi(req, res));
 app.post("/uploadFile", multer({dest: "upload_tmp/"}).any(), (req, res) => uploadFileApi(req, res));
 
 // listen & launch
-app.listen(3001, () => {
-    logger.info("Backend Server is ready. Port: "+ chalk.cyan("3001"));
+app.listen(3301, () => {
+    logger.info("Backend Server is ready. Port: "+ chalk.cyan("3301"));
 });
