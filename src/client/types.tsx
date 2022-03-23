@@ -1,6 +1,12 @@
 import React, { ReactElement } from "react"
 import { Variant } from "react-bootstrap/esm/types"
 
+// Global
+
+interface PageProps {
+    path: string
+}
+
 // Explorer
 
 export interface FetchDirInfoResponse {
@@ -15,9 +21,7 @@ export interface DirectoryItem {
     size?: number
 }
 
-export interface ExplorerProps {
-    path: string
-}
+export interface ExplorerProps extends PageProps {}
 
 export interface ExplorerState {
     itemSelected: DirectoryItem | null
@@ -65,9 +69,7 @@ export interface GetFileContentResponse {
     data: {format: string, content: string, err?: number}
 }
 
-export interface EditorProps {
-    path: string
-}
+export interface EditorProps extends PageProps {}
 
 export interface EditorState {
     editorLanguage: string
@@ -75,6 +77,22 @@ export interface EditorState {
 }
 
 export interface EditorHeaderProps {
+    path: string
+}
+
+// Picture Viewer
+
+export interface GetDataUrlResponse {
+    data: {url: string, err?: number}
+}
+
+export interface PictureViewerProps extends PageProps {}
+
+export interface PictureViewerState {
+    pictureData: string
+}
+
+export interface PictureViewerHeaderProps {
     path: string
 }
 

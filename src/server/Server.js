@@ -7,6 +7,7 @@ const logger = require("nriot-logger");
 
 // apis
 const fetchDirInfoApi = require("./api/FetchDirInfo");
+const getDataUrlApi = require("./api/GetDataUrl");
 const getStarredApi = require("./api/GetStarred");
 const addStarredApi = require("./api/AddStarred");
 const deleteStarredApi = require("./api/DeleteStarred");
@@ -33,6 +34,7 @@ app.post("/*", (req, res, next) => {
 
 // routes
 app.get("/fetchDirInfo", (req, res) => fetchDirInfoApi(req, res));
+app.get("/getDataUrl", (req, res) => getDataUrlApi(req, res));
 app.get("/getStarred", (req, res) => getStarredApi(req, res));
 app.post("/addStarred", (req, res) => addStarredApi(req, res));
 app.post("/deleteStarred", (req, res) => deleteStarredApi(req, res));

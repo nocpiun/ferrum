@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 export default class Utils {
     /**
      * From: https://blog.csdn.net/LUxxxX/article/details/90177682
@@ -28,5 +29,15 @@ export default class Utils {
         var elem = document.getElementById(id);
         if(!elem) return document.body;
         return elem;
+    }
+
+    public static isPictureFormat(format: string): boolean {
+        const pictureFormats = ["png", "jpg", "jpeg", "bmp", "gif", "webp", "psd", "svg", "tiff", "ico"];
+        for(let i = 0; i < pictureFormats.length; i++) {
+            if(format == pictureFormats[i]) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -115,12 +115,21 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
 
     private handleOpenFile(): void {
         if(this.state.itemSelected == null) return;
-        
-        if(this.state.itemSelected.isFile) {
-            window.location.href = hostname +":3300/edit/?path="+ (this.path.replace(root, "") +"/"+ this.state.itemSelected.fullName).replaceAll("/", "\\");
-        } else {
-            window.location.href += "/"+ this.state.itemSelected.fullName;
+
+        var itemFullName = this.state.itemSelected.fullName;
+        var itemFormat = this.state.itemSelected.format;
+
+        if(this.state.itemSelected.isFile && itemFormat) {
+            if(Utils.isPictureFormat(itemFormat)) {
+                window.location.href = hostname +":3300/picture/?path="+ (this.path.replace(root, "") +"/"+ itemFullName).replaceAll("/", "\\");
+                return;
+            }
+
+            window.location.href = hostname +":3300/edit/?path="+ (this.path.replace(root, "") +"/"+ itemFullName).replaceAll("/", "\\");
+            return;
         }
+
+        window.location.href += "/"+ itemFullName;
     }
     
     private handleDeleteFile(): void {
@@ -146,7 +155,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
     }
     
     private handleUploadFile(): void {
-        Emitter.get().emit("displayAlert", 2);
+        Emitter.get().emit("displayAlert", 2); // Open uploader
     }
     
     private handleCreateFile(): void {
