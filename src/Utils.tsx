@@ -31,10 +31,9 @@ export default class Utils {
         return elem;
     }
 
-    public static isPictureFormat(format: string): boolean {
-        const pictureFormats = ["png", "jpg", "jpeg", "bmp", "gif", "webp", "psd", "svg", "tiff", "ico"];
-        for(let i = 0; i < pictureFormats.length; i++) {
-            if(format == pictureFormats[i]) {
+    public static formatTester(formats: string[], test: string): boolean {
+        for(let i = 0; i < formats.length; i++) {
+            if(test == formats[i]) {
                 return true;
             }
         }

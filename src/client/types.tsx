@@ -83,7 +83,7 @@ export interface EditorHeaderProps {
 // Picture Viewer
 
 export interface GetDataUrlResponse {
-    data: {url: string, err?: number}
+    data: {bdata: string, err?: number}
 }
 
 export interface PictureViewerProps extends PageProps {}
@@ -118,4 +118,20 @@ export interface AlertBoxProps extends React.HTMLAttributes<HTMLDivElement> {
     variant: Variant
     heading: string
     alertId: number
+}
+
+// Plugin
+
+export interface FerrumPluginProps extends PageProps {}
+
+export interface FerrumPluginState {
+    viewerComponent: React.ReactElement | null;
+}
+
+export interface FerrumPluginOption {
+    name: string
+    title: string
+    format: string[]
+    route: string
+    self: React.ComponentType<any>
 }

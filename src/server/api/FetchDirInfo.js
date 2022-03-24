@@ -18,7 +18,7 @@ module.exports = function(req, res) {
                 isDirectory: stat.isDirectory(),
                 isFile: stat.isFile(),
                 fullName: dir[i],
-                format: stat.isFile() ? dir[i].split(".")[1] : undefined,
+                format: stat.isFile() ? path.extname(dir[i]).replace(".", "") : undefined,
                 size: stat.isFile() ? stat.size : undefined
             });
         } catch (e) {

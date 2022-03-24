@@ -30,7 +30,7 @@ export default class PictureViewer extends Component<PictureViewerProps, Picture
 
     public render(): ReactElement {
         return (
-            <div className="picture-viewer">
+            <div className="picture-viewer viewer">
                 <div className="main-container">
                     <div className="toast-container">
                         <Toaster/>
@@ -53,7 +53,7 @@ export default class PictureViewer extends Component<PictureViewerProps, Picture
                 }
 
                 this.setState({
-                    pictureData: res.data.url
+                    pictureData: res.data.bdata
                 });
             })
             .catch((err) => {throw err});

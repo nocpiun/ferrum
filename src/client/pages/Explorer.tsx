@@ -21,6 +21,7 @@ import Utils from "../../Utils";
 import { FetchDirInfoResponse, ExplorerProps, ExplorerState } from "../types";
 import Emitter from "../emitter";
 import config from "../../config.json";
+import { plugins } from "../../plugins";
 
 // icons
 import starRate from "../../icons/star_rate.svg";
@@ -118,14 +119,23 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
 
         var itemFullName = this.state.itemSelected.fullName;
         var itemFormat = this.state.itemSelected.format;
+        var itemPath = (this.path.replace(root, "") +"/"+ itemFullName).replaceAll("/", "\\");
 
         if(this.state.itemSelected.isFile && itemFormat) {
-            if(Utils.isPictureFormat(itemFormat)) {
-                window.location.href = hostname +":3300/picture/?path="+ (this.path.replace(root, "") +"/"+ itemFullName).replaceAll("/", "\\");
+            if(Utils.formatTester(["png", "jpg", "jpeg", "bmp", "gif", "webp", "psd", "svg", "tiff", "ico"], itemFormat)) {
+                window.location.href = hostname +":3300/picture/?path="+ itemPath;
                 return;
             }
 
-            window.location.href = hostname +":3300/edit/?path="+ (this.path.replace(root, "") +"/"+ itemFullName).replaceAll("/", "\\");
+            for(let i = 0; i < plugins.length; i++) {
+                if(Utils.formatTester(plugins[i].format, itemFormat)) {
+                    window.location.href = hostname +":3300"+ plugins[i].route +"/?path="+ itemPath;
+                    return;
+                }
+                console.log(plugins[i].format, itemFormat);
+            }
+
+            window.location.href = hostname +":3300/edit/?path="+ itemPath;
             return;
         }
 
