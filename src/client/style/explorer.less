@@ -10,6 +10,9 @@
             margin-top: 30px;
             height: 120px;
             top: 0;
+            h1 {
+                font-weight: bold;
+            }
             .path-input {
                 margin-top: 20px;
                 width: 660px;
@@ -76,7 +79,7 @@
         .footer-container {
             height: 130px;
             * {
-                color: @theme-color;
+                color: @light-gray3 !important;
             }
             p {
                 text-align: center;
@@ -84,7 +87,6 @@
             .copy-info {
                 padding-top: 20px;
                 font-style: italic;
-                color: @light-gray3 !important;
             }
         }
     }
@@ -130,5 +132,8 @@
         right: 0;
         height: 100%;
         width: 350px;
+        .filepond--wrapper .filepond--credits {
+            display: none;
+        }
     }
 }

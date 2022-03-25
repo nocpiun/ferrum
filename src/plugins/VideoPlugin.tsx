@@ -6,7 +6,7 @@ import { FerrumPluginOption, FerrumPluginProps } from "../client/types";
 export default class VideoPlugin extends FerrumPlugin {
     public static option: FerrumPluginOption = {
         name: "video-viewer",
-        title: "Ferrum Video Viewer",
+        title: "Ferrum 视频查看器",
         format: ["mp4", "avi"],
         route: "/video",
         self: VideoPlugin

@@ -200,8 +200,8 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                         itemList={this.state.itemList}/>
 
                     <div className="footer-container">
-                        <p className="copy-info">Copyright (c) NriotHrreion {new Date().getFullYear()} - <span style={{textDecoration: "underline", cursor: "pointer"}} onClick={() => Emitter.get().emit("displayAlert", 1)}>About</span></p>
-                        <p>Ferrum Explorer - Current Path: {this.path}</p>
+                        <p className="copy-info">Copyright (c) NriotHrreion {new Date().getFullYear()} - <span style={{textDecoration: "underline", cursor: "pointer"}} onClick={() => Emitter.get().emit("displayAlert", 1)}>关于</span></p>
+                        <p style={{fontSize: "11pt"}}>Ferrum 文件管理器 - 当前路径: {this.path}</p>
                     </div>
                 </div>
                 <LeftSidebar starredList={this.state.starredList}/>

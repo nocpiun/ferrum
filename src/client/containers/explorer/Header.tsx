@@ -11,12 +11,12 @@ export default class Header extends Component<ExplorerHeaderProps> {
     public render(): ReactElement {
         return (
             <div className="header-container">
-                <h1>Ferrum Explorer</h1>
+                <h1>Ferrum 文件管理器</h1>
                 <Form.Control 
                     type="text"
                     className="path-input"
                     defaultValue={this.props.path}
-                    placeholder="File path to explorer..."
+                    placeholder="文件夹路径..."
                     onKeyDown={(e) => this.props.onEnter(e)}/>
                 <button
                     className="star"

@@ -10,7 +10,7 @@ export default class Header extends Component<PictureViewerHeaderProps, {}> {
     public render(): ReactElement {
         return (
             <div className="header-container">
-                <h1>Ferrum Picture Viewer</h1>
+                <h1>Ferrum 图片查看器</h1>
                 <p>Path: {this.props.path}</p>
             </div>
         );

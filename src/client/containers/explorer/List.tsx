@@ -14,7 +14,7 @@ export default class List extends Component<ExplorerListProps, {}> {
                 <ListGroup id="list">
                     <ListGroup.Item action className="list-item" onClick={() => this.props.onBack()} data-type="folder">
                         <span className="list-item-name">..</span>
-                        <span className="list-item-size">Back to the parent directory</span>
+                        <span className="list-item-size">返回上级目录</span>
                     </ListGroup.Item>
                     {this.props.itemList ? this.props.itemList : null}
                 </ListGroup>

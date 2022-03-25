@@ -10,7 +10,7 @@ export default class Header extends Component<EditorHeaderProps, {}> {
     public render(): ReactElement {
         return (
             <div className="header-container">
-                <h1>Ferrum Text Editor</h1>
+                <h1>Ferrum 文本编辑器</h1>
                 <p>Path: {this.props.path}</p>
             </div>
         );

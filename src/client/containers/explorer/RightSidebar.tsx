@@ -28,23 +28,24 @@ export default class RightSidebar extends Component<ExplorerRightSidebarProps, E
             <div className="sidebar-right-container">
                 <AlertBox
                     variant="primary"
-                    heading="About"
+                    heading="关于"
                     style={{display: this.state.alertBox1 ? "block" : "none"}}
                     alertId={1}
                 >
-                    <b>Ferrum Explorer</b> is a web-based file explorer which is written in React + Typescript by NriotHrreion
+                    <b>Ferrum 文件管理器</b> 是一个用React + Typescript写的基于Web的文件资源管理器，可用于服务器等的文件管理
                 </AlertBox>
                 <AlertBox
                     variant="success"
-                    heading="Upload File"
+                    heading="文件上传"
                     style={{display: this.state.alertBox2 ? "block" : "none"}}
                     alertId={2}
                 >
-                    <p>Drag or browse to upload file(s)<br/>[up to 5] to the directory</p>
+                    <p>拖放或浏览文件（最多5个）以上传至当前文件夹</p>
                     <FilePond
                         ref={(ref) => {this.pond = ref}}
                         allowMultiple={true}
                         maxFiles={5}
+                        labelIdle="拖放 / 浏览文件"
                         server={apiUrl +"/uploadFile?path="+ this.props.path.replaceAll("/", "\\")}
                         oninit={() => this.handleFilepondInit()}/>
                 </AlertBox>

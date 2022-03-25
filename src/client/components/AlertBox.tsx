@@ -12,7 +12,7 @@ export default class AlertBox extends Component<AlertBoxProps, {}> {
     public render(): ReactElement {
         return (
             <Alert variant={this.props.variant} className="alert-box" style={this.props.style}>
-                <Alert.Heading>{this.props.heading}</Alert.Heading>
+                <Alert.Heading style={{fontWeight: "bold"}}>{this.props.heading}</Alert.Heading>
                 <div>
                     {this.props.children}
                 </div>
@@ -20,7 +20,7 @@ export default class AlertBox extends Component<AlertBoxProps, {}> {
                 <div className="close-button-container">
                     <Button variant={"outline-"+ this.props.variant} onClick={() => {
                         Emitter.get().emit("closeAlert", this.props.alertId);
-                    }}>Close</Button>
+                    }}>关闭</Button>
                 </div>
             </Alert>
         );
