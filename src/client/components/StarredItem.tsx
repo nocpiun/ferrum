@@ -12,7 +12,7 @@ export default class StarredItem extends Component<StarredItemProps, {}> {
         return (
             <ListGroup.Item
                 action
-                title="Click to open."
+                title="单击以打开"
                 onClick={() => {
                     window.location.href = hostname +":3300/dir/"+ this.props.itemPath.replace("C:/", "");
                 }}

@@ -58,7 +58,7 @@ export default abstract class FerrumPlugin extends Component<FerrumPluginProps, 
                     </div>
                     <div className="header-container">
                         <h1>{this.option.title}</h1>
-                        <p>Path: {this.props.path}</p>
+                        <p>路径: {this.props.path}</p>
                     </div>
                     <div className="viewer-container">{this.state.viewerComponent}</div>
                 </div>

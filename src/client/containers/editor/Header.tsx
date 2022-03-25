@@ -11,7 +11,7 @@ export default class Header extends Component<EditorHeaderProps, {}> {
         return (
             <div className="header-container">
                 <h1>Ferrum 文本编辑器</h1>
-                <p>Path: {this.props.path}</p>
+                <p>路径: {this.props.path}</p>
             </div>
         );
     }

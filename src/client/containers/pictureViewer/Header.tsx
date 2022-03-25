@@ -11,7 +11,7 @@ export default class Header extends Component<PictureViewerHeaderProps, {}> {
         return (
             <div className="header-container">
                 <h1>Ferrum 图片查看器</h1>
-                <p>Path: {this.props.path}</p>
+                <p>路径: {this.props.path}</p>
             </div>
         );
     }
