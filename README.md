@@ -9,7 +9,7 @@ Ferrum Explorer is a web-based file explorer app for servers. Because it's only 
 #### Why its name is Ferrum?
 
 ```
-File Explorer -> FE -> Fe (Chemical Element) -> Ferrum
+File Explorer -> FE -> Fe -> Ferrum
 ```
 
 ## Deploy & Use
