@@ -22,7 +22,7 @@ export default class ListItem extends Component<ListItemProps, {}> {
             <ListGroup.Item
                 action
                 className="list-item"
-                title="单击选中，双击打开"
+                title="单击选中 / 双击打开"
                 onClick={(e) => this.props.onClick(e.target as HTMLButtonElement)}
                 onDoubleClick={() => {
                     if(this.props.itemType == "folder") window.location.href += "/"+ this.props.itemName;

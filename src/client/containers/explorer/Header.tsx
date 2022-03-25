@@ -21,6 +21,7 @@ export default class Header extends Component<ExplorerHeaderProps> {
                 <button
                     className="star"
                     id="star"
+                    title="收藏"
                     onClick={() => this.props.onStar()}></button>
             </div>
         );

@@ -12,7 +12,7 @@ export default class LeftSidebar extends Component<ExplorerLeftSidebarProps, {}>
         return (
             <div className="sidebar-left-container">
                 <div className="header-container">
-                    <h3>Starred Directory</h3>
+                    <h3>收藏夹</h3>
                 </div>
                 <div className="body-container">
                     <ListGroup id="starred-dir-list">{this.props.starredList ? this.props.starredList : null}</ListGroup>

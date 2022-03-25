@@ -38,7 +38,7 @@ export default abstract class FerrumPlugin extends Component<FerrumPluginProps, 
         Axios.get(apiUrl +"/getDataUrl?path="+ this.path.replaceAll("/", "\\"))
             .then((res: GetDataUrlResponse) => {
                 if(res.data.err == 404) {
-                    toast.error("Cannot find the specified file.");
+                    toast.error("无法找到指定文件");
                     return;
                 }
 

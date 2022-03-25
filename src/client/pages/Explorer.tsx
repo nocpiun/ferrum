@@ -50,7 +50,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
      */
     private handleBack(): void {
         if(this.path == root +"/") {
-            toast.error("You are in the root directory.");
+            toast.error("你在根目录，无法进入上级目录");
             return;
         }
 
@@ -147,7 +147,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
 
         Axios.post(apiUrl +"/deleteFile", {path: (this.path +"/"+ this.state.itemSelected.fullName).replaceAll("/", "\\")})
             .then(() => {
-                toast.success("Deleted.")
+                toast.success("删除成功");
             })
             .catch((err) => {throw err});
     }
@@ -236,7 +236,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         Axios.get(apiUrl +"/fetchDirInfo?path="+ this.path.replaceAll("/", "\\"))
             .then((res: FetchDirInfoResponse) => {
                 if(res.data.err == 404) {
-                    toast.error("Cannot find the specified directory.");
+                    toast.error("无法找到指定文件夹");
                     return;
                 }
 

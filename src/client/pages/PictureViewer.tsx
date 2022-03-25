@@ -48,7 +48,7 @@ export default class PictureViewer extends Component<PictureViewerProps, Picture
         Axios.get(apiUrl +"/getDataUrl?path="+ this.path.replaceAll("/", "\\"))
             .then((res: GetDataUrlResponse) => {
                 if(res.data.err == 404) {
-                    toast.error("Cannot find the specified picture.");
+                    toast.error("无法找到指定图片");
                     return;
                 }
 
