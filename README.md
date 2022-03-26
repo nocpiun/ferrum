@@ -1,6 +1,17 @@
+<div align="center">
+
+<img src="./public/icon.png" style="width:82px;image-rendering:pixelated;"/>
+
 # Ferrum Explorer
 
-By NriotHrreion
+[![Author](https://img.shields.io/badge/Author-NriotHrreion-red.svg "Author")](https://github.com/NriotHrreion)
+[![LICENSE](https://img.shields.io/badge/license-MIT-green.svg "LICENSE")](./LICENSE)
+[![Using React](https://img.shields.io/badge/Using-React-blue.svg "Using React")](https://reactjs.org)
+[![issues](https://img.shields.io/codeclimate/issues/NriotHrreion/ferrum "issues")](./issues)
+
+</div>
+
+> This project hasn't completed yet...
 
 ## Description
 
