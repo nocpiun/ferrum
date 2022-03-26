@@ -33,11 +33,11 @@ npm run start
 
 ## Plugin
 
-There is a plugin folder `/src/plugins`. Under the folder, there are many plugins (although it's only one now) which are viewers for different kinds of file formats (e.g. *.mp4 *.avi).
+There is a plugin folder `/src/plugins`. Under the folder, there are plugins (although it's only one now) which are viewers for different kinds of file formats (e.g. *.mp4 *.avi).
 
 It's necessary to explain that the plugins are only used as viewers now. I might add more feature to it in the future.
 
-Viewer is a page that is shown when the user opens a file. The viewer's page will be shown when the user opens the file format(s) the option of the viewer has specified. For example, a video viewer, its page will be shown when the user click a `.mp4` file.
+Viewer is a page that is shown when the user opens a file. The viewer's page will be shown when the user opens the file format(s) the viewer's option has specified. For example, a video viewer, its page will be shown when the user open a `.mp4` file.
 
 To write a plugin, you need to create a new `tsx` file first. The name of the file had better end with `Plugin`.
 
@@ -82,7 +82,7 @@ export default class VideoPlugin extends FerrumPlugin {
 }
 ```
 
-The components in the method `viewerRender()` will be rendered at the center of the whole page. And the param `dataUrl` is the data url (base64) of file that opened. It can be used directory in `src`, but you should pay attention to the type of the url _("data:**image/png**;base64,.......")_
+The components in the method `viewerRender()` will be rendered at the center of the whole page. And the param `dataUrl` is the data url (base64) of file that opened. It can be used directory in `src`, but you should pay attention to the mime type of the url _("data:**image/png**;base64,.......")_
 
 ```tsx
 export default class ExamplePlugin extends FerrumPlugin {
