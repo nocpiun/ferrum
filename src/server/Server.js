@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const multer = require("multer");
+const axios = require("axios");
 const logger = require("nriot-logger");
 
 // apis
@@ -16,6 +17,19 @@ const getFileContentApi = require("./api/GetFileContent");
 const saveFileContentApi = require("./api/SaveFileContent");
 const deleteFileApi = require("./api/DeleteFile");
 const uploadFileApi = require("./api/UploadFile");
+
+// Hitokoto
+const hitokotoApiUrl = "https://v1.hitokoto.cn/?c=i&encode=json";
+
+axios.default.get(hitokotoApiUrl, {responseType: "json"})
+    .then((res) => {
+        logger.info(
+            "Hitokoto:\n\n"+
+            " "+ chalk.bold(res.data.hitokoto) +"\n"+
+            "            " + chalk.yellowBright("————"+ res.data.from_who +"《"+ res.data.from +"》") + "\n"
+        );
+    })
+    .catch((err) => {throw err});
 
 const app = express();
 
