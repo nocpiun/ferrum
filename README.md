@@ -19,15 +19,15 @@ First, you need to make sure that your server (or computer) has installed Nodejs
 
 1. Download and install
 
-```
-git clone http://git.nin.red:8099/NriotHrreion/ferrum.git
+```bash
+git clone https://github.com/NriotHrreion/ferrum.git
 cd ferrum
 npm i
 ```
 
 2. Run the app
 
-```
+```bash
 npm run start
 ```
 
