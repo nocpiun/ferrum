@@ -7,7 +7,7 @@
 [![Author](https://img.shields.io/badge/Author-NriotHrreion-red.svg "Author")](https://github.com/NriotHrreion)
 [![LICENSE](https://img.shields.io/badge/license-MIT-green.svg "LICENSE")](./LICENSE)
 [![Using React](https://img.shields.io/badge/Using-React-blue.svg "Using React")](https://reactjs.org)
-[![issues](https://img.shields.io/codeclimate/issues/NriotHrreion/ferrum "issues")](./issues)
+[![issues](https://img.shields.io/codeclimate/issues/NriotHrreion/ferrum "issues")](https://github.com/NriotHrreion/ferrum/issues)
 
 </div>
 
@@ -41,6 +41,8 @@ npm i
 ```bash
 npm run start
 ```
+
+3. Enter `http://localhost:3300` (Usually, this step will be done automatically by the system. You just need to do the second step and wait a second.)
 
 ## Plugin
 
@@ -119,6 +121,26 @@ export const plugins: FerrumPluginOption[] = [
     // ... just add your plugin into it
 ];
 ```
+
+## Testing
+
+Ferrum Explorer is using Jest to test code.
+
+```bash
+npm run test
+```
+
+## Contributing
+
+Contributions to Ferrum Explorer are welcomed. You can fork this project and start your contributing. If you don't know how to do, please follow the instruction [Creating a Pull Request from a Fork](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork).
+
+I'll check the Pull Request list in my spare time. I can't make sure that every Pull Request will be seen by me at once.
+
+## Note
+
+**Some features haven't completed yet.** I'll try my best to complete them.
+
+> **Fun Fact:** This README learnt a lot from the project [Takenote](https://github.com/taniarascia/takenote). Takenote is also awesome.
 
 ## LICENSE
 
