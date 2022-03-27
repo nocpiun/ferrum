@@ -13,7 +13,6 @@ import { plugins } from "./plugins";
 import "bootstrap/dist/css/bootstrap.css";
 import "filepond/dist/filepond.min.css";
 import "./client/style/layout.less";
-import FerrumPlugin from "./client/components/FerrumPlugin";
 
 export default class Main extends Component<RouteComponentProps<{}, {}, unknown>, {}> {
     public constructor(props: RouteComponentProps) {
