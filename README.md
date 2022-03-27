@@ -140,7 +140,7 @@ I'll check the Pull Request list in my spare time. I can't make sure that every 
 
 **Some features haven't completed yet.** I'll try my best to complete them.
 
-> **Fun Fact:** This README learnt a lot from the project [Takenote](https://github.com/taniarascia/takenote). Takenote is also awesome.
+> **Fun Fact:** This project learnt a lot from [Takenote](https://github.com/taniarascia/takenote). Takenote is also awesome.
 
 ## LICENSE
 
