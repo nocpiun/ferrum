@@ -1,0 +1,27 @@
+stages:
+  - install
+  - test
+  - deploy
+
+job_install:
+  stage: install
+  script:
+    - npm install
+  only:
+    - main
+  tags:
+    - node.js
+
+job_test:
+  stage: test
+  script:
+    - npm run test
+  tags:
+    - node.js
+
+job_deploy:
+  stage: deploy
+  script:
+    - echo "Success."
+  tags:
+    - node.js
