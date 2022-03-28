@@ -44,6 +44,24 @@ npm run start
 
 3. Enter `http://localhost:3300` (Usually, this step will be done automatically by the system. You just need to do the second step and wait a second.)
 
+#### Something to notice
+
+Ferrum Explorer requires ports `3300` `3301` to launch. If you see it reports `address already in use :::xxxx`, you should have a check to whether you've launched Ferrum Explorer and whether other apps are using the ports. And see the following steps.
+
+**Windows**
+
+```bash
+netstat -aon | findstr [[here write the port it reported]]
+taskkill /f /pid [[here write the PID the above command returned]]
+```
+
+**Linux & Mac OS**
+
+```bash
+lsof -i:[[here write the port it reported]]
+kill -9 [[here write the PID the above command returned]]
+```
+
 ## Plugin
 
 There is a plugin folder `/src/plugins`. Under the folder, there are plugins (although it's only one now) which are viewers for different kinds of file formats (e.g. *.mp4 *.avi).
