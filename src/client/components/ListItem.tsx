@@ -13,7 +13,7 @@ const apiUrl = hostname +":3301";
 
 export default class ListItem extends Component<ListItemProps, ListItemState> {
     private itemSize: string;
-    private renameBoxRef: React.RefObject<HTMLInputElement> = React.createRef();
+    public renameBoxRef: React.RefObject<HTMLInputElement> = React.createRef();
     private clickTimer: NodeJS.Timeout | null = null;
     
     public constructor(props: ListItemProps) {
