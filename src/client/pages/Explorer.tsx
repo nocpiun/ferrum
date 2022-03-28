@@ -145,15 +145,19 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
     private handleDeleteFile(): void {
         if(this.state.itemSelected == null) return;
 
-        Axios.post(apiUrl +"/deleteFile", {path: (this.path +"/"+ this.state.itemSelected.fullName).replaceAll("/", "\\")})
-            .then(() => {
-                toast.success("删除成功");
-            })
-            .catch((err) => {throw err});
+        toast.promise(Axios.post(apiUrl +"/deleteFile", {
+            path: (this.path +"/"+ this.state.itemSelected.fullName).replaceAll("/", "\\")
+        }), {
+            loading: "加载中...",
+            success: "删除成功",
+            error: "删除失败"
+        }).then(() => window.location.reload());
     }
     
     private handleRenameFile(): void {
-        
+        if(this.state.itemSelected == null) return;
+
+        Emitter.get().emit("openRenameBox", this.state.itemSelected.fullName);
     }
     
     private handleDownloadFile(): void {
@@ -257,6 +261,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                                         itemName={value.fullName}
                                         itemSize={value.size ? value.size : -1}
                                         itemInfo={JSON.stringify(value)}
+                                        itemPath={this.path}
                                         onClick={(e) => this.handleItemSelect(e)}
                                         key={index}
                                     />;

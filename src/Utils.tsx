@@ -39,4 +39,8 @@ export default class Utils {
         }
         return false;
     }
+
+    public static sleep(time: number): Promise<{}> {
+        return new Promise((resolve) => setTimeout(resolve, time));
+    }
 }

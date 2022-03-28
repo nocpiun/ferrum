@@ -103,7 +103,13 @@ export interface ListItemProps {
     itemName: string
     itemSize: number
     itemInfo: string
+    itemPath: string // The path don't have the file name
     onClick: (e: HTMLButtonElement) => any
+}
+
+export interface ListItemState {
+    isRenaming: boolean
+    isSelected: boolean
 }
 
 // StarredItem Component
