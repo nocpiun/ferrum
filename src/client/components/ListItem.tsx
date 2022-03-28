@@ -59,7 +59,7 @@ export default class ListItem extends Component<ListItemProps, ListItemState> {
     }
 
     private handleClick(): void {
-        if(this.state.isSelected) {
+        if(this.state.isSelected && !this.state.isRenaming) {
             this.renameBoxSwitch();
             return;
         }
@@ -84,6 +84,7 @@ export default class ListItem extends Component<ListItemProps, ListItemState> {
                     }, 250);
                 }}
                 onDoubleClick={() => {
+                    if(this.state.isRenaming) return;
                     if(this.clickTimer) clearTimeout(this.clickTimer);
                     if(this.props.itemType == "folder") window.location.href += "/"+ this.props.itemName;
                 }}
@@ -101,6 +102,7 @@ export default class ListItem extends Component<ListItemProps, ListItemState> {
                     onKeyDown={(e) => {
                         if(e.key == "Enter") this.renameFile();
                     }}
+                    id={this.props.itemName +"--renamebox"}
                     ref={this.renameBoxRef}/>
             </ListGroup.Item>
         );
@@ -111,6 +113,13 @@ export default class ListItem extends Component<ListItemProps, ListItemState> {
             if(!this.renameBoxRef.current || this.props.itemName != fullName) return;
 
             this.renameBoxSwitch();
+        });
+        document.body.addEventListener("click", (e: MouseEvent) => {
+            var elem = e.target as HTMLElement;
+            if(elem.id != this.props.itemName +"--renamebox" && this.state.isRenaming) {
+                this.renameFile();
+                this.renameBoxSwitch();
+            }
         });
     }
 }
