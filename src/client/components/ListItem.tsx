@@ -5,7 +5,6 @@ import { toast } from "react-hot-toast";
 import Axios from "axios";
 
 import Utils from "../../Utils";
-import Emitter from "../emitter";
 import { ListItemProps, ListItemState } from "../types";
 
 const hostname = "http://"+ window.location.hostname;
@@ -14,6 +13,7 @@ const apiUrl = hostname +":3301";
 export default class ListItem extends Component<ListItemProps, ListItemState> {
     private itemSize: string;
     public renameBoxRef: React.RefObject<HTMLInputElement> = React.createRef();
+    private renameBoxCurrentValue: string | null = null;
     private clickTimer: NodeJS.Timeout | null = null;
     
     public constructor(props: ListItemProps) {
@@ -36,8 +36,10 @@ export default class ListItem extends Component<ListItemProps, ListItemState> {
 
         if(!this.state.isRenaming) {
             this.renameBoxRef.current.focus();
+            this.renameBoxCurrentValue = this.renameBoxRef.current.value;
             this.setState({isRenaming: true});
         } else {
+            this.renameBoxCurrentValue = null;
             this.setState({isRenaming: false});
         }
     }
@@ -75,7 +77,7 @@ export default class ListItem extends Component<ListItemProps, ListItemState> {
             <ListGroup.Item
                 action
                 className="list-item"
-                title="单击选中 / 双击打开"
+                title="单击选中 / 双击打开 / 单击后再次单击重命名"
                 onClick={(e) => {
                     if(this.clickTimer) clearTimeout(this.clickTimer);
                     this.clickTimer = setTimeout(() => {
@@ -102,6 +104,9 @@ export default class ListItem extends Component<ListItemProps, ListItemState> {
                     onKeyDown={(e) => {
                         if(e.key == "Enter") this.renameFile();
                     }}
+                    onChange={() => {
+                        if(this.renameBoxRef.current) this.renameBoxCurrentValue = this.renameBoxRef.current.value;
+                    }}
                     id={this.props.itemName +"--renamebox"}
                     ref={this.renameBoxRef}/>
             </ListGroup.Item>
@@ -109,15 +114,10 @@ export default class ListItem extends Component<ListItemProps, ListItemState> {
     }
 
     public componentDidMount(): void {
-        Emitter.get().on("openRenameBox", (fullName: string) => {
-            if(!this.renameBoxRef.current || this.props.itemName != fullName) return;
-
-            this.renameBoxSwitch();
-        });
         document.body.addEventListener("click", (e: MouseEvent) => {
             var elem = e.target as HTMLElement;
             if(elem.id != this.props.itemName +"--renamebox" && this.state.isRenaming) {
-                this.renameFile();
+                if(this.renameBoxCurrentValue != this.props.itemName) this.renameFile();
                 this.renameBoxSwitch();
             }
         });

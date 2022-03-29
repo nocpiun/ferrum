@@ -98,9 +98,9 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         if(!this.state.itemSelected) return;
 
         if(this.state.itemSelected.isFile) {
-            this.setControlButtonsDisabled(false, false, false, false);
+            this.setControlButtonsDisabled(false, false, false);
         } else {
-            this.setControlButtonsDisabled(false, false, false, true);
+            this.setControlButtonsDisabled(false, false, true);
         }
     }
 
@@ -111,7 +111,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         this.setState({
             itemSelected: null
         });
-        this.setControlButtonsDisabled(true, true, true, true);
+        this.setControlButtonsDisabled(true, true, true);
     }
 
     private handleOpenFile(): void {
@@ -154,12 +154,6 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         }).then(() => window.location.reload());
     }
     
-    private handleRenameFile(): void {
-        if(this.state.itemSelected == null) return;
-
-        Emitter.get().emit("openRenameBox", this.state.itemSelected.fullName);
-    }
-    
     private handleDownloadFile(): void {
         if(this.state.itemSelected == null) return;
 
@@ -194,7 +188,6 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                     <ToolButtons
                         onOpenFile={() => this.handleOpenFile()}
                         onDeleteFile={() => this.handleDeleteFile()}
-                        onRenameFile={() => this.handleRenameFile()}
                         onDownloadFile={() => this.handleDownloadFile()}
                         onUploadFile={() => this.handleUploadFile()}
                         onCreateFile={() => this.handleCreateFile()}
@@ -218,7 +211,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         document.title = "Ferrum - "+ this.path;
 
         // The control buttons is defaultly disabled
-        this.setControlButtonsDisabled(true, true, true, true);
+        this.setControlButtonsDisabled(true, true, true);
 
         document.addEventListener("click", (e) => {
             var elem = e.target as HTMLElement;
@@ -304,16 +297,14 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
             .catch((err) => {throw err});
     }
 
-    private setControlButtonsDisabled(openBtn: boolean, deleteBtn: boolean, renameBtn: boolean, downloadBtn: boolean): void {
+    private setControlButtonsDisabled(openBtn: boolean, deleteBtn: boolean, downloadBtn: boolean): void {
         var openButton = document.getElementById("open-file") as HTMLButtonElement,
             deleteButton = document.getElementById("delete-file") as HTMLButtonElement,
-            renameButton = document.getElementById("rename-file") as HTMLButtonElement,
             downloadButton = document.getElementById("download-file") as HTMLButtonElement;
 
         // openButton.disabled = deleteButton.disabled = renameButton.disabled = downloadButton.disabled = is;
         openButton.disabled = openBtn;
         deleteButton.disabled = deleteBtn;
-        renameButton.disabled = renameBtn;
         downloadButton.disabled = downloadBtn;
     }
 }

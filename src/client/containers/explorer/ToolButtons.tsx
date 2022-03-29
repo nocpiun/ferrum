@@ -19,9 +19,6 @@ export default class ToolButtons extends Component<ExplorerToolButtonsProps, {}>
                     onClick={() => this.props.onDeleteFile()}
                     variant="danger">删除</Button>
                 <Button
-                    id="rename-file"
-                    onClick={() => this.props.onRenameFile()}>重命名</Button>
-                <Button
                     id="download-file"
                     onClick={() => this.props.onDownloadFile()}>下载</Button>
                 <Button

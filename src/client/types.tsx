@@ -38,7 +38,6 @@ export interface ExplorerHeaderProps {
 export interface ExplorerToolButtonsProps {
     onOpenFile: () => any
     onDeleteFile: () => any
-    onRenameFile: () => any
     onDownloadFile: () => any
     onUploadFile: () => any
     onCreateFile: () => any
