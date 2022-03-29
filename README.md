@@ -154,6 +154,16 @@ Contributions to Ferrum Explorer are welcomed. You can fork this project and sta
 
 I'll check the Pull Request list in my spare time. I can't make sure that every Pull Request will be seen by me at once.
 
+## Scripts
+
+An explanation of the `package.json` scripts.
+
+- **`start`** Launch the client and server at the same time
+- **`server`** Only launch the server
+- **`client`** Only launch the client
+- **`build`** Create a production build (Not support)
+- **`test`** Run tests
+
 ## Note
 
 **Some features haven't completed yet.** I'll try my best to complete them.

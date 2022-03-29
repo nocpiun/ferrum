@@ -20,11 +20,20 @@ describe("ListItem Component tests", () => {
     });
 
     test("Clicking test", async () => {
-        ReactTestUtils.Simulate.click(ReactTestUtils.findRenderedDOMComponentWithTag(component, "button"));
+        var buttonElem = ReactTestUtils.findRenderedDOMComponentWithTag(component, "button")
+
+        // Click Once
+        ReactTestUtils.Simulate.click(buttonElem);
         await Utils.sleep(250);
         expect(component.state.isSelected).toBeTruthy();
         
-        ReactTestUtils.Simulate.click(ReactTestUtils.findRenderedDOMComponentWithTag(component, "button"));
+        // Click Twice
+        ReactTestUtils.Simulate.click(buttonElem);
+        await Utils.sleep(250);
+        expect(component.state.isRenaming).toBeTruthy();
+
+        // Click Three times
+        ReactTestUtils.Simulate.click(buttonElem);
         await Utils.sleep(250);
         expect(component.state.isRenaming).toBeTruthy();
     });

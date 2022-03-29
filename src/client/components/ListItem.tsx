@@ -77,6 +77,7 @@ export default class ListItem extends Component<ListItemProps, ListItemState> {
             <ListGroup.Item
                 action
                 className="list-item"
+                id={this.props.itemName +"--listitem"}
                 title="单击选中 / 双击打开 / 单击后再次单击重命名"
                 onClick={(e) => {
                     if(this.clickTimer) clearTimeout(this.clickTimer);
@@ -94,7 +95,10 @@ export default class ListItem extends Component<ListItemProps, ListItemState> {
                 data-info={this.props.itemInfo}
                 data-type={this.props.itemType}
             >
-                <span className="list-item-name" onClick={(e) => this.props.onClick((e.target as HTMLElement).parentElement as HTMLButtonElement)}>{this.props.itemName}</span>
+                <span
+                    className="list-item-name"
+                    onClick={(e) => this.props.onClick((e.target as HTMLElement).parentElement as HTMLButtonElement)}
+                    style={{display: this.state.isRenaming ? "none" : "inline-block"}}>{this.props.itemName}</span>
                 <span className="list-item-size" onClick={(e) => this.props.onClick((e.target as HTMLElement).parentElement as HTMLButtonElement)}>{this.itemSize}</span>
                 
                 <FormControl
@@ -116,7 +120,11 @@ export default class ListItem extends Component<ListItemProps, ListItemState> {
     public componentDidMount(): void {
         document.body.addEventListener("click", (e: MouseEvent) => {
             var elem = e.target as HTMLElement;
-            if(elem.id != this.props.itemName +"--renamebox" && this.state.isRenaming) {
+            if(
+                elem.id != this.props.itemName +"--renamebox" &&
+                elem.id != this.props.itemName +"--listitem" &&
+                this.state.isRenaming
+            ) {
                 if(this.renameBoxCurrentValue != this.props.itemName) this.renameFile();
                 this.renameBoxSwitch();
             }
