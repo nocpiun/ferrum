@@ -1,7 +1,7 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-script-url */
 /* eslint-disable array-callback-return */
-/* eslint-disable eqeqeq */
 import { Component, ReactElement } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import Axios from "axios";
@@ -166,12 +166,53 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         Emitter.get().emit("displayAlert", 2); // Open uploader
     }
     
-    private handleCreateFile(): void {
-        
+    private async handleCreateFile(): Promise<void> {
+        const newFileName = "新建文本文档";
+        const newFileFormat = "txt";
+        var dirInfo: FetchDirInfoResponse = await Axios.get(apiUrl +"/fetchDirInfo?path="+ this.path.replaceAll("/", "\\"));
+        var dirItemList = dirInfo.data.list;
+        var newFileIndex = 1;
+
+        for(let i = 0; i < dirItemList.length; i++) {
+            if(dirItemList[i].fullName.indexOf(newFileName) > -1) {
+                newFileIndex++;
+            }
+        }
+
+        const newFileFullName = `${newFileName}${newFileIndex == 1 ? "" : ` (${newFileIndex.toString()})`}.${newFileFormat}`;
+
+        toast.promise(Axios.post(apiUrl +"/createFile", {
+            path: this.path.replaceAll("/", "\\"),
+            fileName: newFileFullName
+        }), {
+            loading: "创建中...",
+            success: "创建成功",
+            error: "创建失败"
+        }).then(() => window.location.reload());
     }
 
-    private handleCreateDirectory(): void {
+    private async handleCreateDirectory(): Promise<void> {
+        const newDirName = "新建文件夹";
+        var dirInfo: FetchDirInfoResponse = await Axios.get(apiUrl +"/fetchDirInfo?path="+ this.path.replaceAll("/", "\\"));
+        var dirItemList = dirInfo.data.list;
+        var newDirIndex = 1;
 
+        for(let i = 0; i < dirItemList.length; i++) {
+            if(dirItemList[i].fullName.indexOf(newDirName) > -1) {
+                newDirIndex++;
+            }
+        }
+
+        const newDirFullName = `${newDirName}${newDirIndex == 1 ? "" : ` (${newDirIndex.toString()})`}`;
+
+        toast.promise(Axios.post(apiUrl +"/createDir", {
+            path: this.path.replaceAll("/", "\\"),
+            dirName: newDirFullName
+        }), {
+            loading: "创建中...",
+            success: "创建成功",
+            error: "创建失败"
+        }).then(() => window.location.reload());
     }
 
     public render(): ReactElement {
@@ -207,7 +248,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         );
     }
 
-    public componentDidMount(): void {
+    public async componentDidMount(): Promise<void> {
         document.title = "Ferrum - "+ this.path;
 
         // The control buttons is defaultly disabled
@@ -230,71 +271,67 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         });
 
         // Get the info of current directory
-        Axios.get(apiUrl +"/fetchDirInfo?path="+ this.path.replaceAll("/", "\\"))
-            .then((res: FetchDirInfoResponse) => {
-                if(res.data.err == 404) {
-                    toast.error("无法找到指定文件夹");
-                    return;
-                }
+        var dirInfo: FetchDirInfoResponse = await Axios.get(apiUrl +"/fetchDirInfo?path="+ this.path.replaceAll("/", "\\"));
 
-                var list = res.data.list;
-                for(let i = list.length - 1; i >= 0; i--) {
-                    if(list[i].isFile) {
-                        list = Utils.itemMoveToFirst(i, list);
+        if(dirInfo.data.err == 404) {
+            toast.error("无法找到指定文件夹");
+            return;
+        }
+
+        var dirItemList = dirInfo.data.list;
+        for(let i = dirItemList.length - 1; i >= 0; i--) {
+            if(dirItemList[i].isFile) {
+                dirItemList = Utils.itemMoveToFirst(i, dirItemList);
+            }
+        }
+
+        this.setState({
+            itemList: (
+                <>
+                    {
+                        dirItemList.map((value, index) => {
+                            return <ListItem
+                                itemType={value.isFile ? "file" : "folder"}
+                                itemName={value.fullName}
+                                itemSize={value.size ? value.size : -1}
+                                itemInfo={JSON.stringify(value)}
+                                itemPath={this.path}
+                                onClick={(e) => this.handleItemSelect(e)}
+                                key={index}
+                            />;
+                        })
                     }
-                }
-
-                this.setState({
-                    itemList: (
-                        <>
-                            {
-                                list.map((value, index) => {
-                                    return <ListItem
-                                        itemType={value.isFile ? "file" : "folder"}
-                                        itemName={value.fullName}
-                                        itemSize={value.size ? value.size : -1}
-                                        itemInfo={JSON.stringify(value)}
-                                        itemPath={this.path}
-                                        onClick={(e) => this.handleItemSelect(e)}
-                                        key={index}
-                                    />;
-                                })
-                            }
-                        </>
-                    )
-                });
-            })
-            .catch((err) => {throw err});
+                </>
+            )
+        });
         
         // Check if the current directory is starred & List all the starred directories
-        Axios.get(apiUrl +"/getStarred")
-            .then((res) => {
-                var list = new Map(res.data);
-                // display the full star if the directory is starred
-                list.forEach((value, index) => {
-                    if(value == this.path) {
-                        Utils.getElem("star").style.backgroundImage = "url("+ starRate +")";
-                        this.isStarred = true;
-                    }
-                });
+        var starList = await Axios.get(apiUrl +"/getStarred");
 
-                var listArr: [any, any][] = Array.from(list);
-                // list the starred directories
-                this.setState({
-                    starredList: (
-                        <>
-                            {
-                                listArr.map((value, index) => {
-                                    if(typeof value[1] == "string") {
-                                        return <StarredItem itemPath={value[1] as string} key={index}/>;
-                                    }
-                                })
+        var list = new Map(starList.data);
+        // display the full star if the directory is starred
+        list.forEach((value, index) => {
+            if(value == this.path) {
+                Utils.getElem("star").style.backgroundImage = "url("+ starRate +")";
+                this.isStarred = true;
+            }
+        });
+
+        var listArr: [any, any][] = Array.from(list);
+        // list the starred directories
+        this.setState({
+            starredList: (
+                <>
+                    {
+                        listArr.map((value, index) => {
+                            if(typeof value[1] == "string") {
+                                return <StarredItem itemPath={value[1] as string} key={index}/>;
                             }
-                        </>
-                    )
-                });
-            })
-            .catch((err) => {throw err});
+                        })
+                    }
+                </>
+            )
+        });
     }
 
     private setControlButtonsDisabled(openBtn: boolean, deleteBtn: boolean, downloadBtn: boolean): void {

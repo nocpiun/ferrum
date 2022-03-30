@@ -18,6 +18,8 @@ const saveFileContentApi = require("./api/SaveFileContent");
 const deleteFileApi = require("./api/DeleteFile");
 const uploadFileApi = require("./api/UploadFile");
 const renameFileApi = require("./api/RenameFile");
+const createFileApi = require("./api/CreateFile");
+const createDirApi = require("./api/CreateDir");
 
 // Hitokoto
 const hitokotoApiUrl = "https://v1.hitokoto.cn/?c=i&encode=json";
@@ -59,6 +61,8 @@ app.post("/saveFileContent", (req, res) => saveFileContentApi(req, res));
 app.post("/deleteFile", (req, res) => deleteFileApi(req, res));
 app.post("/uploadFile", multer({dest: "upload_tmp/"}).any(), (req, res) => uploadFileApi(req, res));
 app.post("/renameFile", (req, res) => renameFileApi(req, res));
+app.post("/createFile", (req, res) => createFileApi(req, res));
+app.post("/createDir", (req, res) => createDirApi(req, res));
 
 // listen & launch
 app.listen(3301, () => {

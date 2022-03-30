@@ -166,8 +166,6 @@ An explanation of the `package.json` scripts.
 
 ## Note
 
-**Some features haven't completed yet.** I'll try my best to complete them.
-
 > **Fun Fact:** This project learnt a lot from [Takenote](https://github.com/taniarascia/takenote). Takenote is also awesome.
 
 ## LICENSE
