@@ -1,4 +1,3 @@
-/* eslint-disable eqeqeq */
 import React, { Component, ReactElement } from "react";
 import { ListGroup, FormControl } from "react-bootstrap";
 import { toast } from "react-hot-toast";

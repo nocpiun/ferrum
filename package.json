@@ -98,12 +98,6 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -121,9 +115,11 @@
     "@types/express": "^4.17.13",
     "@types/react-router": "^5.1.16",
     "@types/react-router-dom": "^5.3.0",
+    "customize-cra": "^1.0.0",
     "express": "^4.17.3",
     "jsdom": "^19.0.0",
     "less": "^4.1.1",
+    "react-app-rewired": "^2.2.1",
     "react-router-dom": "^5.3.0",
     "react-test-renderer": "^17.0.2"
   },
@@ -176,10 +172,5 @@
       "jest-watch-typeahead/testname"
     ],
     "resetMocks": true
-  },
-  "babel": {
-    "presets": [
-      "react-app"
-    ]
   }
 }

@@ -1,4 +1,3 @@
-/* eslint-disable eqeqeq */
 export default class Utils {
     /**
      * From: https://blog.csdn.net/LUxxxX/article/details/90177682

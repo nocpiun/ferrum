@@ -1,4 +1,3 @@
-/* eslint-disable eqeqeq */
 import { Component, ReactElement } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import Axios from "axios";

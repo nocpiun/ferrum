@@ -1,0 +1,14 @@
+{
+    "extends": [
+        "react-app",
+        "react-app/jest"
+    ],
+    "rules": {
+        "eqeqeq": "off",
+        "no-script-url": "off",
+        "constructor-super": "error",
+        "no-alert": "off",
+        "no-console": "off",
+        "no-useless-return": "warn"
+    }
+}

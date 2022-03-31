@@ -1,6 +1,4 @@
-/* eslint-disable eqeqeq */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable no-script-url */
 /* eslint-disable array-callback-return */
 import { Component, ReactElement } from "react";
 import { toast, Toaster } from "react-hot-toast";
@@ -339,7 +337,6 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
             deleteButton = document.getElementById("delete-file") as HTMLButtonElement,
             downloadButton = document.getElementById("download-file") as HTMLButtonElement;
 
-        // openButton.disabled = deleteButton.disabled = renameButton.disabled = downloadButton.disabled = is;
         openButton.disabled = openBtn;
         deleteButton.disabled = deleteBtn;
         downloadButton.disabled = downloadBtn;

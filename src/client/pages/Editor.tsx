@@ -1,4 +1,3 @@
-/* eslint-disable eqeqeq */
 import { Component, ReactElement } from "react";
 import MonacoEditor, { Monaco } from "@monaco-editor/react";
 import { toast, Toaster } from "react-hot-toast";

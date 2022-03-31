@@ -1,4 +1,3 @@
-/* eslint-disable eqeqeq */
 import { Component, ReactElement } from "react";
 import { RouteComponentProps } from "react-router-dom";
 
