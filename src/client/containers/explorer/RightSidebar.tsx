@@ -1,8 +1,13 @@
 import { Component, ReactElement } from "react";
 import { FilePond } from "react-filepond";
+import Axios from "axios";
 
 import AlertBox from "../../components/AlertBox";
-import { ExplorerRightSidebarProps, ExplorerRightSidebarState } from "../../types";
+import {
+    ExplorerRightSidebarProps,
+    ExplorerRightSidebarState,
+    FetchSysInfoResponse
+} from "../../types";
 import Emitter from "../../emitter";
 
 const apiUrl = "http://"+ window.location.hostname +":3301";
@@ -15,7 +20,9 @@ export default class RightSidebar extends Component<ExplorerRightSidebarProps, E
 
         this.state = {
             alertBox1: true,
-            alertBox2: false
+            alertBox2: false,
+            alertBox3: true,
+            sysInfo: null
         };
     }
 
@@ -49,11 +56,26 @@ export default class RightSidebar extends Component<ExplorerRightSidebarProps, E
                         server={apiUrl +"/uploadFile?path="+ this.props.path.replaceAll("/", "\\")}
                         oninit={() => this.handleFilepondInit()}/>
                 </AlertBox>
+                <AlertBox
+                    variant="warning"
+                    heading="系统信息"
+                    style={{display: this.state.alertBox3 ? "block" : "none"}}
+                    alertId={3}
+                >
+                    <ul>
+                        <li>系统: {this.state.sysInfo?.system}</li>
+                        <li>系统版本: {this.state.sysInfo?.version}</li>
+                        <li>系统类型: {this.state.sysInfo?.arch}</li>
+                        <li>平台: {this.state.sysInfo?.platform}</li>
+                        <li>当前用户: {this.state.sysInfo?.userInfo.username}</li>
+                        <li>用户文件夹: {this.state.sysInfo?.userInfo.homedir}</li>
+                    </ul>
+                </AlertBox>
             </div>
         );
     }
 
-    public componentDidMount(): void {
+    public async componentDidMount(): Promise<any> {
         Emitter.get().on("displayAlert", (id: number) => {
             switch(id) {
                 case 1:
@@ -62,6 +84,8 @@ export default class RightSidebar extends Component<ExplorerRightSidebarProps, E
                 case 2:
                     this.setState({alertBox2: true});
                     break;
+                case 3:
+                    this.setState({alertBox3: true});
             }
         });
         Emitter.get().on("closeAlert", (id: number) => {
@@ -72,7 +96,16 @@ export default class RightSidebar extends Component<ExplorerRightSidebarProps, E
                 case 2:
                     this.setState({alertBox2: false});
                     break;
+                case 3:
+                    this.setState({alertBox3: false});
+                    break;
             }
+        });
+
+        var sysInfoData = (await Axios.get(apiUrl +"/fetchSysInfo") as FetchSysInfoResponse).data;
+
+        this.setState({
+            sysInfo: sysInfoData
         });
     }
 }

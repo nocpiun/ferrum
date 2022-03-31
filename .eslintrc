@@ -9,6 +9,9 @@
         "constructor-super": "error",
         "no-alert": "off",
         "no-console": "off",
-        "no-useless-return": "warn"
+        "no-useless-return": "warn",
+        "no-empty": "off",
+        "array-callback-return": "off",
+        "jsx-a11y/anchor-is-valid": "off"
     }
 }

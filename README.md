@@ -42,6 +42,8 @@ npm i
 npm run start
 ```
 
+If you're using Linux, you need to add `sudo` before the command.
+
 3. Enter `http://localhost:3300` (Usually, this step will be done automatically by the system. You just need to do the second step and wait a second.)
 
 #### Something to notice
@@ -60,6 +62,12 @@ taskkill /f /pid [[here write the PID the above command returned]]
 ```bash
 lsof -i:[[here write the port it reported]]
 kill -9 [[here write the PID the above command returned]]
+```
+
+If it reports `ENOSPC: System limit for number of file watchers reached, watch 'xxx'` and you're using Linux, please do:
+
+```bash
+sudo sysctl fs.inotify.max_user_watches=582222 && sudo sysctl -p
 ```
 
 ## Plugin

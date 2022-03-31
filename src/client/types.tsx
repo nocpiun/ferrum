@@ -7,10 +7,25 @@ interface PageProps {
     path: string
 }
 
+interface SysInfo {
+    system: string
+    version: string
+    platform: string
+    arch: string
+    userInfo: {
+        username: string
+        homedir: string
+    }
+}
+
 // Explorer
 
 export interface FetchDirInfoResponse {
     data: {list: DirectoryItem[], err?: number}
+}
+
+export interface FetchSysInfoResponse {
+    data: SysInfo
 }
 
 export interface DirectoryItem {
@@ -60,6 +75,9 @@ export interface ExplorerRightSidebarProps {
 export interface ExplorerRightSidebarState {
     alertBox1: boolean
     alertBox2: boolean
+    alertBox3: boolean
+
+    sysInfo: SysInfo | null
 }
 
 // Editor
