@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const configPath = path.join(__dirname, "./config.js");
+const configPath = path.join(__dirname, "../config.js");
 
 const defaultConfigContent = `export default {
     explorer: {
