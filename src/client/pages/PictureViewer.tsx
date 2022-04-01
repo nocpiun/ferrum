@@ -9,7 +9,7 @@ import Header from "../containers/pictureViewer/Header";
 import transparentImage from "../../icons/transparent.png";
 
 import { PictureViewerProps, PictureViewerState, GetDataUrlResponse } from "../types";
-import config from "../../config.json";
+import config from "../../config";
 
 const hostname = "http://"+ window.location.hostname;
 const apiUrl = hostname +":3301";

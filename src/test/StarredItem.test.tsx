@@ -1,7 +1,7 @@
 import ReactTestUtils from "react-dom/test-utils";
 import StarredItem from "../client/components/StarredItem";
 import { StarredItemProps } from "../client/types";
-import config from "../config.json";
+import config from "../config";
 
 const root = config.explorer.root;
 

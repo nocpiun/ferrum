@@ -16,7 +16,7 @@ import RightSidebar from "../containers/explorer/RightSidebar";
 import Utils from "../../Utils";
 import { FetchDirInfoResponse, ExplorerProps, ExplorerState } from "../types";
 import Emitter from "../emitter";
-import config from "../../config.json";
+import config from "../../config";
 import { plugins } from "../../plugins";
 
 // icons
@@ -131,6 +131,11 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                 console.log(plugins[i].format, itemFormat);
             }
 
+            window.location.href = hostname +":3300/edit/?path="+ itemPath;
+            return;
+        }
+
+        if(this.state.itemSelected.isFile && !itemFormat) {
             window.location.href = hostname +":3300/edit/?path="+ itemPath;
             return;
         }

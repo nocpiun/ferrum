@@ -1,6 +1,7 @@
 import { Component, ReactElement } from "react";
 import { Button } from "react-bootstrap";
 
+import { hostname } from "../../pages/Explorer";
 import { ExplorerToolButtonsProps } from "../../types";
 
 export default class ToolButtons extends Component<ExplorerToolButtonsProps, {}> {
@@ -24,6 +25,10 @@ export default class ToolButtons extends Component<ExplorerToolButtonsProps, {}>
                 <Button
                     id="upload-file"
                     onClick={() => this.props.onUploadFile()}>上传</Button>
+                <Button
+                    id="open-terminal"
+                    title="使用此功能需要事先在服务器上搭建好ssh服务器"
+                    onClick={() => window.location.href = hostname +":3300/terminal"}>打开终端</Button>
                 
                 <Button
                     id="create-directory"

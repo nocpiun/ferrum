@@ -10,7 +10,7 @@ import Header from "../containers/editor/Header";
 import { theme } from "../theme";
 
 import { EditorProps, EditorState, GetFileContentResponse } from "../types";
-import config from "../../config.json";
+import config from "../../config";
 
 const hostname = "http://"+ window.location.hostname;
 const apiUrl = hostname +":3301";
