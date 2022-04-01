@@ -7,11 +7,8 @@
 [![Author](https://img.shields.io/badge/Author-NriotHrreion-red.svg "Author")](https://github.com/NriotHrreion)
 [![LICENSE](https://img.shields.io/badge/license-MIT-green.svg "LICENSE")](./LICENSE)
 [![Using React](https://img.shields.io/badge/Using-React-blue.svg "Using React")](https://reactjs.org)
-[![issues](https://img.shields.io/codeclimate/issues/NriotHrreion/ferrum "issues")](https://github.com/NriotHrreion/ferrum/issues)
 
 </div>
-
-> This project hasn't completed yet...
 
 ## Description
 
