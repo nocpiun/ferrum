@@ -8,19 +8,19 @@ const configPath = path.join(__dirname, "../config.json");
  */
 
 const defaultConfigContent = `{
-    explorer: {
-        root: "C:",
-        password: "e10adc3949ba59abbe56e057f20f883e"
+    "explorer": {
+        "root": "C:",
+        "password": "e10adc3949ba59abbe56e057f20f883e"
     },
-    editor: {
-        theme: "csb-github",
-        lineNumber: false
+    "editor": {
+        "theme": "csb-github",
+        "lineNumber": false
     },
-    terminal: {
-        ip: "0.0.0.0",
-        port: 22,
-        username: "root",
-        password: "123456"
+    "terminal": {
+        "ip": "0.0.0.0",
+        "port": 22,
+        "username": "root",
+        "password": "123456"
     }
 }`;
 
