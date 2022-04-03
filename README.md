@@ -43,6 +43,16 @@ If you're using Linux, you need to add `sudo` before the command.
 
 3. Enter `http://localhost:3300`, the default password is `123456`. (Usually, this step will be done automatically by the system. You just need to do the second step and wait a second.)
 
+#### To get update
+
+Do the following commands, then do `npm run start`.
+
+```bash
+git fetch origin main:temp
+git merge temp
+npm i
+```
+
 #### Something to notice
 
 Ferrum Explorer requires ports `3300` `3301` to launch. If you see it reports `address already in use :::xxxx`, you should have a check to whether you've launched Ferrum Explorer and whether other apps are using the ports. And see the following steps.
