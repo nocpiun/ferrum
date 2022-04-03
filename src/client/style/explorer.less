@@ -54,9 +54,14 @@
             }
             .list-item {
                 outline: none;
+                height: 41px;
                 .list-item-name {
                     margin-left: 30px;
                     color: @black;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    width: 500px;
                 }
                 .list-item-size {
                     font-size: 9pt;
@@ -79,6 +84,7 @@
                     background-repeat: no-repeat;
                     width: 20px;
                     height: 20px;
+                    top: 10px;
                 }
                 &[data-type="folder"]::before {
                     background-image: url(../../icons/folder.svg);
