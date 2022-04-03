@@ -4,7 +4,7 @@ import { Terminal as XTermTerminal } from "xterm";
 
 import { hostname } from "../pages/Explorer";
 import Utils from "../../Utils";
-import config from "../../config";
+import config from "../../config.json";
 
 const ip = hostname +":3302";
 const socket = openSocket(ip, {

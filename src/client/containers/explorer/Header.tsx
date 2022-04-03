@@ -19,7 +19,12 @@ export default class Header extends Component<ExplorerHeaderProps> {
                     placeholder="文件夹路径..."
                     onKeyDown={(e) => this.props.onEnter(e)}/>
                 <button
-                    className="star"
+                    className="header-button set-password"
+                    id="set-password"
+                    title="设置密码"
+                    onClick={() => this.props.onSetPassword()}></button>
+                <button
+                    className="header-button star"
                     id="star"
                     title="收藏"
                     onClick={() => this.props.onStar()}></button>

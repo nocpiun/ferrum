@@ -54,5 +54,5 @@ io.on("connection", (socket) => {
 });
 
 http.listen(3302, () => {
-    logger.info("SSH Server is ready. Port: "+ chalk.cyan(3302));
+    logger.info("Socket Server is ready. Port: "+ chalk.cyan(3302));
 });

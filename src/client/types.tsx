@@ -48,6 +48,7 @@ export interface ExplorerHeaderProps {
     path: string
     onEnter: (e: React.KeyboardEvent) => any
     onStar: () => any
+    onSetPassword: () => any
 }
 
 export interface ExplorerToolButtonsProps {

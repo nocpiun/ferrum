@@ -22,6 +22,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-/src/config.js
+/src/config.json
 /src/server/stars.json
 /upload_tmp

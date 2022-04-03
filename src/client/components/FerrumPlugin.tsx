@@ -8,7 +8,7 @@ import {
     FerrumPluginOption,
     GetDataUrlResponse 
 } from "../types";
-import config from "../../config";
+import config from "../../config.json";
 
 export const hostname = "http://"+ window.location.hostname;
 const apiUrl = hostname +":3301";

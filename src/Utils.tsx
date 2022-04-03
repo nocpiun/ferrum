@@ -42,4 +42,22 @@ export default class Utils {
     public static sleep(time: number): Promise<{}> {
         return new Promise((resolve) => setTimeout(resolve, time));
     }
+
+    public static setCookie(key: string, value: string): void {
+        document.cookie = key +"="+ value +"; path=/";
+    }
+
+    public static getCookie(key: string): string {
+        var cookieArr = document.cookie.split(";");
+
+        for(let i = 0; i < cookieArr.length; i++) {
+            var item = cookieArr[i].trim().split("=");
+            var itemKey = item[0], itemValue = item[1];
+            if(itemKey == key) {
+                return itemValue;
+            }
+        }
+
+        return "";
+    }
 }

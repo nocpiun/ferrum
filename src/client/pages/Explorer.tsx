@@ -16,11 +16,12 @@ import RightSidebar from "../containers/explorer/RightSidebar";
 import Utils from "../../Utils";
 import { FetchDirInfoResponse, ExplorerProps, ExplorerState } from "../types";
 import Emitter from "../emitter";
-import config from "../../config";
+import config from "../../config.json";
 import { plugins } from "../../plugins";
 
 // icons
 import starRate from "../../icons/star_rate.svg";
+import md5 from "md5-node";
 
 export const hostname = "http://"+ window.location.hostname;
 const apiUrl = hostname +":3301";
@@ -77,6 +78,34 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
             Axios.post(apiUrl +"/deleteStarred", {"path": this.path})
                 .then(() => window.location.reload())
                 .catch((err) => {throw err});
+        }
+    }
+
+    private handleSetPassword(): void {
+        var oldPassword = md5(prompt("请输入当前密码") || "");
+        if(oldPassword !== config.explorer.password) {
+            toast.error("密码输入错误");
+            return;
+        }
+
+        var newPassword = prompt("请输入新密码");
+        if(!newPassword) {
+            toast.error("密码更改失败, 请输入有效密码");
+            return;
+        }
+
+        if(prompt("请再次输入新密码") === newPassword) {
+            Utils.setCookie("fepw", md5(md5(newPassword)));
+            toast.promise(Axios.post(apiUrl +"/setPassword", {
+                oldPassword,
+                newPassword: md5(newPassword)
+            }), {
+                loading: "更改中...",
+                success: "更改成功",
+                error: "更改失败"
+            }).then(() => window.location.reload());
+        } else {
+            toast.error("密码更改失败, 前后输入的新密码不一致");
         }
     }
 
@@ -226,7 +255,8 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                     <Header
                         path={this.path}
                         onEnter={(e) => this.handleEnter(e)}
-                        onStar={() => this.handleStar()}/>
+                        onStar={() => this.handleStar()}
+                        onSetPassword={() => this.handleSetPassword()}/>
                     <ToolButtons
                         onOpenFile={() => this.handleOpenFile()}
                         onDeleteFile={() => this.handleDeleteFile()}

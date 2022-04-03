@@ -1,11 +1,16 @@
 const fs = require("fs");
 const path = require("path");
 
-const configPath = path.join(__dirname, "../config.js");
+const configPath = path.join(__dirname, "../config.json");
 
-const defaultConfigContent = `export default {
+/**
+ * The default password is 123456
+ */
+
+const defaultConfigContent = `{
     explorer: {
-        root: "C:"
+        root: "C:",
+        password: "e10adc3949ba59abbe56e057f20f883e"
     },
     editor: {
         theme: "csb-github",
