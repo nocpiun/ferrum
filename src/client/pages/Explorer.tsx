@@ -16,7 +16,7 @@ import RightSidebar from "../containers/explorer/RightSidebar";
 import Utils from "../../Utils";
 import { FetchDirInfoResponse, ExplorerProps, ExplorerState } from "../types";
 import Emitter from "../emitter";
-import config from "../../config.json";
+import * as config from "../../config.json";
 import { plugins } from "../../plugins";
 
 // icons

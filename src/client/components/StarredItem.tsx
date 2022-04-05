@@ -3,7 +3,7 @@ import { ListGroup } from "react-bootstrap";
 
 import { hostname } from "../pages/Explorer";
 import { StarredItemProps } from "../types";
-import config from "../../config.json";
+import * as config from "../../config.json";
 
 const root = config.explorer.root;
 

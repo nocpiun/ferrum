@@ -5,7 +5,7 @@ import Axios from "axios";
 import md5 from "md5-node";
 
 import Utils from "./Utils";
-import config from "./config.json";
+import * as config from "./config.json";
 
 import Main from "./Main";
 
