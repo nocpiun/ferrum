@@ -16,6 +16,11 @@ interface SysInfo {
         username: string
         homedir: string
     }
+    memory: {
+        total: number
+        free: number
+    }
+    cpuUsage: string
 }
 
 // Explorer

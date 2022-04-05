@@ -30,7 +30,11 @@ export default class RightSidebar extends Component<ExplorerRightSidebarProps, E
         console.log("Filepond is ready.", this.pond);
     }
 
-    public render(): ReactElement {
+    public render(): ReactElement | null {
+        if(!this.state.sysInfo) return null;
+        var sysInfo = this.state.sysInfo;
+        var usedmem = (sysInfo.memory.total - sysInfo.memory.free) / sysInfo.memory.total;
+
         return (
             <div className="sidebar-right-container">
                 <AlertBox
@@ -65,12 +69,13 @@ export default class RightSidebar extends Component<ExplorerRightSidebarProps, E
                     alertId={3}
                 >
                     <ul>
-                        <li>系统: {this.state.sysInfo?.system}</li>
-                        <li>系统版本: {this.state.sysInfo?.version}</li>
-                        <li>系统类型: {this.state.sysInfo?.arch}</li>
-                        <li>平台: {this.state.sysInfo?.platform}</li>
-                        <li>当前用户: {this.state.sysInfo?.userInfo.username}</li>
-                        <li>用户文件夹: {this.state.sysInfo?.userInfo.homedir}</li>
+                        <li>系统: {sysInfo.system}</li>
+                        <li>系统版本: {sysInfo.version}</li>
+                        <li>系统类型: {sysInfo.arch}</li>
+                        <li>当前用户: {sysInfo.userInfo.username}</li>
+                        <li>用户文件夹: {sysInfo.userInfo.homedir}</li>
+                        <li>内存: {Math.floor(usedmem * 100) +"%"} (总内存 {(sysInfo.memory.total / 1024 / 1024 / 1024).toFixed(2)})</li>
+                        <li>CPU占用: {sysInfo.cpuUsage}</li>
                     </ul>
                 </AlertBox>
             </div>
@@ -104,6 +109,11 @@ export default class RightSidebar extends Component<ExplorerRightSidebarProps, E
             }
         });
 
+        this.getSysInfo();
+        setInterval(async () => this.getSysInfo(), 3000);
+    }
+
+    private async getSysInfo(): Promise<void> {
         var sysInfoData = (await Axios.get(apiUrl +"/fetchSysInfo") as FetchSysInfoResponse).data;
 
         this.setState({
