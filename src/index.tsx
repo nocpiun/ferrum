@@ -5,6 +5,12 @@ import Axios from "axios";
 import md5 from "md5-node";
 
 import Utils from "./Utils";
+
+// The `config.json` is a configuration file,
+// it will be generated automatically when the user run the app for the first time
+// The configuration file generator: `src/server/InitConfig.js`
+// 
+// This may cause that the app cannot be built by `npm run build`
 import * as config from "./config.json";
 
 import Main from "./Main";
