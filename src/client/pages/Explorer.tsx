@@ -82,6 +82,11 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
     }
 
     private handleSetPassword(): void {
+        // The string `oldPassword` has been md5,
+        // but the string `newPassword` hasn't yet
+        // If you want to compare the two strings,
+        // you need to md5(newPassword) first
+
         var oldPassword = md5(prompt("请输入当前密码") || "");
         if(oldPassword !== config.explorer.password) {
             toast.error("密码输入错误");
@@ -91,6 +96,11 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         var newPassword = prompt("请输入新密码");
         if(!newPassword) {
             toast.error("密码更改失败, 请输入有效密码");
+            return;
+        }
+
+        if(md5(newPassword) === oldPassword) {
+            toast.error("密码更改失败, 新密码与旧密码不能相同");
             return;
         }
 
@@ -270,7 +280,6 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
 
                     <div className="footer-container">
                         <p className="copy-info">Copyright (c) NriotHrreion {new Date().getFullYear()} - <span style={{textDecoration: "underline", cursor: "pointer"}} onClick={() => Emitter.get().emit("displayAlert", 1)}>关于</span></p>
-                        <p style={{fontSize: "11pt"}}>Ferrum 文件管理器 - 当前路径: {this.path}</p>
                     </div>
                 </div>
                 <LeftSidebar starredList={this.state.starredList}/>
