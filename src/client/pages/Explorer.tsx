@@ -198,7 +198,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         if(this.state.itemSelected == null) return;
 
         if(this.state.itemSelected.isFile) {
-            window.location.href = hostname +":3001/getFileData?path="+ (this.path +"/"+ this.state.itemSelected.fullName).replaceAll("/", "\\");
+            window.location.href = hostname +":3301/getFileData?path="+ (this.path +"/"+ this.state.itemSelected.fullName).replaceAll("/", "\\");
         }
     }
     

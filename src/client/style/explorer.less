@@ -132,9 +132,12 @@
             button {
                 padding-left: 10px;
                 .list-item-name {
+                    display: block;
                     margin-left: 30px;
                     font-size: 11pt;
-                    vertical-align: top;
+                    width: 240px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
                 }
                 &::before {
                     content: "";
