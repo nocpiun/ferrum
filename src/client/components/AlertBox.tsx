@@ -11,7 +11,7 @@ export default class AlertBox extends Component<AlertBoxProps, {}> {
     
     public render(): ReactElement {
         return (
-            <Alert variant={this.props.variant} className="alert-box" style={this.props.style}>
+            <Alert variant={this.props.variant} className="alert-box" style={this.props.style} id={this.props.id}>
                 <Alert.Heading style={{fontWeight: "bold"}}>{this.props.heading}</Alert.Heading>
                 <div>
                     {this.props.children}

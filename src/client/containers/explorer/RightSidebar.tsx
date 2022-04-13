@@ -42,9 +42,9 @@ export default class RightSidebar extends Component<ExplorerRightSidebarProps, E
                     heading="关于"
                     style={{display: this.state.alertBox1 ? "block" : "none"}}
                     alertId={1}
+                    id="alert-about"
                 >
-                    <b>Ferrum 文件管理器</b> 是一个用React + Typescript写的基于Web的文件资源管理器，可用于服务器等的文件管理
-                    <br/>
+                    <p><b>Ferrum 文件管理器</b> 是一个用React + Typescript写的基于Web的文件资源管理器，可用于服务器等的文件管理</p>
                     <a href="https://github.com/NriotHrreion/ferrum" target="_blank" rel="noreferrer">https://github.com/NriotHrreion/ferrum</a>
                 </AlertBox>
                 <AlertBox
@@ -52,6 +52,7 @@ export default class RightSidebar extends Component<ExplorerRightSidebarProps, E
                     heading="文件上传"
                     style={{display: this.state.alertBox2 ? "block" : "none"}}
                     alertId={2}
+                    id="alert-upload"
                 >
                     <p>拖放或浏览文件（最多5个）以上传至当前文件夹</p>
                     <FilePond
@@ -67,6 +68,7 @@ export default class RightSidebar extends Component<ExplorerRightSidebarProps, E
                     heading="系统信息"
                     style={{display: this.state.alertBox3 ? "block" : "none"}}
                     alertId={3}
+                    id="alert-sysinfo"
                 >
                     <ul>
                         <li>系统: {sysInfo.system}</li>

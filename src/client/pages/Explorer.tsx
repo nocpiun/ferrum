@@ -261,6 +261,9 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                 <div className="toast-container">
                     <Toaster position="bottom-right"/>
                 </div>
+                <div className="left-bottom-buttons">
+                    <span className="left-sidebar-open"></span>
+                </div>
                 <div className="main-container" id="main">
                     <Header
                         path={this.path}

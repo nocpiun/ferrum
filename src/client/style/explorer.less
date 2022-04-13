@@ -1,22 +1,32 @@
 .explorer {
+    @main-width: 46%;
+
+    .left-bottom-buttons {
+        display: none;
+        .left-sidebar-open {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            margin: 10px;
+            width: 20px;
+            background-image: url("../../icons/right_arrow.svg");
+        }
+    }
     .main-container {
         margin: 0 auto;
-        width: 700px;
+        width: @main-width;
         height: 100%;
         * {
             color: @theme-color;
         }
         .header-container {
+            @button-num: 2;
+
             margin-top: 30px;
-            height: 120px;
+            height: 115px;
             top: 0;
             h1 {
                 font-weight: bold;
-            }
-            .path-input {
-                margin-top: 20px;
-                width: 625px;
-                display: inline-block;
             }
             .header-button {
                 width: 20px;
@@ -26,17 +36,27 @@
                 background-color: transparent;
                 background-position: center center;
             }
-            .star {
-                margin-left: 5px;
-                background-image: url(../../icons/star_outline.svg);
-            }
-            .set-password {
-                background-image: url(../../icons/key.svg);
+            nav {
+                height: 40px;
+                margin-top: 20px;
+                white-space: nowrap;
+                .path-input {
+                    width: 89%;
+                    display: inline-block;
+                }
+                .star {
+                    margin-left: 5px;
+                    background-image: url(../../icons/star_outline.svg);
+                }
+                .set-password {
+                    background-image: url(../../icons/key.svg);
+                }
             }
         }
         .toolbuttons-container {
             margin-top: 7px;
             margin-bottom: 20px;
+            width: 100%;
             height: 30px;
             * {
                 color: @theme-color;
@@ -116,7 +136,7 @@
         top: 0;
         left: 0;
         height: 100%;
-        width: 350px;
+        width: (@main-width / 2);
         background-color: @light-gray4;
         * {
             color: @theme-color;
@@ -155,9 +175,12 @@
         top: 0;
         right: 0;
         height: 100%;
-        width: 350px;
+        width: (@main-width / 2);
         .filepond--wrapper .filepond--credits {
             display: none;
+        }
+        a {
+            word-wrap: break-word;
         }
     }
 }

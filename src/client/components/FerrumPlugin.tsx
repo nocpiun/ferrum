@@ -28,7 +28,6 @@ export default abstract class FerrumPlugin extends Component<FerrumPluginProps, 
 
         this.option = option;
         this.path = root + this.props.path.replaceAll("\\", "/");
-        this.fetchData();
     }
 
     public abstract viewerRender(dataUrl: string): ReactElement;
