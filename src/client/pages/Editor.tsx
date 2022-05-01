@@ -46,8 +46,7 @@ export default class Editor extends Component<EditorProps, EditorState> {
                             onMount={(e) => this.monacoDidMount(e)}
                             onChange={(value) => {
                                 this.setState({editorValue: value ? value : ""})
-                            }}
-                            options={{lineNumbers: config.editor.lineNumber}}/>
+                            }}/>
                     </div>
                 </div>
             </div>

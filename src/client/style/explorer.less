@@ -1,5 +1,8 @@
 .explorer {
-    @main-width: 46%;
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    justify-content: center;
 
     .left-bottom-buttons {
         display: none;
@@ -13,9 +16,11 @@
         }
     }
     .main-container {
-        margin: 0 auto;
-        width: @main-width;
-        height: 100%;
+        display: flex;
+        flex: 3;
+        flex-direction: column;
+        margin-left: 35px;
+        margin-right: 35px;
         * {
             color: @theme-color;
         }
@@ -23,8 +28,6 @@
             @button-num: 2;
 
             margin-top: 30px;
-            height: 115px;
-            top: 0;
             h1 {
                 font-weight: bold;
             }
@@ -37,27 +40,32 @@
                 background-position: center center;
             }
             nav {
+                display: flex;
                 height: 40px;
                 margin-top: 20px;
                 white-space: nowrap;
                 .path-input {
+                    flex: 55;
                     width: 89%;
                     display: inline-block;
                 }
                 .star {
+                    flex: 1;
                     margin-left: 5px;
                     background-image: url(../../icons/star_outline.svg);
+                    background-repeat: no-repeat;
                 }
                 .set-password {
+                    flex: 1;
                     background-image: url(../../icons/key.svg);
+                    background-repeat: no-repeat;
                 }
             }
         }
         .toolbuttons-container {
-            margin-top: 7px;
-            margin-bottom: 20px;
+            margin-top: 15px;
+            margin-bottom: 15px;
             width: 100%;
-            height: 30px;
             * {
                 color: @theme-color;
             }
@@ -67,8 +75,6 @@
             }
         }
         .list-container {
-            overflow-y: scroll;
-            height: 450px;
             * {
                 color: @theme-color;
             }
@@ -132,11 +138,7 @@
         }
     }
     .sidebar-left-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: (@main-width / 2);
+        flex: 1;
         background-color: @light-gray4;
         * {
             color: @theme-color;
@@ -171,11 +173,35 @@
         }
     }
     .sidebar-right-container {
-        position: fixed;
-        top: 0;
-        right: 0;
-        height: 100%;
-        width: (@main-width / 2);
+        display: grid;
+        flex: 1;
+        grid-template-rows: 150px 200px 450px;
+        background-color: @white;
+        
+        .right-sidebar-panel {
+            padding: 15px;
+            border: @light-gray solid 1px;
+            color: @theme-color;
+        }
+        .about-container {
+            
+        }
+        .upload-container {
+            
+        }
+        .system-info-container {
+            ul {
+                padding-left: 20px;
+                li {
+                    margin-top: 3px;
+                    &::marker {
+                        content: "- ";
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+
         .filepond--wrapper .filepond--credits {
             display: none;
         }

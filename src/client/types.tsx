@@ -7,7 +7,7 @@ interface PageProps {
     path: string
 }
 
-interface SysInfo {
+export interface SysInfo {
     system: string
     version: string
     platform: string
@@ -60,7 +60,6 @@ export interface ExplorerToolButtonsProps {
     onOpenFile: () => any
     onDeleteFile: () => any
     onDownloadFile: () => any
-    onUploadFile: () => any
     onCreateFile: () => any
     onCreateDirectory: () => any
 }
@@ -79,10 +78,6 @@ export interface ExplorerRightSidebarProps {
 }
 
 export interface ExplorerRightSidebarState {
-    alertBox1: boolean
-    alertBox2: boolean
-    alertBox3: boolean
-
     sysInfo: SysInfo | null
 }
 

@@ -11,8 +11,10 @@
         "no-console": "off",
         "no-useless-return": "warn",
         "no-empty": "off",
+        "no-restricted-globals": "off",
         "array-callback-return": "off",
         "jsx-a11y/anchor-is-valid": "off",
-        "import/no-anonymous-default-export": "off"
+        "import/no-anonymous-default-export": "off",
+        "import/no-webpack-loader-syntax": "off"
     }
 }

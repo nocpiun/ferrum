@@ -12,7 +12,13 @@ body {
     padding: 0;
     background-color: @light-gray;
     #root {
+        display: flex;
+        flex-direction: column;
         font-family: @font;
+    }
+    // To prevent that when the page is auto refreshed, the whole page is covered with <iframe>
+    iframe {
+        display: none;
     }
 }
 

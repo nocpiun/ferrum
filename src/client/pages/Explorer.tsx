@@ -15,7 +15,6 @@ import RightSidebar from "../containers/explorer/RightSidebar";
 
 import Utils from "../../Utils";
 import { FetchDirInfoResponse, ExplorerProps, ExplorerState } from "../types";
-import Emitter from "../emitter";
 import * as config from "../../config.json";
 import { plugins } from "../../plugins";
 
@@ -202,10 +201,6 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         }
     }
     
-    private handleUploadFile(): void {
-        Emitter.get().emit("displayAlert", 2); // Open uploader
-    }
-    
     private async handleCreateFile(): Promise<void> {
         const newFileName = "新建文本文档";
         const newFileFormat = "txt";
@@ -264,6 +259,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                 <div className="left-bottom-buttons">
                     <span className="left-sidebar-open"></span>
                 </div>
+                <LeftSidebar starredList={this.state.starredList}/>
                 <div className="main-container" id="main">
                     <Header
                         path={this.path}
@@ -274,7 +270,6 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                         onOpenFile={() => this.handleOpenFile()}
                         onDeleteFile={() => this.handleDeleteFile()}
                         onDownloadFile={() => this.handleDownloadFile()}
-                        onUploadFile={() => this.handleUploadFile()}
                         onCreateFile={() => this.handleCreateFile()}
                         onCreateDirectory={() => this.handleCreateDirectory()}/>
                     <List
@@ -282,10 +277,9 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                         itemList={this.state.itemList}/>
 
                     <div className="footer-container">
-                        <p className="copy-info">Copyright (c) NriotHrreion {new Date().getFullYear()} - <span style={{textDecoration: "underline", cursor: "pointer"}} onClick={() => Emitter.get().emit("displayAlert", 1)}>关于</span></p>
+                        <p className="copy-info">Copyright (c) NriotHrreion {new Date().getFullYear()}</p>
                     </div>
                 </div>
-                <LeftSidebar starredList={this.state.starredList}/>
                 <RightSidebar path={this.path}/>
             </div>
         );

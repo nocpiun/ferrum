@@ -23,9 +23,6 @@ export default class ToolButtons extends Component<ExplorerToolButtonsProps, {}>
                     id="download-file"
                     onClick={() => this.props.onDownloadFile()}>下载</Button>
                 <Button
-                    id="upload-file"
-                    onClick={() => this.props.onUploadFile()}>上传</Button>
-                <Button
                     id="open-terminal"
                     title="使用此功能需要事先在服务器上搭建好ssh服务器"
                     onClick={() => window.location.href = hostname +":3300/terminal"}>打开终端</Button>

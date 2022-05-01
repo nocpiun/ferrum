@@ -1,6 +1,8 @@
+var base: "vs" | "vs-dark" | "hc-black" = "vs-dark";
+
 export const theme = {
   "inherit": true,
-  "base": "vs-dark",
+  "base": base,
   "colors": {
     "focusBorder": "#005cc5",
     "foreground": "#d1d5da",
