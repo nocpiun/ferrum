@@ -41,7 +41,7 @@ npm run start
 
 If you're using Linux, you need to add `sudo` before the command.
 
-3. Enter `http://localhost:3300`, the default password is `123456`. (Usually, this step will be done automatically by the system. You just need to do the second step and wait a second.)
+3. Enter `http://localhost:3300`, the default password is `123456`.
 
 ### To get update
 
