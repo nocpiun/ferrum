@@ -54,4 +54,12 @@ export default class Login extends Component {
             </div>
         );
     }
+
+    public componentDidMount(): void {
+        document.body.addEventListener("keydown", (e: KeyboardEvent) => {
+            if(e.key == "Enter") {
+                this.handleLogin();
+            }
+        });
+    }
 }
