@@ -14,6 +14,7 @@ import Utils from "./Utils";
 import * as config from "./config.json";
 
 import Main from "./Main";
+import Login from "./client/pages/Login";
 
 if(window.location.pathname == "/" || window.location.pathname == "/dir") {
   window.location.href = "/dir/"; // default page
@@ -50,11 +51,11 @@ var pass = false;
 if(Utils.getCookie(cookieKey) === md5(config.explorer.password)) {
   pass = true;
 } else {
-  var password = md5(prompt("请输入密码") || "");
-  if(password === config.explorer.password) {
-    Utils.setCookie(cookieKey, md5(password));
-    pass = true;
-  }
+  var loginRoot = document.getElementById("login");
+  if(!loginRoot) throw new Error("Cannot get Element: login");
+
+  loginRoot.style.display = "block";
+  ReactDOM.render(<Login />, document.getElementById("login"));
 }
 
 if(pass) {
@@ -66,6 +67,4 @@ if(pass) {
     </React.StrictMode>,
     document.getElementById("root")
   );
-} else {
-  alert("密码错误, 请重试");
 }
