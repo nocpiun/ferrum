@@ -48,6 +48,7 @@ export default class RightSidebar extends Component<ExplorerRightSidebarProps, E
                 <div className="right-sidebar-panel about-container">
                     <p><b>Ferrum 文件管理器</b> 是一个用React + Typescript写的基于Web的文件资源管理器，可用于服务器等的文件管理</p>
                     <p><a href="https://github.com/NriotHrreion/ferrum" target="_blank" rel="noreferrer">https://github.com/NriotHrreion/ferrum</a></p>
+                    <p><object data="https://img.shields.io/github/stars/NriotHrreion/ferrum.svg?style=social&label=Star" aria-label="Github Stars"></object></p>
                 </div>
                 <div className="right-sidebar-panel upload-container">
                     <p>拖放或浏览文件（最多5个）以上传至当前文件夹</p>

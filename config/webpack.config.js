@@ -603,7 +603,7 @@ module.exports = function (webpackEnv) {
           isEnvProduction
             ? {
                 minify: {
-                  removeComments: true,
+                  removeComments: false,
                   collapseWhitespace: true,
                   removeRedundantAttributes: true,
                   useShortDoctype: true,

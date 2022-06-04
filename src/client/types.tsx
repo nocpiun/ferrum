@@ -23,6 +23,12 @@ export interface SysInfo {
     cpuUsage: string
 }
 
+// Login Panel
+
+export interface LoginPanelState {
+    isEnterDisabled: boolean
+}
+
 // Explorer
 
 export interface FetchDirInfoResponse {
