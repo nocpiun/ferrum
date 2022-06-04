@@ -104,7 +104,7 @@
     "start": "node scripts/build.js && cross-env NODE_ENV=production concurrently \"npm run server\" \"node production-start.js\"",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon --config config/nodemon.config.json",
-    "client": "cross-env NODE_ENV=development node scripts/start.js",
+    "client": "node src/server/InitConfig && cross-env NODE_ENV=development node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js"
   },

@@ -6,7 +6,7 @@ const axios = require("axios");
 const logger = require("nriot-logger");
 
 // init config
-require("./InitConfig");
+// require("./InitConfig");
 
 // api router
 const router = require("./Route");
