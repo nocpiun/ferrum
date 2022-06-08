@@ -39,6 +39,10 @@ export default class RightSidebar extends Component<ExplorerRightSidebarProps, E
         console.log("Filepond is ready.", this.pond);
     }
 
+    private handleUpload(): void {
+        document.dispatchEvent(new CustomEvent("fileListUpdate"));
+    }
+
     public render(): ReactElement | null {
         var sysInfo = this.state.sysInfo || defaultSysInfo;
         var usedmem = (sysInfo.memory.total - sysInfo.memory.free) / sysInfo.memory.total;
@@ -48,7 +52,12 @@ export default class RightSidebar extends Component<ExplorerRightSidebarProps, E
                 <div className="right-sidebar-panel about-container">
                     <p><b>Ferrum 文件管理器</b> 是一个用React + Typescript写的基于Web的文件资源管理器，可用于服务器等的文件管理</p>
                     <p><a href="https://github.com/NriotHrreion/ferrum" target="_blank" rel="noreferrer">https://github.com/NriotHrreion/ferrum</a></p>
-                    <p><object data="https://img.shields.io/github/stars/NriotHrreion/ferrum.svg?style=social&label=Star" aria-label="Github Stars"></object></p>
+                    <p>
+                        <object
+                            data="https://img.shields.io/github/stars/NriotHrreion/ferrum.svg?style=social&label=Star"
+                            aria-label="Github Stars"></object>
+                        <a href="/license">许可</a>
+                    </p>
                 </div>
                 <div className="right-sidebar-panel upload-container">
                     <p>拖放或浏览文件（最多5个）以上传至当前文件夹</p>
@@ -58,7 +67,8 @@ export default class RightSidebar extends Component<ExplorerRightSidebarProps, E
                         maxFiles={5}
                         labelIdle="[ 拖放 / 浏览文件 ]"
                         server={apiUrl +"/uploadFile?path="+ this.props.path.replaceAll("/", "\\")}
-                        oninit={() => this.handleFilepondInit()}/>
+                        oninit={() => this.handleFilepondInit()}
+                        onprocessfile={() => this.handleUpload()}/>
                 </div>
                 <div className="right-sidebar-panel system-info-container">
                     <ul>

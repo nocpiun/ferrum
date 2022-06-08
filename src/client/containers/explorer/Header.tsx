@@ -2,7 +2,7 @@ import { Component, ReactElement } from "react";
 import { Form } from "react-bootstrap";
 
 import { ExplorerHeaderProps } from "../../types";
-// (@main-width - 10px * (@button-num + 1) + 5px * (@button-num - 1) - 25px * @button-num)
+
 export default class Header extends Component<ExplorerHeaderProps> {
     public constructor(props: ExplorerHeaderProps) {
         super(props);

@@ -55,7 +55,7 @@ export default class ListItem extends Component<ListItemProps, ListItemState> {
             error: "重命名失败"
         }).then(() => {
             this.renameBoxSwitch();
-            window.location.reload();
+            document.dispatchEvent(new CustomEvent("fileListUpdate"));
         });
     }
 

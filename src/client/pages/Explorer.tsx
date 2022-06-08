@@ -19,6 +19,7 @@ import * as config from "../../config.json";
 import { plugins } from "../../plugins";
 
 // icons
+import starOutline from "../../icons/star_outline.svg";
 import starRate from "../../icons/star_rate.svg";
 import md5 from "md5-node";
 
@@ -71,11 +72,11 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
     private handleStar(): void {
         if(!this.isStarred) {
             Axios.post(apiUrl +"/addStarred", {"path": this.path})
-                .then(() => window.location.reload())
+                .then(() => this.refreshStarredList())
                 .catch((err) => {throw err});
         } else {
             Axios.post(apiUrl +"/deleteStarred", {"path": this.path})
-                .then(() => window.location.reload())
+                .then(() => this.refreshStarredList())
                 .catch((err) => {throw err});
         }
     }
@@ -190,7 +191,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
             loading: "加载中...",
             success: "删除成功",
             error: "删除失败"
-        }).then(() => window.location.reload());
+        }).then(() => this.refreshItemList());
     }
     
     private handleDownloadFile(): void {
@@ -223,7 +224,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
             loading: "创建中...",
             success: "创建成功",
             error: "创建失败"
-        }).then(() => window.location.reload());
+        }).then(() => this.refreshItemList());
     }
 
     private async handleCreateDirectory(): Promise<void> {
@@ -247,7 +248,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
             loading: "创建中...",
             success: "创建成功",
             error: "创建失败"
-        }).then(() => window.location.reload());
+        }).then(() => this.refreshItemList());
     }
 
     public render(): ReactElement {
@@ -307,6 +308,18 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
             }
         });
 
+        document.addEventListener("fileListUpdate", () => this.refreshItemList());
+
+        this.refreshItemList();
+        this.refreshStarredList();
+    }
+
+    private async refreshItemList(): Promise<void> {
+        // Clear the list
+        this.setState({
+            itemList: <></>
+        });
+
         // Get the info of current directory
         var dirInfo: FetchDirInfoResponse = await Axios.get(apiUrl +"/fetchDirInfo?path="+ this.path.replaceAll("/", "\\"));
 
@@ -341,7 +354,14 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                 </>
             )
         });
-        
+    }
+
+    private async refreshStarredList(): Promise<void> {
+        // Clear the list
+        this.setState({
+            starredList: <></>
+        });
+
         // Check if the current directory is starred & List all the starred directories
         var starList = await Axios.get(apiUrl +"/getStarred");
 
@@ -351,6 +371,9 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
             if(value == this.path) {
                 Utils.getElem("star").style.backgroundImage = "url("+ starRate +")";
                 this.isStarred = true;
+            } else {
+                Utils.getElem("star").style.backgroundImage = "url("+ starOutline +")";
+                this.isStarred = false;
             }
         });
 
