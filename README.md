@@ -173,10 +173,11 @@ I'll check the Pull Request list in my spare time. I can't make sure that every 
 
 An explanation of the `package.json` scripts.
 
-- **`start`** Launch the client and server at the same time
+- **`start`** Launch the app in production mode
+- **`dev`** Launch the app in development mode
 - **`server`** Only launch the server
 - **`client`** Only launch the client
-- **`build`** Create a production build (Not support)
+- **`build`** Create a production build (No using singly)
 - **`test`** Run tests
 
 ## Note
