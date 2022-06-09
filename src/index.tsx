@@ -16,15 +16,19 @@ import * as config from "./config.json";
 import Main from "./Main";
 import Login from "./client/pages/Login";
 
+import { version } from "./client/global";
+
 if(window.location.pathname == "/" || window.location.pathname == "/dir") {
   window.location.href = "/dir/"; // default page
 }
 
 console.log(
-  "%cFerrum Explorer %cBy NriotHrreion\n"+
+  "%cFerrum Explorer%cv"+ version +" | By NriotHrreion\n"+
+  "%c    Website: https://nin.red/#/projects/ferrum/\n"+
   "%cGithub Repo: https://github.com/NriotHrreion/ferrum\n",
   "font-size: 16pt;font-weight: bold; padding: 10px",
   "font-size: 8pt;color: gray",
+  "font-size: 8pt;color: white",
   "font-size: 8pt;color: white"
 );
 

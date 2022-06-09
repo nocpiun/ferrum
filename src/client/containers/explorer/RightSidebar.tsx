@@ -1,13 +1,14 @@
 import { Component, ReactElement } from "react";
 import { FilePond } from "react-filepond";
 
+import Emitter from "../../emitter";
 import {
     ExplorerRightSidebarProps,
     ExplorerRightSidebarState,
     SysInfo
 } from "../../types";
+import { version, apiUrl } from "../../global";
 
-const apiUrl = "http://"+ window.location.hostname +":3301";
 const defaultSysInfo: SysInfo = {
     system: "",
     version: "",
@@ -40,7 +41,7 @@ export default class RightSidebar extends Component<ExplorerRightSidebarProps, E
     }
 
     private handleUpload(): void {
-        document.dispatchEvent(new CustomEvent("fileListUpdate"));
+        Emitter.get().emit("fileListUpdate");
     }
 
     public render(): ReactElement | null {
@@ -57,6 +58,7 @@ export default class RightSidebar extends Component<ExplorerRightSidebarProps, E
                             data="https://img.shields.io/github/stars/NriotHrreion/ferrum.svg?style=social&label=Star"
                             aria-label="Github Stars"></object>
                         <a href="/license">许可</a>
+                        <span>Ver: {version}</span>
                     </p>
                 </div>
                 <div className="right-sidebar-panel upload-container">

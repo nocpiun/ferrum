@@ -1,7 +1,7 @@
 import { Component, ReactElement } from "react";
 import { ListGroup } from "react-bootstrap";
 
-import { hostname } from "../pages/Explorer";
+import { hostname } from "../global";
 import { StarredItemProps } from "../types";
 import * as config from "../../config.json";
 

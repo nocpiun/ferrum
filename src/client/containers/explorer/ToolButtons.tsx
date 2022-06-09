@@ -1,7 +1,7 @@
 import { Component, ReactElement } from "react";
 import { Button } from "react-bootstrap";
 
-import { hostname } from "../../pages/Explorer";
+import { hostname } from "../../global";
 import { ExplorerToolButtonsProps } from "../../types";
 
 export default class ToolButtons extends Component<ExplorerToolButtonsProps, {}> {

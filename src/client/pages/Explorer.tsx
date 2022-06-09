@@ -1,6 +1,7 @@
 import { Component, ReactElement } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import Axios from "axios";
+import md5 from "md5-node";
 
 // components
 import ListItem from "../components/ListItem";
@@ -14,17 +15,16 @@ import LeftSidebar from "../containers/explorer/LeftSidebar";
 import RightSidebar from "../containers/explorer/RightSidebar";
 
 import Utils from "../../Utils";
+import Emitter from "../emitter";
 import { FetchDirInfoResponse, ExplorerProps, ExplorerState } from "../types";
+import { hostname, apiUrl } from "../global";
 import * as config from "../../config.json";
 import { plugins } from "../../plugins";
 
 // icons
 import starOutline from "../../icons/star_outline.svg";
 import starRate from "../../icons/star_rate.svg";
-import md5 from "md5-node";
 
-export const hostname = "http://"+ window.location.hostname;
-const apiUrl = hostname +":3301";
 const root = config.explorer.root;
 
 export default class Explorer extends Component<ExplorerProps, ExplorerState> {        
@@ -308,7 +308,8 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
             }
         });
 
-        document.addEventListener("fileListUpdate", () => this.refreshItemList());
+        // document.addEventListener("fileListUpdate", () => this.refreshItemList());
+        Emitter.get().on("fileListUpdate", () => this.refreshItemList());
 
         this.refreshItemList();
         this.refreshStarredList();

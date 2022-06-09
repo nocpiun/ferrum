@@ -9,9 +9,8 @@ import {
     GetDataUrlResponse 
 } from "../types";
 import * as config from "../../config.json";
+import { apiUrl } from "../global";
 
-export const hostname = "http://"+ window.location.hostname;
-const apiUrl = hostname +":3301";
 const root = config.explorer.root;
 
 export default abstract class FerrumPlugin extends Component<FerrumPluginProps, FerrumPluginState> {

@@ -2,7 +2,7 @@ import { Component, ReactElement } from "react";
 import openSocket from "socket.io-client";
 import { Terminal as XTermTerminal } from "xterm";
 
-import { hostname } from "../pages/Explorer";
+import { hostname } from "../global";
 import Utils from "../../Utils";
 import * as config from "../../config.json";
 

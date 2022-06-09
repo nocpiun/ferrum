@@ -9,10 +9,9 @@ import Header from "../containers/pictureViewer/Header";
 import transparentImage from "../../icons/transparent.png";
 
 import { PictureViewerProps, PictureViewerState, GetDataUrlResponse } from "../types";
+import { apiUrl } from "../global";
 import * as config from "../../config.json";
 
-const hostname = "http://"+ window.location.hostname;
-const apiUrl = hostname +":3301";
 const root = config.explorer.root;
 
 export default class PictureViewer extends Component<PictureViewerProps, PictureViewerState> {
