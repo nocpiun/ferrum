@@ -1,29 +1,45 @@
 import { Component, ReactElement } from "react";
-import MonacoEditor, { Monaco } from "@monaco-editor/react";
+import AceEditor from "react-ace";
 import { toast, Toaster } from "react-hot-toast";
 import Axios from "axios";
 
 // containers
 import Header from "../containers/editor/Header";
 
-// theme
-import { theme } from "../theme";
+// ace configure
+import "ace-builds/webpack-resolver";
+import "ace-builds/src-noconflict/theme-chrome";
+import "ace-builds/src-noconflict/ext-language_tools";
 
 import { EditorProps, EditorState, GetFileContentResponse } from "../types";
 import { apiUrl } from "../global";
 import * as config from "../../config.json";
+import Emitter from "../emitter";
 
 const root = config.explorer.root;
 
+/**
+ * In order to make the browser not display a message if the file didn't change,
+ * a state named 'hasChanged' is needed.
+ * 
+ * 'hasChanged' will be set to true when the file is changed,
+ * and set to false when the file is saved.
+ * 
+ * Also, an event named 'fileStatusChange' will be emitted when the file is changed or saved.
+ * This can help the header component to update the status (edited or not) of the file.
+ */
+
 export default class Editor extends Component<EditorProps, EditorState> {
     private path: string;
+    private aceInstance: AceEditor | null = null;
 
     public constructor(props: EditorProps) {
         super(props);
 
         this.state = {
             editorLanguage: "text",
-            editorValue: ""
+            editorValue: "",
+            hasChanged: false
         };
         this.path = root + this.props.path.replaceAll("\\", "/");
     }
@@ -35,16 +51,35 @@ export default class Editor extends Component<EditorProps, EditorState> {
                     <div className="toast-container">
                         <Toaster/>
                     </div>
-                    <Header path={decodeURI(this.path)}/>
+                    <Header
+                        path={decodeURI(this.path)}
+                        onSaveFile={() => this.saveFile()}
+                        onUndo={() => {
+                            // When you click the undo button or press ctrl+z while the file didn't change,
+                            // the editor will clear all the content in the file.
+                            if(this.aceInstance && this.state.hasChanged) this.aceInstance.editor.undo();
+                        }}/>
                     <div className="text-container">
-                        <MonacoEditor
-                            defaultLanguage={this.state.editorLanguage}
+                        <AceEditor
+                            ref={(ace) => this.aceInstance = ace}
+                            name="ferrum-editor"
+                            mode={this.state.editorLanguage}
+                            theme="chrome"
                             value={this.state.editorValue}
-                            theme={config.editor.theme}
-                            beforeMount={(e) => this.monacoWillMount(e)}
-                            onMount={(e) => this.monacoDidMount(e)}
-                            onChange={(value) => {
-                                this.setState({editorValue: value ? value : ""})
+                            width="700px"
+                            height="525px"
+                            fontSize={config.editor.fontSize}
+                            wrapEnabled={config.editor.autoWrap}
+                            highlightActiveLine={config.editor.highlightActiveLine}
+                            enableBasicAutocompletion={true}
+                            showPrintMargin={false}
+                            setOptions={{
+                                enableBasicAutocompletion: true,
+                                showLineNumbers: config.editor.lineNumber,
+                            }}
+                            onChange={(v) => {
+                                this.setState({editorValue: v, hasChanged: true});
+                                Emitter.get().emit("fileStatusChange", true);
                             }}/>
                     </div>
                 </div>
@@ -58,7 +93,7 @@ export default class Editor extends Component<EditorProps, EditorState> {
         Axios.get(apiUrl +"/getFileContent?path="+ this.path.replaceAll("/", "\\"))
             .then((res: GetFileContentResponse) => {
                 if(res.data.err == 404) {
-                    toast.error("Cannot find the specified file.");
+                    toast.error("无法找到指定文件");
                     return;
                 }
 
@@ -73,21 +108,23 @@ export default class Editor extends Component<EditorProps, EditorState> {
             if(e.ctrlKey && e.key == "s") {
                 e.preventDefault();
 
-                Axios.post(apiUrl +"/saveFileContent", {path: this.path, content: this.state.editorValue})
-                    .then(() => {
-                        toast.success("File Saved. ("+ this.path +")");
-                    })
-                    .catch((err) => {throw err});
+                this.saveFile();
             }
+        });
+
+        window.addEventListener("beforeunload", (e: BeforeUnloadEvent) => {
+            // display a message when the user is about to leave the page
+            if(this.state.hasChanged) return e.returnValue = "";
         });
     }
 
-    private monacoWillMount(monaco: Monaco): void {
-        monaco.editor.defineTheme("csb-github", theme);
-        console.log(monaco);
-    }
-
-    private monacoDidMount(editor: any): void {
-        editor.focus();
+    private saveFile(): void {
+        Axios.post(apiUrl +"/saveFileContent", {path: this.path, content: this.state.editorValue})
+            .then(() => {
+                this.setState({hasChanged: false});
+                Emitter.get().emit("fileStatusChange", false);
+                toast.success("文件已保存 ("+ this.path +")");
+            })
+            .catch((err) => {throw err});
     }
 }

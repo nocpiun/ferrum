@@ -13,8 +13,10 @@ const defaultConfigContent = `{
         "password": "e10adc3949ba59abbe56e057f20f883e"
     },
     "editor": {
-        "theme": "csb-github",
-        "lineNumber": false
+        "lineNumber": false,
+        "autoWrap": false,
+        "highlightActiveLine": true,
+        "fontSize": 14
     },
     "terminal": {
         "ip": "0.0.0.0",

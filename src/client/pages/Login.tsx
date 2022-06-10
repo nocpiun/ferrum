@@ -27,7 +27,7 @@ export default class Login extends Component<{}, LoginPanelState> {
         var password = this.passwordInput.value;
 
         if(md5(password) === config.explorer.password) {
-            Utils.setCookie(cookieKey, md5(md5(password)));
+            Utils.setCookie(cookieKey, md5(md5(password))); // The value that store into cookie has been double-md5ed
 
             toast.success("登录成功");
             await Utils.sleep(500);
