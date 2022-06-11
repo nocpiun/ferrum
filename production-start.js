@@ -3,6 +3,8 @@ const compression = require("compression");
 const chalk = require("chalk");
 const path = require("path");
 
+const version = require("./package.json").version;
+
 var app = express();
 
 app.use(compression());
@@ -16,5 +18,5 @@ app.get("/icon.png", (req, res) => {
 });
 
 app.listen(3300, () => {
-    console.log(chalk.green("Ferrum Explorer started on port 3300"));
+    console.log(chalk.green("Ferrum Explorer (v"+ version +") started on port 3300"));
 });

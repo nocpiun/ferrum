@@ -75,6 +75,7 @@
             }
         }
         .list-container {
+            min-height: 440px;
             * {
                 color: @theme-color;
             }
@@ -125,6 +126,10 @@
         }
         .footer-container {
             height: 55px;
+            position: relative;
+            left: 0;
+            right: 0;
+            bottom: 0;
             * {
                 color: @light-gray3 !important;
             }
@@ -175,7 +180,7 @@
     .sidebar-right-container {
         display: grid;
         flex: 1;
-        grid-template-rows: 180px 200px 450px;
+        grid-template-rows: 180px 200px 330px;
         background-color: @white;
         
         .right-sidebar-panel {

@@ -13,7 +13,7 @@ const logger = require("nriot-logger");
 
 io.on("connection", (socket) => {
     socket.on("createNewServer", (e) => {
-        logger.info("socket: connected, "+ e.ip);
+        // logger.info("socket: connected, "+ e.ip);
 
         var ssh = new SSHClient();
         
@@ -49,7 +49,7 @@ io.on("connection", (socket) => {
     });
 
     socket.on("disconnect", () => {
-        logger.info("socket: disconnected");
+        // logger.info("socket: disconnected");
     });
 });
 
