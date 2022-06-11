@@ -53,6 +53,14 @@ git merge temp
 npm i
 ```
 
+If error at `npm i`, just try:
+
+```bash
+npm i --legacy-peer-deps
+# or
+npm i --force
+```
+
 ### Something to notice
 
 Ferrum Explorer requires ports `3300` `3301` to launch. If you see it reports `address already in use :::xxxx`, you should have a check to whether you've launched Ferrum Explorer and whether other apps are using the ports. And see the following steps.
