@@ -6,8 +6,8 @@
 
 [![Author](https://img.shields.io/badge/Author-NriotHrreion-red.svg "Author")](https://github.com/NriotHrreion)
 [![LICENSE](https://img.shields.io/badge/license-MIT-green.svg "LICENSE")](./LICENSE)
-[![Stars](https://img.shields.io/github/stars/NriotHrreion/ferrum.svg?color=0cb62c&label=Stars)](https://github.com/NriotHrreion/ferrum/stargazers)
-[![Using React](https://img.shields.io/badge/Using-React-blue.svg "Using React")](https://reactjs.org)
+[![Stars](https://img.shields.io/github/stars/NriotHrreion/ferrum.svg?label=Stars)](https://github.com/NriotHrreion/ferrum/stargazers)
+[![test](https://img.shields.io/github/workflow/status/NriotHrreion/ferrum/Run%20Code%20Tests)](https://github.com/NriotHrreion/ferrum/actions/workflows/node.js.yml)
 
 </div>
 
