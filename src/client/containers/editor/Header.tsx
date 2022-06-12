@@ -17,7 +17,11 @@ export default class Header extends Component<EditorHeaderProps, EditorHeaderSta
         return (
             <div className="header-container">
                 <h1>Ferrum 文本编辑器</h1>
-                <p>路径: {this.props.path} <span style={{display: this.state.hasChanged ? "inline-block" : "none"}}>(*已编辑)</span></p>
+                {/* <p>路径: {this.props.path} <span style={{display: this.state.hasChanged ? "inline-block" : "none"}}>(*已编辑)</span></p> */}
+                <div className="status-bar">
+                    <span id="file-path">路径: {this.props.path}</span>
+                    <span id="file-edited" style={{display: this.state.hasChanged ? "inline-block" : "none"}}>(*已编辑)</span>
+                </div>
                 <Button className="control-button" onClick={this.props.onSaveFile}>保存 (S)</Button>
                 <Button className="control-button" onClick={this.props.onUndo}>撤销 (Z)</Button>
             </div>

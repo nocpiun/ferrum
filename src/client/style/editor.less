@@ -11,8 +11,21 @@
             h1 {
                 font-weight: bold;
             }
-            p {
+            .status-bar {
                 display: inline-block;
+                span {
+                    display: inline-block;
+                }
+                #file-path {
+                    max-width: 415px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+                #file-edited {
+                    margin-left: 5px;
+                    vertical-align: super;
+                }
             }
             .control-button {
                 float: right;
