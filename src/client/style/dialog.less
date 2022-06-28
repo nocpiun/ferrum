@@ -1,0 +1,45 @@
+.dialog-backdrop {
+    display: none;
+    background-color: rgba(0, 0, 0, .6);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99;
+}
+
+.dialog-container {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 50%;
+    bottom: 50%;
+    height: 100%;
+    max-height: 550px;
+    min-width: 800px;
+    border: 1px solid @light-gray;
+    border-radius: 5px;
+    z-index: 100;
+
+    @content-padding: 15px;
+    
+    .dialog-header {
+        padding: @content-padding;
+        padding-bottom: 0;
+    }
+    .dialog-content {
+        padding: @content-padding;
+        flex-grow: 1;
+
+        button {
+            color: @white;
+        }
+    }
+    .dialog-footer {
+        button {
+            float: right;
+            color: @white;
+        }
+    }
+}

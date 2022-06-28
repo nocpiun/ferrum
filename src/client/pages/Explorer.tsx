@@ -15,7 +15,7 @@ import LeftSidebar from "../containers/explorer/LeftSidebar";
 import RightSidebar from "../containers/explorer/RightSidebar";
 
 import Utils from "../../Utils";
-import Emitter from "../emitter";
+import Emitter from "../utils/emitter";
 import { FetchDirInfoResponse, ExplorerProps, ExplorerState } from "../types";
 import { hostname, apiUrl } from "../global";
 import * as config from "../../config.json";

@@ -2,7 +2,7 @@ import { Component, ReactElement } from "react";
 import { Button } from "react-bootstrap";
 
 import { EditorHeaderProps, EditorHeaderState } from "../../types";
-import Emitter from "../../emitter";
+import Emitter from "../../utils/emitter";
 
 export default class Header extends Component<EditorHeaderProps, EditorHeaderState> {
     public constructor(props: EditorHeaderProps) {

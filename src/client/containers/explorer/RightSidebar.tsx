@@ -1,7 +1,7 @@
 import { Component, ReactElement } from "react";
 import { FilePond } from "react-filepond";
 
-import Emitter from "../../emitter";
+import Emitter from "../../utils/emitter";
 import {
     ExplorerRightSidebarProps,
     ExplorerRightSidebarState,
@@ -22,7 +22,8 @@ const defaultSysInfo: SysInfo = {
         total: 0,
         free: 0
     },
-    cpuUsage: ""
+    cpuUsage: "",
+    upTime: 0
 };
 
 export default class RightSidebar extends Component<ExplorerRightSidebarProps, ExplorerRightSidebarState> {
@@ -47,6 +48,10 @@ export default class RightSidebar extends Component<ExplorerRightSidebarProps, E
     public render(): ReactElement | null {
         var sysInfo = this.state.sysInfo || defaultSysInfo;
         var usedmem = (sysInfo.memory.total - sysInfo.memory.free) / sysInfo.memory.total;
+
+        var utHour = Math.floor(sysInfo.upTime / 60 / 60);
+        var utMinute = Math.floor(sysInfo.upTime / 60) - utHour * 60;
+        var utSecond = sysInfo.upTime - utMinute * 60 - utHour * 60 * 60;
 
         return (
             <div className="sidebar-right-container">
@@ -81,6 +86,7 @@ export default class RightSidebar extends Component<ExplorerRightSidebarProps, E
                         <li><b>用户文件夹:</b> {sysInfo.userInfo.homedir}</li>
                         <li><b>内存:</b> {Math.floor(usedmem * 100) +"%"} (总内存 {(sysInfo.memory.total / 1024 / 1024 / 1024).toFixed(2)})</li>
                         <li><b>CPU占用:</b> {sysInfo.cpuUsage}</li>
+                        <li><b>运行时间:</b> {(utHour < 10 ? "0"+ utHour : utHour) +":"+ (utMinute < 10 ? "0"+ utMinute : utMinute) +":"+ (utSecond < 10 ? "0"+ utSecond : utSecond)}</li>
                     </ul>
                 </div>
             </div>

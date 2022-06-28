@@ -14,7 +14,7 @@ import "ace-builds/src-noconflict/ext-language_tools";
 import { EditorProps, EditorState, GetFileContentResponse } from "../types";
 import { apiUrl } from "../global";
 import * as config from "../../config.json";
-import Emitter from "../emitter";
+import Emitter from "../utils/emitter";
 
 const root = config.explorer.root;
 

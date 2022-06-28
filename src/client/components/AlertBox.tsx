@@ -2,7 +2,7 @@ import { Component, ReactElement } from "react";
 import { Alert, Button } from "react-bootstrap";
 
 import { AlertBoxProps } from "../types";
-import Emitter from "../emitter";
+import Emitter from "../utils/emitter";
 
 export default class AlertBox extends Component<AlertBoxProps, {}> {
     public constructor(props: AlertBoxProps) {

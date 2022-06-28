@@ -53,6 +53,7 @@ module.exports = async function(req, res) {
             total: os.totalmem(),
             free: os.freemem()
         },
-        cpuUsage: await getCPUUsed()
+        cpuUsage: await getCPUUsed(),
+        upTime: os.uptime()
     }));
 };

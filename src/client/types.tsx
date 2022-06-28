@@ -21,6 +21,7 @@ export interface SysInfo {
         free: number
     }
     cpuUsage: string
+    upTime: number
 }
 
 // Login Panel
@@ -155,6 +156,16 @@ export interface AlertBoxProps extends React.HTMLAttributes<HTMLDivElement> {
     variant: Variant
     heading: string
     alertId: number
+}
+
+// DialogBox Component
+
+export interface DialogBoxProps {
+    title: string
+}
+
+export interface DialogBoxState {
+    isOpen: boolean
 }
 
 // Plugin

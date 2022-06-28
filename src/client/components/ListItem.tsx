@@ -6,7 +6,7 @@ import Axios from "axios";
 import Utils from "../../Utils";
 import { ListItemProps, ListItemState } from "../types";
 import { apiUrl } from "../global";
-import Emitter from "../emitter";
+import Emitter from "../utils/emitter";
 
 export default class ListItem extends Component<ListItemProps, ListItemState> {
     private itemSize: string;
