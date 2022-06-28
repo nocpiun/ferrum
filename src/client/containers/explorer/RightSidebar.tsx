@@ -51,7 +51,7 @@ export default class RightSidebar extends Component<ExplorerRightSidebarProps, E
 
         var utHour = Math.floor(sysInfo.upTime / 60 / 60);
         var utMinute = Math.floor(sysInfo.upTime / 60) - utHour * 60;
-        var utSecond = sysInfo.upTime - utMinute * 60 - utHour * 60 * 60;
+        var utSecond = Math.floor(sysInfo.upTime - utMinute * 60 - utHour * 60 * 60);
 
         return (
             <div className="sidebar-right-container">
