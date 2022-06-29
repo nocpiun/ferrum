@@ -14,6 +14,7 @@ export default class DialogBox extends Component<DialogBoxProps, DialogBoxState>
 
     public setOpen(isOpen: boolean): void {
         this.setState({ isOpen });
+        document.body.style.overflowY = isOpen ? "hidden" : "auto";
     }
 
     public render(): ReactElement {

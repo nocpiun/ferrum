@@ -1,7 +1,6 @@
 import { Component, ReactElement } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import Axios from "axios";
-import md5 from "md5-node";
 
 // components
 import ListItem from "../components/ListItem";
@@ -78,44 +77,6 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
             Axios.post(apiUrl +"/deleteStarred", {"path": this.path})
                 .then(() => this.refreshStarredList())
                 .catch((err) => {throw err});
-        }
-    }
-
-    private handleSetPassword(): void {
-        // The string `oldPassword` has been md5,
-        // but the string `newPassword` hasn't yet
-        // If you want to compare the two strings,
-        // you need to md5(newPassword) first
-
-        var oldPassword = md5(prompt("请输入当前密码") || "");
-        if(oldPassword !== config.explorer.password) {
-            toast.error("密码输入错误");
-            return;
-        }
-
-        var newPassword = prompt("请输入新密码");
-        if(!newPassword) {
-            toast.error("密码更改失败, 请输入有效密码");
-            return;
-        }
-
-        if(md5(newPassword) === oldPassword) {
-            toast.error("密码更改失败, 新密码与旧密码不能相同");
-            return;
-        }
-
-        if(prompt("请再次输入新密码") === newPassword) {
-            Utils.setCookie("fepw", md5(md5(newPassword)));
-            toast.promise(Axios.post(apiUrl +"/setPassword", {
-                oldPassword,
-                newPassword: md5(newPassword)
-            }), {
-                loading: "更改中...",
-                success: "更改成功",
-                error: "更改失败"
-            }).then(() => window.location.reload());
-        } else {
-            toast.error("密码更改失败, 前后输入的新密码不一致");
         }
     }
 
@@ -265,8 +226,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                     <Header
                         path={this.path}
                         onEnter={(e) => this.handleEnter(e)}
-                        onStar={() => this.handleStar()}
-                        onSetPassword={() => this.handleSetPassword()}/>
+                        onStar={() => this.handleStar()}/>
                     <ToolButtons
                         onOpenFile={() => this.handleOpenFile()}
                         onDeleteFile={() => this.handleDeleteFile()}

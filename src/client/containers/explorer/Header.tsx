@@ -63,7 +63,6 @@ export default class Header extends Component<ExplorerHeaderProps> {
                         id="set-password"
                         title="设置密码"
                         onClick={() => {
-                            // this.props.onSetPassword();
                             if(this.passwordDialogBox) this.passwordDialogBox.setOpen(true);
                         }}></button>
                     <button
