@@ -1,5 +1,5 @@
 import React, { Component, ReactElement } from "react";
-import { ListGroup, FormControl } from "react-bootstrap";
+import { ListGroup, Form } from "react-bootstrap";
 import { toast } from "react-hot-toast";
 import Axios from "axios";
 
@@ -58,12 +58,21 @@ export default class ListItem extends Component<ListItemProps, ListItemState> {
         });
     }
 
-    private handleClick(): void {
+    private handleClick(e: React.MouseEvent): void {
+        if((e.target as HTMLElement).className == "form-check-input") return;
+
         if(this.state.isSelected && !this.state.isRenaming) {
             this.renameBoxSwitch();
             return;
         }
         this.setState({isSelected: true});
+    }
+
+    private handleSelect(): void {
+        var checkbox = Utils.getElem(this.props.itemName +"--checkbox") as HTMLInputElement;
+        if(checkbox.checked) {
+            /** @todo */
+        }
     }
 
     private handleBlur(): void {
@@ -77,14 +86,15 @@ export default class ListItem extends Component<ListItemProps, ListItemState> {
                 className="list-item"
                 id={this.props.itemName +"--listitem"}
                 title="单击选中 / 双击打开 / 单击后再次单击重命名"
-                onClick={(e) => {
+                onClick={(e: React.MouseEvent) => {
                     if(this.clickTimer) clearTimeout(this.clickTimer);
                     this.clickTimer = setTimeout(() => {
                         this.props.onClick(e.target as HTMLButtonElement)
-                        this.handleClick();
+                        this.handleClick(e);
                     }, 250);
                 }}
-                onDoubleClick={() => {
+                onDoubleClick={(e: React.MouseEvent) => {
+                    if((e.target as HTMLElement).className == "form-check-input") return;
                     if(this.state.isRenaming) return;
                     if(this.clickTimer) clearTimeout(this.clickTimer);
                     if(this.props.itemType == "folder") window.location.href += "/"+ this.props.itemName;
@@ -93,13 +103,18 @@ export default class ListItem extends Component<ListItemProps, ListItemState> {
                 data-info={this.props.itemInfo}
                 data-type={this.props.itemType}
             >
+                <Form.Check
+                    className="list-item-checkbox"
+                    id={this.props.itemName +"--checkbox"}
+                    type="checkbox"
+                    onChange={() => this.handleSelect()}/>
                 <span
                     className="list-item-name"
                     onClick={(e) => this.props.onClick((e.target as HTMLElement).parentElement as HTMLButtonElement)}
                     style={{display: this.state.isRenaming ? "none" : "inline-block"}}>{this.props.itemName}</span>
                 <span className="list-item-size" onClick={(e) => this.props.onClick((e.target as HTMLElement).parentElement as HTMLButtonElement)}>{this.itemSize}</span>
                 
-                <FormControl
+                <Form.Control
                     className="list-item-rename"
                     type={this.state.isRenaming ? "text" : "hidden"}
                     defaultValue={this.props.itemName}

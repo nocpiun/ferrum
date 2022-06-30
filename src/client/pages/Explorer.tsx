@@ -328,10 +328,13 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
 
         var list = new Map(starList.data);
         // display the full star if the directory is starred
+        var p = false;
         list.forEach((value, index) => {
+            if(p) return;
             if(value == this.path) {
                 Utils.getElem("star").style.backgroundImage = "url("+ starRate +")";
                 this.isStarred = true;
+                p = true;
             } else {
                 Utils.getElem("star").style.backgroundImage = "url("+ starOutline +")";
                 this.isStarred = false;

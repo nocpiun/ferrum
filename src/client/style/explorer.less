@@ -82,8 +82,13 @@
             .list-item {
                 outline: none;
                 height: 41px;
+                .list-item-checkbox {
+                    display: inline-block;
+                    width: 20px;
+                    vertical-align: super;
+                }
                 .list-item-name {
-                    margin-left: 30px;
+                    margin-left: 40px;
                     color: @black;
                     white-space: nowrap;
                     overflow: hidden;
@@ -112,6 +117,7 @@
                     width: 20px;
                     height: 20px;
                     top: 10px;
+                    left: 45px;
                 }
                 &[data-type="folder"]::before {
                     background-image: url(../../icons/folder.svg);
