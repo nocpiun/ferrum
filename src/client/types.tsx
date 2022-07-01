@@ -167,6 +167,12 @@ export interface DialogBoxState {
     isOpen: boolean
 }
 
+// Bar Component
+
+export interface BarState {
+    value: number
+}
+
 // Plugin
 
 export interface FerrumPluginProps extends PageProps {}
