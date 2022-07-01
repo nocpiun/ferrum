@@ -88,7 +88,7 @@ export default class Editor extends Component<EditorProps, EditorState> {
     }
 
     public componentDidMount(): void {
-        document.title = "Ferrum - "+ this.path;
+        document.title = "Ferrum - "+ decodeURI(this.path);
 
         Axios.get(apiUrl +"/getFileContent?path="+ this.path.replaceAll("/", "\\"))
             .then((res: GetFileContentResponse) => {
@@ -119,11 +119,11 @@ export default class Editor extends Component<EditorProps, EditorState> {
     }
 
     private saveFile(): void {
-        Axios.post(apiUrl +"/saveFileContent", {path: this.path, content: this.state.editorValue})
+        Axios.post(apiUrl +"/saveFileContent", {path: decodeURI(this.path), content: this.state.editorValue})
             .then(() => {
                 this.setState({hasChanged: false});
                 Emitter.get().emit("fileStatusChange", false);
-                toast.success("文件已保存 ("+ this.path +")");
+                toast.success("文件已保存 ("+ decodeURI(this.path) +")");
             })
             .catch((err) => {throw err});
     }
