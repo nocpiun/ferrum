@@ -12,7 +12,8 @@ describe("ListItem Component tests", () => {
             itemSize={1.01}
             itemInfo={JSON.stringify({})}
             itemPath="C:/a/b/c/d/test.txt"
-            onClick={() => {}}/>
+            onSelect={() => {}}
+            onUnselect={() => {}}/>
     );
     
     test("Ref test", () => {
