@@ -112,10 +112,6 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
      * Unselect item
      */
     private handleItemUnselect(item: DirectoryItem): void {
-        // this.setState({
-        //     itemSelected: null
-        // });
-        // this.setControlButtonsDisabled(true, true, true);
         var list = this.state.itemSelected.slice(0);
         var index = -1;
 
@@ -203,7 +199,10 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
             loading: "加载中...",
             success: "删除成功",
             error: "删除失败"
-        }).then(() => this.refreshItemList());
+        }).then(() => {
+            this.refreshItemList();
+            this.setControlButtonsDisabled(true, true, true);
+        });
     }
     
     private handleDownloadFile(): void {
@@ -304,22 +303,6 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         // The control buttons is defaultly disabled
         this.setControlButtonsDisabled(true, true, true);
 
-        document.addEventListener("click", (e) => {
-            // var elem = e.target as HTMLElement;
-            // var info = elem.getAttribute("data-info");
-            // if(info) return;
-            // if(
-            //     elem.className == "sidebar-right-container" ||
-            //     elem.className == "sidebar-left-container" || 
-            //     elem.className == "explorer" ||
-            //     elem.className == "header-container" ||
-            //     elem.className == "toolbuttons-container" ||
-            //     elem.className == "footer-container"
-            // ) {
-            //     this.handleItemUnselect();
-            // }
-        });
-
         // document.addEventListener("fileListUpdate", () => this.refreshItemList());
         Emitter.get().on("fileListUpdate", () => this.refreshItemList());
 
@@ -359,7 +342,6 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                                 itemSize={value.size ? value.size : -1}
                                 itemInfo={JSON.stringify(value)}
                                 itemPath={this.path}
-                                // onClick={(e) => this.handleItemSelect(e)}
                                 onSelect={(item) => this.handleItemSelect(item)}
                                 onUnselect={(item) => this.handleItemUnselect(item)}
                                 key={index}

@@ -89,11 +89,10 @@ export default class ListItem extends Component<ListItemProps, ListItemState> {
                 action
                 className="list-item"
                 id={this.props.itemName +"--listitem"}
-                title="单击选中 / 双击打开 / 单击后再次单击重命名"
+                title="勾选多选框选中 / 双击打开 (文件夹) / 单击后再次单击重命名"
                 onClick={(e: React.MouseEvent) => {
                     if(this.clickTimer) clearTimeout(this.clickTimer);
                     this.clickTimer = setTimeout(() => {
-                        // this.props.onClick(e.target as HTMLButtonElement)
                         this.handleClick(e); // Rename
                     }, 250);
                 }}
@@ -143,6 +142,23 @@ export default class ListItem extends Component<ListItemProps, ListItemState> {
             ) {
                 if(this.renameBoxCurrentValue != this.props.itemName) this.renameFile();
                 this.renameBoxSwitch();
+            }
+        });
+
+        document.addEventListener("keydown", (e: KeyboardEvent) => {
+            var checkbox = Utils.getElem(this.props.itemName +"--checkbox") as HTMLInputElement;
+            var item = JSON.parse(this.props.itemInfo) as DirectoryItem;
+
+            if(e.ctrlKey && e.key == "a") {
+                e.preventDefault();
+
+                checkbox.checked = true;
+                this.props.onSelect(item);
+            } else if(e.key == "Escape") {
+                e.preventDefault();
+
+                checkbox.checked = false;
+                this.props.onUnselect(item);
             }
         });
     }
