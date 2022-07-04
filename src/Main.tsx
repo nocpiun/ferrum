@@ -9,6 +9,7 @@ import Terminal from "./client/pages/Terminal";
 import License from "./client/pages/License";
 
 import { plugins } from "./plugins";
+import { version } from "./client/global";
 
 // style sheets
 import "bootstrap/dist/css/bootstrap.css";
@@ -17,6 +18,8 @@ import "xterm/css/xterm.css";
 import "./client/style/layout.less";
 
 export default class Main extends Component<RouteComponentProps<{}, {}, unknown>, {}> {
+    public static displayName: string = "Ferrum Explorer v"+ version;
+
     public constructor(props: RouteComponentProps) {
         super(props);
     }
