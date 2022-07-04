@@ -202,6 +202,9 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         }).then(() => {
             this.refreshItemList();
             this.setControlButtonsDisabled(true, true, true);
+            this.setState({
+                itemSelected: []
+            });
         });
     }
     
