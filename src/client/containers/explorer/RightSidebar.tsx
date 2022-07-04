@@ -59,8 +59,6 @@ export default class RightSidebar extends Component<ExplorerRightSidebarProps, E
         var utMinute = Math.floor(sysInfo.upTime / 60) - utHour * 60;
         var utSecond = Math.floor(sysInfo.upTime - utMinute * 60 - utHour * 60 * 60);
 
-        if(this.memoryUsageBar) this.memoryUsageBar.setValue(Math.floor(usedmem * 100));
-
         return (
             <div className="sidebar-right-container">
                 <div className="right-sidebar-panel about-container">
@@ -122,6 +120,10 @@ export default class RightSidebar extends Component<ExplorerRightSidebarProps, E
             this.setState({
                 sysInfo: e.data
             });
+
+            if(this.memoryUsageBar) { // Update the memory usage bar
+                this.memoryUsageBar.setValue(Math.floor(((e.data.memory.total - e.data.memory.free) / e.data.memory.total) * 100));
+            }
         };
     }
 }

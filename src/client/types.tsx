@@ -51,7 +51,7 @@ export interface DirectoryItem {
 export interface ExplorerProps extends PageProps {}
 
 export interface ExplorerState {
-    itemSelected: DirectoryItem | null
+    itemSelected: DirectoryItem[]
     itemList: ReactElement | null
     starredList: ReactElement | null
 }
@@ -135,7 +135,8 @@ export interface ListItemProps {
     itemSize: number
     itemInfo: string
     itemPath: string // The path don't have the file name
-    onClick: (e: HTMLButtonElement) => any
+    onSelect: (item: DirectoryItem) => any
+    onUnselect: (item: DirectoryItem) => any
 }
 
 export interface ListItemState {

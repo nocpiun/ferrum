@@ -15,7 +15,7 @@ import RightSidebar from "../containers/explorer/RightSidebar";
 
 import Utils from "../../Utils";
 import Emitter from "../utils/emitter";
-import { FetchDirInfoResponse, ExplorerProps, ExplorerState } from "../types";
+import { FetchDirInfoResponse, ExplorerProps, ExplorerState, DirectoryItem } from "../types";
 import { hostname, apiUrl } from "../global";
 import * as config from "../../config.json";
 import { plugins } from "../../plugins";
@@ -34,7 +34,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         super(props);
 
         this.state = {
-            itemSelected: null,
+            itemSelected: [],
             itemList: null,
             starredList: null
         };
@@ -83,41 +83,85 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
     /**
      * When item is selected
      */
-    private handleItemSelect(elem: HTMLButtonElement): void {
-        var info = elem.getAttribute("data-info");
-        if(info == null) return;
+    private handleItemSelect(item: DirectoryItem): void {
+        var list = this.state.itemSelected.slice(0); // `slice(0)` is in order to clone the list
+        list.push(item);
 
         this.setState({
-            itemSelected: JSON.parse(info)
+            itemSelected: list
         });
 
-        if(!this.state.itemSelected) return;
+        if(list.length == 0) return;
 
-        if(this.state.itemSelected.isFile) {
-            this.setControlButtonsDisabled(false, false, false);
-        } else {
-            this.setControlButtonsDisabled(false, false, true);
+        if(list.length == 1) {
+            if(list[0].isFile) {
+                this.setControlButtonsDisabled(false, false, false);
+            } else {
+                this.setControlButtonsDisabled(false, false, true);
+            }
+
+            return;
+        }
+
+        if(list.length > 1) {
+            this.setControlButtonsDisabled(true, false, true);
         }
     }
 
     /**
      * Unselect item
      */
-    private handleItemUnselect(): void {
-        this.setState({
-            itemSelected: null
-        });
-        this.setControlButtonsDisabled(true, true, true);
+    private handleItemUnselect(item: DirectoryItem): void {
+        // this.setState({
+        //     itemSelected: null
+        // });
+        // this.setControlButtonsDisabled(true, true, true);
+        var list = this.state.itemSelected.slice(0);
+        var index = -1;
+
+        for(let i = 0; i < list.length; i++) {
+            if(list[i].fullName == item.fullName) {
+                index = i;
+            }
+        }
+
+        if(index > -1) {
+            list.splice(index, 1);
+
+            this.setState({
+                itemSelected: list
+            });
+        }
+
+        if(list.length == 0) {
+            this.setControlButtonsDisabled(true, true, true);
+            return;
+        }
+
+        if(list.length == 1) {
+            if(list[0].isFile) {
+                this.setControlButtonsDisabled(false, false, false);
+            } else {
+                this.setControlButtonsDisabled(false, false, true);
+            }
+
+            return;
+        }
+
+        if(list.length > 1) {
+            this.setControlButtonsDisabled(true, false, true);
+        }
     }
 
     private handleOpenFile(): void {
         if(this.state.itemSelected == null) return;
+        if(this.state.itemSelected.length != 1) return;
 
-        var itemFullName = this.state.itemSelected.fullName;
-        var itemFormat = this.state.itemSelected.format;
+        var itemFullName = this.state.itemSelected[0].fullName;
+        var itemFormat = this.state.itemSelected[0].format;
         var itemPath = (this.path.replace(root, "") +"/"+ itemFullName).replaceAll("/", "\\");
 
-        if(this.state.itemSelected.isFile && itemFormat) {
+        if(this.state.itemSelected[0].isFile && itemFormat) {
             if(Utils.formatTester(["png", "jpg", "jpeg", "bmp", "gif", "webp", "psd", "svg", "tiff", "ico"], itemFormat)) {
                 window.location.href = hostname +":3300/picture/?path="+ itemPath;
                 return;
@@ -135,7 +179,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
             return;
         }
 
-        if(this.state.itemSelected.isFile && !itemFormat) {
+        if(this.state.itemSelected[0].isFile && !itemFormat) {
             window.location.href = hostname +":3300/edit/?path="+ itemPath;
             return;
         }
@@ -146,9 +190,16 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
     private handleDeleteFile(): void {
         if(this.state.itemSelected == null) return;
 
-        toast.promise(Axios.post(apiUrl +"/deleteFile", {
-            path: (this.path +"/"+ this.state.itemSelected.fullName).replaceAll("/", "\\")
-        }), {
+        const deleteLoop = async (): Promise<void> => {
+            if(this.state.itemSelected == null) return;
+            for(let i = 0; i < this.state.itemSelected.length; i++) {
+                Axios.post(apiUrl +"/deleteFile", {
+                    path: (this.path +"/"+ this.state.itemSelected[i].fullName).replaceAll("/", "\\")
+                });
+            }
+        }
+
+        toast.promise(deleteLoop(), {
             loading: "加载中...",
             success: "删除成功",
             error: "删除失败"
@@ -157,9 +208,10 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
     
     private handleDownloadFile(): void {
         if(this.state.itemSelected == null) return;
+        if(this.state.itemSelected.length != 1) return;
 
-        if(this.state.itemSelected.isFile) {
-            window.location.href = hostname +":3301/getFileData?path="+ (this.path +"/"+ this.state.itemSelected.fullName).replaceAll("/", "\\");
+        if(this.state.itemSelected[0].isFile) {
+            window.location.href = hostname +":3301/getFileData?path="+ (this.path +"/"+ this.state.itemSelected[0].fullName).replaceAll("/", "\\");
         }
     }
     
@@ -253,19 +305,19 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         this.setControlButtonsDisabled(true, true, true);
 
         document.addEventListener("click", (e) => {
-            var elem = e.target as HTMLElement;
-            var info = elem.getAttribute("data-info");
-            if(info) return;
-            if(
-                elem.className == "sidebar-right-container" ||
-                elem.className == "sidebar-left-container" || 
-                elem.className == "explorer" ||
-                elem.className == "header-container" ||
-                elem.className == "toolbuttons-container" ||
-                elem.className == "footer-container"
-            ) {
-                this.handleItemUnselect();
-            }
+            // var elem = e.target as HTMLElement;
+            // var info = elem.getAttribute("data-info");
+            // if(info) return;
+            // if(
+            //     elem.className == "sidebar-right-container" ||
+            //     elem.className == "sidebar-left-container" || 
+            //     elem.className == "explorer" ||
+            //     elem.className == "header-container" ||
+            //     elem.className == "toolbuttons-container" ||
+            //     elem.className == "footer-container"
+            // ) {
+            //     this.handleItemUnselect();
+            // }
         });
 
         // document.addEventListener("fileListUpdate", () => this.refreshItemList());
@@ -307,7 +359,9 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                                 itemSize={value.size ? value.size : -1}
                                 itemInfo={JSON.stringify(value)}
                                 itemPath={this.path}
-                                onClick={(e) => this.handleItemSelect(e)}
+                                // onClick={(e) => this.handleItemSelect(e)}
+                                onSelect={(item) => this.handleItemSelect(item)}
+                                onUnselect={(item) => this.handleItemUnselect(item)}
                                 key={index}
                             />;
                         })

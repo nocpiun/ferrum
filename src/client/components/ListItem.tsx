@@ -4,7 +4,7 @@ import { toast } from "react-hot-toast";
 import Axios from "axios";
 
 import Utils from "../../Utils";
-import { ListItemProps, ListItemState } from "../types";
+import { DirectoryItem, ListItemProps, ListItemState } from "../types";
 import { apiUrl } from "../global";
 import Emitter from "../utils/emitter";
 
@@ -70,8 +70,12 @@ export default class ListItem extends Component<ListItemProps, ListItemState> {
 
     private handleSelect(): void {
         var checkbox = Utils.getElem(this.props.itemName +"--checkbox") as HTMLInputElement;
-        if(checkbox.checked) {
-            /** @todo */
+        var item = JSON.parse(this.props.itemInfo) as DirectoryItem;
+
+        if(checkbox.checked) { // select
+            this.props.onSelect(item);
+        } else { // unselect
+            this.props.onUnselect(item);
         }
     }
 
@@ -89,8 +93,8 @@ export default class ListItem extends Component<ListItemProps, ListItemState> {
                 onClick={(e: React.MouseEvent) => {
                     if(this.clickTimer) clearTimeout(this.clickTimer);
                     this.clickTimer = setTimeout(() => {
-                        this.props.onClick(e.target as HTMLButtonElement)
-                        this.handleClick(e);
+                        // this.props.onClick(e.target as HTMLButtonElement)
+                        this.handleClick(e); // Rename
                     }, 250);
                 }}
                 onDoubleClick={(e: React.MouseEvent) => {
@@ -110,9 +114,8 @@ export default class ListItem extends Component<ListItemProps, ListItemState> {
                     onChange={() => this.handleSelect()}/>
                 <span
                     className="list-item-name"
-                    onClick={(e) => this.props.onClick((e.target as HTMLElement).parentElement as HTMLButtonElement)}
                     style={{display: this.state.isRenaming ? "none" : "inline-block"}}>{this.props.itemName}</span>
-                <span className="list-item-size" onClick={(e) => this.props.onClick((e.target as HTMLElement).parentElement as HTMLButtonElement)}>{this.itemSize}</span>
+                <span className="list-item-size">{this.itemSize}</span>
                 
                 <Form.Control
                     className="list-item-rename"
