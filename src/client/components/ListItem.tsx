@@ -4,7 +4,7 @@ import { toast } from "react-hot-toast";
 import Axios from "axios";
 
 import Utils from "../../Utils";
-import { DirectoryItem, ListItemProps, ListItemState } from "../types";
+import { DirectoryItem, ListItemProps, ListItemState, ItemType } from "../types";
 import { apiUrl } from "../global";
 import Emitter from "../utils/emitter";
 
@@ -19,7 +19,7 @@ export default class ListItem extends Component<ListItemProps, ListItemState> {
 
         this.state = {
             isRenaming: false,
-            isSelected: false
+            isSelected: false // Not equal to the selection of checkbox
         };
 
         if(this.props.itemSize > -1) {
@@ -79,6 +79,19 @@ export default class ListItem extends Component<ListItemProps, ListItemState> {
         }
     }
 
+    private handleSelectAll(selected: boolean): void {
+        var item = JSON.parse(this.props.itemInfo) as DirectoryItem;
+        var checkbox = Utils.getElem(this.props.itemName +"--checkbox") as HTMLInputElement;
+
+        if(checkbox.checked != selected) checkbox.checked = selected;
+        
+        if(selected) {
+            this.props.onSelect(item);
+        } else {
+            this.props.onUnselect(item);
+        }
+    }
+
     private handleBlur(): void {
         this.setState({isSelected: false});
     }
@@ -100,7 +113,7 @@ export default class ListItem extends Component<ListItemProps, ListItemState> {
                     if((e.target as HTMLElement).className == "form-check-input") return;
                     if(this.state.isRenaming) return;
                     if(this.clickTimer) clearTimeout(this.clickTimer);
-                    if(this.props.itemType == "folder") window.location.href += "/"+ this.props.itemName;
+                    if(this.props.itemType == ItemType.FOLDER) window.location.href += "/"+ this.props.itemName;
                 }}
                 onBlur={() => this.handleBlur()}
                 data-info={this.props.itemInfo}
@@ -109,7 +122,6 @@ export default class ListItem extends Component<ListItemProps, ListItemState> {
                 <Form.Check
                     className="list-item-checkbox"
                     id={this.props.itemName +"--checkbox"}
-                    type="checkbox"
                     onChange={() => this.handleSelect()}/>
                 <span
                     className="list-item-name"
@@ -146,20 +158,15 @@ export default class ListItem extends Component<ListItemProps, ListItemState> {
         });
 
         document.addEventListener("keydown", (e: KeyboardEvent) => {
-            var checkbox = Utils.getElem(this.props.itemName +"--checkbox") as HTMLInputElement;
-            var item = JSON.parse(this.props.itemInfo) as DirectoryItem;
-
             if(e.ctrlKey && e.key == "a") {
                 e.preventDefault();
-
-                checkbox.checked = true;
-                this.props.onSelect(item);
+                this.handleSelectAll(true);
             } else if(e.key == "Escape") {
                 e.preventDefault();
-
-                checkbox.checked = false;
-                this.props.onUnselect(item);
+                this.handleSelectAll(false);
             }
         });
+
+        // Emitter.get().on("selectAll", (selected: boolean) => this.handleSelectAll(selected));
     }
 }

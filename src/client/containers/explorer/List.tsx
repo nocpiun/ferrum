@@ -1,7 +1,7 @@
 import { Component, ReactElement } from "react";
 import { ListGroup, Form } from "react-bootstrap";
 
-import { ExplorerListProps } from "../../types";
+import { ExplorerListProps, ItemType } from "../../types";
 
 export default class List extends Component<ExplorerListProps, {}> {
     public constructor(props: ExplorerListProps) {
@@ -12,8 +12,8 @@ export default class List extends Component<ExplorerListProps, {}> {
         return (
             <div className="list-container">
                 <ListGroup id="list">
-                    <ListGroup.Item action className="list-item" onClick={() => this.props.onBack()} data-type="folder">
-                        <Form.Check className="list-item-checkbox" type="checkbox" disabled/>
+                    <ListGroup.Item action className="list-item" onClick={() => this.props.onBack()} data-type={ItemType.FOLDER}>
+                        <Form.Check className="list-item-checkbox" disabled/>
                         <span className="list-item-name">..</span>
                         <span className="list-item-size">返回上级目录</span>
                     </ListGroup.Item>

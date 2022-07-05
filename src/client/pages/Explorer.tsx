@@ -1,4 +1,4 @@
-import { Component, ReactElement } from "react";
+import React, { Component, ReactElement } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import Axios from "axios";
 
@@ -15,7 +15,13 @@ import RightSidebar from "../containers/explorer/RightSidebar";
 
 import Utils from "../../Utils";
 import Emitter from "../utils/emitter";
-import { FetchDirInfoResponse, ExplorerProps, ExplorerState, DirectoryItem } from "../types";
+import {
+    FetchDirInfoResponse,
+    ExplorerProps,
+    ExplorerState,
+    DirectoryItem,
+    ItemType
+} from "../types";
 import { hostname, apiUrl } from "../global";
 import * as config from "../../config.json";
 import { plugins } from "../../plugins";
@@ -363,7 +369,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                     {
                         dirItemList.map((value, index) => {
                             return <ListItem
-                                itemType={value.isFile ? "file" : "folder"}
+                                itemType={value.isFile ? ItemType.FILE : ItemType.FOLDER}
                                 itemName={value.fullName}
                                 itemSize={value.size ? value.size : -1}
                                 itemInfo={JSON.stringify(value)}

@@ -129,8 +129,12 @@ export interface PictureViewerHeaderProps {
 
 // ListItem Component
 
+export enum ItemType {
+    FOLDER = "folder", FILE = "file"
+}
+
 export interface ListItemProps {
-    itemType: "folder" | "file"
+    itemType: ItemType
     itemName: string
     itemSize: number
     itemInfo: string

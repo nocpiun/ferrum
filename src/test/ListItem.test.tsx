@@ -1,13 +1,13 @@
 import React from "react";
 import ReactTestUtils from "react-dom/test-utils";
 import ListItem from "../client/components/ListItem";
-import { ListItemProps, ListItemState } from "../client/types";
+import { ListItemProps, ListItemState, ItemType } from "../client/types";
 import Utils from "../Utils";
 
 describe("ListItem Component tests", () => {
     var component = ReactTestUtils.renderIntoDocument<ListItemProps, React.Component<ListItemProps, ListItemState, any>>(
         <ListItem
-            itemType="file"
+            itemType={ItemType.FILE}
             itemName="test.txt"
             itemSize={1.01}
             itemInfo={JSON.stringify({})}
