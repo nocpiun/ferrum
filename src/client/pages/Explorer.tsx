@@ -312,7 +312,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         );
     }
 
-    public async componentDidMount(): Promise<void> {
+    public componentDidMount(): void {
         document.title = "Ferrum - "+ this.path;
 
         // The control buttons is defaultly disabled

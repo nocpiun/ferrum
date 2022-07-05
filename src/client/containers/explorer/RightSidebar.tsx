@@ -112,7 +112,7 @@ export default class RightSidebar extends Component<ExplorerRightSidebarProps, E
         );
     }
 
-    public async componentDidMount(): Promise<any> {
+    public componentDidMount(): void {
         const sysInfoWorker = new Worker("../../workers/sysInfo.worker.tsx", {type: "module"});
         sysInfoWorker.postMessage({type: "getSysInfo", apiUrl});
 

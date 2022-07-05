@@ -7,7 +7,7 @@ const path = require("path");
  * @param {import("express").Response} res 
  * @returns 
  */
-module.exports = async function(req, res) {
+module.exports = function(req, res) {
     var filePath = req.query.path.replace(/\\/g, "/"); // Absolute Path
     if(!fs.existsSync(filePath)) {
         res.end(JSON.stringify({url: "", err: 404}));
