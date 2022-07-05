@@ -23,6 +23,7 @@ import { plugins } from "../../plugins";
 // icons
 import starOutline from "../../icons/star_outline.svg";
 import starRate from "../../icons/star_rate.svg";
+import backToTop from "../../icons/back_to_top.svg";
 
 const root = config.explorer.root;
 
@@ -296,6 +297,17 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                     </div>
                 </div>
                 <RightSidebar path={this.path}/>
+
+                <button
+                    className="back-to-top-button"
+                    id="back-to-top-button"
+                    title="返回顶部"
+                    onClick={() => {
+                        document.body.scrollTop = 0;
+                        document.documentElement.scrollTop = 0;
+                    }}>
+                    <img src={backToTop} alt="back to top"/>
+                </button>
             </div>
         );
     }
@@ -308,6 +320,17 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
 
         // document.addEventListener("fileListUpdate", () => this.refreshItemList());
         Emitter.get().on("fileListUpdate", () => this.refreshItemList());
+
+        document.addEventListener("scroll", () => {
+            var top = document.body.scrollTop || document.documentElement.scrollTop;
+            var backToTopButton = Utils.getElem("back-to-top-button");
+
+            if(top == 0) {
+                backToTopButton.style.display = "none";
+            } else {
+                backToTopButton.style.display = "block";
+            }
+        });
 
         this.refreshItemList();
         this.refreshStarredList();
