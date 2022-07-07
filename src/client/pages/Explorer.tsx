@@ -12,6 +12,7 @@ import ToolButtons from "../containers/explorer/ToolButtons";
 import List from "../containers/explorer/List";
 import LeftSidebar from "../containers/explorer/LeftSidebar";
 import RightSidebar from "../containers/explorer/RightSidebar";
+import BackToTop from "../containers/explorer/BackToTop";
 
 import Utils from "../../Utils";
 import Emitter from "../utils/emitter";
@@ -29,7 +30,6 @@ import { plugins } from "../../plugins";
 // icons
 import starOutline from "../../icons/star_outline.svg";
 import starRate from "../../icons/star_rate.svg";
-import backToTop from "../../icons/back_to_top.svg";
 
 const root = config.explorer.root;
 
@@ -304,16 +304,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                 </div>
                 <RightSidebar path={this.path}/>
 
-                <button
-                    className="back-to-top-button"
-                    id="back-to-top-button"
-                    title="返回顶部"
-                    onClick={() => {
-                        document.body.scrollTop = 0;
-                        document.documentElement.scrollTop = 0;
-                    }}>
-                    <img src={backToTop} alt="back to top"/>
-                </button>
+                <BackToTop/>
             </div>
         );
     }

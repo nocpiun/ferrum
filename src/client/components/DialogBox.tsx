@@ -1,6 +1,7 @@
 import { Component, ReactElement } from "react";
 import { Button } from "react-bootstrap";
 
+import Utils from "../../Utils";
 import { DialogBoxProps, DialogBoxState } from "../types";
 
 export default class DialogBox extends Component<DialogBoxProps, DialogBoxState> {
@@ -44,5 +45,14 @@ export default class DialogBox extends Component<DialogBoxProps, DialogBoxState>
                 return false;
             }
         }, {passive: false});
+
+        Utils.getElem("back-to-top-button").addEventListener("click", (e: MouseEvent) => {
+            if(this.state.isOpen) {
+                e.stopPropagation();
+                e.preventDefault();
+                
+                return false;
+            }
+        });
     }
 }
