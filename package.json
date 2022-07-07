@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/core": "7.12.3",
+    "@babel/plugin-syntax-import-assertions": "^7.18.6",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -102,7 +103,7 @@
     "xterm": "^4.18.0"
   },
   "scripts": {
-    "start": "node src/server/InitConfig && node scripts/build.js && cross-env NODE_ENV=production concurrently \"npm run server\" \"node production-start.js\"",
+    "start": "node src/server/InitConfig && node scripts/build.js && cross-env NODE_ENV=production concurrently \"npm run server\" \"node --experimental-json-modules production-start.mjs\"",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon --config config/nodemon.config.json",
     "client": "cross-env NODE_ENV=development node scripts/start.js",
