@@ -1,25 +1,25 @@
-import { Component, ReactElement } from "react";
+import React from "react";
 import { ListGroup, Form } from "react-bootstrap";
 
 import { ExplorerListProps, ItemType } from "../../types";
 
-export default class List extends Component<ExplorerListProps, {}> {
-    public constructor(props: ExplorerListProps) {
-        super(props);
-    }
-
-    public render(): ReactElement {
-        return (
-            <div className="list-container">
-                <ListGroup id="list">
-                    <ListGroup.Item action className="list-item" onClick={() => this.props.onBack()} data-type={ItemType.FOLDER}>
-                        <Form.Check className="list-item-checkbox" disabled/>
-                        <span className="list-item-name">..</span>
-                        <span className="list-item-size">返回上级目录</span>
-                    </ListGroup.Item>
-                    {this.props.itemList ? this.props.itemList : null}
-                </ListGroup>
-            </div>
-        );
-    }
+const List: React.FC<ExplorerListProps> = (props) => {
+    return (
+        <div className="list-container">
+            <ListGroup id="list">
+                <ListGroup.Item
+                    action
+                    className="list-item"
+                    onClick={() => props.onBack()}
+                    data-type={ItemType.FOLDER}>
+                    <Form.Check className="list-item-checkbox" disabled/>
+                    <span className="list-item-name">..</span>
+                    <span className="list-item-size">返回上级目录</span>
+                </ListGroup.Item>
+                {props.itemList ? props.itemList : null}
+            </ListGroup>
+        </div>
+    );
 }
+
+export default List;

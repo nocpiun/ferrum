@@ -1,172 +1,166 @@
-import React, { Component, ReactElement } from "react";
+import React, {
+    useState,
+    useEffect,
+    useRef
+} from "react";
 import { ListGroup, Form } from "react-bootstrap";
 import { toast } from "react-hot-toast";
 import Axios from "axios";
 
 import Utils from "../../Utils";
-import { DirectoryItem, ListItemProps, ListItemState, ItemType } from "../types";
+import { DirectoryItem, ListItemProps, ItemType } from "../types";
 import { apiUrl } from "../global";
 import Emitter from "../utils/emitter";
 
-export default class ListItem extends Component<ListItemProps, ListItemState> {
-    private itemSize: string;
-    public renameBoxRef: React.RefObject<HTMLInputElement> = React.createRef();
-    private renameBoxCurrentValue: string | null = null;
-    private clickTimer: NodeJS.Timeout | null = null;
+const ListItem: React.FC<ListItemProps> = (props) => {
+    var itemSize: string = props.itemSize > -1
+        ? Utils.fomatFloat(props.itemSize / 1024, 1) +"KB"
+        : "";
+    var renameBoxCurrentValue: string | null = null;
+    var clickTimer: NodeJS.Timeout | null = null;
     
-    public constructor(props: ListItemProps) {
-        super(props);
+    const [isRenaming, setIsRenaming] = useState<boolean>(false);
+    const [isSelected, setIsSelected] = useState<boolean>(false); // Not equal to the selection of checkbox
+    const renameBox = useRef<HTMLInputElement>(null);
 
-        this.state = {
-            isRenaming: false,
-            isSelected: false // Not equal to the selection of checkbox
-        };
+    const renameBoxSwitch = () => {
+        if(!renameBox.current) return;
 
-        if(this.props.itemSize > -1) {
-            this.itemSize = Utils.fomatFloat(this.props.itemSize / 1024, 1) +"KB";
+        if(!isRenaming) {
+            renameBox.current.focus();
+            renameBoxCurrentValue = renameBox.current.value;
+            setIsRenaming(true);
         } else {
-            this.itemSize = "";
+            renameBoxCurrentValue = null;
+            setIsRenaming(false);
         }
-    }
+    };
 
-    private renameBoxSwitch(): void {
-        if(!this.renameBoxRef.current) return;
-
-        if(!this.state.isRenaming) {
-            this.renameBoxRef.current.focus();
-            this.renameBoxCurrentValue = this.renameBoxRef.current.value;
-            this.setState({isRenaming: true});
-        } else {
-            this.renameBoxCurrentValue = null;
-            this.setState({isRenaming: false});
-        }
-    }
-
-    private renameFile(): void {
-        if(!this.renameBoxRef.current) return;
+    const renameFile = () => {
+        if(!renameBox.current) return;
 
         toast.promise(Axios.post(apiUrl +"/renameFile", {
-            path: (this.props.itemPath +"/"+ this.props.itemName).replaceAll("/", "\\"),
-            newName: this.renameBoxRef.current.value
+            path: (props.itemPath +"/"+ props.itemName).replaceAll("/", "\\"),
+            newName: renameBox.current.value
         }), {
             loading: "加载中...",
             success: "重命名成功",
             error: "重命名失败"
         }).then(() => {
-            this.renameBoxSwitch();
+            renameBoxSwitch();
             Emitter.get().emit("fileListUpdate");
         });
-    }
+    };
 
-    private handleClick(e: React.MouseEvent): void {
+    const handleClick = (e: React.MouseEvent) => {
         if((e.target as HTMLElement).className == "form-check-input") return;
 
-        if(this.state.isSelected && !this.state.isRenaming) {
-            this.renameBoxSwitch();
+        if(isSelected && !isRenaming) {
+            renameBoxSwitch();
             return;
         }
-        this.setState({isSelected: true});
-    }
+        setIsSelected(true);
+    };
 
-    private handleSelect(): void {
-        var checkbox = Utils.getElem(this.props.itemName +"--checkbox") as HTMLInputElement;
-        var item = JSON.parse(this.props.itemInfo) as DirectoryItem;
+    const handleSelect = () => {
+        var checkbox = Utils.getElem(props.itemName +"--checkbox") as HTMLInputElement;
+        var item = JSON.parse(props.itemInfo) as DirectoryItem;
 
         if(checkbox.checked) { // select
-            this.props.onSelect(item);
+            props.onSelect(item);
         } else { // unselect
-            this.props.onUnselect(item);
+            props.onUnselect(item);
         }
-    }
+    };
 
-    private handleSelectAll(selected: boolean): void {
-        var item = JSON.parse(this.props.itemInfo) as DirectoryItem;
-        var checkbox = Utils.getElem(this.props.itemName +"--checkbox") as HTMLInputElement;
+    const handleSelectAll = (selected: boolean) => {
+        var item = JSON.parse(props.itemInfo) as DirectoryItem;
+        var checkbox = Utils.getElem(props.itemName +"--checkbox") as HTMLInputElement;
 
         if(checkbox.checked != selected) checkbox.checked = selected;
         
         if(selected) {
-            this.props.onSelect(item);
+            props.onSelect(item);
         } else {
-            this.props.onUnselect(item);
+            props.onUnselect(item);
         }
-    }
+    };
 
-    private handleBlur(): void {
-        this.setState({isSelected: false});
-    }
+    const handleBlur = () => {
+        setIsSelected(false);
+    };
 
-    public render(): ReactElement {
-        return (
-            <ListGroup.Item
-                action
-                className="list-item"
-                id={this.props.itemName +"--listitem"}
-                title="勾选多选框选中 / 双击打开 (文件夹) / 单击后再次单击重命名"
-                onClick={(e: React.MouseEvent) => {
-                    if(this.clickTimer) clearTimeout(this.clickTimer);
-                    this.clickTimer = setTimeout(() => {
-                        this.handleClick(e); // Rename
-                    }, 250);
-                }}
-                onDoubleClick={(e: React.MouseEvent) => {
-                    if((e.target as HTMLElement).className == "form-check-input") return;
-                    if(this.state.isRenaming) return;
-                    if(this.clickTimer) clearTimeout(this.clickTimer);
-                    if(this.props.itemType == ItemType.FOLDER) window.location.href += "/"+ this.props.itemName;
-                }}
-                onBlur={() => this.handleBlur()}
-                data-info={this.props.itemInfo}
-                data-type={this.props.itemType}
-            >
-                <Form.Check
-                    className="list-item-checkbox"
-                    id={this.props.itemName +"--checkbox"}
-                    onChange={() => this.handleSelect()}/>
-                <span
-                    className="list-item-name"
-                    style={{display: this.state.isRenaming ? "none" : "inline-block"}}>{this.props.itemName}</span>
-                <span className="list-item-size">{this.itemSize}</span>
-                
-                <Form.Control
-                    className="list-item-rename"
-                    type={this.state.isRenaming ? "text" : "hidden"}
-                    defaultValue={this.props.itemName}
-                    onKeyDown={(e) => {
-                        if(e.key == "Enter") this.renameFile();
-                    }}
-                    onChange={() => {
-                        if(this.renameBoxRef.current) this.renameBoxCurrentValue = this.renameBoxRef.current.value;
-                    }}
-                    id={this.props.itemName +"--renamebox"}
-                    ref={this.renameBoxRef}/>
-            </ListGroup.Item>
-        );
-    }
-
-    public componentDidMount(): void {
+    useEffect(() => {
         document.body.addEventListener("click", (e: MouseEvent) => {
             var elem = e.target as HTMLElement;
             if(
-                elem.id != this.props.itemName +"--renamebox" &&
-                elem.id != this.props.itemName +"--listitem" &&
-                this.state.isRenaming
+                elem.id != props.itemName +"--renamebox" &&
+                elem.id != props.itemName +"--listitem" &&
+                isRenaming
             ) {
-                if(this.renameBoxCurrentValue != this.props.itemName) this.renameFile();
-                this.renameBoxSwitch();
+                if(renameBoxCurrentValue != props.itemName) renameFile();
+                renameBoxSwitch();
             }
         });
 
         document.addEventListener("keydown", (e: KeyboardEvent) => {
             if(e.ctrlKey && e.key == "a") {
                 e.preventDefault();
-                this.handleSelectAll(true);
+                handleSelectAll(true);
             } else if(e.key == "Escape") {
                 e.preventDefault();
-                this.handleSelectAll(false);
+                handleSelectAll(false);
             }
         });
 
-        // Emitter.get().on("selectAll", (selected: boolean) => this.handleSelectAll(selected));
-    }
+        // Emitter.get().on("selectAll", (selected: boolean) => handleSelectAll(selected));
+    });
+
+    return (
+        <ListGroup.Item
+            action
+            className="list-item"
+            id={props.itemName +"--listitem"}
+            title="勾选多选框选中 / 双击打开 (文件夹) / 单击后再次单击重命名"
+            onClick={(e: React.MouseEvent) => {
+                if(clickTimer) clearTimeout(clickTimer);
+                clickTimer = setTimeout(() => {
+                    handleClick(e); // Rename
+                }, 250);
+            }}
+            onDoubleClick={(e: React.MouseEvent) => {
+                if((e.target as HTMLElement).className == "form-check-input") return;
+                if(isRenaming) return;
+                if(clickTimer) clearTimeout(clickTimer);
+                if(props.itemType == ItemType.FOLDER) window.location.href += "/"+ props.itemName;
+            }}
+            onBlur={() => handleBlur()}
+            data-info={props.itemInfo}
+            data-type={props.itemType}
+        >
+            <Form.Check
+                className="list-item-checkbox"
+                id={props.itemName +"--checkbox"}
+                onChange={() => handleSelect()}/>
+            <span
+                className="list-item-name"
+                style={{display: isRenaming ? "none" : "inline-block"}}>{props.itemName}</span>
+            <span className="list-item-size">{itemSize}</span>
+            
+            <Form.Control
+                className="list-item-rename"
+                type={isRenaming ? "text" : "hidden"}
+                defaultValue={props.itemName}
+                onKeyDown={(e) => {
+                    if(e.key == "Enter") renameFile();
+                }}
+                onChange={() => {
+                    if(renameBox.current) renameBoxCurrentValue = renameBox.current.value;
+                }}
+                id={props.itemName +"--renamebox"}
+                ref={renameBox}/>
+        </ListGroup.Item>
+    );
 }
+
+export default ListItem;

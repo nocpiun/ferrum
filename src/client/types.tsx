@@ -143,10 +143,10 @@ export interface ListItemProps {
     onUnselect: (item: DirectoryItem) => any
 }
 
-export interface ListItemState {
-    isRenaming: boolean
-    isSelected: boolean
-}
+// export interface ListItemState {
+//     isRenaming: boolean
+//     isSelected: boolean
+// }
 
 // StarredItem Component
 

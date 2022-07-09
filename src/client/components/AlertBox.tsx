@@ -1,28 +1,24 @@
-import { Component, ReactElement } from "react";
+import React from "react";
 import { Alert, Button } from "react-bootstrap";
 
 import { AlertBoxProps } from "../types";
 import Emitter from "../utils/emitter";
 
-export default class AlertBox extends Component<AlertBoxProps, {}> {
-    public constructor(props: AlertBoxProps) {
-        super(props);
-    }
-    
-    public render(): ReactElement {
-        return (
-            <Alert variant={this.props.variant} className="alert-box" style={this.props.style} id={this.props.id}>
-                <Alert.Heading style={{fontWeight: "bold"}}>{this.props.heading}</Alert.Heading>
-                <div>
-                    {this.props.children}
-                </div>
-                <hr/>
-                <div className="close-button-container">
-                    <Button variant={"outline-"+ this.props.variant} onClick={() => {
-                        Emitter.get().emit("closeAlert", this.props.alertId);
-                    }}>关闭</Button>
-                </div>
-            </Alert>
-        );
-    }
+const AlertBox: React.FC<AlertBoxProps> = (props) => {
+    return (
+        <Alert variant={props.variant} className="alert-box" style={props.style} id={props.id}>
+            <Alert.Heading style={{fontWeight: "bold"}}>{props.heading}</Alert.Heading>
+            <div>
+                {props.children}
+            </div>
+            <hr/>
+            <div className="close-button-container">
+                <Button variant={"outline-"+ props.variant} onClick={() => {
+                    Emitter.get().emit("closeAlert", props.alertId);
+                }}>关闭</Button>
+            </div>
+        </Alert>
+    );
 }
+
+export default AlertBox;
