@@ -41,18 +41,21 @@ const RightSidebar: React.FC<ExplorerRightSidebarProps> = (props) => {
     const sysInfoDialogBox = useRef<DialogBox>(null);
     const memoryUsageBar = useRef<Bar>(null);
     
-    useEffect(() => {
-        const sysInfoWorker = new Worker("../../workers/sysInfo.worker.tsx", {type: "module"});
-        sysInfoWorker.postMessage({type: "getSysInfo", apiUrl});
+    useEffect(
+        () => {
+            const sysInfoWorker = new Worker("../../workers/sysInfo.worker.tsx", {type: "module"});
+            sysInfoWorker.postMessage({type: "getSysInfo", apiUrl});
 
-        sysInfoWorker.onmessage = (e: MessageEvent<SysInfo>) => {
-            setState({ sysInfo: e.data });
+            sysInfoWorker.onmessage = (e: MessageEvent<SysInfo>) => {
+                setState({ sysInfo: e.data });
 
-            if(memoryUsageBar.current) { // Update the memory usage bar
-                memoryUsageBar.current.setValue(Math.floor(((e.data.memory.total - e.data.memory.free) / e.data.memory.total) * 100));
-            }
-        };
-    });
+                if(memoryUsageBar.current) { // Update the memory usage bar
+                    memoryUsageBar.current.setValue(Math.floor(((e.data.memory.total - e.data.memory.free) / e.data.memory.total) * 100));
+                }
+            };
+        },
+        [] /* <=== This empty array is necessary!! Or the worker instance will be created multiple times */
+    );
 
     var sysInfo = state.sysInfo || defaultSysInfo;
     var usedmem = (sysInfo.memory.total - sysInfo.memory.free) / sysInfo.memory.total;
