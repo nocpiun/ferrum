@@ -31,7 +31,7 @@ export default class DialogBox extends Component<DialogBoxProps, DialogBoxState>
     public render(): ReactElement {
         return (
             <>
-                <div className="dialog-backdrop" style={{display: this.state.isOpen ? "block" : "none"}}></div>
+                <div className="dialog-backdrop" style={{display: this.state.isOpen ? "block" : "none"}}/>
                 <dialog className="dialog-container" style={{display: this.state.isOpen ? "flex" : "none"}}>
                     <div className="dialog-header">
                         <h2>{this.props.title}</h2>

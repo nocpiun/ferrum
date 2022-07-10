@@ -1,91 +1,101 @@
 // TODO
 
-// @media screen and (max-width: 1423px) {
-//     .explorer {
-//         .main-container {
-//             display: inline-block;
-//             width: 70%;
-//             margin-left: 20px;
-//             .toolbuttons-container {
-//                 button {
-//                     padding: .275em .45em;
-//                     margin-right: 5px !important;
-//                 }
-//             }
-//         }
-//         .left-bottom-buttons {
-//             display: inline-block;
-//         }
-//         .sidebar-left-container {
-//             display: none;
-//         }
-//         .sidebar-right-container {
-//             #alert-about {
-//                 display: none !important;
-//             }
-//             div[role=alert] {
-//                 p, b, a, li, #text {
-//                     font-size: 11pt;
-//                 }
-//             }
-//         }
-//     }
-// }
+@media screen and (max-width: 1423px) {
+    .explorer {
+        .main-container {
+            display: inline-block;
+            width: 70%;
+            margin-left: 20px;
+            .toolbuttons-container {
+                button {
+                    padding: .275em .45em;
+                    margin-right: 5px !important;
+                }
+            }
+        }
+        .left-bottom-buttons {
+            // display: inline-block;
+        }
+        .sidebar-left-container {
+            display: none;
+        }
+        .sidebar-right-container {
+            
+        }
+    }
+}
 
-// @media screen and (max-width: 426px) {
-//     .explorer {
-//         .main-container {
-//             display: inline-block;
-//             width: 100%;
-//             margin: 0;
-//             .header-container, .toolbuttons-container, .list-container, .footer-container {
-//                 margin-left: 30px;
-//                 margin-right: 30px;
-//             }
-//             .header-container nav .path-input {
-//                 width: 82% !important;
-//             }
-//             .toolbuttons-container {
-//                 width: calc(100% - 30px);
-//                 button {
-//                     padding: 0;
-//                     font-size: 8pt;
-//                     padding: .25rem .27rem;
-//                     margin-right: 4px !important;
-//                     float: left !important;
-//                 }
-//             }
-//             .list-container {
-//                 height: 451px;
-//                 .list-item .list-item-name {
-//                     width: 75%;
-//                 }
-//             }
-//             .footer-container {
-//                 font-size: 11pt;
-//             }
-//         }
-//         .sidebar-right-container {
-//             display: none;
-//         }
-//     }
-// }
+@media screen and (max-width: 965px) {
+    .explorer {
+        .main-container {
+            .list-container {
+                .list-group .list-item .list-item-name {
+                    width: 75%;
+                }
+            }
+        }
+    }
+}
 
-// @media screen and (max-width: 376px) {
-//     .explorer {
-//         .main-container {
-//             .header-container nav .path-input {
-//                 width: 78% !important;
-//             }
-//             .toolbuttons-container button {
-//                 font-size: 7pt;
-//                 padding: .15rem .23rem;
-//                 margin-right: 4px !important;
-//                 float: left !important;
-//             }
-//             .footer-container {
-//                 font-size: 10pt;
-//             }
-//         }
-//     }
-// }
+@media screen and (max-width: 426px) {
+    .explorer {
+        .main-container {
+            display: inline-block;
+            width: 100%;
+            margin: 0;
+            .header-container, .toolbuttons-container, .list-container, .footer-container {
+                margin-left: 30px;
+                margin-right: 30px;
+            }
+            .header-container nav .path-input {
+                width: 82% !important;
+            }
+            .toolbuttons-container {
+                width: calc(100% - 30px);
+                height: 30px;
+                button {
+                    padding: 0;
+                    font-size: 8pt;
+                    padding: .25rem .27rem;
+                    margin-right: 4px !important;
+                    float: left !important;
+                }
+            }
+            .list-container {
+                height: 100%;
+                margin-top: 10px;
+                .list-group {
+                    width: 84vw;
+                    .list-item .list-item-name {
+                        width: 55%;
+                    }
+                }
+            }
+            .footer-container {
+                font-size: 11pt;
+            }
+        }
+        .sidebar-right-container {
+            display: none;
+        }
+    }
+}
+
+@media screen and (max-width: 376px) {
+    .explorer {
+        .main-container {
+            .header-container nav .path-input {
+                width: 78% !important;
+            }
+            .toolbuttons-container button {
+                font-size: 7pt;
+                padding: .15rem .23rem;
+                margin-right: 4px !important;
+                float: left !important;
+            }
+            .footer-container {
+                font-size: 10pt;
+            }
+        }
+    }
+}

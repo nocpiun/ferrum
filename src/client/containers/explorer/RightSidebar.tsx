@@ -43,8 +43,8 @@ const RightSidebar: React.FC<ExplorerRightSidebarProps> = (props) => {
     
     useEffect(
         () => {
-            const sysInfoWorker = new Worker("../../workers/sysInfo.worker.tsx", {type: "module"});
-            sysInfoWorker.postMessage({type: "getSysInfo", apiUrl});
+            const sysInfoWorker = new Worker("../../workers/sysInfo.worker.tsx", { type: "module" });
+            sysInfoWorker.postMessage({ type: "getSysInfo", apiUrl });
 
             sysInfoWorker.onmessage = (e: MessageEvent<SysInfo>) => {
                 setState({ sysInfo: e.data });
