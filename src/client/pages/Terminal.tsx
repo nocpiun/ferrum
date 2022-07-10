@@ -1,4 +1,5 @@
-import { Component, ReactElement } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from "react";
 import openSocket from "socket.io-client";
 import { Terminal as XTermTerminal } from "xterm";
 
@@ -11,28 +12,15 @@ const socket = openSocket(ip, {
     extraHeaders: {"Access-Control-Allow-Origin": "*"}
 });
 
-export default class Terminal extends Component {
-    private term: XTermTerminal | null = null;
+const Terminal: React.FC = () => {
+    var term: XTermTerminal;
 
-    public render(): ReactElement {
-        return (
-            <div className="terminal">
-                <div className="main-container">
-                    <div className="header-container">
-                        <h1>Ferrum 终端</h1>
-                    </div>
-                    <div className="xterm-container" id="xterm"></div>
-                </div>
-            </div>
-        );
-    }
-
-    public componentDidMount(): void {
-        this.term = new XTermTerminal({cursorBlink: true});
-        this.term.open(Utils.getElem("xterm"));
+    useEffect(() => {
+        term = new XTermTerminal({ cursorBlink: true });
+        term.open(Utils.getElem("xterm"));
 
         if(config.terminal.ip == "0.0.0.0") {
-            this.term.write("使用终端之前, 你需要在'src/config.js'中配置ssh服务器信息.");
+            term.write("使用终端之前, 你需要在'src/config.js'中配置ssh服务器信息.");
             return;
         }
 
@@ -49,13 +37,26 @@ export default class Terminal extends Component {
             password
         });
 
-        this.term.onData((data) => {
+        term.onData((data) => {
             socket.emit("t1", data);
         });
 
         socket.on(msgId, (data) => {
             console.log(data);
-            if(this.term) this.term.write(data);
+            if(term) term.write(data);
         });
-    }
+    }, []);
+
+    return (
+        <div className="terminal">
+            <div className="main-container">
+                <div className="header-container">
+                    <h1>Ferrum 终端</h1>
+                </div>
+                <div className="xterm-container" id="xterm"></div>
+            </div>
+        </div>
+    );
 }
+
+export default Terminal;

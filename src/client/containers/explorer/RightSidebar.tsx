@@ -105,17 +105,20 @@ const RightSidebar: React.FC<ExplorerRightSidebarProps> = (props) => {
                     </li>
                 </ul>
             </div>
-            <DialogBox ref={sysInfoDialogBox} title={"系统信息 ("+ sysInfo.system +")"}>
-                <ul>
-                    <li><b>系统版本:</b> {sysInfo.version}</li>
-                    <li><b>系统类型:</b> {sysInfo.arch}</li>
-                    <li><b>当前用户:</b> {sysInfo.userInfo.username}</li>
-                    <li><b>用户文件夹:</b> {sysInfo.userInfo.homedir}</li>
-                    <li><b>内存:</b> <Bar ref={memoryUsageBar}/> {Math.floor(usedmem * 100) +"% / "+ (sysInfo.memory.total / 1024 / 1024 / 1024).toFixed(2)}</li>
-                    <li><b>CPU占用:</b> {sysInfo.cpuUsage}</li>
-                    <li><b>运行时间:</b> {(utHour < 10 ? "0"+ utHour : utHour) +":"+ (utMinute < 10 ? "0"+ utMinute : utMinute) +":"+ (utSecond < 10 ? "0"+ utSecond : utSecond)}</li>
-                </ul>
-            </DialogBox>
+
+            {DialogBox.createDialog("sys-info",
+                <DialogBox ref={sysInfoDialogBox} title={"系统信息 ("+ sysInfo.system +")"}>
+                    <ul>
+                        <li><b>系统版本:</b> {sysInfo.version}</li>
+                        <li><b>系统类型:</b> {sysInfo.arch}</li>
+                        <li><b>当前用户:</b> {sysInfo.userInfo.username}</li>
+                        <li><b>用户文件夹:</b> {sysInfo.userInfo.homedir}</li>
+                        <li><b>内存:</b> <Bar ref={memoryUsageBar}/> {Math.floor(usedmem * 100) +"% / "+ (sysInfo.memory.total / 1024 / 1024 / 1024).toFixed(2)}</li>
+                        <li><b>CPU占用:</b> {sysInfo.cpuUsage}</li>
+                        <li><b>运行时间:</b> {(utHour < 10 ? "0"+ utHour : utHour) +":"+ (utMinute < 10 ? "0"+ utMinute : utMinute) +":"+ (utSecond < 10 ? "0"+ utSecond : utSecond)}</li>
+                    </ul>
+                </DialogBox>
+            )}
         </div>
     );
 }

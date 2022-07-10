@@ -66,17 +66,20 @@ const Header: React.FC<ExplorerHeaderProps> = (props) => {
                     title="收藏"
                     onClick={() => props.onStar()}></button>
             </nav>
-            <DialogBox ref={passwordDialogBox} title="设置密码">
-                <Form>
-                    <Form.Label>旧密码</Form.Label>
-                    <Form.Control type="password" id="old-password" autoComplete="off"/>
-                    <br/>
-                    <Form.Label>新密码</Form.Label>
-                    <Form.Control type="password" id="new-password" autoComplete="new-password"/>
-                    <br/>
-                    <Button onClick={() => handleSetPassword()}>提交</Button>
-                </Form>
-            </DialogBox>
+            
+            {DialogBox.createDialog("password-setting",
+                <DialogBox ref={passwordDialogBox} title="设置密码">
+                    <Form>
+                        <Form.Label>旧密码</Form.Label>
+                        <Form.Control type="password" id="old-password" autoComplete="off"/>
+                        <br/>
+                        <Form.Label>新密码</Form.Label>
+                        <Form.Control type="password" id="new-password" autoComplete="new-password"/>
+                        <br/>
+                        <Button onClick={() => handleSetPassword()}>提交</Button>
+                    </Form>
+                </DialogBox>
+            )}
         </div>
     );
 }

@@ -1,10 +1,20 @@
-import { Component, ReactElement } from "react";
+import React, { Component, ReactElement } from "react";
+import ReactDOM from "react-dom";
 import { Button } from "react-bootstrap";
 
 import Utils from "../../Utils";
 import { DialogBoxProps, DialogBoxState } from "../types";
 
 export default class DialogBox extends Component<DialogBoxProps, DialogBoxState> {
+    public static createDialog(id: string, dialogComponent: ReactElement): React.ReactPortal {
+        return ReactDOM.createPortal(
+            <div id={id}>
+                {dialogComponent}
+            </div>,
+            document.getElementById("dialogs") as Element
+        );
+    }
+
     public constructor(props: DialogBoxProps) {
         super(props);
 
