@@ -29,7 +29,7 @@ const defaultSysInfo: SysInfo = {
         total: 0,
         free: 0
     },
-    cpuUsage: "",
+    cpuUsage: 0,
     upTime: 0
 };
 
@@ -40,6 +40,7 @@ const RightSidebar: React.FC<ExplorerRightSidebarProps> = (props) => {
     const pond = useRef<FilePond>(null);
     const sysInfoDialogBox = useRef<DialogBox>(null);
     const memoryUsageBar = useRef<Bar>(null);
+    const CPUUsageBar = useRef<Bar>(null);
     
     useEffect(
         () => {
@@ -49,8 +50,9 @@ const RightSidebar: React.FC<ExplorerRightSidebarProps> = (props) => {
             sysInfoWorker.onmessage = (e: MessageEvent<SysInfo>) => {
                 setState({ sysInfo: e.data });
 
-                if(memoryUsageBar.current) { // Update the memory usage bar
+                if(memoryUsageBar.current && CPUUsageBar.current) { // Update the memory usage bar & cpu usage bar
                     memoryUsageBar.current.setValue(Math.floor(((e.data.memory.total - e.data.memory.free) / e.data.memory.total) * 100));
+                    CPUUsageBar.current.setValue(Math.floor(e.data.cpuUsage));
                 }
             };
         },
@@ -96,7 +98,7 @@ const RightSidebar: React.FC<ExplorerRightSidebarProps> = (props) => {
                 <ul>
                     <li><b>系统:</b> {sysInfo.system}</li>
                     <li><b>内存:</b> {Math.floor(usedmem * 100) +"%"} (总内存 {(sysInfo.memory.total / 1024 / 1024 / 1024).toFixed(2)})</li>
-                    <li><b>CPU占用:</b> {sysInfo.cpuUsage}</li>
+                    <li><b>CPU占用:</b> {Math.floor(sysInfo.cpuUsage) +"%"}</li>
                     <li><b>运行时间:</b> {(utHour < 10 ? "0"+ utHour : utHour) +":"+ (utMinute < 10 ? "0"+ utMinute : utMinute) +":"+ (utSecond < 10 ? "0"+ utSecond : utSecond)}</li>
                     <li>
                         <Button variant="secondary" onClick={() => {
@@ -114,7 +116,7 @@ const RightSidebar: React.FC<ExplorerRightSidebarProps> = (props) => {
                         <li><b>当前用户:</b> {sysInfo.userInfo.username}</li>
                         <li><b>用户文件夹:</b> {sysInfo.userInfo.homedir}</li>
                         <li><b>内存:</b> <Bar ref={memoryUsageBar}/> {Math.floor(usedmem * 100) +"% / "+ (sysInfo.memory.total / 1024 / 1024 / 1024).toFixed(2)}</li>
-                        <li><b>CPU占用:</b> {sysInfo.cpuUsage}</li>
+                        <li><b>CPU占用:</b> <Bar ref={CPUUsageBar}/> {Math.floor(sysInfo.cpuUsage) +"%"}</li>
                         <li><b>运行时间:</b> {(utHour < 10 ? "0"+ utHour : utHour) +":"+ (utMinute < 10 ? "0"+ utMinute : utMinute) +":"+ (utSecond < 10 ? "0"+ utSecond : utSecond)}</li>
                     </ul>
                 </DialogBox>

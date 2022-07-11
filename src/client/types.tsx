@@ -20,7 +20,7 @@ export interface SysInfo {
         total: number
         free: number
     }
-    cpuUsage: string
+    cpuUsage: number
     upTime: number
 }
 

@@ -5068,6 +5068,11 @@
     "buildcheck" "0.0.3"
     "nan" "^2.15.0"
 
+"cpu-stat@^2.0.1":
+  "integrity" "sha512-bC4ts/0IjYfNV6Dc7F2NauWM0tip0fneZjRek8HqX2ZERC4oSt6dmV+GTN1mfE9OKbLAppv58M2PVzKLGB731w=="
+  "resolved" "https://registry.npmjs.org/cpu-stat/-/cpu-stat-2.0.1.tgz"
+  "version" "2.0.1"
+
 "create-ecdh@^4.0.0":
   "integrity" "sha512-mf+TCx8wWc9VpuxfP2ht0iSISLZnt0JgWlrOKZiNqyUZWnjIaCIVNQArMHnCZKfEYRg6IM7A+NeJoN8gf/Ws0A=="
   "resolved" "https://registry.npmjs.org/create-ecdh/-/create-ecdh-4.0.4.tgz"
