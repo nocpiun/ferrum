@@ -55,11 +55,12 @@ var pass = false;
 if(Utils.getCookie(cookieKey) === md5(config.explorer.password)) {
   pass = true;
 } else {
-  var loginRoot = document.getElementById("login");
-  if(!loginRoot) throw new Error("Cannot get Element: login");
+  var mainRoot = Utils.getElem("root");
+  var loginRoot = Utils.getElem("login");
 
+  mainRoot.style.display = "none";
   loginRoot.style.display = "block";
-  ReactDOM.render(<Login />, document.getElementById("login"));
+  ReactDOM.render(<Login />, loginRoot);
 }
 
 if(pass) {
