@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { ListGroup } from "react-bootstrap";
+
+import MainContext from "../contexts/MainContext";
 
 import { hostname } from "../global";
 import { StarredItemProps } from "../types";
-import * as config from "../../config.json";
-
-const root = config.explorer.root;
+// import * as config from "../../config.json";
 
 const StarredItem: React.FC<StarredItemProps> = (props) => {
+    const { config } = useContext(MainContext);
+    const root = config.explorer.root;
+
     return (
         <ListGroup.Item
             action

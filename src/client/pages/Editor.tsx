@@ -1,7 +1,9 @@
-import { Component, ReactElement } from "react";
+import { Component, Context, ReactElement } from "react";
 import AceEditor from "react-ace";
 import { toast, Toaster } from "react-hot-toast";
 import Axios from "axios";
+
+import MainContext from "../contexts/MainContext";
 
 // containers
 import Header from "../containers/editor/Header";
@@ -11,12 +13,15 @@ import "ace-builds/webpack-resolver";
 import "ace-builds/src-noconflict/theme-chrome";
 import "ace-builds/src-noconflict/ext-language_tools";
 
-import { EditorProps, EditorState, GetFileContentResponse } from "../types";
-import { apiUrl } from "../global";
-import * as config from "../../config.json";
+import {
+    EditorProps,
+    EditorState,
+    GetFileContentResponse,
+    MainContextType
+} from "../types";
+import { apiUrl, editorDefaultValue } from "../global";
+// import * as config from "../../config.json";
 import Emitter from "../utils/emitter";
-
-const root = config.explorer.root;
 
 /**
  * In order to make the browser not display a message if the file didn't change,
@@ -30,18 +35,23 @@ const root = config.explorer.root;
  */
 
 export default class Editor extends Component<EditorProps, EditorState> {
+    public static contextType?: Context<MainContextType> | undefined = MainContext;
+    private static root: string;
+
     private path: string;
     private aceInstance: AceEditor | null = null;
 
-    public constructor(props: EditorProps) {
+    public constructor(props: EditorProps, context: MainContextType) {
         super(props);
+
+        Editor.root = context.config.explorer.root;
 
         this.state = {
             editorLanguage: "text",
             editorValue: "",
             hasChanged: false
         };
-        this.path = root + this.props.path.replaceAll("\\", "/");
+        this.path = Editor.root + this.props.path.replaceAll("\\", "/");
     }
 
     public render(): ReactElement {
@@ -68,14 +78,14 @@ export default class Editor extends Component<EditorProps, EditorState> {
                             value={this.state.editorValue}
                             width="700px"
                             height="525px"
-                            fontSize={config.editor.fontSize}
-                            wrapEnabled={config.editor.autoWrap}
-                            highlightActiveLine={config.editor.highlightActiveLine}
+                            fontSize={this.context.config.editor.fontSize}
+                            wrapEnabled={this.context.config.editor.autoWrap}
+                            highlightActiveLine={this.context.config.editor.highlightActiveLine}
                             enableBasicAutocompletion={true}
                             showPrintMargin={false}
                             setOptions={{
                                 enableBasicAutocompletion: true,
-                                showLineNumbers: config.editor.lineNumber,
+                                showLineNumbers: this.context.config.editor.lineNumber,
                             }}
                             onChange={(v) => {
                                 this.setState({editorValue: v, hasChanged: true});
@@ -90,7 +100,8 @@ export default class Editor extends Component<EditorProps, EditorState> {
     public componentDidMount(): void {
         document.title = "Ferrum - "+ decodeURI(this.path);
 
-        Axios.get(apiUrl +"/getFileContent?path="+ this.path.replaceAll("/", "\\"))
+        if(!this.context.isDemo) {
+            Axios.get(apiUrl +"/getFileContent?path="+ this.path.replaceAll("/", "\\"))
             .then((res: GetFileContentResponse) => {
                 if(res.data.err == 404) {
                     toast.error("无法找到指定文件");
@@ -103,6 +114,12 @@ export default class Editor extends Component<EditorProps, EditorState> {
                 });
             })
             .catch((err) => {throw err});
+        } else {
+            this.setState({
+                editorLanguage: "txt",
+                editorValue: editorDefaultValue
+            });
+        }
         
         document.addEventListener("keydown", (e: KeyboardEvent) => {
             if(e.ctrlKey && e.key == "s") {
@@ -119,6 +136,8 @@ export default class Editor extends Component<EditorProps, EditorState> {
     }
 
     private saveFile(): void {
+        if(this.context.isDemo) return;
+
         Axios.post(apiUrl +"/saveFileContent", {path: decodeURI(this.path), content: this.state.editorValue})
             .then(() => {
                 this.setState({hasChanged: false});

@@ -1,18 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import openSocket from "socket.io-client";
 import { Terminal as XTermTerminal } from "xterm";
 
+import MainContext from "../contexts/MainContext";
+
 import { hostname } from "../global";
 import Utils from "../../Utils";
-import * as config from "../../config.json";
-
-const ip = hostname +":3302";
-const socket = openSocket(ip, {
-    extraHeaders: {"Access-Control-Allow-Origin": "*"}
-});
+// import * as config from "../../config.json";
 
 const Terminal: React.FC = () => {
+    const { config } = useContext(MainContext);
+
+    const ip = hostname +":3302";
+    const socket = openSocket(ip, {
+        extraHeaders: {"Access-Control-Allow-Origin": "*"}
+    });
+
     var term: XTermTerminal;
 
     useEffect(() => {

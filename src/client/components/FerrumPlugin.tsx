@@ -1,32 +1,38 @@
-import { Component, ReactElement } from "react";
+import { Component, Context, ReactElement } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import Axios from "axios";
+
+import MainContext from "../contexts/MainContext";
 
 import {
     FerrumPluginProps,
     FerrumPluginState,
     FerrumPluginOption,
-    GetDataUrlResponse 
+    GetDataUrlResponse,
+    MainContextType
 } from "../types";
-import * as config from "../../config.json";
+// import * as config from "../../config.json";
 import { apiUrl } from "../global";
 
-const root = config.explorer.root;
-
 export default abstract class FerrumPlugin extends Component<FerrumPluginProps, FerrumPluginState> {
+    public static contextType?: Context<MainContextType> | undefined = MainContext;
+    private static root: string;
+
     private path: string;
     protected option: FerrumPluginOption;
     protected showMsgbox: typeof toast = toast;
     
-    public constructor(props: FerrumPluginProps, option: FerrumPluginOption) {
+    public constructor(props: FerrumPluginProps, context: MainContextType, option: FerrumPluginOption) {
         super(props);
+
+        FerrumPlugin.root = context.config.explorer.root;
 
         this.state = {
             viewerComponent: null
         };
 
         this.option = option;
-        this.path = root + this.props.path.replaceAll("\\", "/");
+        this.path = FerrumPlugin.root + this.props.path.replaceAll("\\", "/");
     }
 
     public abstract viewerRender(dataUrl: string): ReactElement;

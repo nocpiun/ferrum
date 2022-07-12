@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
 
 import FerrumPlugin from "../client/components/FerrumPlugin";
-import { FerrumPluginOption, FerrumPluginProps } from "../client/types";
+import { FerrumPluginOption, FerrumPluginProps, MainContextType } from "../client/types";
 
 export default class VideoPlugin extends FerrumPlugin {
     public static option: FerrumPluginOption = {
@@ -12,8 +12,8 @@ export default class VideoPlugin extends FerrumPlugin {
         self: VideoPlugin
     };
 
-    public constructor(props: FerrumPluginProps) {
-        super(props, VideoPlugin.option);
+    public constructor(props: FerrumPluginProps, context: MainContextType) {
+        super(props, context, VideoPlugin.option);
     }
 
     public viewerRender(dataUrl: string): ReactElement {

@@ -7,6 +7,25 @@ interface PageProps {
     path: string
 }
 
+export interface Config {
+    explorer: {
+        root: string
+        password: string
+    }
+    editor: {
+        lineNumber: boolean
+        autoWrap: boolean
+        highlightActiveLine: boolean
+        fontSize: number
+    }
+    terminal: {
+        ip: string
+        port: number
+        username: string
+        password: string
+    }
+}
+
 export interface SysInfo {
     system: string
     version: string
@@ -24,7 +43,16 @@ export interface SysInfo {
     upTime: number
 }
 
+export interface MainContextType {
+    isDemo: boolean
+    config: Config
+}
+
 // Login Panel
+
+export interface LoginPanelProps {
+    isDemo: boolean
+}
 
 export interface LoginPanelState {
     isEnterDisabled: boolean

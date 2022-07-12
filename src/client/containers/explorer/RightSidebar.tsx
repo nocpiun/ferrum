@@ -1,10 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {
     useState,
+    useContext,
     useEffect,
     useRef
 } from "react";
 import { Button } from "react-bootstrap";
 import { FilePond } from "react-filepond";
+
+import MainContext from "../../contexts/MainContext";
 
 import Emitter from "../../utils/emitter";
 import DialogBox from "../../components/DialogBox";
@@ -17,24 +21,25 @@ import {
 import { version, apiUrl } from "../../global";
 
 const defaultSysInfo: SysInfo = {
-    system: "",
-    version: "",
-    platform: "",
-    arch: "",
+    system: "Ferrum-DEMO",
+    version,
+    platform: "-",
+    arch: "-",
     userInfo: {
-        username: "",
-        homedir: ""
+        username: "user",
+        homedir: "-"
     },
     memory: {
-        total: 0,
-        free: 0
+        total: 100,
+        free: 40
     },
-    cpuUsage: 0,
+    cpuUsage: 13,
     upTime: 0
 };
 
 const RightSidebar: React.FC<ExplorerRightSidebarProps> = (props) => {
     const [state, setState] = useState<ExplorerRightSidebarState>({ sysInfo: null });
+    const { isDemo } = useContext(MainContext);
     
     // refs
     const pond = useRef<FilePond>(null);
@@ -44,6 +49,13 @@ const RightSidebar: React.FC<ExplorerRightSidebarProps> = (props) => {
     
     useEffect(
         () => {
+            if(isDemo && memoryUsageBar.current && CPUUsageBar.current) {
+                memoryUsageBar.current.setValue(60);
+                CPUUsageBar.current.setValue(13);
+                
+                return;
+            }
+
             const sysInfoWorker = new Worker("../../workers/sysInfo.worker.tsx", { type: "module" });
             sysInfoWorker.postMessage({ type: "getSysInfo", apiUrl });
 
@@ -82,6 +94,7 @@ const RightSidebar: React.FC<ExplorerRightSidebarProps> = (props) => {
             <div className="right-sidebar-panel upload-container">
                 <p>拖放或浏览文件（最多5个）以上传至当前文件夹</p>
                 <FilePond
+                    disabled={isDemo}
                     ref={pond}
                     allowMultiple={true}
                     maxFiles={5}

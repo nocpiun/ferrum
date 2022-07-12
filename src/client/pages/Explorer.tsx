@@ -2,6 +2,8 @@ import React, { Component, ReactElement } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import Axios from "axios";
 
+import MainContext from "../contexts/MainContext";
+
 // components
 import ListItem from "../components/ListItem";
 import StarredItem from "../components/StarredItem";
@@ -21,38 +23,46 @@ import {
     ExplorerProps,
     ExplorerState,
     DirectoryItem,
-    ItemType
+    ItemType,
+    MainContextType
 } from "../types";
-import { hostname, apiUrl } from "../global";
-import * as config from "../../config.json";
+import { hostname, apiUrl, editorDefaultValue } from "../global";
+// import * as config from "../../config.json";
 import { plugins } from "../../plugins";
 
 // icons
 import starOutline from "../../icons/star_outline.svg";
 import starRate from "../../icons/star_rate.svg";
 
-const root = config.explorer.root;
+export default class Explorer extends Component<ExplorerProps, ExplorerState> {
+    public static contextType?: React.Context<MainContextType> | undefined = MainContext;
+    private static root: string;
 
-export default class Explorer extends Component<ExplorerProps, ExplorerState> {        
     private path: string;
     private isStarred: boolean = false;
     
-    public constructor(props: ExplorerProps) {
+    // According to https://github.com/facebook/react/issues/6598,
+    // the form of `constructor(props, context)` might will be deprecated in the near future.
+    // But there seems just one way to make the constructor can read the context,
+    // so I ignored the deprecation warning in the official docs.
+    public constructor(props: ExplorerProps, context: MainContextType) {
         super(props);
+        
+        Explorer.root = context.config.explorer.root as string;
 
         this.state = {
             itemSelected: [],
             itemList: null,
             starredList: null
         };
-        this.path = root + this.props.path;
+        this.path = Explorer.root + this.props.path;
     }
 
     /**
      * Back to the parent directory
      */
     private handleBack(): void {
-        if(this.path == root +"/") {
+        if(this.path == Explorer.root +"/") {
             toast.error("你在根目录，无法进入上级目录");
             return;
         }
@@ -71,11 +81,13 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
     private handleEnter(e: React.KeyboardEvent): void {
         if(e.key == "Enter") {
             var elem = e.target as HTMLInputElement;
-            window.location.href = hostname +":3300/dir"+ elem.value.replace(root, "");
+            window.location.href = hostname +":3300/dir"+ elem.value.replace(Explorer.root, "");
         }
     }
 
     private handleStar(): void {
+        if(this.context.isDemo) return;
+
         if(!this.isStarred) {
             Axios.post(apiUrl +"/addStarred", {"path": this.path})
                 .then(() => this.refreshStarredList())
@@ -162,7 +174,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
 
         var itemFullName = this.state.itemSelected[0].fullName;
         var itemFormat = this.state.itemSelected[0].format;
-        var itemPath = (this.path.replace(root, "") +"/"+ itemFullName).replaceAll("/", "\\");
+        var itemPath = (this.path.replace(Explorer.root, "") +"/"+ itemFullName).replaceAll("/", "\\");
 
         if(this.state.itemSelected[0].isFile && itemFormat) {
             if(Utils.formatTester(["png", "jpg", "jpeg", "bmp", "gif", "webp", "psd", "svg", "tiff", "ico"], itemFormat)) {
@@ -219,8 +231,10 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         if(this.state.itemSelected == null) return;
         if(this.state.itemSelected.length != 1) return;
 
-        if(this.state.itemSelected[0].isFile) {
+        if(this.state.itemSelected[0].isFile && !this.context.isDemo) {
             window.location.href = hostname +":3301/getFileData?path="+ (this.path +"/"+ this.state.itemSelected[0].fullName).replaceAll("/", "\\");
+        } else {
+            window.location.href = "data:application/octet-stream,"+ editorDefaultValue;
         }
     }
     
@@ -340,7 +354,35 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         });
 
         // Get the info of current directory
-        var dirInfo: FetchDirInfoResponse = await Axios.get(apiUrl +"/fetchDirInfo?path="+ this.path.replaceAll("/", "\\"));
+        var dirInfo: FetchDirInfoResponse;
+        if(!this.context.isDemo) {
+            dirInfo = await Axios.get(apiUrl +"/fetchDirInfo?path="+ this.path.replaceAll("/", "\\"));
+        } else if(this.path == "C:/") { // demo (root path)
+            dirInfo = {
+                data: {
+                    list: [
+                        {
+                            isDirectory: true,
+                            isFile: false,
+                            fullName: "test"
+                        },
+                        {
+                            isDirectory: false,
+                            isFile: true,
+                            fullName: "helloworld.txt",
+                            format: "txt",
+                            size: 90
+                        },
+                    ]
+                }
+            };
+        } else { // demo (test directory)
+            dirInfo = {
+                data: {
+                    list: []
+                }
+            };
+        }
 
         if(dirInfo.data.err == 404) {
             toast.error("无法找到指定文件夹");
@@ -383,9 +425,16 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         });
 
         // Check if the current directory is starred & List all the starred directories
-        var starList = await Axios.get(apiUrl +"/getStarred");
+        var list;
+        if(!this.context.isDemo) {
+            list = new Map((await Axios.get(apiUrl +"/getStarred")).data);
+        } else { // demo
+            list = new Map([
+                [0, "C:/"],
+                [1, "C:/test"],
+            ]);
+        }
 
-        var list = new Map(starList.data);
         // display the full star if the directory is starred
         var p = false;
         list.forEach((value, index) => {
@@ -423,7 +472,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
             downloadButton = document.getElementById("download-file") as HTMLButtonElement;
 
         openButton.disabled = openBtn;
-        deleteButton.disabled = deleteBtn;
+        if(!this.context.isDemo) deleteButton.disabled = deleteBtn;
         downloadButton.disabled = downloadBtn;
     }
 }

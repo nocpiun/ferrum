@@ -1,8 +1,10 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { Button, Form } from "react-bootstrap";
 import Axios from "axios";
 import md5 from "md5-node";
 import toast from "react-hot-toast";
+
+import MainContext from "../../contexts/MainContext";
 
 import DialogBox from "../../components/DialogBox";
 import { apiUrl } from "../../global";
@@ -11,9 +13,12 @@ import Utils from "../../../Utils";
 import * as config from "../../../config.json";
 
 const Header: React.FC<ExplorerHeaderProps> = (props) => {
+    const { isDemo } = useContext(MainContext);
     const passwordDialogBox = useRef<DialogBox | null>(null);
 
     const handleSetPassword = () => {
+        if(isDemo) return;
+
         var oldPassword = (Utils.getElem("old-password") as HTMLInputElement).value;
         var newPassword = (Utils.getElem("new-password") as HTMLInputElement).value;
     
@@ -45,7 +50,7 @@ const Header: React.FC<ExplorerHeaderProps> = (props) => {
 
     return (
         <div className="header-container">
-            <h1>Ferrum 文件管理器</h1>
+            <h1>Ferrum 文件管理器 {isDemo ? "(Demo)": ""}</h1>
             <nav>
                 <Form.Control 
                     type="text"

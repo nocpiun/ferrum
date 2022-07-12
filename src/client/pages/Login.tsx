@@ -1,18 +1,22 @@
-import { Component, ReactElement } from "react";
+import { Component, Context, ReactElement } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { Button, Form } from "react-bootstrap";
 
+import MainContext from "../contexts/MainContext";
+
 import Utils from "../../Utils";
-import { LoginPanelState } from "../types";
-import * as config from "../../config.json";
+import { LoginPanelProps, LoginPanelState, MainContextType } from "../types";
+// import * as config from "../../config.json";
 import md5 from "md5-node";
 
 const cookieKey = "fepw";
 
-export default class Login extends Component<{}, LoginPanelState> {
+export default class Login extends Component<LoginPanelProps, LoginPanelState> {
+    public static contextType?: Context<MainContextType> | undefined = MainContext;
+
     private passwordInput: HTMLInputElement | null = null;
 
-    public constructor(props: {}) {
+    public constructor(props: LoginPanelProps) {
         super(props);
 
         this.state = {
@@ -26,7 +30,7 @@ export default class Login extends Component<{}, LoginPanelState> {
 
         var password = this.passwordInput.value;
 
-        if(md5(password) === config.explorer.password) {
+        if(md5(password) === this.context.config.explorer.password) {
             Utils.setCookie(cookieKey, md5(md5(password))); // The value that store into cookie has been double-md5ed
 
             toast.success("登录成功");

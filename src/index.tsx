@@ -11,12 +11,16 @@ import Utils from "./Utils";
 // The configuration file generator: `src/server/InitConfig.js`
 // 
 // This may cause that the app cannot be built by `npm run build`
-import * as config from "./config.json";
+// import * as config from "./config.json";
 
 import Main from "./Main";
 import Login from "./client/pages/Login";
 
 import { version } from "./client/global";
+import { Config } from "./client/types";
+import MainContext from "./client/contexts/MainContext";
+
+export const isDemo = typeof document.body.getAttribute("demo") === "string" ? true : false;
 
 if(window.location.pathname == "/" || window.location.pathname == "/dir") {
   window.location.href = "/dir/"; // default page
@@ -49,27 +53,35 @@ Axios.get("https://v1.hitokoto.cn/?c=i&encode=json", {responseType: "json"})
   .catch((err) => {throw err});
 
 // Verify & Rendering
-const cookieKey = "fepw";
-var pass = false;
+(async function() {
+  const config: Config = !isDemo ?
+    (await import("./config.json")).default as unknown as Config :
+    (await import("./config-demo.json")).default as unknown as Config;
 
-if(Utils.getCookie(cookieKey) === md5(config.explorer.password)) {
-  pass = true;
-} else {
-  var mainRoot = Utils.getElem("root");
-  var loginRoot = Utils.getElem("login");
-
-  mainRoot.style.display = "none";
-  loginRoot.style.display = "block";
-  ReactDOM.render(<Login />, loginRoot);
-}
-
-if(pass) {
-  ReactDOM.render(
-    <React.StrictMode>
-      <Router>
-        <Route path="*" component={Main}/>
-      </Router>
-    </React.StrictMode>,
-    document.getElementById("root")
-  );
-}
+  const cookieKey = "fepw";
+  var pass = false;
+  
+  if(Utils.getCookie(cookieKey) === md5(config.explorer.password)) {
+    pass = true;
+  } else {
+    var mainRoot = Utils.getElem("root");
+    var loginRoot = Utils.getElem("login");
+  
+    mainRoot.style.display = "none";
+    loginRoot.style.display = "block";
+    ReactDOM.render(<Login isDemo={isDemo}/>, loginRoot);
+  }
+  
+  if(pass) {
+    ReactDOM.render(
+      <React.StrictMode>
+        <MainContext.Provider value={{ isDemo, config }}>
+          <Router>
+            <Route path="*" component={Main}/>
+          </Router>
+        </MainContext.Provider>
+      </React.StrictMode>,
+      document.getElementById("root")
+    );
+  }
+})();

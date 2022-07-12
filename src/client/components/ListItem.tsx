@@ -1,11 +1,14 @@
 import React, {
     useState,
+    useContext,
     useEffect,
     useRef
 } from "react";
 import { ListGroup, Form } from "react-bootstrap";
 import { toast } from "react-hot-toast";
 import Axios from "axios";
+
+import MainContext from "../contexts/MainContext";
 
 import Utils from "../../Utils";
 import { DirectoryItem, ListItemProps, ItemType } from "../types";
@@ -21,6 +24,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     
     const [isRenaming, setIsRenaming] = useState<boolean>(false);
     const [isSelected, setIsSelected] = useState<boolean>(false); // Not equal to the selection of checkbox
+    const { isDemo } = useContext(MainContext);
     const renameBox = useRef<HTMLInputElement>(null);
 
     const renameBoxSwitch = () => {
@@ -37,6 +41,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     };
 
     const renameFile = () => {
+        if(isDemo) return;
         if(!renameBox.current) return;
 
         toast.promise(Axios.post(apiUrl +"/renameFile", {
