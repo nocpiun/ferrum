@@ -106,7 +106,8 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon --config config/nodemon.config.json",
     "client": "cross-env NODE_ENV=development node scripts/start.js",
-    "build": "node src/server/InitConfig && node scripts/build.js",
+    "build": "node scripts/build.js",
+    "build:netlify": "node src/server/InitConfig && node scripts/build.js",
     "test": "node scripts/test.js"
   },
   "browserslist": {

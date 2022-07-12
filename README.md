@@ -8,6 +8,7 @@
 [![LICENSE](https://img.shields.io/badge/license-MIT-green.svg "LICENSE")](./LICENSE)
 [![Stars](https://img.shields.io/github/stars/NriotHrreion/ferrum.svg?label=Stars)](https://github.com/NriotHrreion/ferrum/stargazers)
 [![test](https://img.shields.io/github/workflow/status/NriotHrreion/ferrum/Run%20Code%20Tests)](https://github.com/NriotHrreion/ferrum/actions/workflows/node.js.yml)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/e6af7829-7b1c-47ed-bf14-deb2b2d9648a/deploy-status)](https://app.netlify.com/sites/resonant-kitsune-43a162/deploys)
 
 </div>
 
@@ -191,6 +192,7 @@ An explanation of the `package.json` scripts.
 - **`server`** Only launch the server
 - **`client`** Only launch the client
 - **`build`** Create a production build (No using singly)
+- **`build:netlify`** Create a production build (For the deployment of Netlify)
 - **`test`** Run tests
 
 ## Note
