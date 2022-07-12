@@ -468,6 +468,10 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         });
     }
 
+    /**
+     * The three params,
+     * which is from the left to the right of the ToolButtons (src/client/containers/explorer/ToolButtons.tsx)
+     */
     private setControlButtonsDisabled(openBtn: boolean, deleteBtn: boolean, downloadBtn: boolean): void {
         var openButton = document.getElementById("open-file") as HTMLButtonElement,
             deleteButton = document.getElementById("delete-file") as HTMLButtonElement,

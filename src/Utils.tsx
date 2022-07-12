@@ -1,7 +1,5 @@
 export default class Utils {
-    /**
-     * From: https://blog.csdn.net/LUxxxX/article/details/90177682
-     */
+    // Consider https://blog.csdn.net/LUxxxX/article/details/90177682 (Anyway, this method is useless now)
     public static fomatFloat(num: number, n: number): string | boolean {   
         var f = parseFloat(num.toString());
         if(isNaN(f)) return false;
