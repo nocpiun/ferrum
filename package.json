@@ -123,6 +123,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-methods": "^7.18.6",
     "@babel/runtime": "^7.17.8",
     "@types/cors": "^2.8.12",
     "@types/echarts": "^4.9.15",
