@@ -37,6 +37,7 @@ import starRate from "../../icons/star_rate.svg";
 export default class Explorer extends Component<ExplorerProps, ExplorerState> {
     public static contextType?: React.Context<MainContextType> | undefined = MainContext;
     private static root: string;
+    private static port: string; // include `:`
 
     private path: string;
     private isStarred: boolean = false;
@@ -49,6 +50,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         super(props);
         
         Explorer.root = context.config.explorer.root as string;
+        Explorer.port = !context.isDemo ? ":3300" : "";
 
         this.state = {
             itemSelected: [],
@@ -72,7 +74,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         for(let i = 1; i < pathArr.length - 1; i++) {
             newPath += "/"+ pathArr[i];
         }
-        window.location.href = hostname +":3300/dir"+ newPath;
+        window.location.href = hostname + Explorer.port +"/dir"+ newPath;
     }
 
     /**
@@ -81,7 +83,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
     private handleEnter(e: React.KeyboardEvent): void {
         if(e.key == "Enter") {
             var elem = e.target as HTMLInputElement;
-            window.location.href = hostname +":3300/dir"+ elem.value.replace(Explorer.root, "");
+            window.location.href = hostname + Explorer.port +"/dir"+ elem.value.replace(Explorer.root, "");
         }
     }
 
@@ -178,24 +180,24 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
 
         if(this.state.itemSelected[0].isFile && itemFormat) {
             if(Utils.formatTester(["png", "jpg", "jpeg", "bmp", "gif", "webp", "psd", "svg", "tiff", "ico"], itemFormat)) {
-                window.location.href = hostname +":3300/picture/?path="+ itemPath;
+                window.location.href = hostname + Explorer.port +"/picture/?path="+ itemPath;
                 return;
             }
 
             for(let i = 0; i < plugins.length; i++) {
                 if(Utils.formatTester(plugins[i].format, itemFormat)) {
-                    window.location.href = hostname +":3300"+ plugins[i].route +"/?path="+ itemPath;
+                    window.location.href = hostname + Explorer.port + plugins[i].route +"/?path="+ itemPath;
                     return;
                 }
                 console.log(plugins[i].format, itemFormat);
             }
 
-            window.location.href = hostname +":3300/edit/?path="+ itemPath;
+            window.location.href = hostname + Explorer.port +"/edit/?path="+ itemPath;
             return;
         }
 
         if(this.state.itemSelected[0].isFile && !itemFormat) {
-            window.location.href = hostname +":3300/edit/?path="+ itemPath;
+            window.location.href = hostname + Explorer.port +"/edit/?path="+ itemPath;
             return;
         }
 

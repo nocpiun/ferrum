@@ -22,6 +22,10 @@ Because it's only maintained by me, so it has many problems and bugs. You can cr
 File Explorer -> FE -> Fe (Chemical Element) -> Ferrum
 ```
 
+#### Can I have a look of it?
+
+Demo: https://ferrum-demo.nin.red (The password is `123456`)
+
 ## Deploy & Use
 
 First, you need to make sure that your server (or computer) has installed Nodejs.
