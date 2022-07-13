@@ -19,7 +19,7 @@ const Settings: React.FC = () => {
     const autoWrapToggle = useRef<Toggle | null>(null);
     const highlightActiveLineToggle = useRef<Toggle | null>(null);
 
-    const { config } = useContext(MainContext);
+    const { isDemo, config } = useContext(MainContext);
 
     function getInputElem(id: string): HTMLInputElement {
         return Utils.getElem(id) as HTMLInputElement;
@@ -29,7 +29,8 @@ const Settings: React.FC = () => {
         if(
             !lineNumberToggle.current ||
             !autoWrapToggle.current ||
-            !highlightActiveLineToggle.current
+            !highlightActiveLineToggle.current ||
+            isDemo
         ) return;
 
         var newConfig: Config = {
