@@ -1,0 +1,48 @@
+.settings-dialog form {
+    h4 {
+        font-weight: bold;
+        padding-bottom: 5px;
+        border-bottom: 1px solid @light-gray;
+    }
+
+    .settings-option {
+        height: 38px;
+        margin-top: 15px;
+        margin-bottom: 15px;
+
+        span {
+            vertical-align: sub;
+        }
+        span.description {
+            margin-left: 5px;
+            font-size: 9pt;
+            color: @light-gray2;
+        }
+
+        .toggle {
+            #mixin.settings-input(middle);
+            width: 54px;
+            height: 28px;
+            background-color: rgba(44, 62, 80, .5); // @theme-color a = 0.5
+            border-color: transparent;
+            border-radius: .25rem;
+            padding: 2px;
+            text-align: left;
+            transition: background-color 95ms;
+            .knob {
+                display: inline-block;
+                width: 21px;
+                height: 20px;
+                background-color: @theme-color;
+                border-radius: .15rem;
+                transform: translate3d(0, 0, 0);
+                transition: background-color 95ms, transform linear 85ms;
+            }
+        }
+    
+        input[type=text], input[type=password], .form-select {
+            #mixin.settings-input(middle);
+            width: 300px;
+        }
+    }
+}

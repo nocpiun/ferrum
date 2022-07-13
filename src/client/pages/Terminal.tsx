@@ -24,7 +24,7 @@ const Terminal: React.FC = () => {
         term.open(Utils.getElem("xterm"));
 
         if(config.terminal.ip == "0.0.0.0") {
-            term.write("使用终端之前, 你需要在'src/config.js'中配置ssh服务器信息.");
+            term.write("使用终端之前, 你需要在设置中配置终端服务器信息.");
             return;
         }
 

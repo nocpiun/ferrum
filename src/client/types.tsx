@@ -7,6 +7,8 @@ interface PageProps {
     path: string
 }
 
+type DefaultCallback = () => any
+
 export interface Config {
     explorer: {
         root: string
@@ -87,19 +89,38 @@ export interface ExplorerState {
 export interface ExplorerHeaderProps {
     path: string
     onEnter: (e: React.KeyboardEvent) => any
-    onStar: () => any
+    onStar: DefaultCallback
+}
+
+export interface ExplorerSettingsSectionProps {
+    title: string
+}
+
+export interface ExplorerSettingsOptionProps {
+    name: string
+    description?: string
+}
+
+export interface ExplorerSettingsToggleProps {
+    id: string
+    defaultValue: boolean
+    disabled?: boolean
+}
+
+export interface ExplorerSettingsToggleState {
+    isOn: boolean
 }
 
 export interface ExplorerToolButtonsProps {
-    onOpenFile: () => any
-    onDeleteFile: () => any
-    onDownloadFile: () => any
-    onCreateFile: () => any
-    onCreateDirectory: () => any
+    onOpenFile: DefaultCallback
+    onDeleteFile: DefaultCallback
+    onDownloadFile: DefaultCallback
+    onCreateFile: DefaultCallback
+    onCreateDirectory: DefaultCallback
 }
 
 export interface ExplorerListProps {
-    onBack: () => any
+    onBack: DefaultCallback
     itemList: React.ReactElement | null
 }
 
@@ -131,8 +152,8 @@ export interface EditorState {
 
 export interface EditorHeaderProps {
     path: string
-    onSaveFile: () => any
-    onUndo: () => any
+    onSaveFile: DefaultCallback
+    onUndo: DefaultCallback
 }
 
 export interface EditorHeaderState {

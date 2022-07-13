@@ -5,15 +5,17 @@ import md5 from "md5-node";
 import toast from "react-hot-toast";
 
 import MainContext from "../../contexts/MainContext";
+import Settings from "../settings/Settings";
 
 import DialogBox from "../../components/DialogBox";
 import { apiUrl } from "../../global";
 import { ExplorerHeaderProps } from "../../types";
 import Utils from "../../../Utils";
-import * as config from "../../../config.json";
+// import * as config from "../../../config.json";
 
 const Header: React.FC<ExplorerHeaderProps> = (props) => {
-    const { isDemo } = useContext(MainContext);
+    const { isDemo, config } = useContext(MainContext);
+    const settingsDialogBox = useRef<DialogBox | null>(null);
     const passwordDialogBox = useRef<DialogBox | null>(null);
 
     const handleSetPassword = () => {
@@ -59,6 +61,13 @@ const Header: React.FC<ExplorerHeaderProps> = (props) => {
                     placeholder="文件夹路径..."
                     onKeyDown={(e) => props.onEnter(e)}/>
                 <button
+                    className="header-button settings"
+                    id="settings"
+                    title="设置"
+                    onClick={() => {
+                        if(settingsDialogBox.current) settingsDialogBox.current.setOpen(true);
+                    }}></button>
+                <button
                     className="header-button set-password"
                     id="set-password"
                     title="设置密码"
@@ -71,6 +80,12 @@ const Header: React.FC<ExplorerHeaderProps> = (props) => {
                     title="收藏"
                     onClick={() => props.onStar()}></button>
             </nav>
+
+            {DialogBox.createDialog("settings",
+                <DialogBox ref={settingsDialogBox} title="设置 (ctrl+s 保存)">
+                    <Settings />
+                </DialogBox>
+            )}
             
             {DialogBox.createDialog("password-setting",
                 <DialogBox ref={passwordDialogBox} title="设置密码">

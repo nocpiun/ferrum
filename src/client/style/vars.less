@@ -7,3 +7,11 @@
 @light-gray2: #9E9E9E;
 @light-gray3: #41556b;
 @light-gray4: #dadada;
+
+#mixin() {
+    .settings-input(@vertical-align) {
+        display: inline-block;
+        vertical-align: @vertical-align;
+        float: right;
+    }
+}
