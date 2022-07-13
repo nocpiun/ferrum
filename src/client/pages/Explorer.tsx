@@ -391,6 +391,18 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
             return;
         }
 
+        /**
+         * Make the directories is before the files
+         * 
+         * Like:
+         * ./dirA
+         * ./dirB
+         * ./dirC
+         * ./fileA.txt
+         * ./fileB.txt
+         * 
+         * @type {DirectoryItem[]}
+         */
         var dirItemList = dirInfo.data.list;
         for(let i = dirItemList.length - 1; i >= 0; i--) {
             if(dirItemList[i].isFile) {

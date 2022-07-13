@@ -56,6 +56,7 @@ export default class DialogBox extends Component<DialogBoxProps, DialogBoxState>
             }
         }, {passive: false});
 
+        // Make the back-to-top button unavailable when the dialog is open
         Utils.getElem("back-to-top-button").addEventListener("click", (e: MouseEvent) => {
             if(this.state.isOpen) {
                 e.stopPropagation();

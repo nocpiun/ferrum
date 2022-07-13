@@ -6,7 +6,7 @@
 
 - **`components`** The reusable components
 - **`containers`** The containers in the app pages
-- **`contexts`** The context components (there is only one context component now)
+- **`contexts`** The context components (Consider [React docs](https://reactjs.org/docs/context.html))
 - **`pages`** The app pages
 - **`style`** The stylesheets ([Less](https://lesscss.org))
 - **`utils`** Some utilities

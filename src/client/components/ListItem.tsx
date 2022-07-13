@@ -20,6 +20,8 @@ const ListItem: React.FC<ListItemProps> = (props) => {
         ? Utils.fomatFloat(props.itemSize / 1024, 1) +"KB"
         : "";
     var renameBoxCurrentValue: string | null = null;
+
+    // To compute the click time in order to detect the user's action (open rename textarea)
     var clickTimer: NodeJS.Timeout | null = null;
     
     const [isRenaming, setIsRenaming] = useState<boolean>(false);

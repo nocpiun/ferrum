@@ -4,6 +4,7 @@ import { Alert, Button } from "react-bootstrap";
 import { AlertBoxProps } from "../types";
 import Emitter from "../utils/emitter";
 
+/** @deprecated */
 const AlertBox: React.FC<AlertBoxProps> = (props) => {
     return (
         <Alert variant={props.variant} className="alert-box" style={props.style} id={props.id}>
