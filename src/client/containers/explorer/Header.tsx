@@ -1,4 +1,9 @@
-import React, { useContext, useRef } from "react";
+import React, {
+    useState,
+    useContext,
+    useRef,
+    useEffect
+} from "react";
 import { Button, Form } from "react-bootstrap";
 import Axios from "axios";
 import md5 from "md5-node";
@@ -11,12 +16,16 @@ import DialogBox from "../../components/DialogBox";
 import { apiUrl } from "../../global";
 import { ExplorerHeaderProps } from "../../types";
 import Utils from "../../../Utils";
+import Emitter from "../../utils/emitter";
 // import * as config from "../../../config.json";
 
 const Header: React.FC<ExplorerHeaderProps> = (props) => {
+    const [validated, setValidated] = useState(false);
+
     const { isDemo, config } = useContext(MainContext);
     const settingsDialogBox = useRef<DialogBox | null>(null);
     const passwordDialogBox = useRef<DialogBox | null>(null);
+    const passwordForm = useRef<HTMLFormElement | null>(null);
 
     const handleSetPassword = () => {
         if(isDemo) return;
@@ -49,6 +58,16 @@ const Header: React.FC<ExplorerHeaderProps> = (props) => {
             error: "更改失败"
         }).then(() => window.location.reload());
     };
+
+    useEffect(() => {
+        Emitter.get().on("dialogClose", (dialogId: string) => {
+            if(dialogId === "password-setting") {
+                (Utils.getElem("old-password") as HTMLInputElement).value
+                    = (Utils.getElem("new-password") as HTMLInputElement).value
+                    = "";
+            }
+        });
+    }, []);
 
     return (
         <div className="header-container">
@@ -89,14 +108,25 @@ const Header: React.FC<ExplorerHeaderProps> = (props) => {
             
             {DialogBox.createDialog("password-setting",
                 <DialogBox ref={passwordDialogBox} id="password-setting" title="设置密码">
-                    <Form>
-                        <Form.Label>旧密码</Form.Label>
-                        <Form.Control type="password" id="old-password" autoComplete="off"/>
+                    <Form ref={passwordForm} noValidate validated={validated}>
+                        <Form.Group>
+                            <Form.Label>旧密码</Form.Label>
+                            <Form.Control type="password" id="old-password" autoComplete="off" required/>
+                            <Form.Control.Feedback type="invalid">请输入旧密码</Form.Control.Feedback>
+                        </Form.Group>
                         <br/>
-                        <Form.Label>新密码</Form.Label>
-                        <Form.Control type="password" id="new-password" autoComplete="new-password"/>
+                        <Form.Group>
+                            <Form.Label>新密码</Form.Label>
+                            <Form.Control type="password" id="new-password" autoComplete="new-password" required/>
+                            <Form.Control.Feedback type="invalid">请输入新密码</Form.Control.Feedback>
+                        </Form.Group>
                         <br/>
-                        <Button onClick={() => handleSetPassword()}>提交</Button>
+                        <Button onClick={() => {
+                            if(passwordForm.current?.checkValidity()) {
+                                setValidated(true);
+                                handleSetPassword();
+                            }
+                        }}>提交</Button>
                     </Form>
                 </DialogBox>
             )}

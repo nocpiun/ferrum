@@ -1,6 +1,6 @@
 {
   "name": "ferrum",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "private": true,
   "dependencies": {
     "@babel/core": "7.12.3",
