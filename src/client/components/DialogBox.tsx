@@ -40,7 +40,7 @@ export default class DialogBox extends Component<DialogBoxProps, DialogBoxState>
                     <div className="dialog-content">{this.props.children}</div>
                     <div className="dialog-footer">
                         <Button id="dialog-close" onClick={() => {
-                            Emitter.get().emit("dialogClose", this.props.title);
+                            Emitter.get().emit("dialogClose", this.props.id);
                             this.setOpen(false);
                         }}>关闭</Button>
                     </div>

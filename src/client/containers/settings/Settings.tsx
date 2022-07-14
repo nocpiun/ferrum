@@ -63,8 +63,8 @@ const Settings: React.FC = () => {
 
     useEffect(() => {
         // Reset the config list when the user close the dialog
-        Emitter.get().on("dialogClose", (dialogTitle: string) => {
-            if(dialogTitle == "设置") {
+        Emitter.get().on("dialogClose", (dialogId: string) => {
+            if(dialogId === "settings") {
                 getInputElem("settings-root").value = config.explorer.root;
                 
                 lineNumberToggle.current?.setStatus(config.editor.lineNumber);

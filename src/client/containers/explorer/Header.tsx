@@ -82,13 +82,13 @@ const Header: React.FC<ExplorerHeaderProps> = (props) => {
             </nav>
 
             {DialogBox.createDialog("settings",
-                <DialogBox ref={settingsDialogBox} title="设置 (ctrl+s 保存)">
+                <DialogBox ref={settingsDialogBox} id="settings" title="设置 (ctrl+s 保存)">
                     <Settings />
                 </DialogBox>
             )}
             
             {DialogBox.createDialog("password-setting",
-                <DialogBox ref={passwordDialogBox} title="设置密码">
+                <DialogBox ref={passwordDialogBox} id="password-setting" title="设置密码">
                     <Form>
                         <Form.Label>旧密码</Form.Label>
                         <Form.Control type="password" id="old-password" autoComplete="off"/>

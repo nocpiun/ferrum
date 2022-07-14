@@ -10,7 +10,7 @@ import Utils from "./Utils";
 import Main from "./Main";
 import Login from "./client/pages/Login";
 
-import { version } from "./client/global";
+import { apiUrl, version } from "./client/global";
 import { Config } from "./client/types";
 import MainContext from "./client/contexts/MainContext";
 
@@ -49,6 +49,10 @@ Axios.get("https://v1.hitokoto.cn/?c=i&encode=json", {responseType: "json"})
 // Verify & Rendering
 (async function() {
 
+  async function getConfig(): Promise<Config> {
+    return (await Axios.get<{config: Config}>(apiUrl +"/getConfig")).data.config;
+  }
+
   // The `config.json` is a configuration file,
   // it will be generated automatically when the user run the app for the first time
   // The configuration file generator: `src/server/InitConfig.js`
@@ -62,7 +66,7 @@ Axios.get("https://v1.hitokoto.cn/?c=i&encode=json", {responseType: "json"})
   // so when it's in demo mode, there need to be a file which isn't in `.gitignore`.
   // Otherwise, Netlify won't be able to build the app.
   const config: Config = !isDemo ?
-    (await import("./config.json")).default as unknown as Config :
+    await getConfig() :
     (await import("./config-demo.json")).default as unknown as Config;
 
   // Verify

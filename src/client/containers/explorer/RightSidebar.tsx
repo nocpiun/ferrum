@@ -122,7 +122,7 @@ const RightSidebar: React.FC<ExplorerRightSidebarProps> = (props) => {
             </div>
 
             {DialogBox.createDialog("sys-info",
-                <DialogBox ref={sysInfoDialogBox} title={"系统信息 ("+ sysInfo.system +")"}>
+                <DialogBox ref={sysInfoDialogBox} id="sys-info" title={"系统信息 ("+ sysInfo.system +")"}>
                     <ul>
                         <li><b>系统版本:</b> {sysInfo.version}</li>
                         <li><b>系统类型:</b> {sysInfo.arch}</li>

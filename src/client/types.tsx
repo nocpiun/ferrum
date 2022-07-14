@@ -214,6 +214,7 @@ export interface AlertBoxProps extends React.HTMLAttributes<HTMLDivElement> {
 // DialogBox Component
 
 export interface DialogBoxProps {
+    id: string
     title: string
 }
 

@@ -17,6 +17,7 @@ const createFileApi = require("./api/CreateFile");
 const createDirApi = require("./api/CreateDir");
 const setPasswordApi = require("./api/SetPassword");
 const setConfigApi = require("./api/SetConfig");
+const getConfigApi = require("./api/GetConfig");
 
 module.exports = function(app) {
     app.get("/fetchDirInfo", (req, res) => fetchDirInfoApi(req, res));
@@ -35,6 +36,7 @@ module.exports = function(app) {
     app.post("/createDir", (req, res) => createDirApi(req, res));
     app.post("/setPassword", (req, res) => setPasswordApi(req, res));
     app.post("/setConfig", (req, res) => setConfigApi(req, res));
+    app.get("/getConfig", (req, res) => getConfigApi(req, res));
 
     return app;
 };
