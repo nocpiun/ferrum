@@ -415,10 +415,15 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                 <>
                     {
                         dirItemList.map((value, index) => {
+                            if(
+                                value.fullName[0] == "." &&
+                                !this.context.config.explorer.displayHiddenFile
+                            ) return;
+
                             return <ListItem
                                 itemType={value.isFile ? ItemType.FILE : ItemType.FOLDER}
                                 itemName={value.fullName}
-                                itemSize={value.size != undefined ? value.size : -1}
+                                itemSize={value.size ?? -1}
                                 itemInfo={JSON.stringify(value)}
                                 itemPath={this.path}
                                 onSelect={(item) => this.handleItemSelect(item)}

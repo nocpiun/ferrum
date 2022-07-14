@@ -13,6 +13,7 @@ export interface Config {
     explorer: {
         root: string
         password: string
+        displayHiddenFile: boolean
     }
     editor: {
         lineNumber: boolean

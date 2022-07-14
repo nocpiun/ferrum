@@ -15,6 +15,7 @@ import { apiUrl } from "../../global";
 import { Config } from "../../types";
 
 const Settings: React.FC = () => {
+    const displayHiddenFileToggle = useRef<Toggle | null>(null);
     const lineNumberToggle = useRef<Toggle | null>(null);
     const autoWrapToggle = useRef<Toggle | null>(null);
     const highlightActiveLineToggle = useRef<Toggle | null>(null);
@@ -27,6 +28,7 @@ const Settings: React.FC = () => {
 
     const handleSave = () => {
         if(
+            !displayHiddenFileToggle.current ||
             !lineNumberToggle.current ||
             !autoWrapToggle.current ||
             !highlightActiveLineToggle.current ||
@@ -36,7 +38,8 @@ const Settings: React.FC = () => {
         var newConfig: Config = {
             explorer: {
                 root: getInputElem("settings-root").value,
-                password: config.explorer.password
+                password: config.explorer.password,
+                displayHiddenFile: displayHiddenFileToggle.current.getStatus()
             },
             editor: {
                 lineNumber: lineNumberToggle.current.getStatus(),
@@ -66,6 +69,7 @@ const Settings: React.FC = () => {
         Emitter.get().on("dialogClose", (dialogId: string) => {
             if(dialogId === "settings") {
                 getInputElem("settings-root").value = config.explorer.root;
+                displayHiddenFileToggle.current?.setStatus(config.explorer.displayHiddenFile);
                 
                 lineNumberToggle.current?.setStatus(config.editor.lineNumber);
                 autoWrapToggle.current?.setStatus(config.editor.autoWrap);
@@ -95,15 +99,18 @@ const Settings: React.FC = () => {
                     <Option name="根目录" description="Linux和Mac应为'/'">
                         <Form.Control type="text" id="settings-root" defaultValue={config.explorer.root}/>
                     </Option>
+                    <Option name="显示隐藏文件">
+                        <Toggle ref={displayHiddenFileToggle} id="settings-display-hidden-file" defaultValue={config.explorer.displayHiddenFile}/>
+                    </Option>
                 </SettingsSection>
                 <SettingsSection title="编辑器">
                     <Option name="显示行数">
                         <Toggle ref={lineNumberToggle} id="settings-line-number" defaultValue={config.editor.lineNumber}/>
                     </Option>
-                    <Option name="自动换行">
+                    <Option name="自动换行" description="当一行字的长度超过编辑器宽度时, 自动换行">
                         <Toggle ref={autoWrapToggle} id="settings-auto-wrap" defaultValue={config.editor.autoWrap}/>
                     </Option>
-                    <Option name="活动行高亮">
+                    <Option name="活动行高亮" description="使当前光标所在的行高亮">
                         <Toggle ref={highlightActiveLineToggle} id="settings-highlight-active-line" defaultValue={config.editor.highlightActiveLine}/>
                     </Option>
                     <Option name="字体大小">

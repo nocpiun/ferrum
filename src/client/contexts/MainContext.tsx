@@ -7,7 +7,8 @@ const MainContext = React.createContext<MainContextType>({
     config: { // let the components know the config so that they can work in the correct way
         "explorer": {
             "root": "C:",
-            "password": "e10adc3949ba59abbe56e057f20f883e"
+            "password": "e10adc3949ba59abbe56e057f20f883e",
+            "displayHiddenFile": true
         },
         "editor": {
             "lineNumber": true,
