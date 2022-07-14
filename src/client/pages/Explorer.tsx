@@ -418,7 +418,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                             return <ListItem
                                 itemType={value.isFile ? ItemType.FILE : ItemType.FOLDER}
                                 itemName={value.fullName}
-                                itemSize={value.size ? value.size : -1}
+                                itemSize={value.size != undefined ? value.size : -1}
                                 itemInfo={JSON.stringify(value)}
                                 itemPath={this.path}
                                 onSelect={(item) => this.handleItemSelect(item)}
