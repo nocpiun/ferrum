@@ -175,7 +175,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         if(this.state.itemSelected.length != 1) return;
 
         var itemFullName = this.state.itemSelected[0].fullName;
-        var itemFormat = this.state.itemSelected[0].format;
+        var itemFormat = this.state.itemSelected[0].format?.toLowerCase();
         var itemPath = (this.path.replace(Explorer.root, "") +"/"+ itemFullName).replaceAll("/", "\\");
 
         if(this.state.itemSelected[0].isFile && itemFormat) {
