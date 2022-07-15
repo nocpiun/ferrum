@@ -95,6 +95,7 @@ export interface ExplorerHeaderProps {
 
 export interface ExplorerSettingsSectionProps {
     title: string
+    icon: string
 }
 
 export interface ExplorerSettingsOptionProps {

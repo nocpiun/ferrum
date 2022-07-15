@@ -32,12 +32,14 @@
                 font-weight: bold;
             }
             .header-button {
+                flex: 1;
                 width: 20px;
                 height: 20px;
                 margin: 10px;
                 border: none;
                 background-color: transparent;
                 background-position: center center;
+                background-repeat: no-repeat;
             }
             nav {
                 display: flex;
@@ -49,22 +51,20 @@
                     width: 89%;
                     display: inline-block;
                 }
-                .star {
-                    flex: 1;
+                .star-button {
                     margin-left: 5px;
                     background-image: url(../../icons/star_outline.svg);
-                    background-repeat: no-repeat;
                 }
-                .set-password {
-                    flex: 1;
+                .search-button {
+                    margin-left: 5px;
+                    background-image: url(../../icons/search.svg);
+                }
+                .set-password-button {
                     margin-left: 5px;
                     background-image: url(../../icons/key.svg);
-                    background-repeat: no-repeat;
                 }
-                .settings {
-                    flex: 1;
+                .settings-button {
                     background-image: url(../../icons/settings.svg);
-                    background-repeat: no-repeat;
                 }
             }
         }
@@ -126,7 +126,7 @@
                     left: 45px;
                 }
                 &[data-type="folder"]::before {
-                    background-image: url(../../icons/folder.svg);
+                    background-image: url(../../icons/folder_rate.svg);
                 }
                 &[data-type="file"]::before {
                     background-image: url(../../icons/file.svg);

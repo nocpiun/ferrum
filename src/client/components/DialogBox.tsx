@@ -61,7 +61,8 @@ export default class DialogBox extends Component<DialogBoxProps, DialogBoxState>
                     target.className == "settings-section" ||
                     target.className == "toggle" ||
                     target.parentElement?.className == "settings-option" ||
-                    target.parentElement?.className == "toggle"
+                    target.parentElement?.className == "toggle" ||
+                    target.parentElement?.className == "section-title"
                 )
             ) {
                 return false;
@@ -77,7 +78,8 @@ export default class DialogBox extends Component<DialogBoxProps, DialogBoxState>
                     target.className == "settings-section" ||
                     target.className == "toggle" ||
                     target.parentElement?.className == "settings-option" ||
-                    target.parentElement?.className == "toggle"
+                    target.parentElement?.className == "toggle" ||
+                    target.parentElement?.className == "section-title"
                 )
             ) {
                 e.stopPropagation();
@@ -97,7 +99,8 @@ export default class DialogBox extends Component<DialogBoxProps, DialogBoxState>
                     target.className == "settings-section" ||
                     target.className == "toggle" ||
                     target.parentElement?.className == "settings-option" ||
-                    target.parentElement?.className == "toggle"
+                    target.parentElement?.className == "toggle" ||
+                    target.parentElement?.className == "section-title"
                 )
             ) {
                 e.stopPropagation();

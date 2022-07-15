@@ -1,8 +1,22 @@
-.settings-dialog form {
-    h4 {
-        font-weight: bold;
-        padding-bottom: 5px;
+.settings-dialog form .settings-section {
+    .section-title {
+        display: flex;
+        flex-direction: row;
         border-bottom: 1px solid @light-gray;
+        .section-icon {
+            flex: 1;
+            width: 20px;
+            height: 20px;
+            background-repeat: no-repeat;
+            margin-top: 3px;
+            margin-right: 3px;
+        }
+        h4 {
+            flex: 30;
+            font-weight: bold;
+            padding-bottom: 5px;
+            margin-bottom: 0;
+        }
     }
 
     .settings-option {

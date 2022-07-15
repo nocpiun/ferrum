@@ -80,21 +80,28 @@ const Header: React.FC<ExplorerHeaderProps> = (props) => {
                     placeholder="文件夹路径..."
                     onKeyDown={(e) => props.onEnter(e)}/>
                 <button
-                    className="header-button settings"
+                    className="header-button settings-button"
                     id="settings"
                     title="设置"
                     onClick={() => {
                         if(settingsDialogBox.current) settingsDialogBox.current.setOpen(true);
                     }}></button>
                 <button
-                    className="header-button set-password"
+                    className="header-button set-password-button"
                     id="set-password"
                     title="设置密码"
                     onClick={() => {
                         if(passwordDialogBox.current) passwordDialogBox.current.setOpen(true);
                     }}></button>
                 <button
-                    className="header-button star"
+                    className="header-button search-button"
+                    id="search"
+                    title="搜索"
+                    onClick={() => {
+                        
+                    }}></button>
+                <button
+                    className="header-button star-button"
                     id="star"
                     title="收藏"
                     onClick={() => props.onStar()}></button>

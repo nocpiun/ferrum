@@ -14,6 +14,11 @@ import Emitter from "../../utils/emitter";
 import { apiUrl } from "../../global";
 import { Config } from "../../types";
 
+// icons
+import folderOutline from "../../../icons/folder_outline.svg";
+import editNote from "../../../icons/edit_note.svg";
+import terminal from "../../../icons/terminal.svg";
+
 const Settings: React.FC = () => {
     const displayHiddenFileToggle = useRef<Toggle | null>(null);
     const lineNumberToggle = useRef<Toggle | null>(null);
@@ -95,15 +100,15 @@ const Settings: React.FC = () => {
     return (
         <div className="settings-dialog">
             <Form>
-                <SettingsSection title="文件管理器">
-                    <Option name="根目录" description="Linux和Mac应为'/'">
+                <SettingsSection title="文件管理器" icon={folderOutline}>
+                    <Option name="根目录" description="Unix系统应为空">
                         <Form.Control type="text" id="settings-root" defaultValue={config.explorer.root}/>
                     </Option>
                     <Option name="显示隐藏文件">
                         <Toggle ref={displayHiddenFileToggle} id="settings-display-hidden-file" defaultValue={config.explorer.displayHiddenFile}/>
                     </Option>
                 </SettingsSection>
-                <SettingsSection title="编辑器">
+                <SettingsSection title="编辑器" icon={editNote}>
                     <Option name="显示行数">
                         <Toggle ref={lineNumberToggle} id="settings-line-number" defaultValue={config.editor.lineNumber}/>
                     </Option>
@@ -123,7 +128,7 @@ const Settings: React.FC = () => {
                         </Form.Select>
                     </Option>
                 </SettingsSection>
-                <SettingsSection title="终端配置">
+                <SettingsSection title="终端配置" icon={terminal}>
                     <Option name="IP 地址">
                         <Form.Control type="text" id="settings-ip" defaultValue={config.terminal.ip}/>
                     </Option>
