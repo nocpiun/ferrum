@@ -15,7 +15,6 @@ import ToolButtons from "../containers/explorer/ToolButtons";
 import List from "../containers/explorer/List";
 import LeftSidebar from "../containers/explorer/LeftSidebar";
 import RightSidebar from "../containers/explorer/RightSidebar";
-import BackToTop from "../containers/explorer/BackToTop";
 
 import Utils from "../../Utils";
 import Emitter from "../utils/emitter";
@@ -309,7 +308,8 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                         <Header
                             path={this.path}
                             onEnter={(e) => this.handleEnter(e)}
-                            onStar={() => this.handleStar()}/>
+                            onStar={() => this.handleStar()}
+                            onBack={() => this.handleBack()}/>
                         <ToolButtons
                             onOpenFile={() => this.handleOpenFile()}
                             onDeleteFile={() => this.handleDeleteFile()}
@@ -326,8 +326,6 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                     </div>
                 </div>
                 <RightSidebar path={this.path}/>
-
-                <BackToTop/>
             </div>
         );
     }

@@ -99,6 +99,7 @@ export interface ExplorerHeaderProps {
     path: string
     onEnter: (e: React.KeyboardEvent) => any
     onStar: DefaultCallback
+    onBack: DefaultCallback
 }
 
 export interface ExplorerSettingsSectionProps {

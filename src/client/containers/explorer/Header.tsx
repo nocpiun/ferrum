@@ -75,6 +75,11 @@ const Header: React.FC<ExplorerHeaderProps> = (props) => {
         <div className="header-container">
             <h1>Ferrum 文件管理器 {isDemo ? "(Demo)": ""}</h1>
             <nav>
+                <button
+                    className="header-button back-button"
+                    id="back-to-parent"
+                    title="返回上级目录"
+                    onClick={() => props.onBack()}></button>
                 <Form.Control 
                     type="text"
                     className="path-input"

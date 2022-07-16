@@ -19,6 +19,7 @@
         display: flex;
         flex: 3;
         flex-direction: column;
+        height: 100vh;
         margin-left: 35px;
         margin-right: 35px;
         * {
@@ -27,8 +28,10 @@
         .header-container {
             @button-num: 2;
 
+            flex: 2;
             margin-top: 30px;
             h1 {
+                margin-left: 50px;
                 font-weight: bold;
             }
             .header-button {
@@ -51,6 +54,10 @@
                     width: 89%;
                     display: inline-block;
                 }
+                .back-button {
+                    background-image: url(../../icons/arrow_back.svg);
+                }
+
                 .star-button {
                     margin-left: 5px;
                     background-image: url(../../icons/star_outline.svg);
@@ -69,6 +76,7 @@
             }
         }
         .toolbuttons-container {
+            flex: 1;
             margin-top: 15px;
             margin-bottom: 15px;
             width: 100%;
@@ -81,12 +89,15 @@
             }
         }
         .list-container {
+            flex: 6;
             min-height: 450px;
+            overflow-y: auto;
             * {
                 color: @theme-color;
             }
         }
         .footer-container {
+            flex: 2;
             height: 55px;
             position: relative;
             left: 0;
@@ -115,9 +126,11 @@
             text-align: center;
         }
         .body-container {
+            height: 560px;
+            overflow-y: auto;
             margin-top: 30px;
-            padding-left: 25px;
-            padding-right: 25px;
+            margin-left: 25px;
+            margin-right: 25px;
             button {
                 padding-left: 10px;
                 .list-item-name {
@@ -187,18 +200,5 @@
         a {
             word-wrap: break-word;
         }
-    }
-
-    .back-to-top-button {
-        display: none;
-        position: fixed;
-        right: 30px;
-        bottom: 30px;
-        width: 25px;
-        height: 25px;
-        padding: 0;
-        border: none;
-        background-color: transparent;
-        z-index: 9999;
     }
 }
