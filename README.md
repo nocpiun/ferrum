@@ -10,11 +10,14 @@
 [![test](https://img.shields.io/github/workflow/status/NriotHrreion/ferrum/Run%20Code%20Tests)](https://github.com/NriotHrreion/ferrum/actions/workflows/node.js.yml)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/e6af7829-7b1c-47ed-bf14-deb2b2d9648a/deploy-status)](https://app.netlify.com/sites/resonant-kitsune-43a162/deploys)
 
+> 🌏 Explore throughout your server
+
 </div>
 
 ## Description
 
 Ferrum Explorer is a web-based file explorer app for servers.
+
 Because it's only maintained by me, so it has many problems and bugs. You can create a issue or pull request to tell me or fix it.
 
 #### Why its name is Ferrum?
