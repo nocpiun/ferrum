@@ -151,13 +151,13 @@ const ListItem: React.FC<ListItemProps> = (props) => {
                 onChange={() => handleSelect()}/>
             <span
                 className="list-item-name"
-                style={{display: isRenaming ? "none" : "inline-block"}}>{props.itemName}</span>
+                style={{display: isRenaming ? "none" : "inline-block"}}>{props.itemDisplayName ?? props.itemName}</span>
             <span className="list-item-size">{itemSize}</span>
             
             <Form.Control
                 className="list-item-rename"
                 type={isRenaming ? "text" : "hidden"}
-                defaultValue={props.itemName}
+                defaultValue={props.itemName as string}
                 onKeyDown={(e) => {
                     if(e.key == "Enter") renameFile();
                 }}

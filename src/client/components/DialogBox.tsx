@@ -2,7 +2,6 @@ import React, { Component, ReactElement } from "react";
 import ReactDOM from "react-dom";
 import { Button } from "react-bootstrap";
 
-import Utils from "../../Utils";
 import Emitter from "../utils/emitter";
 import { DialogBoxProps, DialogBoxState } from "../types";
 
@@ -47,67 +46,5 @@ export default class DialogBox extends Component<DialogBoxProps, DialogBoxState>
                 </dialog>
             </>
         );
-    }
-
-    public componentDidMount(): void {
-        // Disable the mouse wheel when the dialog is open
-        document.addEventListener("DOMMouseScroll", (e: Event) => {
-            var target = e.target as HTMLElement;
-
-            if(this.state.isOpen &&
-                !(
-                    target.parentElement?.className == "settings-dialog" ||
-                    target.parentElement?.className == "settings-section" ||
-                    target.className == "settings-section" ||
-                    target.className == "toggle" ||
-                    target.parentElement?.className == "settings-option" ||
-                    target.parentElement?.className == "toggle" ||
-                    target.parentElement?.className == "section-title"
-                )
-            ) {
-                return false;
-            }
-        }, {passive: false}); // Firefox
-        window.addEventListener("mousewheel", (e: Event) => {
-            var target = e.target as HTMLElement;
-            
-            if(this.state.isOpen &&
-                !(
-                    target.parentElement?.className == "settings-dialog" ||
-                    target.parentElement?.className == "settings-section" ||
-                    target.className == "settings-section" ||
-                    target.className == "toggle" ||
-                    target.parentElement?.className == "settings-option" ||
-                    target.parentElement?.className == "toggle" ||
-                    target.parentElement?.className == "section-title"
-                )
-            ) {
-                e.stopPropagation();
-                e.preventDefault();
-                return false;
-            }
-        }, {passive: false});
-
-        // Make the back-to-top button unavailable when the dialog is open
-        Utils.getElem("back-to-top-button").addEventListener("click", (e: MouseEvent) => {
-            var target = e.target as HTMLElement;
-
-            if(this.state.isOpen &&
-                !(
-                    target.parentElement?.className == "settings-dialog" ||
-                    target.parentElement?.className == "settings-section" ||
-                    target.className == "settings-section" ||
-                    target.className == "toggle" ||
-                    target.parentElement?.className == "settings-option" ||
-                    target.parentElement?.className == "toggle" ||
-                    target.parentElement?.className == "section-title"
-                )
-            ) {
-                e.stopPropagation();
-                e.preventDefault();
-                
-                return false;
-            }
-        });
     }
 }

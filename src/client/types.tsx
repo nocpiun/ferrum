@@ -46,9 +46,16 @@ export interface SysInfo {
     upTime: number
 }
 
+// Contexts
+
 export interface MainContextType {
     isDemo: boolean
     config: Config
+}
+
+export interface DirectoryInfoContextType {
+    path: string
+    directoryItems: DirectoryItem[]
 }
 
 // Login Panel
@@ -85,6 +92,7 @@ export interface ExplorerState {
     itemSelected: DirectoryItem[]
     itemList: ReactElement | null
     starredList: ReactElement | null
+    direcotryItems: DirectoryItem[]
 }
 
 export interface ExplorerHeaderProps {
@@ -187,6 +195,7 @@ export enum ItemType {
 export interface ListItemProps {
     itemType: ItemType
     itemName: string
+    itemDisplayName?: string | ReactElement
     itemSize: number
     itemInfo: string
     itemPath: string // The path don't have the file name

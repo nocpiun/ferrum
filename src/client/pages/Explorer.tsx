@@ -3,6 +3,7 @@ import { toast, Toaster } from "react-hot-toast";
 import Axios from "axios";
 
 import MainContext from "../contexts/MainContext";
+import DirectoryInfoContext from "../contexts/DirectoryInfoContext";
 
 // components
 import ListItem from "../components/ListItem";
@@ -55,7 +56,8 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         this.state = {
             itemSelected: [],
             itemList: null,
-            starredList: null
+            starredList: null,
+            direcotryItems: []
         };
         this.path = Explorer.root + this.props.path;
     }
@@ -300,19 +302,24 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                 </div>
                 <LeftSidebar starredList={this.state.starredList}/>
                 <div className="main-container" id="main">
-                    <Header
-                        path={this.path}
-                        onEnter={(e) => this.handleEnter(e)}
-                        onStar={() => this.handleStar()}/>
-                    <ToolButtons
-                        onOpenFile={() => this.handleOpenFile()}
-                        onDeleteFile={() => this.handleDeleteFile()}
-                        onDownloadFile={() => this.handleDownloadFile()}
-                        onCreateFile={() => this.handleCreateFile()}
-                        onCreateDirectory={() => this.handleCreateDirectory()}/>
-                    <List
-                        onBack={() => this.handleBack()}
-                        itemList={this.state.itemList}/>
+                    <DirectoryInfoContext.Provider value={{
+                        path: this.path,
+                        directoryItems: this.state.direcotryItems
+                    }}>
+                        <Header
+                            path={this.path}
+                            onEnter={(e) => this.handleEnter(e)}
+                            onStar={() => this.handleStar()}/>
+                        <ToolButtons
+                            onOpenFile={() => this.handleOpenFile()}
+                            onDeleteFile={() => this.handleDeleteFile()}
+                            onDownloadFile={() => this.handleDownloadFile()}
+                            onCreateFile={() => this.handleCreateFile()}
+                            onCreateDirectory={() => this.handleCreateDirectory()}/>
+                        <List
+                            onBack={() => this.handleBack()}
+                            itemList={this.state.itemList}/>
+                    </DirectoryInfoContext.Provider>
 
                     <div className="footer-container">
                         <p className="copy-info">Copyright (c) NriotHrreion {new Date().getFullYear()}</p>
@@ -433,7 +440,8 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                         })
                     }
                 </>
-            )
+            ),
+            direcotryItems: dirItemList
         });
     }
 

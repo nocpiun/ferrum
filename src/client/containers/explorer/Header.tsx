@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 
 import MainContext from "../../contexts/MainContext";
 import Settings from "../settings/Settings";
+import Search from "../search/Search";
 
 import DialogBox from "../../components/DialogBox";
 import { apiUrl } from "../../global";
@@ -26,6 +27,7 @@ const Header: React.FC<ExplorerHeaderProps> = (props) => {
     const settingsDialogBox = useRef<DialogBox | null>(null);
     const passwordDialogBox = useRef<DialogBox | null>(null);
     const passwordForm = useRef<HTMLFormElement | null>(null);
+    const searchDialogBox = useRef<DialogBox | null>(null);
 
     const handleSetPassword = () => {
         if(isDemo) return;
@@ -98,7 +100,7 @@ const Header: React.FC<ExplorerHeaderProps> = (props) => {
                     id="search"
                     title="搜索"
                     onClick={() => {
-                        
+                        if(searchDialogBox.current) searchDialogBox.current.setOpen(true);
                     }}></button>
                 <button
                     className="header-button star-button"
@@ -135,6 +137,12 @@ const Header: React.FC<ExplorerHeaderProps> = (props) => {
                             }
                         }}>提交</Button>
                     </Form>
+                </DialogBox>
+            )}
+
+            {DialogBox.createDialog("search",
+                <DialogBox ref={searchDialogBox} id="search" title="搜索">
+                    <Search />
                 </DialogBox>
             )}
         </div>
