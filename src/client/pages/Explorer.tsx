@@ -41,6 +41,45 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
 
     private path: string;
     private isStarred: boolean = false;
+
+    /**
+     * Open a file in Ferrum Explorer
+     */
+    public static openFile(path: string, item: DirectoryItem): void {
+        var itemFullName = item.fullName;
+        var itemFormat = item.format?.toLowerCase();
+        var itemPath = (path.replace(Explorer.root, "") +"/"+ itemFullName).replaceAll("/", "\\");
+
+        if(item.isFile && itemFormat) {
+            if(Utils.formatTester(["exe", "sys", "com", "bin", "elf", "axf"], itemFormat)) {
+                toast.error("无法打开可执行文件");
+                return;
+            }
+
+            if(Utils.formatTester(["png", "jpg", "jpeg", "bmp", "gif", "webp", "psd", "svg", "tiff", "ico"], itemFormat)) {
+                window.location.href = hostname + Explorer.port +"/picture/?path="+ itemPath;
+                return;
+            }
+
+            for(let i = 0; i < plugins.length; i++) {
+                if(Utils.formatTester(plugins[i].format, itemFormat)) {
+                    window.location.href = hostname + Explorer.port + plugins[i].route +"/?path="+ itemPath;
+                    return;
+                }
+                console.log(plugins[i].format, itemFormat);
+            }
+
+            window.location.href = hostname + Explorer.port +"/edit/?path="+ itemPath;
+            return;
+        }
+
+        if(item.isFile && !itemFormat) {
+            window.location.href = hostname + Explorer.port +"/edit/?path="+ itemPath;
+            return;
+        }
+
+        window.location.href += "/"+ itemFullName;
+    }
     
     // According to https://github.com/facebook/react/issues/6598,
     // the form of `constructor(props, context)` might will be deprecated in the near future.
@@ -175,34 +214,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         if(this.state.itemSelected == null) return;
         if(this.state.itemSelected.length != 1) return;
 
-        var itemFullName = this.state.itemSelected[0].fullName;
-        var itemFormat = this.state.itemSelected[0].format?.toLowerCase();
-        var itemPath = (this.path.replace(Explorer.root, "") +"/"+ itemFullName).replaceAll("/", "\\");
-
-        if(this.state.itemSelected[0].isFile && itemFormat) {
-            if(Utils.formatTester(["png", "jpg", "jpeg", "bmp", "gif", "webp", "psd", "svg", "tiff", "ico"], itemFormat)) {
-                window.location.href = hostname + Explorer.port +"/picture/?path="+ itemPath;
-                return;
-            }
-
-            for(let i = 0; i < plugins.length; i++) {
-                if(Utils.formatTester(plugins[i].format, itemFormat)) {
-                    window.location.href = hostname + Explorer.port + plugins[i].route +"/?path="+ itemPath;
-                    return;
-                }
-                console.log(plugins[i].format, itemFormat);
-            }
-
-            window.location.href = hostname + Explorer.port +"/edit/?path="+ itemPath;
-            return;
-        }
-
-        if(this.state.itemSelected[0].isFile && !itemFormat) {
-            window.location.href = hostname + Explorer.port +"/edit/?path="+ itemPath;
-            return;
-        }
-
-        window.location.href += "/"+ itemFullName;
+        Explorer.openFile(this.path, this.state.itemSelected[0]);
     }
     
     private handleDeleteFile(): void {
@@ -339,17 +351,6 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         // document.addEventListener("fileListUpdate", () => this.refreshItemList());
         Emitter.get().on("fileListUpdate", () => this.refreshItemList());
 
-        document.addEventListener("scroll", () => {
-            var top = document.body.scrollTop || document.documentElement.scrollTop;
-            var backToTopButton = Utils.getElem("back-to-top-button");
-
-            if(top == 0) {
-                backToTopButton.style.display = "none";
-            } else {
-                backToTopButton.style.display = "block";
-            }
-        });
-
         this.refreshItemList();
         this.refreshStarredList();
     }
@@ -419,22 +420,25 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
             itemList: (
                 <>
                     {
-                        dirItemList.map((value, index) => {
-                            if(
-                                value.fullName[0] == "." &&
-                                !this.context.config.explorer.displayHiddenFile
-                            ) return;
+                        dirItemList.length == 0
+                            ? <p className="list-message-text">此文件夹为空</p>
+                            : dirItemList.map((value, index) => {
+                                if(
+                                    value.fullName[0] == "." &&
+                                    !this.context.config.explorer.displayHiddenFile
+                                ) return;
 
-                            return <ListItem
-                                itemType={value.isFile ? ItemType.FILE : ItemType.FOLDER}
-                                itemName={value.fullName}
-                                itemSize={value.size ?? -1}
-                                itemInfo={JSON.stringify(value)}
-                                itemPath={this.path}
-                                onSelect={(item) => this.handleItemSelect(item)}
-                                onUnselect={(item) => this.handleItemUnselect(item)}
-                                key={index}
-                            />;
+                                return <ListItem
+                                    title="勾选多选框选中 / 双击打开 (文件夹) / 单击后再次单击重命名"
+                                    itemType={value.isFile ? ItemType.FILE : ItemType.FOLDER}
+                                    itemName={value.fullName}
+                                    itemSize={value.size ?? -1}
+                                    itemInfo={JSON.stringify(value)}
+                                    itemPath={this.path}
+                                    onSelect={(item) => this.handleItemSelect(item)}
+                                    onUnselect={(item) => this.handleItemUnselect(item)}
+                                    key={index}
+                                />;
                         })
                     }
                 </>

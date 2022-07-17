@@ -31,6 +31,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
 
     const renameBoxSwitch = () => {
         if(!renameBox.current) return;
+        if(props.itemDisplayName) return; // In search dialog
 
         if(!isRenaming) {
             renameBox.current.focus();
@@ -69,8 +70,8 @@ const ListItem: React.FC<ListItemProps> = (props) => {
         setIsSelected(true);
     };
 
-    const handleSelect = () => {
-        var checkbox = Utils.getElem(props.itemName +"--checkbox") as HTMLInputElement;
+    const handleSelect = (e: React.ChangeEvent) => {
+        var checkbox = e.target as HTMLInputElement;
         var item = JSON.parse(props.itemInfo) as DirectoryItem;
 
         if(checkbox.checked) { // select
@@ -128,7 +129,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
             action
             className="list-item"
             id={props.itemName +"--listitem"}
-            title="勾选多选框选中 / 双击打开 (文件夹) / 单击后再次单击重命名"
+            title={props.title}
             onClick={(e: React.MouseEvent) => {
                 if(clickTimer) clearTimeout(clickTimer);
                 clickTimer = setTimeout(() => {
@@ -148,10 +149,12 @@ const ListItem: React.FC<ListItemProps> = (props) => {
             <Form.Check
                 className="list-item-checkbox"
                 id={props.itemName +"--checkbox"}
-                onChange={() => handleSelect()}/>
+                onChange={(e: React.ChangeEvent) => handleSelect(e)}/>
             <span
                 className="list-item-name"
-                style={{display: isRenaming ? "none" : "inline-block"}}>{props.itemDisplayName ?? props.itemName}</span>
+                style={{display: isRenaming ? "none" : "inline-block"}}>
+                    {props.itemDisplayName ?? props.itemName}
+            </span>
             <span className="list-item-size">{itemSize}</span>
             
             <Form.Control
