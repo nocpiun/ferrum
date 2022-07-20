@@ -14,7 +14,7 @@ const Header: React.FC<EditorHeaderProps> = (props) => {
     });
 
     return (
-        <div className="header-container">
+        <header className="header-container">
             <h1>Ferrum 文本编辑器</h1>
             {/* <p>路径: {this.props.path} <span style={{display: this.state.hasChanged ? "inline-block" : "none"}}>(*已编辑)</span></p> */}
             <div className="status-bar">
@@ -23,7 +23,7 @@ const Header: React.FC<EditorHeaderProps> = (props) => {
             </div>
             <Button className="control-button" onClick={props.onSaveFile}>保存 (S)</Button>
             <Button className="control-button" onClick={props.onUndo}>撤销 (Z)</Button>
-        </div>
+        </header>
     );
 }
 

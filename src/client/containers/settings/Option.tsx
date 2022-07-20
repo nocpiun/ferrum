@@ -6,7 +6,7 @@ const Option: React.FC<ExplorerSettingsOptionProps> = (props) => {
     return (
         <div className="settings-option">
             <span>{props.name}</span>
-            <span className="description">{props.description ? "( "+ props.description +" )" : ""}</span>
+            <dd className="description">{props.description ? "( "+ props.description +" )" : ""}</dd>
             {props.children}
         </div>
     );

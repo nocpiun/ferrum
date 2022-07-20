@@ -72,7 +72,7 @@ const Header: React.FC<ExplorerHeaderProps> = (props) => {
     }, []);
 
     return (
-        <div className="header-container">
+        <header className="header-container">
             <h1>Ferrum 文件管理器 {isDemo ? "(Demo)": ""}</h1>
             <nav>
                 <button
@@ -80,12 +80,14 @@ const Header: React.FC<ExplorerHeaderProps> = (props) => {
                     id="back-to-parent"
                     title="返回上级目录"
                     onClick={() => props.onBack()}></button>
+                
                 <Form.Control 
                     type="text"
                     className="path-input"
                     defaultValue={props.path}
                     placeholder="文件夹路径..."
                     onKeyDown={(e) => props.onEnter(e)}/>
+                
                 <button
                     className="header-button settings-button"
                     id="settings"
@@ -150,7 +152,7 @@ const Header: React.FC<ExplorerHeaderProps> = (props) => {
                     <Search />
                 </DialogBox>
             )}
-        </div>
+        </header>
     );
 }
 

@@ -33,21 +33,22 @@
                 margin-left: 50px;
                 font-weight: bold;
             }
-            .header-button {
-                flex: 1;
-                width: 20px;
-                height: 20px;
-                margin: 10px;
-                border: none;
-                background-color: transparent;
-                background-position: center center;
-                background-repeat: no-repeat;
-            }
             nav {
                 display: flex;
                 height: 40px;
                 margin-top: 20px;
                 white-space: nowrap;
+                .header-button {
+                    flex: 1;
+                    width: 20px;
+                    height: 20px;
+                    margin: 10px;
+                    border: none;
+                    background-color: transparent;
+                    background-position: center center;
+                    background-repeat: no-repeat;
+                }
+
                 .path-input {
                     flex: 55;
                     width: 89%;
@@ -75,11 +76,12 @@
             }
         }
         .toolbuttons-container {
+            display: flex;
             flex: 1;
             height: 40px;
             margin-top: 15px;
             margin-bottom: 15px;
-            width: 100%;
+            justify-content: space-between;
             * {
                 color: @theme-color;
             }
