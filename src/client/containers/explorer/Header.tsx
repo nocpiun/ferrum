@@ -117,7 +117,7 @@ const Header: React.FC<ExplorerHeaderProps> = (props) => {
             </nav>
 
             {DialogBox.createDialog("settings",
-                <DialogBox ref={settingsDialogBox} id="settings" title="设置 (ctrl+s 保存)">
+                <DialogBox ref={settingsDialogBox} id="settings" title="设置">
                     <Settings />
                 </DialogBox>
             )}

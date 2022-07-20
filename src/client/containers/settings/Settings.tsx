@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useRef, useEffect } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import Axios from "axios";
 import toast from "react-hot-toast";
 
@@ -60,32 +60,23 @@ const Settings: React.FC = () => {
             }
         };
 
-        toast.promise(Axios.post(apiUrl +"/setConfig", {
-            config: newConfig
-        }), {
-            loading: "保存中...",
-            success: "保存成功",
-            error: "保存失败"
-        }).then(() => window.location.reload());
+        // Only when the config is changed,
+        // the app posts the new config to the backend server
+        if(!Utils.isObjectEqual<Config>(config, newConfig)) {
+            toast.promise(Axios.post(apiUrl +"/setConfig", {
+                config: newConfig
+            }), {
+                loading: "保存中...",
+                success: "保存成功",
+                error: "保存失败"
+            }).then(() => window.location.reload());
+        }
     };
 
     useEffect(() => {
         // Reset the config list when the user close the dialog
         Emitter.get().on("dialogClose", (dialogId: string) => {
-            if(dialogId === "settings") {
-                getInputElem("settings-root").value = config.explorer.root;
-                displayHiddenFileToggle.current?.setStatus(config.explorer.displayHiddenFile);
-                
-                lineNumberToggle.current?.setStatus(config.editor.lineNumber);
-                autoWrapToggle.current?.setStatus(config.editor.autoWrap);
-                highlightActiveLineToggle.current?.setStatus(config.editor.highlightActiveLine);
-                (Utils.getElem("settings-font-size") as HTMLSelectElement).value = config.editor.fontSize.toString();
-                
-                getInputElem("settings-ip").value = config.terminal.ip;
-                getInputElem("settings-port").value = config.terminal.port.toString();
-                getInputElem("settings-username").value = config.terminal.username;
-                getInputElem("settings-password").value = config.terminal.password;
-            }
+            if(dialogId === "settings") handleSave();
         });
 
         // Save the config with ctrl+s
@@ -101,8 +92,36 @@ const Settings: React.FC = () => {
         <div className="settings-dialog">
             <Form>
                 <SettingsSection title="文件管理器" icon={folderOutline}>
-                    <Option name="根目录" description="Unix系统应为空">
-                        <Form.Control type="text" id="settings-root" defaultValue={config.explorer.root}/>
+                    <Option name="根目录" description="Unix系统应选择'(Unix系统根目录)'">
+                        <Form.Select id="settings-root" defaultValue={config.explorer.root}>
+                            <option value="">(Unix系统根目录)</option>
+                            <option value="C:">C: (默认)</option>
+                            <option value="D:">D:</option>
+                            <option value="E:">E:</option>
+                            <option value="F:">F:</option>
+                            <option value="G:">G:</option>
+                            <option value="H:">H:</option>
+                            <option value="I:">I:</option>
+                            <option value="J:">J:</option>
+                            <option value="K:">K:</option>
+                            <option value="L:">L:</option>
+                            <option value="M:">M:</option>
+                            <option value="N:">N:</option>
+                            <option value="O:">O:</option>
+                            <option value="P:">P:</option>
+                            <option value="Q:">Q:</option>
+                            <option value="R:">R:</option>
+                            <option value="S:">S:</option>
+                            <option value="T:">T:</option>
+                            <option value="U:">U:</option>
+                            <option value="V:">V:</option>
+                            <option value="W:">W:</option>
+                            <option value="X:">X:</option>
+                            <option value="Y:">Y:</option>
+                            <option value="Z:">Z:</option>
+                            <option value="A:">A:</option>
+                            <option value="B:">B:</option>
+                        </Form.Select>
                     </Option>
                     <Option name="显示隐藏文件">
                         <Toggle ref={displayHiddenFileToggle} id="settings-display-hidden-file" defaultValue={config.explorer.displayHiddenFile}/>
@@ -143,7 +162,7 @@ const Settings: React.FC = () => {
                     </Option>
                 </SettingsSection>
 
-                <Button onClick={() => handleSave()}>保存 (S)</Button>
+                {/* <Button onClick={() => handleSave()}>保存 (S)</Button> */}
             </Form>
         </div>
     );

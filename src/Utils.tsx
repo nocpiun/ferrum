@@ -58,4 +58,20 @@ export default class Utils {
 
         return "";
     }
+
+    // Consider https://unpkg.com/browse/nriot-utils@0.1.2/src/index.ts (line 22)
+    public static isObjectEqual<T = any>(obj1: T, obj2: T): boolean {
+        var isEqual = true;
+    
+        for(let i in obj1) {
+            if(typeof obj1[i] === "object" && typeof obj2[i] === "object") {
+                if(!Utils.isObjectEqual(obj1[i] as any, obj2[i] as any)) isEqual = false;
+                continue;
+            }
+    
+            if(obj1[i] != obj2[i]) isEqual = false;
+        }
+    
+        return isEqual;
+    }
 }
