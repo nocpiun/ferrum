@@ -28,7 +28,7 @@ jobs:
         cache: 'npm'
     - run: npm install --legacy-peer-deps
     - name: Run build
-    - run: npm run build:netlify
+      run: npm run build:netlify
 
     - name: Run Jest tests
       run: npm run test
