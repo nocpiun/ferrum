@@ -14,6 +14,8 @@
 
 </div>
 
+English | [中文](./README-zh_CN.md)
+
 ## Description
 
 Ferrum Explorer is a web-based file explorer app for servers.

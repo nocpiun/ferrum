@@ -14,6 +14,8 @@
 
 </div>
 
+[English](./README.md) | 中文
+
 ## 简介
 
 Ferrum 文件管理器是一个基于Web的服务器文件管理器应用.
