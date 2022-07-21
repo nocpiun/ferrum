@@ -145,7 +145,7 @@ export default class VideoPlugin extends FerrumPlugin {
 }
 ```
 
-The components in the method `viewerRender()` will be rendered at the center of the whole page. And the param `dataUrl` is the data url (base64) of file that opened. It can be used directory in `src`, but you should pay attention to the mime type of the url _("data:**image/png**;base64,.......")_
+The components in the method `viewerRender()` will be rendered at the center of the whole page. And the param `dataUrl` is the data url (base64) of file that opened. You should pay attention to the mime type of the url: _("data:**image/png**;base64,.......")_
 
 ```tsx
 export default class ExamplePlugin extends FerrumPlugin {
