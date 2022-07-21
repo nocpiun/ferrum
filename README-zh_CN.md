@@ -12,9 +12,9 @@
 
 > Explore throughout your server
 
-</div>
-
 [English](./README.md) | 中文
+
+</div>
 
 ## 简介
 
@@ -79,15 +79,15 @@ Ferrum 文件管理器需要`3300`与`3301`两个端口来启动. 如果它报�
 **Windows**
 
 ```bash
-netstat -aon | findstr [[here write the port it reported]]
-taskkill /f /pid [[here write the PID the above command returned]]
+netstat -aon | findstr [[此处写它返回的端口号]]
+taskkill /f /pid [[此处写上面命令返回的PID]]
 ```
 
 **Linux & Mac OS**
 
 ```bash
-lsof -i:[[here write the port it reported]]
-kill -9 [[here write the PID the above command returned]]
+lsof -i:[[此处写它返回的端口号]]
+kill -9 [[此处写上面命令返回的PID]]
 ```
 
 如果你在Linux环境下遇到`ENOSPC: System limit for number of file watchers reached, watch 'xxx'`, 那么请尝试:
@@ -106,11 +106,11 @@ sudo sysctl fs.inotify.max_user_watches=582222 && sudo sysctl -p
 
 ```tsx
 {
-    name: "example", // The name of your plugin
-    title: "Example", // This will be shown on the top of your plugin's page
-    format: [], // The formats that your plugin supports
-    route: "/example", // The route of your plugin's page
-    self: ExamplePlugin // The class of your plugin
+    name: "example", // 插件名称
+    title: "Example", // 插件页面的标题
+    format: [], // 插件支持的文件格式
+    route: "/example", // 插件页面的路由
+    self: ExamplePlugin // 插件的class
 }
 ```
 
@@ -123,7 +123,7 @@ import FerrumPlugin from "../client/components/FerrumPlugin";
 import { FerrumPluginOption, FerrumPluginProps } from "../client/types";
 
 export default class VideoPlugin extends FerrumPlugin {
-    public static option: FerrumPluginOption = { // The info list
+    public static option: FerrumPluginOption = { // 插件信息
         name: "video-viewer",
         title: "Ferrum 视频查看器",
         format: ["mp4", "avi"],
@@ -166,7 +166,7 @@ export const plugins: FerrumPluginOption[] = [
     VideoPlugin.option,
     MyPlugin.option,
     OtherPlugin.option,
-    // ... just add your plugin into it
+    // ... 在此添加你的插件
 ];
 ```
 
