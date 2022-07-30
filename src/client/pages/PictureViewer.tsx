@@ -43,7 +43,7 @@ export default class PictureViewer extends Component<PictureViewerProps, Picture
                     <div className="toast-container">
                         <Toaster/>
                     </div>
-                    <Header path={this.path}/>
+                    <Header path={decodeURI(this.path)}/>
                     <div className="viewer-container">
                         <img src={this.state.pictureData} alt={this.path}/>
                     </div>

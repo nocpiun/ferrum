@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react"
 import { Variant } from "react-bootstrap/esm/types"
+import { ViewerOption } from "./components/Viewer"
 
 // Global
 
@@ -243,16 +244,16 @@ export interface BarState {
 
 // Plugin
 
-export interface FerrumPluginProps extends PageProps {}
+export interface ViewerProps extends PageProps {
+    viewerMetadata: PluginMetadata<ViewerOption>
+}
 
-export interface FerrumPluginState {
+export interface ViewerState {
     viewerComponent: React.ReactElement | null;
 }
 
-export interface FerrumPluginOption {
+export interface PluginMetadata<O = unknown> {
     name: string
-    title: string
-    format: string[]
-    route: string
-    self: React.ComponentType<any>
+    displayName: string
+    entry: O
 }

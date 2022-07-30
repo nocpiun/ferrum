@@ -7,6 +7,7 @@ import Editor from "./client/pages/Editor";
 import PictureViewer from "./client/pages/PictureViewer";
 import Terminal from "./client/pages/Terminal";
 import License from "./client/pages/License";
+import Viewer from "./client/components/Viewer";
 
 import { plugins } from "./plugins";
 import { version } from "./client/global";
@@ -29,10 +30,13 @@ const Main: React.FC<RouteComponentProps<{}, {}, unknown>> = (props) => {
     if(url.indexOf("/license") == 0) component = <License/>;
 
     // Plugin pages' registration
-    for(let i = 0; i < plugins.length; i++) {
-        if(url.indexOf(plugins[i].route) == 0) {
-            const Plugin = plugins[i].self;
-            component = <Plugin path={props.location.search.replace("?path=", "").replaceAll("/", "\\")}/>;
+    for(let i = 0; i < plugins.viewers.length; i++) {
+        if(url.indexOf(plugins.viewers[i].entry.route) == 0) {
+            // const Plugin = plugins[i].self;
+            // component = <Plugin path={props.location.search.replace("?path=", "").replaceAll("/", "\\")}/>;
+            component = <Viewer
+                path={props.location.search.replace("?path=", "").replaceAll("/", "\\")}
+                viewerMetadata={plugins.viewers[i]}/>
         }
     }
 

@@ -61,12 +61,12 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                 return;
             }
 
-            for(let i = 0; i < plugins.length; i++) {
-                if(Utils.formatTester(plugins[i].format, itemFormat)) {
-                    window.location.href = hostname + Explorer.port + plugins[i].route +"/?path="+ itemPath;
+            for(let i = 0; i < plugins.viewers.length; i++) {
+                if(Utils.formatTester(plugins.viewers[i].entry.formats, itemFormat)) {
+                    window.location.href = hostname + Explorer.port + plugins.viewers[i].entry.route +"/?path="+ itemPath;
                     return;
                 }
-                console.log(plugins[i].format, itemFormat);
+                console.log(plugins.viewers[i].entry.formats, itemFormat);
             }
 
             window.location.href = hostname + Explorer.port +"/edit/?path="+ itemPath;

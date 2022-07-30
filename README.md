@@ -98,79 +98,71 @@ sudo sysctl fs.inotify.max_user_watches=582222 && sudo sysctl -p
 
 ## Plugin
 
-There is a plugin folder `/src/plugins`. Under the folder, there are plugins (although it's only one now) which are viewers for different kinds of file formats (e.g. *.mp4 *.avi).
+There is a plugin folder `/src/plugins`. Under the folder, there are plugins which are viewers for different kinds of file formats (e.g. *.mp4 *.avi).
 
 It's necessary to explain that the plugins are only used as viewers now. I might add more feature to it in the future.
 
 Viewer is a page that is shown when the user opens a file. The viewer's page will be shown when the user opens the file format(s) the viewer's option has specified. For example, a video viewer, its page will be shown when the user open a `.mp4` file.
 
-To write a plugin, you need to create a new `tsx` file first. The name of the file had better end with `Plugin`.
+### Write a Viewer Plugin
 
-And a info list of the plugin is needed.
+Firstly, you need to create a new `tsx` file. The name of the file had better end with `ViewerPlugin`.
+
+And a metadata list of the plugin is needed.
 
 ```tsx
 {
-    name: "example", // The name of your plugin
-    title: "Example", // This will be shown on the top of your plugin's page
-    format: [], // The formats that your plugin supports
-    route: "/example", // The route of your plugin's page
-    self: ExamplePlugin // The class of your plugin
-}
-```
-
-This is an example plugin. Also be in (`/src/plugins/VideoPlugin.tsx`).
-
-```tsx
-import { ReactElement } from "react";
-
-import FerrumPlugin from "../client/components/FerrumPlugin";
-import { FerrumPluginOption, FerrumPluginProps } from "../client/types";
-
-export default class VideoPlugin extends FerrumPlugin {
-    public static option: FerrumPluginOption = { // The info list
-        name: "video-viewer",
-        title: "Ferrum 视频查看器",
-        format: ["mp4", "avi"],
-        route: "/video",
-        self: VideoPlugin
-    };
-
-    public constructor(props: FerrumPluginProps) {
-        super(props, VideoPlugin.option);
-    }
-
-    public viewerRender(dataUrl: string): ReactElement {
-        return (
-            <video src={dataUrl.replace("image", "video")} controls></video>
-        );
+    name: "example-viewer", // The name of your viewer
+    displayName: "Example Viewer", // This will be shown on the top of your viewer's page
+    entry: {
+        route: "/example-viewer", // The route of your viewer's page
+        formats: [], // The formats that your viewer supports
+        render: (dataUrl: string) => <div>{dataUrl}</div> // The render of your viewer
     }
 }
 ```
 
-The components in the method `viewerRender()` will be rendered at the center of the whole page. And the param `dataUrl` is the data url (base64) of file that opened. You should pay attention to the mime type of the url: _("data:**image/png**;base64,.......")_
+This is an example plugin. Also be in (`/src/plugins/VideoViewerPlugin.tsx`).
 
 ```tsx
-export default class ExamplePlugin extends FerrumPlugin {
+import { ViewerOption } from "../client/components/Viewer";
+import { PluginMetadata } from "../client/types";
+
+export const VideoViewerPlugin: PluginMetadata<ViewerOption> = {
+    name: "video-viewer",
+    displayName: "Ferrum 视频查看器",
+    entry: {
+        route: "/video-viewer",
+        formats: ["mp4", "avi"],
+        render: (dataUrl: string) => <video src={dataUrl.replace("image", "video")} controls></video>
+    }
+};
+```
+
+The components in the function `render()` will be rendered at the center of the whole page. And the param `dataUrl` is the data url (base64) of file that opened. You should pay attention to the mime type of the url: _("data:**image/png**;base64,.......")_
+
+```tsx
+export const ExamplePlugin: PluginMetadata<ViewerOption> = {
     // ...
-
-    public viewerRender(dataUrl: string): ReactElement {
-        return (
-            // ...
-        );
+    entry: {
+        // ...
+        render: (dataUrl: string) => {
+            return (
+                // ...
+            );
+        }
     }
-
-    // ...
-}
+};
 ```
 
-Last, you should add your new plugin into the plugin list (`/src/plugins/index.tsx`).
+Last, you should add your new viewer into the viewer list (`/src/plugins/index.tsx`).
 
 ```tsx
-export const plugins: FerrumPluginOption[] = [
-    VideoPlugin.option,
-    MyPlugin.option,
-    OtherPlugin.option,
-    // ... just add your plugin into it
+const viewers: PluginMetadata<ViewerOption>[] = [
+    VideoViewerPlugin,
+    MyViewerPlugin,
+    OtherViewerPlugin,
+    // ... just add your plugin after it
 ];
 ```
 

@@ -100,72 +100,64 @@ sudo sysctl fs.inotify.max_user_watches=582222 && sudo sysctl -p
 
 插件文件夹是`/src/plugins`, 这个文件夹包含了为不同文件类型准备的文件查看器（比如 *.mp4 *.avi）. 有必要说明, 插件系统现在只被用于文件查看器, 我以后或许会再添加更多功能.
 
-如果你打算写一个插件, 你首先需要创建一个`tsx`后缀的文件, 文件名最好要以`Plugin`结尾.
+### 编写文件查看器插件
+
+如果你打算写一个查看器插件, 你首先需要创建一个`tsx`后缀的文件, 文件名最好要以`Plugin`结尾.
 
 然后你需要为你的插件提供如下的信息.
 
 ```tsx
 {
-    name: "example", // 插件名称
-    title: "Example", // 插件页面的标题
-    format: [], // 插件支持的文件格式
-    route: "/example", // 插件页面的路由
-    self: ExamplePlugin // 插件的class
-}
-```
-
-下面是一个示例插件, 你也可以在`/src/plugins/VideoPlugin.tsx`查看.
-
-```tsx
-import { ReactElement } from "react";
-
-import FerrumPlugin from "../client/components/FerrumPlugin";
-import { FerrumPluginOption, FerrumPluginProps } from "../client/types";
-
-export default class VideoPlugin extends FerrumPlugin {
-    public static option: FerrumPluginOption = { // 插件信息
-        name: "video-viewer",
-        title: "Ferrum 视频查看器",
-        format: ["mp4", "avi"],
-        route: "/video",
-        self: VideoPlugin
-    };
-
-    public constructor(props: FerrumPluginProps) {
-        super(props, VideoPlugin.option);
-    }
-
-    public viewerRender(dataUrl: string): ReactElement {
-        return (
-            <video src={dataUrl.replace("image", "video")} controls></video>
-        );
+    name: "example-viewer", // 插件名称
+    displayName: "Example Viewer", // 查看器页面的标题
+    entry: {
+        route: "/example-viewer", // 查看器页面的路由
+        formats: [], // 查看器支持的文件格式
+        render: (dataUrl: string) => <div>{dataUrl}</div> // 查看器页面的渲染器
     }
 }
 ```
 
-`viewerRender()`方法返回的React组件会被渲染在整个页面的中央, 传入的参数`dataUrl`是被打开的文件的Data URL (base64), 同时, 你也应注意这个URL的MIME格式类型: _("data:**image/png**;base64,.......")_
+下面是一个示例插件, 你也可以在`/src/plugins/VideoViewerPlugin.tsx`查看.
 
 ```tsx
-export default class ExamplePlugin extends FerrumPlugin {
-    // ...
+import { ViewerOption } from "../client/components/Viewer";
+import { PluginMetadata } from "../client/types";
 
-    public viewerRender(dataUrl: string): ReactElement {
-        return (
-            // ...
-        );
+export const VideoViewerPlugin: PluginMetadata<ViewerOption> = {
+    name: "video-viewer",
+    displayName: "Ferrum 视频查看器",
+    entry: {
+        route: "/video-viewer",
+        formats: ["mp4", "avi"],
+        render: (dataUrl: string) => <video src={dataUrl.replace("image", "video")} controls></video>
     }
+};
+```
 
+`render()`函数返回的React组件会被渲染在整个页面的中央, 传入的参数`dataUrl`是被打开的文件的Data URL (base64), 同时, 你也应注意这个URL的MIME格式类型: _("data:**image/png**;base64,.......")_
+
+```tsx
+export const ExamplePlugin: PluginMetadata<ViewerOption> = {
     // ...
-}
+    entry: {
+        // ...
+        render: (dataUrl: string) => {
+            return (
+                // ...
+            );
+        }
+    }
+};
 ```
 
 最后, 在插件列表(`/src/plugins/index.tsx`)中加入你的新插件.
 
 ```tsx
-export const plugins: FerrumPluginOption[] = [
-    VideoPlugin.option,
-    MyPlugin.option,
-    OtherPlugin.option,
+const viewers: PluginMetadata<ViewerOption>[] = [
+    VideoViewerPlugin,
+    MyViewerPlugin,
+    OtherViewerPlugin,
     // ... 在此添加你的插件
 ];
 ```

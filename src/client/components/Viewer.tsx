@@ -5,41 +5,34 @@ import Axios from "axios";
 import MainContext from "../contexts/MainContext";
 
 import {
-    FerrumPluginProps,
-    FerrumPluginState,
-    FerrumPluginOption,
+    ViewerProps,
+    ViewerState,
     GetDataUrlResponse,
     MainContextType
 } from "../types";
 // import * as config from "../../config.json";
 import { apiUrl } from "../global";
 
-export default abstract class FerrumPlugin extends Component<FerrumPluginProps, FerrumPluginState> {
+export default class Viewer extends Component<ViewerProps, ViewerState> {
     public static contextType?: Context<MainContextType> | undefined = MainContext;
     private static root: string;
 
     private path: string;
-    protected option: FerrumPluginOption;
+    protected option: ViewerOption;
     protected showMsgbox: typeof toast = toast;
     
-    public constructor(props: FerrumPluginProps, context: MainContextType, option: FerrumPluginOption) {
+    public constructor(props: ViewerProps, context: MainContextType) {
         super(props);
 
-        FerrumPlugin.root = context.config.explorer.root;
+        Viewer.root = context.config.explorer.root;
 
         this.state = {
             viewerComponent: null
         };
 
-        this.option = option;
-        this.path = FerrumPlugin.root + this.props.path.replaceAll("\\", "/");
+        this.option = this.props.viewerMetadata.entry;
+        this.path = Viewer.root + this.props.path.replaceAll("\\", "/");
     }
-
-    /**
-     * Render the viewer's page
-     * This method will be called when the data is prepared
-     */
-    public abstract viewerRender(dataUrl: string): ReactElement;
 
     private fetchData(): void {
         Axios.get(apiUrl +"/getDataUrl?path="+ this.path.replaceAll("/", "\\"))
@@ -50,7 +43,7 @@ export default abstract class FerrumPlugin extends Component<FerrumPluginProps, 
                 }
 
                 this.setState({
-                    viewerComponent: this.viewerRender(res.data.bdata)
+                    viewerComponent: this.option.render(res.data.bdata)
                 });
             })
             .catch((err) => {throw err});
@@ -58,14 +51,14 @@ export default abstract class FerrumPlugin extends Component<FerrumPluginProps, 
 
     public render(): ReactElement {
         return (
-            <div className={this.option.name +" viewer"}>
+            <div className={this.props.viewerMetadata.name +" viewer"}>
                 <div className="main-container">
                     <div className="toast-container">
                         <Toaster/>
                     </div>
                     <header className="header-container">
-                        <h1>{this.option.title}</h1>
-                        <p>路径: {this.props.path}</p>
+                        <h1>{this.props.viewerMetadata.displayName}</h1>
+                        <p>路径: {decodeURI(this.props.path)}</p>
                     </header>
                     <div className="viewer-container">{this.state.viewerComponent}</div>
                 </div>
@@ -76,4 +69,10 @@ export default abstract class FerrumPlugin extends Component<FerrumPluginProps, 
     public componentDidMount(): void {
         this.fetchData();
     }
+}
+
+export interface ViewerOption {
+    route: string
+    formats: string[]
+    render: (dataUrl: string) => ReactElement
 }
