@@ -1,15 +1,7 @@
-import { PluginMetadata } from "../client/types";
-import { ViewerOption } from "../client/components/Viewer";
-import { VideoViewerPlugin } from "./VideoViewerPlugin";
-import { PDFViewerPlugin } from "./PDFViewerPlugin";
+import PluginLoader from "./PluginLoader";
 
-const viewers: PluginMetadata<ViewerOption>[] = [
-    VideoViewerPlugin,
-    PDFViewerPlugin
-];
+import { VideoViewerPlugin } from "./registry/VideoViewerPlugin";
+import { PDFViewerPlugin } from "./registry/PDFViewerPlugin";
 
-export const plugins: {
-    viewers: PluginMetadata<ViewerOption>[]
-} = {
-    viewers
-};
+PluginLoader.get().register(VideoViewerPlugin);
+PluginLoader.get().register(PDFViewerPlugin);

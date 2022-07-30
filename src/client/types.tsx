@@ -1,6 +1,5 @@
 import React, { ReactElement } from "react"
 import { Variant } from "react-bootstrap/esm/types"
-import { ViewerOption } from "./components/Viewer"
 
 // Global
 
@@ -245,15 +244,38 @@ export interface BarState {
 // Plugin
 
 export interface ViewerProps extends PageProps {
-    viewerMetadata: PluginMetadata<ViewerOption>
+    viewerMetadata: ViewerOption
 }
 
 export interface ViewerState {
     viewerComponent: React.ReactElement | null;
 }
 
-export interface PluginMetadata<O = unknown> {
+interface PluginSetupParameters {
+    addViewer: (viewer: ViewerOption) => void
+    addDialog: (dialog: DialogOption) => void
+}
+
+export interface PluginMetadata {
     name: string
-    displayName: string
-    entry: O
+    displayName?: string
+    setup: (params: PluginSetupParameters) => any
+}
+
+interface FunctionalOption {
+    id: string
+}
+
+export interface ViewerOption extends FunctionalOption {
+    pageTitle: string
+    route: string
+    formats: string[]
+    render: (dataUrl: string) => ReactElement
+}
+
+export interface DialogOption extends FunctionalOption {
+    icon: string
+    dialogTitle: string
+    onOpen: DefaultCallback
+    render: () => ReactElement
 }

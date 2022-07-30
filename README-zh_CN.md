@@ -108,12 +108,16 @@ sudo sysctl fs.inotify.max_user_watches=582222 && sudo sysctl -p
 
 ```tsx
 {
-    name: "example-viewer", // 插件名称
-    displayName: "Example Viewer", // 查看器页面的标题
-    entry: {
-        route: "/example-viewer", // 查看器页面的路由
-        formats: [], // 查看器支持的文件格式
-        render: (dataUrl: string) => <div>{dataUrl}</div> // 查看器页面的渲染器
+    name: "example-viewer",
+    displayName: "Example Viewer",
+    setup({ addViewer }) {
+        addViewer({
+            id: "example-viewer", // 插件ID
+            pageTitle: "Example Viewer", // 查看器页面的标题
+            route: "/example-viewer", // 查看器页面的路由
+            formats: [], // 查看器支持的文件格式
+            render: (dataUrl: string) => <div>{dataUrl}</div> // 查看器页面的渲染器
+        });
     }
 }
 ```
@@ -121,17 +125,20 @@ sudo sysctl fs.inotify.max_user_watches=582222 && sudo sysctl -p
 下面是一个示例插件, 你也可以在`/src/plugins/VideoViewerPlugin.tsx`查看.
 
 ```tsx
-import { ViewerOption } from "../client/components/Viewer";
-import { PluginMetadata } from "../client/types";
+import { PluginMetadata } from "../../client/types";
 
-export const VideoViewerPlugin: PluginMetadata<ViewerOption> = {
+export const VideoViewerPlugin: PluginMetadata = {
     name: "video-viewer",
-    displayName: "Ferrum 视频查看器",
-    entry: {
-        route: "/video-viewer",
-        formats: ["mp4", "avi"],
-        render: (dataUrl: string) => <video src={dataUrl.replace("image", "video")} controls></video>
-    }
+    displayName: "视频查看器",
+    setup({ addViewer }) {
+        addViewer({
+            id: "video-viewer",
+            pageTitle: "Ferrum 视频查看器",
+            route: "/video-viewer",
+            formats: ["mp4", "avi"],
+            render: (dataUrl: string) => <video src={dataUrl.replace("image", "video")} controls></video>
+        });
+    },
 };
 ```
 
@@ -140,13 +147,15 @@ export const VideoViewerPlugin: PluginMetadata<ViewerOption> = {
 ```tsx
 export const ExamplePlugin: PluginMetadata<ViewerOption> = {
     // ...
-    entry: {
-        // ...
-        render: (dataUrl: string) => {
-            return (
-                // ...
-            );
-        }
+    setup({ addViewer }) {
+        addViewer({
+            // ...
+            render: (dataUrl: string) => {
+                return (
+                    // ...
+                );
+            }
+        });
     }
 };
 ```
@@ -154,12 +163,10 @@ export const ExamplePlugin: PluginMetadata<ViewerOption> = {
 最后, 在插件列表(`/src/plugins/index.tsx`)中加入你的新插件.
 
 ```tsx
-const viewers: PluginMetadata<ViewerOption>[] = [
-    VideoViewerPlugin,
-    MyViewerPlugin,
-    OtherViewerPlugin,
-    // ... 在此添加你的插件
-];
+PluginLoader.get().register(VideoViewerPlugin);
+PluginLoader.get().register(MyViewerPlugin);
+PluginLoader.get().register(OtherViewerPlugin);
+// ... 在此添加你的插件
 ```
 
 ## 测试

@@ -112,12 +112,16 @@ And a metadata list of the plugin is needed.
 
 ```tsx
 {
-    name: "example-viewer", // The name of your viewer
-    displayName: "Example Viewer", // This will be shown on the top of your viewer's page
-    entry: {
-        route: "/example-viewer", // The route of your viewer's page
-        formats: [], // The formats that your viewer supports
-        render: (dataUrl: string) => <div>{dataUrl}</div> // The render of your viewer
+    name: "example-viewer",
+    displayName: "Example Viewer",
+    setup({ addViewer }) {
+        addViewer({
+            id: "example-viewer", // The ID of your viewer
+            pageTitle: "Example Viewer", // This will be shown on the top of your viewer's page
+            route: "/example-viewer", // The route of your viewer's page
+            formats: [], // The formats that your viewer supports
+            render: (dataUrl: string) => <div>{dataUrl}</div> // The render of your viewer
+        });
     }
 }
 ```
@@ -125,17 +129,20 @@ And a metadata list of the plugin is needed.
 This is an example plugin. Also be in (`/src/plugins/VideoViewerPlugin.tsx`).
 
 ```tsx
-import { ViewerOption } from "../client/components/Viewer";
-import { PluginMetadata } from "../client/types";
+import { PluginMetadata } from "../../client/types";
 
-export const VideoViewerPlugin: PluginMetadata<ViewerOption> = {
+export const VideoViewerPlugin: PluginMetadata = {
     name: "video-viewer",
-    displayName: "Ferrum 视频查看器",
-    entry: {
-        route: "/video-viewer",
-        formats: ["mp4", "avi"],
-        render: (dataUrl: string) => <video src={dataUrl.replace("image", "video")} controls></video>
-    }
+    displayName: "视频查看器",
+    setup({ addViewer }) {
+        addViewer({
+            id: "video-viewer",
+            pageTitle: "Ferrum 视频查看器",
+            route: "/video-viewer",
+            formats: ["mp4", "avi"],
+            render: (dataUrl: string) => <video src={dataUrl.replace("image", "video")} controls></video>
+        });
+    },
 };
 ```
 
@@ -144,13 +151,15 @@ The components in the function `render()` will be rendered at the center of the 
 ```tsx
 export const ExamplePlugin: PluginMetadata<ViewerOption> = {
     // ...
-    entry: {
-        // ...
-        render: (dataUrl: string) => {
-            return (
-                // ...
-            );
-        }
+    setup({ addViewer }) {
+        addViewer({
+            // ...
+            render: (dataUrl: string) => {
+                return (
+                    // ...
+                );
+            }
+        });
     }
 };
 ```
@@ -158,12 +167,10 @@ export const ExamplePlugin: PluginMetadata<ViewerOption> = {
 Last, you should add your new viewer into the viewer list (`/src/plugins/index.tsx`).
 
 ```tsx
-const viewers: PluginMetadata<ViewerOption>[] = [
-    VideoViewerPlugin,
-    MyViewerPlugin,
-    OtherViewerPlugin,
-    // ... just add your plugin after it
-];
+PluginLoader.get().register(VideoViewerPlugin);
+PluginLoader.get().register(MyViewerPlugin);
+PluginLoader.get().register(OtherViewerPlugin);
+// ... just add your plugin after it
 ```
 
 ## Testing

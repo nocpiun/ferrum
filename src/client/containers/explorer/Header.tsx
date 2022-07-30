@@ -74,7 +74,7 @@ const Header: React.FC<ExplorerHeaderProps> = (props) => {
     return (
         <header className="header-container">
             <h1>Ferrum 文件管理器 {isDemo ? "(Demo)": ""}</h1>
-            <nav>
+            <nav id="navbar">
                 <button
                     className="header-button back-button"
                     id="back-to-parent"

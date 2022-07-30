@@ -28,7 +28,7 @@ import {
 } from "../types";
 import { hostname, apiUrl, editorDefaultValue } from "../global";
 // import * as config from "../../config.json";
-import { plugins } from "../../plugins";
+import PluginLoader from "../../plugins/PluginLoader";
 
 // icons
 import starOutline from "../../icons/star_outline.svg";
@@ -49,6 +49,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         var itemFullName = item.fullName;
         var itemFormat = item.format?.toLowerCase();
         var itemPath = (path.replace(Explorer.root, "") +"/"+ itemFullName).replaceAll("/", "\\");
+        var viewers = PluginLoader.get().viewerList;
 
         if(item.isFile && itemFormat) {
             if(Utils.formatTester(["exe", "sys", "com", "bin", "elf", "axf"], itemFormat)) {
@@ -61,12 +62,12 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                 return;
             }
 
-            for(let i = 0; i < plugins.viewers.length; i++) {
-                if(Utils.formatTester(plugins.viewers[i].entry.formats, itemFormat)) {
-                    window.location.href = hostname + Explorer.port + plugins.viewers[i].entry.route +"/?path="+ itemPath;
+            for(let i = 0; i < viewers.length; i++) {
+                if(Utils.formatTester(viewers[i].formats, itemFormat)) {
+                    window.location.href = hostname + Explorer.port + viewers[i].route +"/?path="+ itemPath;
                     return;
                 }
-                console.log(plugins.viewers[i].entry.formats, itemFormat);
+                console.log(viewers[i].formats, itemFormat);
             }
 
             window.location.href = hostname + Explorer.port +"/edit/?path="+ itemPath;
