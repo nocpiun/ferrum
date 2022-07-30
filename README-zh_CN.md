@@ -98,7 +98,7 @@ sudo sysctl fs.inotify.max_user_watches=582222 && sudo sysctl -p
 
 ## 插件
 
-插件文件夹是`/src/plugins`, 这个文件夹包含了为不同文件类型准备的文件查看器（比如 *.mp4 *.avi）. 有必要说明, 插件系统现在只被用于文件查看器, 我以后或许会再添加更多功能.
+插件文件夹是`/registry`.
 
 ### 编写文件查看器插件
 
@@ -122,7 +122,7 @@ sudo sysctl fs.inotify.max_user_watches=582222 && sudo sysctl -p
 }
 ```
 
-下面是一个示例插件, 你也可以在`/src/plugins/registry/VideoViewerPlugin.tsx`查看.
+下面是一个示例插件, 你也可以在`/registry/VideoViewerPlugin.tsx`查看.
 
 ```tsx
 import { PluginMetadata } from "../../client/types";

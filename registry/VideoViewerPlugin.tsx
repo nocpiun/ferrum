@@ -1,4 +1,4 @@
-import { PluginMetadata } from "../../client/types";
+import { PluginMetadata } from "../src/client/types";
 
 export const VideoViewerPlugin: PluginMetadata = {
     name: "video-viewer",

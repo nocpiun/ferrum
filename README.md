@@ -98,7 +98,7 @@ sudo sysctl fs.inotify.max_user_watches=582222 && sudo sysctl -p
 
 ## Plugin
 
-There is a plugin folder `/src/plugins`. Under the folder, there are plugins which are viewers for different kinds of file formats (e.g. *.mp4 *.avi).
+There is a plugin folder `/registry`.
 
 ### Write a Viewer Plugin
 
@@ -124,7 +124,7 @@ And a metadata list of the plugin is needed.
 }
 ```
 
-This is an example plugin. Also be in (`/src/plugins/registry/VideoViewerPlugin.tsx`).
+This is an example plugin. Also be in (`/registry/VideoViewerPlugin.tsx`).
 
 ```tsx
 import { PluginMetadata } from "../../client/types";
