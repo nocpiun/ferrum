@@ -126,7 +126,7 @@ And a metadata list of the plugin is needed.
 }
 ```
 
-This is an example plugin. Also be in (`/src/plugins/VideoViewerPlugin.tsx`).
+This is an example plugin. Also be in (`/src/plugins/registry/VideoViewerPlugin.tsx`).
 
 ```tsx
 import { PluginMetadata } from "../../client/types";

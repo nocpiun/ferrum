@@ -122,7 +122,7 @@ sudo sysctl fs.inotify.max_user_watches=582222 && sudo sysctl -p
 }
 ```
 
-下面是一个示例插件, 你也可以在`/src/plugins/VideoViewerPlugin.tsx`查看.
+下面是一个示例插件, 你也可以在`/src/plugins/registry/VideoViewerPlugin.tsx`查看.
 
 ```tsx
 import { PluginMetadata } from "../../client/types";
