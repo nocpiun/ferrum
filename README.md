@@ -100,11 +100,9 @@ sudo sysctl fs.inotify.max_user_watches=582222 && sudo sysctl -p
 
 There is a plugin folder `/src/plugins`. Under the folder, there are plugins which are viewers for different kinds of file formats (e.g. *.mp4 *.avi).
 
-It's necessary to explain that the plugins are only used as viewers now. I might add more feature to it in the future.
+### Write a Viewer Plugin
 
 Viewer is a page that is shown when the user opens a file. The viewer's page will be shown when the user opens the file format(s) the viewer's option has specified. For example, a video viewer, its page will be shown when the user open a `.mp4` file.
-
-### Write a Viewer Plugin
 
 Firstly, you need to create a new `tsx` file. The name of the file had better end with `ViewerPlugin`.
 
