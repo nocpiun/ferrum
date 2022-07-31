@@ -1,9 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useContext, useRef, useEffect } from "react";
-import { Form } from "react-bootstrap";
+import React, {
+    useState,
+    useContext,
+    useRef,
+    useEffect
+} from "react";
+import { Form, ListGroup } from "react-bootstrap";
 import Axios from "axios";
 import toast from "react-hot-toast";
 
+import SidebarItem from "./SidebarItem";
 import SettingsSection from "./SettingsSection";
 import Option from "./Option";
 import Toggle from "./Toggle";
@@ -11,15 +17,19 @@ import Toggle from "./Toggle";
 import MainContext from "../../contexts/MainContext";
 import Utils from "../../../Utils";
 import Emitter from "../../utils/emitter";
+import PluginLoader from "../../../plugin/PluginLoader";
 import { apiUrl } from "../../global";
-import { Config } from "../../types";
+import { Config, SettingsItem } from "../../types";
 
 // icons
 import folderOutline from "../../../icons/folder_outline.svg";
 import editNote from "../../../icons/edit_note.svg";
 import terminal from "../../../icons/terminal.svg";
+import extension from "../../../icons/extension.svg";
 
 const Settings: React.FC = () => {
+    const [currentPage, setPage] = useState<SettingsItem>(SettingsItem.EXPLORER);
+
     const displayHiddenFileToggle = useRef<Toggle | null>(null);
     const lineNumberToggle = useRef<Toggle | null>(null);
     const autoWrapToggle = useRef<Toggle | null>(null);
@@ -73,6 +83,25 @@ const Settings: React.FC = () => {
         }
     };
 
+    const handleItemBeOn = (id: SettingsItem) => {
+        Emitter.get().emit("settingsItemSelect", id);
+
+        switch(id) {
+            case SettingsItem.EXPLORER:
+                setPage(SettingsItem.EXPLORER);
+                break;
+            case SettingsItem.EDITOR:
+                setPage(SettingsItem.EDITOR);
+                break;
+            case SettingsItem.TERMINAL:
+                setPage(SettingsItem.TERMINAL);
+                break;
+            case SettingsItem.PLUGIN:
+                setPage(SettingsItem.PLUGIN);
+                break;
+        }
+    };
+
     useEffect(() => {
         // Reset the config list when the user close the dialog
         Emitter.get().on("dialogClose", (dialogId: string) => {
@@ -90,80 +119,97 @@ const Settings: React.FC = () => {
     
     return (
         <div className="settings-dialog">
-            <Form>
-                <SettingsSection title="文件管理器" icon={folderOutline}>
-                    <Option name="根目录" description="Unix系统应选择'(Unix系统根目录)'">
-                        <Form.Select id="settings-root" defaultValue={config.explorer.root}>
-                            <option value="">(Unix系统根目录)</option>
-                            <option value="C:">C: (默认)</option>
-                            <option value="D:">D:</option>
-                            <option value="E:">E:</option>
-                            <option value="F:">F:</option>
-                            <option value="G:">G:</option>
-                            <option value="H:">H:</option>
-                            <option value="I:">I:</option>
-                            <option value="J:">J:</option>
-                            <option value="K:">K:</option>
-                            <option value="L:">L:</option>
-                            <option value="M:">M:</option>
-                            <option value="N:">N:</option>
-                            <option value="O:">O:</option>
-                            <option value="P:">P:</option>
-                            <option value="Q:">Q:</option>
-                            <option value="R:">R:</option>
-                            <option value="S:">S:</option>
-                            <option value="T:">T:</option>
-                            <option value="U:">U:</option>
-                            <option value="V:">V:</option>
-                            <option value="W:">W:</option>
-                            <option value="X:">X:</option>
-                            <option value="Y:">Y:</option>
-                            <option value="Z:">Z:</option>
-                            <option value="A:">A:</option>
-                            <option value="B:">B:</option>
-                        </Form.Select>
-                    </Option>
-                    <Option name="显示隐藏文件">
-                        <Toggle ref={displayHiddenFileToggle} id="settings-display-hidden-file" defaultValue={config.explorer.displayHiddenFile}/>
-                    </Option>
-                </SettingsSection>
-                <SettingsSection title="编辑器" icon={editNote}>
-                    <Option name="显示行数">
-                        <Toggle ref={lineNumberToggle} id="settings-line-number" defaultValue={config.editor.lineNumber}/>
-                    </Option>
-                    <Option name="自动换行" description="当一行字的长度超过编辑器宽度时, 自动换行">
-                        <Toggle ref={autoWrapToggle} id="settings-auto-wrap" defaultValue={config.editor.autoWrap}/>
-                    </Option>
-                    <Option name="活动行高亮" description="使当前光标所在的行高亮">
-                        <Toggle ref={highlightActiveLineToggle} id="settings-highlight-active-line" defaultValue={config.editor.highlightActiveLine}/>
-                    </Option>
-                    <Option name="字体大小">
-                        <Form.Select id="settings-font-size" defaultValue={config.editor.fontSize}>
-                            <option value={12}>特小</option>
-                            <option value={13}>小</option>
-                            <option value={14}>中 (默认)</option>
-                            <option value={15}>大</option>
-                            <option value={16}>特大</option>
-                        </Form.Select>
-                    </Option>
-                </SettingsSection>
-                <SettingsSection title="终端配置" icon={terminal}>
-                    <Option name="IP 地址">
-                        <Form.Control type="text" id="settings-ip" defaultValue={config.terminal.ip}/>
-                    </Option>
-                    <Option name="端口">
-                        <Form.Control type="text" id="settings-port" defaultValue={config.terminal.port}/>
-                    </Option>
-                    <Option name="用户名">
-                        <Form.Control type="text" id="settings-username" defaultValue={config.terminal.username}/>
-                    </Option>
-                    <Option name="密码">
-                        <Form.Control type="password" id="settings-password" autoComplete="off" defaultValue={config.terminal.password}/>
-                    </Option>
-                </SettingsSection>
-
-                {/* <Button onClick={() => handleSave()}>保存 (S)</Button> */}
-            </Form>
+            <aside className="settings-sidebar">
+                <ul>
+                    <SidebarItem id={SettingsItem.EXPLORER} title="文件管理器" icon={folderOutline} onClick={(e) => handleItemBeOn(e)} defaultValue={true}/>
+                    <SidebarItem id={SettingsItem.EDITOR} title="编辑器" icon={editNote} onClick={(e) => handleItemBeOn(e)}/>
+                    <SidebarItem id={SettingsItem.TERMINAL} title="终端配置" icon={terminal} onClick={(e) => handleItemBeOn(e)}/>
+                    <SidebarItem id={SettingsItem.PLUGIN} title="插件配置" icon={extension} onClick={(e) => handleItemBeOn(e)}/>
+                </ul>
+            </aside>
+            <div className="settings-main">
+                <Form>
+                    <SettingsSection title="文件管理器" style={{display: currentPage == "s-explorer" ? "block" : "none"}}>
+                        <Option name="根目录" description="Unix系统应选择'(Unix系统根目录)'">
+                            <Form.Select id="settings-root" defaultValue={config.explorer.root}>
+                                <option value="">(Unix系统根目录)</option>
+                                <option value="C:">C: (默认)</option>
+                                <option value="D:">D:</option>
+                                <option value="E:">E:</option>
+                                <option value="F:">F:</option>
+                                <option value="G:">G:</option>
+                                <option value="H:">H:</option>
+                                <option value="I:">I:</option>
+                                <option value="J:">J:</option>
+                                <option value="K:">K:</option>
+                                <option value="L:">L:</option>
+                                <option value="M:">M:</option>
+                                <option value="N:">N:</option>
+                                <option value="O:">O:</option>
+                                <option value="P:">P:</option>
+                                <option value="Q:">Q:</option>
+                                <option value="R:">R:</option>
+                                <option value="S:">S:</option>
+                                <option value="T:">T:</option>
+                                <option value="U:">U:</option>
+                                <option value="V:">V:</option>
+                                <option value="W:">W:</option>
+                                <option value="X:">X:</option>
+                                <option value="Y:">Y:</option>
+                                <option value="Z:">Z:</option>
+                                <option value="A:">A:</option>
+                                <option value="B:">B:</option>
+                            </Form.Select>
+                        </Option>
+                        <Option name="显示隐藏文件">
+                            <Toggle ref={displayHiddenFileToggle} id="settings-display-hidden-file" defaultValue={config.explorer.displayHiddenFile}/>
+                        </Option>
+                    </SettingsSection>
+                    <SettingsSection title="编辑器" style={{display: currentPage == "s-editor" ? "block" : "none"}}>
+                        <Option name="显示行数">
+                            <Toggle ref={lineNumberToggle} id="settings-line-number" defaultValue={config.editor.lineNumber}/>
+                        </Option>
+                        <Option name="自动换行" description="当一行字的长度超过编辑器宽度时, 自动换行">
+                            <Toggle ref={autoWrapToggle} id="settings-auto-wrap" defaultValue={config.editor.autoWrap}/>
+                        </Option>
+                        <Option name="活动行高亮" description="使当前光标所在的行高亮">
+                            <Toggle ref={highlightActiveLineToggle} id="settings-highlight-active-line" defaultValue={config.editor.highlightActiveLine}/>
+                        </Option>
+                        <Option name="字体大小">
+                            <Form.Select id="settings-font-size" defaultValue={config.editor.fontSize}>
+                                <option value={12}>特小</option>
+                                <option value={13}>小</option>
+                                <option value={14}>中 (默认)</option>
+                                <option value={15}>大</option>
+                                <option value={16}>特大</option>
+                            </Form.Select>
+                        </Option>
+                    </SettingsSection>
+                    <SettingsSection title="终端配置" style={{display: currentPage == "s-terminal" ? "block" : "none"}}>
+                        <Option name="IP 地址">
+                            <Form.Control type="text" id="settings-ip" defaultValue={config.terminal.ip}/>
+                        </Option>
+                        <Option name="端口">
+                            <Form.Control type="text" id="settings-port" defaultValue={config.terminal.port}/>
+                        </Option>
+                        <Option name="用户名">
+                            <Form.Control type="text" id="settings-username" defaultValue={config.terminal.username}/>
+                        </Option>
+                        <Option name="密码">
+                            <Form.Control type="password" id="settings-password" autoComplete="off" defaultValue={config.terminal.password}/>
+                        </Option>
+                    </SettingsSection>
+                    <SettingsSection title="插件配置" style={{display: currentPage == "s-plugin" ? "block" : "none"}}>
+                        <ListGroup className="plugin-list">
+                            {PluginLoader.get().pluginList.map((plugin, i) => {
+                                return (
+                                    <ListGroup.Item>{plugin.displayName +" | "+ plugin.name}</ListGroup.Item>
+                                );
+                            })}
+                        </ListGroup>
+                    </SettingsSection>
+                </Form>
+            </div>
         </div>
     );
 }

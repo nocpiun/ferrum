@@ -28,7 +28,7 @@ import {
 } from "../types";
 import { hostname, apiUrl, editorDefaultValue } from "../global";
 // import * as config from "../../config.json";
-import PluginLoader from "../../plugins/PluginLoader";
+import PluginLoader from "../../plugin/PluginLoader";
 
 // icons
 import starOutline from "../../icons/star_outline.svg";

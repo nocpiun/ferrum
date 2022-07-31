@@ -7,9 +7,9 @@ import Editor from "./client/pages/Editor";
 import PictureViewer from "./client/pages/PictureViewer";
 import Terminal from "./client/pages/Terminal";
 import License from "./client/pages/License";
-import Viewer from "./plugins/Viewer";
+import Viewer from "./plugin/Viewer";
 
-import PluginLoader from "./plugins/PluginLoader";
+import PluginLoader from "./plugin/PluginLoader";
 import { version } from "./client/global";
 
 // style sheets
@@ -18,7 +18,7 @@ import "filepond/dist/filepond.min.css";
 import "xterm/css/xterm.css";
 import "./client/style/layout.less";
 
-import "./plugins"; // Register plugins
+import "./plugin"; // Register plugins
 
 const Main: React.FC<RouteComponentProps<{}, {}, unknown>> = (props) => {
     var component: ReactElement = <div></div>;

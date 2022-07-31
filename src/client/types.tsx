@@ -102,9 +102,24 @@ export interface ExplorerHeaderProps {
     onBack: DefaultCallback
 }
 
-export interface ExplorerSettingsSectionProps {
+export enum SettingsItem {
+    EXPLORER = "s-explorer",
+    EDITOR = "s-editor",
+    TERMINAL = "s-terminal",
+    PLUGIN = "s-plugin",
+}
+
+export interface ExplorerSettingsSidebarItemProps {
+    id: SettingsItem
     title: string
     icon: string
+    defaultValue?: any
+    onClick: (id: SettingsItem) => any
+}
+
+export interface ExplorerSettingsSectionProps {
+    title: string
+    style: React.CSSProperties
 }
 
 export interface ExplorerSettingsOptionProps {
