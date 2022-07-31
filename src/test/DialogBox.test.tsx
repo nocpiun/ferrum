@@ -6,7 +6,7 @@ import { DialogBoxProps, DialogBoxState } from "../client/types";
 describe("DialogBox Component tests", () => {
     test("Rendering test", () => {
         var component = ReactTestUtils.renderIntoDocument<DialogBoxProps, React.Component<DialogBoxProps, DialogBoxState, any>>(
-            <DialogBox title="Test">
+            <DialogBox title="Test" id="test">
                 <p>HelloWorld</p>
             </DialogBox>
         );

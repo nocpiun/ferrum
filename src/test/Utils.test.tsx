@@ -1,8 +1,8 @@
 import Utils from "../Utils";
 
 test("Util test: format float", () => {
-    expect(Utils.fomatFloat(3.1415926, 3)).toBe("3.142");
-    expect(Utils.fomatFloat(2.7182818, 5)).toBe("2.71828");
+    expect(Utils.formatFloat(3.1415926, 3)).toBe("3.142");
+    expect(Utils.formatFloat(2.7182818, 5)).toBe("2.71828");
 });
 
 test("Util test: move the items to the first in the array", () => {
