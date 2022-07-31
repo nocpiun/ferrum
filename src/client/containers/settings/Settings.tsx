@@ -1,11 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {
+    ReactElement,
     useState,
     useContext,
     useRef,
     useEffect
 } from "react";
-import { Form, ListGroup } from "react-bootstrap";
+import { Form, ListGroup, Button } from "react-bootstrap";
+import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import Axios from "axios";
 import toast from "react-hot-toast";
 
@@ -29,6 +31,7 @@ import extension from "../../../icons/extension.svg";
 
 const Settings: React.FC = () => {
     const [currentPage, setPage] = useState<SettingsItem>(SettingsItem.EXPLORER);
+    const [pluginList, setPluginList] = useState<ReactElement>(<></>);
 
     const displayHiddenFileToggle = useRef<Toggle | null>(null);
     const lineNumberToggle = useRef<Toggle | null>(null);
@@ -102,7 +105,54 @@ const Settings: React.FC = () => {
         }
     };
 
+    const handleAddPlugin = async () => {
+        const uploader = Utils.getElem("plugin-uploader") as HTMLInputElement;
+        console.log(uploader.files);
+
+        if(uploader.files) {
+            var pl = PluginLoader.get();
+            
+            var script = await uploader.files[0].text();
+            pl.register(eval(script));
+            pl.load();
+
+            refreshPluginList();
+            uploader.files = null;
+        }
+    };
+
+    const refreshPluginList = () => {
+        interface MenuItemData {
+            pluginId: string
+        }
+
+        setPluginList(
+            <>
+                {PluginLoader.get().pluginList.map((plugin, i) => {
+                    return (
+                        <ListGroup.Item title={plugin.description ?? ""} key={i}>
+                            <ContextMenuTrigger id={"plugin-rcmenu--"+ plugin.name}>
+                                <span className="plugin-name">{plugin.displayName}</span>
+                                <span className="plugin-id">{plugin.name + (plugin.native ? " (内置)" : "")}</span>
+                            </ContextMenuTrigger>
+                            {!plugin.native ? <ContextMenu id={"plugin-rcmenu--"+ plugin.name}>
+                                <MenuItem
+                                    data={{ pluginId: plugin.name } as MenuItemData}
+                                    onClick={(e, data: MenuItemData) => {
+                                        PluginLoader.get().unregister(data.pluginId);
+                                        refreshPluginList();
+                                    }}>卸载插件</MenuItem>
+                            </ContextMenu> : null}
+                        </ListGroup.Item>
+                    );
+                })}
+            </>
+        );
+    };
+
     useEffect(() => {
+        refreshPluginList();
+
         // Reset the config list when the user close the dialog
         Emitter.get().on("dialogClose", (dialogId: string) => {
             if(dialogId === "settings") handleSave();
@@ -124,8 +174,17 @@ const Settings: React.FC = () => {
                     <SidebarItem id={SettingsItem.EXPLORER} title="文件管理器" icon={folderOutline} onClick={(e) => handleItemBeOn(e)} defaultValue={true}/>
                     <SidebarItem id={SettingsItem.EDITOR} title="编辑器" icon={editNote} onClick={(e) => handleItemBeOn(e)}/>
                     <SidebarItem id={SettingsItem.TERMINAL} title="终端配置" icon={terminal} onClick={(e) => handleItemBeOn(e)}/>
-                    <SidebarItem id={SettingsItem.PLUGIN} title="插件配置" icon={extension} onClick={(e) => handleItemBeOn(e)}/>
+                    <SidebarItem id={SettingsItem.PLUGIN} title="插件列表" icon={extension} onClick={(e) => handleItemBeOn(e)}/>
                 </ul>
+                <div className="add-plugin">
+                    <input
+                        id="plugin-uploader"
+                        type="file"
+                        accept="text/javascript"
+                        style={{display: "none"}}
+                        onChange={() => handleAddPlugin()}/>
+                    <Button variant="secondary" onClick={() => Utils.getElem("plugin-uploader").click()}>添加插件</Button>
+                </div>
             </aside>
             <div className="settings-main">
                 <Form>
@@ -199,13 +258,9 @@ const Settings: React.FC = () => {
                             <Form.Control type="password" id="settings-password" autoComplete="off" defaultValue={config.terminal.password}/>
                         </Option>
                     </SettingsSection>
-                    <SettingsSection title="插件配置" style={{display: currentPage == "s-plugin" ? "block" : "none"}}>
+                    <SettingsSection title="插件列表 (右键卸载插件)" style={{display: currentPage == "s-plugin" ? "block" : "none"}}>
                         <ListGroup className="plugin-list">
-                            {PluginLoader.get().pluginList.map((plugin, i) => {
-                                return (
-                                    <ListGroup.Item>{plugin.displayName +" | "+ plugin.name}</ListGroup.Item>
-                                );
-                            })}
+                            {pluginList}
                         </ListGroup>
                     </SettingsSection>
                 </Form>

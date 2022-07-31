@@ -1,6 +1,6 @@
 export default class Utils {
-    // Consider https://blog.csdn.net/LUxxxX/article/details/90177682 (Anyway, this method is useless now)
-    public static fomatFloat(num: number, n: number): string | boolean {   
+    /** @see https://blog.csdn.net/LUxxxX/article/details/90177682 */
+    public static formatFloat(num: number, n: number): string | boolean {   
         var f = parseFloat(num.toString());
         if(isNaN(f)) return false;
         f = Math.round(num * Math.pow(10, n)) / Math.pow(10, n);
@@ -59,7 +59,7 @@ export default class Utils {
         return "";
     }
 
-    // Consider https://unpkg.com/browse/nriot-utils@0.1.2/src/index.ts (line 22)
+    /** @see https://unpkg.com/browse/nriot-utils@0.1.2/src/index.ts (line 22) */
     public static isObjectEqual<T = any>(obj1: T, obj2: T): boolean {
         var isEqual = true;
     
@@ -71,7 +71,7 @@ export default class Utils {
     
             if(obj1[i] != obj2[i]) isEqual = false;
         }
-    
+        
         return isEqual;
     }
 }

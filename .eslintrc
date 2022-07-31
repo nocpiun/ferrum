@@ -14,6 +14,7 @@
         "no-console": "off",
         "no-useless-return": "warn",
         "no-empty": "off",
+        "no-eval": "off",
         "no-restricted-globals": "off",
         "array-callback-return": "off",
         "jsx-a11y/anchor-is-valid": "off",

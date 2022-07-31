@@ -1,4 +1,5 @@
 import ReactDOM from "react-dom";
+import toast from "react-hot-toast";
 
 import DialogBox from "../client/components/DialogBox";
 
@@ -7,7 +8,9 @@ import {
     ViewerOption,
     DialogOption
 } from "../client/types";
+import { pluginStorageKey, pluginStorageType } from "../client/global";
 import Utils from "../Utils";
+import LocalStorage from "../client/utils/localStorage";
 
 export default class PluginLoader {
     private static instance: PluginLoader | null;
@@ -15,9 +18,45 @@ export default class PluginLoader {
     public pluginList: PluginMetadata[] = [];
     public viewerList: ViewerOption[] = [];
 
-    public register(metadata: PluginMetadata): void {
-        metadata.displayName ??= metadata.name;
-        this.pluginList.push(metadata);
+    public register(plugin: PluginMetadata): void {
+        for(let i = 0; i < this.pluginList.length; i++) {
+            if(this.pluginList[i].name == plugin.name) {
+                console.error(`[PluginLoader] Registering plugin "${plugin.name}" failed: Plugin ID isn't unique.`);
+                toast.error("插件注册失败: ID不唯一");
+                return;
+            }
+        }
+
+        plugin.displayName ??= plugin.name;
+        this.pluginList.push(plugin);
+
+        console.log(`[PluginLoader] Plugin "${plugin.name}" is registered.`, plugin);
+        LocalStorage.setItem<pluginStorageType>(pluginStorageKey, this.pluginList);
+    }
+
+    public unregister(pluginId: string): void {
+        var list = this.pluginList.splice(0);
+        var index = -1;
+
+        for(let i = 0; i < list.length; i++) {
+            if(list[i].name == pluginId) {
+                index = i;
+            }
+        }
+
+        if(list[index].native) {
+            toast.error("插件卸载失败: 无法卸载内置插件");
+            return;
+        }
+
+        if(index > -1) {
+            list.splice(index, 1);
+
+            this.pluginList = list;
+            console.log(`[PluginLoader] Plugin "${pluginId}" is unregistered.`);
+
+            LocalStorage.setItem<pluginStorageType>(pluginStorageKey, this.pluginList);
+        }
     }
 
     public load(): void {

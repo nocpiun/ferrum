@@ -7,6 +7,9 @@
         height: 100%;
     }
     .settings-sidebar {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         flex: 1;
         overflow-y: auto;
         border-right: 1px solid @light-gray;
@@ -17,21 +20,21 @@
                 margin-bottom: 5px;
                 color: #888;
                 cursor: pointer;
-                &:hover, &.on {
-                    color: #111;
+                &:hover {
+                    color: #333;
                 }
-                .sidebar-item-icon {
-                    width: 20px;
-                    height: 20px;
-                    background-repeat: no-repeat;
-                    background-size: cover;
-                    background-position: 100% 100%;
+                &.on {
+                    color: #111;
                 }
                 .sidebar-item-title {
                     vertical-align: text-bottom;
                     margin-left: 5px;
                 }
             }
+        }
+        .add-plugin {
+            padding-left: 15px;
+            padding-bottom: 7px;
         }
     }
     .settings-main {
@@ -96,6 +99,34 @@
             // Plugin config settings
             .plugin-list {
                 margin-top: 15px;
+                max-height: 215px;
+                overflow-y: auto;
+                .plugin-name {
+                    float: left;
+                    cursor: pointer;
+                }
+                .plugin-id {
+                    float: right;
+                    font-size: 10pt;
+                    color: @light-gray2;
+                }
+                .react-contextmenu {
+                    width: 120px;
+                    padding: 7px;
+                    background-color: #eee;
+                    border: 1px solid @light-gray;
+                    border-radius: .25rem;
+                    z-index: 1000;
+                    .react-contextmenu-item {
+                        padding: 5px;
+                        border-radius: .25rem;
+                        cursor: pointer;
+                        &:hover {
+                            background-color: #ff3636;
+                            color: @white;
+                        }
+                    }
+                }
             }
         }
     }

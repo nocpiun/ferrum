@@ -17,7 +17,7 @@ import Emitter from "../utils/emitter";
 
 const ListItem: React.FC<ListItemProps> = (props) => {
     var itemSize: string = props.itemSize > -1
-        ? Utils.fomatFloat(props.itemSize / 1024, 1) +"KB"
+        ? Utils.formatFloat(props.itemSize / 1024, 1) +"KB"
         : "";
     var renameBoxCurrentValue: string | null = null;
 

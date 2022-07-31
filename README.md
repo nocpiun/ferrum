@@ -98,18 +98,16 @@ sudo sysctl fs.inotify.max_user_watches=582222 && sudo sysctl -p
 
 ## Plugin
 
-There is a plugin folder `/registry`.
-
-### Write a Viewer Plugin
+#### Write a Viewer Plugin
 
 Viewer is a page that is shown when the user opens a file. The viewer's page will be shown when the user opens the file format(s) the viewer's option has specified. For example, a video viewer, its page will be shown when the user open a `.mp4` file.
 
 Firstly, you need to create a new `tsx` file. The name of the file had better end with `ViewerPlugin`.
 
-And a metadata list of the plugin is needed.
+And a metadata list of the plugin is needed. (The following is a complete example).
 
-```tsx
-{
+```js
+({
     name: "example-viewer",
     displayName: "Example Viewer",
     setup({ addViewer }) {
@@ -121,55 +119,28 @@ And a metadata list of the plugin is needed.
             render: (dataUrl: string) => <div>{dataUrl}</div> // The render of your viewer
         });
     }
-}
-```
-
-This is an example plugin. Also be in (`/registry/VideoViewerPlugin.tsx`).
-
-```tsx
-import { PluginMetadata } from "../../client/types";
-
-export const VideoViewerPlugin: PluginMetadata = {
-    name: "video-viewer",
-    displayName: "视频查看器",
-    setup({ addViewer }) {
-        addViewer({
-            id: "video-viewer",
-            pageTitle: "Ferrum 视频查看器",
-            route: "/video-viewer",
-            formats: ["mp4", "avi"],
-            render: (dataUrl: string) => <video src={dataUrl.replace("image", "video")} controls></video>
-        });
-    },
-};
+})
 ```
 
 The components in the function `render()` will be rendered at the center of the whole page. And the param `dataUrl` is the data url (base64) of file that opened. You should pay attention to the mime type of the url: _("data:**image/png**;base64,.......")_
 
-```tsx
-export const ExamplePlugin: PluginMetadata<ViewerOption> = {
+```js
+({
     // ...
     setup({ addViewer }) {
         addViewer({
             // ...
-            render: (dataUrl: string) => {
+            render: (dataUrl) => {
                 return (
                     // ...
                 );
             }
         });
     }
-};
+})
 ```
 
-Last, you should add your new viewer into the viewer list (`/src/plugins/index.tsx`).
-
-```tsx
-PluginLoader.get().register(VideoViewerPlugin);
-PluginLoader.get().register(MyViewerPlugin);
-PluginLoader.get().register(OtherViewerPlugin);
-// ... just add your plugin after it
-```
+Last, add your plugin in settings.
 
 ## Testing
 

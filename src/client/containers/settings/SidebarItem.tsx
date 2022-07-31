@@ -27,7 +27,6 @@ const SidebarItem: React.FC<ExplorerSettingsSidebarItemProps> = (props) => {
                 setIsOn(true);
                 props.onClick(props.id);
             }}>
-            <span className="sidebar-item-icon"></span>
             <span className="sidebar-item-title">{props.title}</span>
         </li>
     );

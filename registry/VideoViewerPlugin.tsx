@@ -3,6 +3,7 @@ import { PluginMetadata } from "../src/client/types";
 export const VideoViewerPlugin: PluginMetadata = {
     name: "video-viewer",
     displayName: "视频查看器",
+    description: "打开与查看视频文件",
     setup({ addViewer }) {
         addViewer({
             id: "video-viewer",
@@ -12,4 +13,5 @@ export const VideoViewerPlugin: PluginMetadata = {
             render: (dataUrl: string) => <video src={dataUrl.replace("image", "video")} controls></video>
         });
     },
+    native: true
 };

@@ -274,7 +274,9 @@ interface PluginSetupParameters {
 export interface PluginMetadata {
     name: string
     displayName?: string
+    description?: string
     setup: (params: PluginSetupParameters) => any
+    native?: boolean
 }
 
 interface FunctionalOption {

@@ -98,16 +98,14 @@ sudo sysctl fs.inotify.max_user_watches=582222 && sudo sysctl -p
 
 ## 插件
 
-插件文件夹是`/registry`.
-
-### 编写文件查看器插件
+#### 编写文件查看器插件
 
 如果你打算写一个查看器插件, 你首先需要创建一个`tsx`后缀的文件, 文件名最好要以`Plugin`结尾.
 
-然后你需要为你的插件提供如下的信息.
+然后你需要为你的插件提供如下的信息. (下面是一个完整的示例)
 
-```tsx
-{
+```js
+({
     name: "example-viewer",
     displayName: "Example Viewer",
     setup({ addViewer }) {
@@ -119,55 +117,28 @@ sudo sysctl fs.inotify.max_user_watches=582222 && sudo sysctl -p
             render: (dataUrl: string) => <div>{dataUrl}</div> // 查看器页面的渲染器
         });
     }
-}
-```
-
-下面是一个示例插件, 你也可以在`/registry/VideoViewerPlugin.tsx`查看.
-
-```tsx
-import { PluginMetadata } from "../../client/types";
-
-export const VideoViewerPlugin: PluginMetadata = {
-    name: "video-viewer",
-    displayName: "视频查看器",
-    setup({ addViewer }) {
-        addViewer({
-            id: "video-viewer",
-            pageTitle: "Ferrum 视频查看器",
-            route: "/video-viewer",
-            formats: ["mp4", "avi"],
-            render: (dataUrl: string) => <video src={dataUrl.replace("image", "video")} controls></video>
-        });
-    },
-};
+})
 ```
 
 `render()`函数返回的React组件会被渲染在整个页面的中央, 传入的参数`dataUrl`是被打开的文件的Data URL (base64), 同时, 你也应注意这个URL的MIME格式类型: _("data:**image/png**;base64,.......")_
 
-```tsx
-export const ExamplePlugin: PluginMetadata<ViewerOption> = {
+```js
+({
     // ...
     setup({ addViewer }) {
         addViewer({
             // ...
-            render: (dataUrl: string) => {
+            render: (dataUrl) => {
                 return (
                     // ...
                 );
             }
         });
     }
-};
+})
 ```
 
-最后, 在插件列表(`/src/plugins/index.tsx`)中加入你的新插件.
-
-```tsx
-PluginLoader.get().register(VideoViewerPlugin);
-PluginLoader.get().register(MyViewerPlugin);
-PluginLoader.get().register(OtherViewerPlugin);
-// ... 在此添加你的插件
-```
+最后, 在设置中添加你的插件.
 
 ## 测试
 

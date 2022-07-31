@@ -9,8 +9,9 @@ import Terminal from "./client/pages/Terminal";
 import License from "./client/pages/License";
 import Viewer from "./plugin/Viewer";
 
+import LocalStorage from "./client/utils/localStorage";
 import PluginLoader from "./plugin/PluginLoader";
-import { version } from "./client/global";
+import { version, pluginStorageKey, pluginStorageType } from "./client/global";
 
 // style sheets
 import "bootstrap/dist/css/bootstrap.css";
@@ -18,7 +19,18 @@ import "filepond/dist/filepond.min.css";
 import "xterm/css/xterm.css";
 import "./client/style/layout.less";
 
-import "./plugin"; // Register plugins
+// Register plugins
+(async function() {
+    var plugins = LocalStorage.getItem<pluginStorageType>(pluginStorageKey);
+    if(!plugins || plugins.length == 0) {
+        await import("./plugin");
+        return;
+    }
+
+    for(let i = 0; i < plugins.length; i++) {
+        PluginLoader.get().register(plugins[i]);
+    }
+})();
 
 const Main: React.FC<RouteComponentProps<{}, {}, unknown>> = (props) => {
     var component: ReactElement = <div></div>;
@@ -45,7 +57,6 @@ const Main: React.FC<RouteComponentProps<{}, {}, unknown>> = (props) => {
     PluginLoader.get().load(); // 1
     useEffect(() => {
         PluginLoader.get().load(); // 2
-        console.log(PluginLoader.get());
     }, []);
 
     // Registration of viewer pages
