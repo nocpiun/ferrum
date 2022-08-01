@@ -100,9 +100,7 @@ sudo sysctl fs.inotify.max_user_watches=582222 && sudo sysctl -p
 
 #### 编写文件查看器插件
 
-如果你打算写一个查看器插件, 你首先需要创建一个`tsx`后缀的文件, 文件名最好要以`Plugin`结尾.
-
-然后你需要为你的插件提供如下的信息. (下面是一个完整的示例)
+如果你打算写一个查看器插件, 你首先需要创建一个`tsx`后缀的文件, 然后你需要为你的插件提供如下的信息. (下面是一个完整的示例).
 
 ```js
 ({
@@ -114,31 +112,13 @@ sudo sysctl fs.inotify.max_user_watches=582222 && sudo sysctl -p
             pageTitle: "Example Viewer", // 查看器页面的标题
             route: "/example-viewer", // 查看器页面的路由
             formats: [], // 查看器支持的文件格式
-            render: (dataUrl: string) => <div>{dataUrl}</div> // 查看器页面的渲染器
+            render: (dataUrl: string) => <div>{dataUrl}</div> // 查看器页面的渲染器 (`dataUrl`是一个base64的data url)
         });
     }
 })
 ```
 
-`render()`函数返回的React组件会被渲染在整个页面的中央, 传入的参数`dataUrl`是被打开的文件的Data URL (base64), 同时, 你也应注意这个URL的MIME格式类型: _("data:**image/png**;base64,.......")_
-
-```js
-({
-    // ...
-    setup({ addViewer }) {
-        addViewer({
-            // ...
-            render: (dataUrl) => {
-                return (
-                    // ...
-                );
-            }
-        });
-    }
-})
-```
-
-最后, 在设置中添加你的插件.
+然后, 在设置中添加你的插件.
 
 ## 测试
 

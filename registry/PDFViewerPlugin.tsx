@@ -10,7 +10,7 @@ export const PDFViewerPlugin: PluginMetadata = {
             pageTitle: "Ferrum PDF查看器",
             route: "/pdf-viewer",
             formats: ["pdf"],
-            render: (dataUrl: string) => <embed src={dataUrl.replace("image", "application")} type="application/pdf"/>
+            render: (dataUrl: string) => <embed src={dataUrl} type="application/pdf"/>
         });
     },
     native: true

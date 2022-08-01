@@ -102,9 +102,7 @@ sudo sysctl fs.inotify.max_user_watches=582222 && sudo sysctl -p
 
 Viewer is a page that is shown when the user opens a file. The viewer's page will be shown when the user opens the file format(s) the viewer's option has specified. For example, a video viewer, its page will be shown when the user open a `.mp4` file.
 
-Firstly, you need to create a new `tsx` file. The name of the file had better end with `ViewerPlugin`.
-
-And a metadata list of the plugin is needed. (The following is a complete example).
+You need to create a new `tsx` file. And a metadata list of the plugin is needed. (The following is a complete example).
 
 ```js
 ({
@@ -116,31 +114,13 @@ And a metadata list of the plugin is needed. (The following is a complete exampl
             pageTitle: "Example Viewer", // This will be shown on the top of your viewer's page
             route: "/example-viewer", // The route of your viewer's page
             formats: [], // The formats that your viewer supports
-            render: (dataUrl: string) => <div>{dataUrl}</div> // The render of your viewer
+            render: (dataUrl: string) => <div>{dataUrl}</div> // The render of your viewer (`dataUrl` is a base64 data url)
         });
     }
 })
 ```
 
-The components in the function `render()` will be rendered at the center of the whole page. And the param `dataUrl` is the data url (base64) of file that opened. You should pay attention to the mime type of the url: _("data:**image/png**;base64,.......")_
-
-```js
-({
-    // ...
-    setup({ addViewer }) {
-        addViewer({
-            // ...
-            render: (dataUrl) => {
-                return (
-                    // ...
-                );
-            }
-        });
-    }
-})
-```
-
-Last, add your plugin in settings.
+Then, add your plugin in settings.
 
 ## Testing
 

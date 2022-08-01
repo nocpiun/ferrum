@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const mimeType = require("mime-type/with-db");
 
 /**
  * 
@@ -14,7 +15,9 @@ module.exports = function(req, res) {
         return;
     }
 
-    var urlHead = "data:image/"+ path.extname(filePath).replace(".", "") +";base64,";
+    const mime = mimeType.lookup(path.extname(filePath).replace(".", ""));
+
+    var urlHead = "data:"+ mime +";base64,";
     var pictureData = fs.readFileSync(filePath).toString("base64");
     res.end(JSON.stringify({
         bdata: urlHead + pictureData,

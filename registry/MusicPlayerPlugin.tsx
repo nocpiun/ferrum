@@ -10,7 +10,7 @@ export const MusicPlayerPlugin: PluginMetadata = {
             pageTitle: "Ferrum 音乐播放器",
             route: "/music-player",
             formats: ["mp3", "ogg"],
-            render: (dataUrl: string) => <audio src={dataUrl.replace("image", "audio")} controls></audio>
+            render: (dataUrl: string) => <audio src={dataUrl} controls></audio>
         });
     },
     native: true

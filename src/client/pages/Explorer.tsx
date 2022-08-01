@@ -57,7 +57,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                 return;
             }
 
-            if(Utils.formatTester(["png", "jpg", "jpeg", "bmp", "gif", "webp", "psd", "svg", "tiff", "ico"], itemFormat)) {
+            if(Utils.formatTester(["png", "jpg", "jpeg", "bmp", "gif", "webp", "psd", "tiff", "ico"], itemFormat)) {
                 window.location.href = hostname + Explorer.port +"/picture/?path="+ itemPath;
                 return;
             }

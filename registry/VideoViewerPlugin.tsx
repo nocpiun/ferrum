@@ -10,7 +10,7 @@ export const VideoViewerPlugin: PluginMetadata = {
             pageTitle: "Ferrum 视频查看器",
             route: "/video-viewer",
             formats: ["mp4", "avi"],
-            render: (dataUrl: string) => <video src={dataUrl.replace("image", "video")} controls></video>
+            render: (dataUrl: string) => <video src={dataUrl} controls></video>
         });
     },
     native: true
