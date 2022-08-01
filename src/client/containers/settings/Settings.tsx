@@ -9,6 +9,7 @@ import React, {
 import { Form, ListGroup, Button } from "react-bootstrap";
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import Axios from "axios";
+import md5 from "md5-node";
 import toast from "react-hot-toast";
 
 import SidebarItem from "./SidebarItem";
@@ -28,6 +29,7 @@ import folderOutline from "../../../icons/folder_outline.svg";
 import editNote from "../../../icons/edit_note.svg";
 import terminal from "../../../icons/terminal.svg";
 import extension from "../../../icons/extension.svg";
+import key from "../../../icons/key.svg";
 
 const Settings: React.FC = () => {
     const [currentPage, setPage] = useState<SettingsItem>(SettingsItem.EXPLORER);
@@ -89,20 +91,7 @@ const Settings: React.FC = () => {
     const handleItemBeOn = (id: SettingsItem) => {
         Emitter.get().emit("settingsItemSelect", id);
 
-        switch(id) {
-            case SettingsItem.EXPLORER:
-                setPage(SettingsItem.EXPLORER);
-                break;
-            case SettingsItem.EDITOR:
-                setPage(SettingsItem.EDITOR);
-                break;
-            case SettingsItem.TERMINAL:
-                setPage(SettingsItem.TERMINAL);
-                break;
-            case SettingsItem.PLUGIN:
-                setPage(SettingsItem.PLUGIN);
-                break;
-        }
+        setPage(id);
     };
 
     const handleAddPlugin = async () => {
@@ -117,6 +106,38 @@ const Settings: React.FC = () => {
             refreshPluginList();
             uploader.files = null;
         }
+    };
+
+    const handleSetPassword = () => {
+        if(isDemo) return;
+
+        var oldPassword = (Utils.getElem("old-password") as HTMLInputElement).value;
+        var newPassword = (Utils.getElem("new-password") as HTMLInputElement).value;
+    
+        if(md5(oldPassword) !== config.explorer.password) {
+            toast.error("旧密码输入错误");
+            return;
+        }
+    
+        if(newPassword === "" || /[^a-zA-Z0-9]/g.test(newPassword)) {
+            toast.error("密码更改失败，请输入有效密码");
+            return;
+        }
+    
+        if(md5(newPassword) === config.explorer.password) {
+            toast.error("密码更改失败, 新密码与旧密码不能相同");
+            return;
+        }
+    
+        Utils.setCookie("fepw", md5(md5(newPassword)));
+        toast.promise(Axios.post(apiUrl +"/setPassword", {
+            oldPassword: md5(oldPassword),
+            newPassword: md5(newPassword)
+        }), {
+            loading: "更改中...",
+            success: "更改成功",
+            error: "更改失败"
+        }).then(() => window.location.reload());
     };
 
     const refreshPluginList = () => {
@@ -173,6 +194,7 @@ const Settings: React.FC = () => {
                     <SidebarItem id={SettingsItem.EDITOR} title="编辑器" icon={editNote} onClick={(e) => handleItemBeOn(e)}/>
                     <SidebarItem id={SettingsItem.TERMINAL} title="终端配置" icon={terminal} onClick={(e) => handleItemBeOn(e)}/>
                     <SidebarItem id={SettingsItem.PLUGIN} title="插件列表" icon={extension} onClick={(e) => handleItemBeOn(e)}/>
+                    <SidebarItem id={SettingsItem.PASSWORD} title="密码设置" icon={key} onClick={(e) => handleItemBeOn(e)}/>
                 </ul>
                 <div className="add-plugin">
                     <input
@@ -238,6 +260,15 @@ const Settings: React.FC = () => {
                         <ListGroup className="plugin-list">
                             {pluginList}
                         </ListGroup>
+                    </SettingsSection>
+                    <SettingsSection title="密码设置" style={{display: currentPage == "s-password" ? "block" : "none"}}>
+                        <Option name="旧密码">
+                            <Form.Control type="password" id="old-password" autoComplete="off" required/>
+                        </Option>
+                        <Option name="新密码">
+                            <Form.Control type="password" id="new-password" autoComplete="off" required/>
+                        </Option>
+                        <Button className="submit" onClick={() => handleSetPassword()} disabled={isDemo}>提交</Button>
                     </SettingsSection>
                 </Form>
             </div>
