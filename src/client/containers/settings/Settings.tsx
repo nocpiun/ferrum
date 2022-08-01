@@ -128,7 +128,7 @@ const Settings: React.FC = () => {
             <>
                 {PluginLoader.get().pluginList.map((plugin, i) => {
                     return (
-                        <ListGroup.Item title={plugin.description ?? ""} key={i}>
+                        <ListGroup.Item title={(plugin.description ?? "") + (!plugin.native ? " (右键卸载插件)" : "")} key={i}>
                             <ContextMenuTrigger id={"plugin-rcmenu--"+ plugin.name}>
                                 <span className="plugin-name">{plugin.displayName}</span>
                                 <span className="plugin-id">{plugin.name + (plugin.native ? " (内置)" : "")}</span>
@@ -191,31 +191,9 @@ const Settings: React.FC = () => {
                             <Form.Select id="settings-root" defaultValue={config.explorer.root}>
                                 <option value="">(Unix系统根目录)</option>
                                 <option value="C:">C: (默认)</option>
-                                <option value="D:">D:</option>
-                                <option value="E:">E:</option>
-                                <option value="F:">F:</option>
-                                <option value="G:">G:</option>
-                                <option value="H:">H:</option>
-                                <option value="I:">I:</option>
-                                <option value="J:">J:</option>
-                                <option value="K:">K:</option>
-                                <option value="L:">L:</option>
-                                <option value="M:">M:</option>
-                                <option value="N:">N:</option>
-                                <option value="O:">O:</option>
-                                <option value="P:">P:</option>
-                                <option value="Q:">Q:</option>
-                                <option value="R:">R:</option>
-                                <option value="S:">S:</option>
-                                <option value="T:">T:</option>
-                                <option value="U:">U:</option>
-                                <option value="V:">V:</option>
-                                <option value="W:">W:</option>
-                                <option value="X:">X:</option>
-                                <option value="Y:">Y:</option>
-                                <option value="Z:">Z:</option>
-                                <option value="A:">A:</option>
-                                <option value="B:">B:</option>
+                                {["D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "A", "B"].map((item, i) => {
+                                    return <option value={item +":"} key={i}>{item +":"}</option>
+                                })}
                             </Form.Select>
                         </Option>
                         <Option name="显示隐藏文件">
@@ -256,7 +234,7 @@ const Settings: React.FC = () => {
                             <Form.Control type="password" id="settings-password" autoComplete="off" defaultValue={config.terminal.password}/>
                         </Option>
                     </SettingsSection>
-                    <SettingsSection title="插件列表 (右键卸载插件)" style={{display: currentPage == "s-plugin" ? "block" : "none"}}>
+                    <SettingsSection title="插件列表" style={{display: currentPage == "s-plugin" ? "block" : "none"}}>
                         <ListGroup className="plugin-list">
                             {pluginList}
                         </ListGroup>

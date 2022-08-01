@@ -44,6 +44,7 @@ export default class PluginLoader {
         }
 
         if(list[index].native) {
+            console.error(`[PluginLoader] Unregistering plugin "${pluginId}" failed: Unable to unregister a native plugin.`)
             toast.error("插件卸载失败: 无法卸载内置插件");
             return;
         }
