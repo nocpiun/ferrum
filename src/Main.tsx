@@ -11,7 +11,7 @@ import Viewer from "./plugin/Viewer";
 
 import LocalStorage from "./client/utils/localStorage";
 import PluginLoader from "./plugin/PluginLoader";
-import { version, pluginStorageKey, pluginStorageType } from "./client/global";
+import { version, pluginStorageKey } from "./client/global";
 
 // style sheets
 import "bootstrap/dist/css/bootstrap.css";
@@ -20,15 +20,13 @@ import "xterm/css/xterm.css";
 import "./client/style/layout.less";
 
 // Register plugins
+import "./plugin";
 (async function() {
-    var plugins = LocalStorage.getItem<pluginStorageType>(pluginStorageKey);
-    if(!plugins || plugins.length == 0) {
-        await import("./plugin");
-        return;
-    }
+    var plugins = LocalStorage.getItem<string[]>(pluginStorageKey);
+    if(!plugins || plugins.length == 0) return;
 
     for(let i = 0; i < plugins.length; i++) {
-        PluginLoader.get().register(plugins[i]);
+        PluginLoader.get().loadExternalPlugin(plugins[i]);
     }
 })();
 

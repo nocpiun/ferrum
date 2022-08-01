@@ -107,14 +107,12 @@ const Settings: React.FC = () => {
 
     const handleAddPlugin = async () => {
         const uploader = Utils.getElem("plugin-uploader") as HTMLInputElement;
-        console.log(uploader.files);
 
         if(uploader.files) {
             var pl = PluginLoader.get();
             
             var script = await uploader.files[0].text();
-            pl.register(eval(script));
-            pl.load();
+            pl.loadExternalPlugin(script);
 
             refreshPluginList();
             uploader.files = null;

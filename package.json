@@ -104,7 +104,7 @@
   },
   "scripts": {
     "start": "node src/server/InitConfig && node scripts/build.js && cross-env NODE_ENV=production concurrently \"npm run server\" \"node --experimental-json-modules production-start.mjs\"",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "dev": "node src/server/InitConfig && concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon --config config/nodemon.config.json",
     "client": "cross-env NODE_ENV=development node scripts/start.js",
     "build": "node scripts/build.js",

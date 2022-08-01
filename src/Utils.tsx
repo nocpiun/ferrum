@@ -16,7 +16,7 @@ export default class Utils {
         return s;
     }
 
-    public static itemMoveToFirst(key: number, arr: any[]): any[] {
+    public static itemMoveToFirst<T extends any[]>(key: number, arr: T): T {
         var str = arr.splice(key, 1);
         arr.push(str[0]);
         return arr;
@@ -73,5 +73,18 @@ export default class Utils {
         }
         
         return isEqual;
+    }
+
+    public static arrayDeduplicate<T extends any[] = any[]>(arr: T): T {
+        for(let i = 0; i < arr.length; i++) {
+            var current = arr[i];
+            for(let j = 0; j < arr.length; j++) {
+                if(arr[j] === current && j !== i) {
+                    arr.splice(j, 1);
+                    j--;
+                }
+            }
+        }
+        return arr;
     }
 }

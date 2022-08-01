@@ -8,7 +8,7 @@ import {
     ViewerOption,
     DialogOption
 } from "../client/types";
-import { pluginStorageKey, pluginStorageType } from "../client/global";
+import { pluginStorageKey } from "../client/global";
 import Utils from "../Utils";
 import LocalStorage from "../client/utils/localStorage";
 
@@ -31,7 +31,6 @@ export default class PluginLoader {
         this.pluginList.push(plugin);
 
         console.log(`[PluginLoader] Plugin "${plugin.name}" is registered.`, plugin);
-        LocalStorage.setItem<pluginStorageType>(pluginStorageKey, this.pluginList);
     }
 
     public unregister(pluginId: string): void {
@@ -50,12 +49,12 @@ export default class PluginLoader {
         }
 
         if(index > -1) {
+            this.unloadExternalPlugin(list[index]);
+            
             list.splice(index, 1);
 
             this.pluginList = list;
             console.log(`[PluginLoader] Plugin "${pluginId}" is unregistered.`);
-
-            LocalStorage.setItem<pluginStorageType>(pluginStorageKey, this.pluginList);
         }
     }
 
@@ -68,6 +67,29 @@ export default class PluginLoader {
                 addDialog: PluginLoader.addDialog,
             });
         });
+    }
+
+    public loadExternalPlugin(script: string): void {
+        var plugins = LocalStorage.getItem<string[]>(pluginStorageKey) ?? [];
+        plugins.push(script)
+
+        this.register(eval(script));
+        this.load();
+
+        LocalStorage.setItem<string[]>(pluginStorageKey, Utils.arrayDeduplicate(plugins));
+    }
+
+    public unloadExternalPlugin(plugin: PluginMetadata): void {
+        var plugins = LocalStorage.getItem<string[]>(pluginStorageKey);
+        if(!plugins) return;
+
+        for(let i = 0; i < plugins.length; i++) {
+            if((eval(plugins[i]) as PluginMetadata).name == plugin.name) {
+                plugins.splice(i, 1);
+            }
+        }
+
+        LocalStorage.setItem<string[]>(pluginStorageKey, plugins);
     }
 
     private static addViewer(viewer: ViewerOption): void { // API
