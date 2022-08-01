@@ -6,7 +6,7 @@
 
 - **`client`** The frontend client source code (React & ES6)
 - **`icons`** The icon files
-- **`plugins`** The plugins
+- **`plugin`** The plugin system
 - **`server`** The backend server source code (Node.js)
 - **`test`** The test files (Jest)
 
