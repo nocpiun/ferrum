@@ -101,7 +101,7 @@ const Settings: React.FC = () => {
             var pl = PluginLoader.get();
             
             var script = await uploader.files[0].text();
-            pl.loadExternalPlugin(script);
+            await pl.loadExternalPlugin(script);
 
             refreshPluginList();
             uploader.files = null;
@@ -200,7 +200,6 @@ const Settings: React.FC = () => {
                     <input
                         id="plugin-uploader"
                         type="file"
-                        accept="text/javascript"
                         style={{display: "none"}}
                         onChange={() => handleAddPlugin()}/>
                     <Button variant="secondary" onClick={() => Utils.getElem("plugin-uploader").click()}>添加插件</Button>

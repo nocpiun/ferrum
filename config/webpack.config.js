@@ -589,6 +589,11 @@ module.exports = function (webpackEnv) {
             // Make sure to add the new loader(s) before the "file" loader.
           ],
         },
+        {
+          test: /\.mjs$/,
+          include: /node_modules/,
+          type: "javascript/auto"
+        },
       ],
     },
     plugins: [
@@ -775,6 +780,10 @@ module.exports = function (webpackEnv) {
       
       new WorkerPlugin({
         globalObject: false
+      }),
+
+      new webpack.ProvidePlugin({
+        "React": "react"
       }),
     ].filter(Boolean),
     // Some libraries import Node modules but don't use them in the browser.

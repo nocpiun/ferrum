@@ -9,26 +9,14 @@ import Terminal from "./client/pages/Terminal";
 import License from "./client/pages/License";
 import Viewer from "./plugin/Viewer";
 
-import LocalStorage from "./client/utils/localStorage";
 import PluginLoader from "./plugin/PluginLoader";
-import { version, pluginStorageKey } from "./client/global";
+import { version } from "./client/global";
 
 // style sheets
 import "bootstrap/dist/css/bootstrap.css";
 import "filepond/dist/filepond.min.css";
 import "xterm/css/xterm.css";
 import "./client/style/layout.less";
-
-// Register plugins
-import "./plugin";
-(async function() {
-    var plugins = LocalStorage.getItem<string[]>(pluginStorageKey);
-    if(!plugins || plugins.length == 0) return;
-
-    for(let i = 0; i < plugins.length; i++) {
-        PluginLoader.get().loadExternalPlugin(plugins[i]);
-    }
-})();
 
 const Main: React.FC<RouteComponentProps<{}, {}, unknown>> = (props) => {
     var component: ReactElement = <div></div>;

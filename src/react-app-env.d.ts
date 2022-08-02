@@ -86,3 +86,7 @@ declare module 'worker-loader!*' {
   }
   export default WebpackWorker;
 }
+
+declare module '@babel/preset-react';
+declare module '@babel/plugin-transform-react-jsx';
+declare module '@babel/plugin-syntax-jsx';

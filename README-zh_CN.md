@@ -100,7 +100,7 @@ sudo sysctl fs.inotify.max_user_watches=582222 && sudo sysctl -p
 
 #### 编写文件查看器插件
 
-如果你打算写一个查看器插件, 你首先需要创建一个`tsx`后缀的文件, 然后你需要为你的插件提供如下的信息. (下面是一个完整的示例).
+如果你打算写一个查看器插件, 你首先需要创建一个`jsx`后缀的文件, 然后你需要为你的插件提供如下的信息. (下面是一个完整的示例).
 
 ```js
 ({
@@ -112,7 +112,7 @@ sudo sysctl fs.inotify.max_user_watches=582222 && sudo sysctl -p
             pageTitle: "Example Viewer", // 查看器页面的标题
             route: "/example-viewer", // 查看器页面的路由
             formats: [], // 查看器支持的文件格式
-            render: (dataUrl: string) => <div>{dataUrl}</div> // 查看器页面的渲染器 (`dataUrl`是一个base64的data url)
+            render: (dataUrl) => <div>{dataUrl}</div> // 查看器页面的渲染器 (`dataUrl`是一个base64的data url)
         });
     }
 })

@@ -4,15 +4,20 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Axios from "axios";
 import md5 from "md5-node";
 
+import PluginLoader from "./plugin/PluginLoader";
+import LocalStorage from "./client/utils/localStorage";
 import Utils from "./Utils";
 // import * as config from "./config.json";
 
 import Main from "./Main";
 import Login from "./client/pages/Login";
 
-import { apiUrl, version } from "./client/global";
+import { apiUrl, version, pluginStorageKey } from "./client/global";
 import { Config } from "./client/types";
 import MainContext from "./client/contexts/MainContext";
+
+// Register native plugins
+import "./plugin";
 
 export const isDemo = typeof document.body.getAttribute("demo") === "string" ? true : false;
 
@@ -48,6 +53,16 @@ Axios.get("https://v1.hitokoto.cn/?c=i&encode=json", {responseType: "json"})
 
 // Verify & Rendering
 (async function() {
+
+  // Register external plugins
+  await (async function() {
+    var plugins = LocalStorage.getItem<string[]>(pluginStorageKey);
+    if(plugins && plugins.length != 0) {
+      for(let i = 0; i < plugins.length; i++) {
+        await PluginLoader.get().loadExternalPlugin(plugins[i]);
+      }
+    }
+  })();
 
   async function getConfig(): Promise<Config> {
     return (await Axios.get<{config: Config}>(apiUrl +"/getConfig")).data.config;

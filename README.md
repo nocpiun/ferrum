@@ -102,7 +102,7 @@ sudo sysctl fs.inotify.max_user_watches=582222 && sudo sysctl -p
 
 Viewer is a page that is shown when the user opens a file. The viewer's page will be shown when the user opens the file format(s) the viewer's option has specified. For example, a video viewer, its page will be shown when the user open a `.mp4` file.
 
-You need to create a new `tsx` file. And a metadata list of the plugin is needed. (The following is a complete example).
+You need to create a new `jsx` file. And a metadata list of the plugin is needed. (The following is a complete example).
 
 ```js
 ({
@@ -114,7 +114,7 @@ You need to create a new `tsx` file. And a metadata list of the plugin is needed
             pageTitle: "Example Viewer", // This will be shown on the top of your viewer's page
             route: "/example-viewer", // The route of your viewer's page
             formats: [], // The formats that your viewer supports
-            render: (dataUrl: string) => <div>{dataUrl}</div> // The render of your viewer (`dataUrl` is a base64 data url)
+            render: (dataUrl) => <div>{dataUrl}</div> // The render of your viewer (`dataUrl` is a base64 data url)
         });
     }
 })

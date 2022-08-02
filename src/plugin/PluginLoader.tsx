@@ -1,5 +1,8 @@
+import React from "react";
 import ReactDOM from "react-dom";
 import toast from "react-hot-toast";
+
+import * as Babel from "@babel/standalone";
 
 import DialogBox from "../client/components/DialogBox";
 
@@ -17,6 +20,14 @@ export default class PluginLoader {
 
     public pluginList: PluginMetadata[] = [];
     public viewerList: ViewerOption[] = [];
+
+    private async init(): Promise<void> {
+        Babel.registerPreset("preset-react", await import("@babel/preset-react"));
+        Babel.registerPlugins({
+            "plugin-transform-react-jsx": await import("@babel/plugin-transform-react-jsx"),
+            "plugin-syntax-jsx": await import("@babel/plugin-syntax-jsx"),
+        });
+    }
 
     public register(plugin: PluginMetadata): void {
         for(let i = 0; i < this.pluginList.length; i++) {
@@ -70,11 +81,23 @@ export default class PluginLoader {
         });
     }
 
-    public loadExternalPlugin(script: string): void {
+    public async loadExternalPlugin(script: string): Promise<void> {
         var plugins = LocalStorage.getItem<string[]>(pluginStorageKey) ?? [];
-        plugins.push(script)
+        plugins.push(script);
 
-        this.register(eval(script));
+        // Register Babel presets & plugins
+        await this.init();
+        // Transform jsx to js
+        const compiled = Babel.transform(script, {
+            presets: [Babel.availablePresets["preset-react"]],
+            plugins: [
+                Babel.availablePlugins["plugin-transform-react-jsx"],
+                Babel.availablePlugins["plugin-syntax-jsx"],
+            ]
+        });
+
+        window.React = React; // Import React for the plugin
+        this.register(window.eval(compiled.code ?? ""));
         this.load();
 
         LocalStorage.setItem<string[]>(pluginStorageKey, Utils.arrayDeduplicate(plugins));
@@ -85,7 +108,19 @@ export default class PluginLoader {
         if(!plugins) return;
 
         for(let i = 0; i < plugins.length; i++) {
-            if((eval(plugins[i]) as PluginMetadata).name == plugin.name) {
+            const script = plugins[i];
+            // Transform jsx to js
+            const compiled = Babel.transform(script, {
+                presets: [Babel.availablePresets["preset-react"]],
+                plugins: [
+                    Babel.availablePlugins["plugin-transform-react-jsx"],
+                    Babel.availablePlugins["plugin-syntax-jsx"],
+                ]
+            });
+
+            window.React = React; // Import React for the plugin
+            const metadata = window.eval(compiled.code ?? "") as PluginMetadata;
+            if(metadata.name == plugin.name) {
                 plugins.splice(i, 1);
             }
         }
