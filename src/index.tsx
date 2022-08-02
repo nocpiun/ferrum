@@ -19,6 +19,9 @@ import MainContext from "./client/contexts/MainContext";
 // Register native plugins
 import "./plugin";
 
+// Disable console warnings
+console.warn = () => {};
+
 export const isDemo = typeof document.body.getAttribute("demo") === "string" ? true : false;
 
 if(window.location.pathname == "/" || window.location.pathname == "/dir") {
