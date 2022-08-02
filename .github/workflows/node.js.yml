@@ -10,7 +10,7 @@ on:
     branches: [ main ]
 
 jobs:
-  main:
+  test:
 
     runs-on: windows-latest
 
@@ -19,7 +19,6 @@ jobs:
     strategy:
       matrix:
         node-version: [12.x, 14.x, 16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
     - uses: actions/checkout@v2
@@ -29,8 +28,43 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm install --legacy-peer-deps
-    - name: Run build
-      run: npm run build:netlify
 
     - name: Run Jest tests
       run: npm run test
+  
+  deploy:
+
+    runs-on: windows-latest
+
+    environment: deploy
+
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm install --legacy-peer-deps
+
+    - name: Run build
+      run: npm run build:netlify
+    
+    - name: Deploy to Netlify
+      uses: nwtgck/actions-netlify@v1.2
+      with:
+        publish-dir: './build'
+        production-branch: main
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        deploy-message: 'Deploy from Github Actions'
+        enable-pull-request-comment: true
+        enable-commit-comment: true
+        overwrites-pull-request-comment: true
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      timeout-minutes: 2
