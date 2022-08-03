@@ -20,12 +20,11 @@ import MainContext from "./client/contexts/MainContext";
 // Register native plugins
 import "./plugin";
 
-// Disable console warnings
+export const isDemo = typeof document.body.getAttribute("demo") === "string" ? true : false;
+
 console.warn = (value) => {
   Logger.warn({ value });
 };
-
-export const isDemo = typeof document.body.getAttribute("demo") === "string" ? true : false;
 
 Logger.log({ value: "Launching..." });
 
