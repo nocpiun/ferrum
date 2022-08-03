@@ -14,6 +14,7 @@ import {
 import { pluginStorageKey } from "../client/global";
 import Utils from "../Utils";
 import LocalStorage from "../client/utils/localStorage";
+import Logger from "../client/utils/logger";
 
 export default class PluginLoader {
     private static instance: PluginLoader | null;
@@ -32,7 +33,7 @@ export default class PluginLoader {
     public register(plugin: PluginMetadata): void {
         for(let i = 0; i < this.pluginList.length; i++) {
             if(this.pluginList[i].name == plugin.name) {
-                console.error(`[PluginLoader] Registering plugin "${plugin.name}" failed: Plugin ID isn't unique.`);
+                Logger.error({ as: "PluginLoader", value: `Registering plugin "${plugin.name}" failed: Plugin ID isn't unique.` });
                 toast.error("插件注册失败: ID不唯一");
                 return;
             }
@@ -41,7 +42,7 @@ export default class PluginLoader {
         plugin.displayName ??= plugin.name;
         this.pluginList.push(plugin);
 
-        console.log(`[PluginLoader] Plugin "${plugin.name}" is registered.`, plugin);
+        Logger.log({ as: "PluginLoader", value: `Plugin "${plugin.name}" is registered.` }, plugin);
     }
 
     public unregister(pluginId: string): void {
@@ -55,7 +56,7 @@ export default class PluginLoader {
         }
 
         if(list[index].native) {
-            console.error(`[PluginLoader] Unregistering plugin "${pluginId}" failed: Unable to unregister a native plugin.`)
+            Logger.error({ as: "PluginLoader", value: `Unregistering plugin "${pluginId}" failed: Unable to unregister a native plugin.` })
             toast.error("插件卸载失败: 无法卸载内置插件");
             return;
         }
@@ -66,7 +67,7 @@ export default class PluginLoader {
             list.splice(index, 1);
 
             this.pluginList = list;
-            console.log(`[PluginLoader] Plugin "${pluginId}" is unregistered.`);
+            Logger.log({ as: "PluginLoader", value: `Plugin "${pluginId}" is unregistered.` });
         }
     }
 

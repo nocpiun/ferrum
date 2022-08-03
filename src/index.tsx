@@ -6,6 +6,7 @@ import md5 from "md5-node";
 
 import PluginLoader from "./plugin/PluginLoader";
 import LocalStorage from "./client/utils/localStorage";
+import Logger from "./client/utils/logger";
 import Utils from "./Utils";
 // import * as config from "./config.json";
 
@@ -20,20 +21,26 @@ import MainContext from "./client/contexts/MainContext";
 import "./plugin";
 
 // Disable console warnings
-console.warn = () => {};
+console.warn = (value) => {
+  Logger.warn({ value });
+};
 
 export const isDemo = typeof document.body.getAttribute("demo") === "string" ? true : false;
+
+Logger.log({ value: "Launching..." });
 
 if(window.location.pathname == "/" || window.location.pathname == "/dir") {
   window.location.href = "/dir/"; // default page
 }
 
-console.log(
-  "%cFerrum Explorer%cv"+ version +" | By NriotHrreion\n"+
+Logger.log(
+  { value: "%c\nFerrum Explorer%cv"+ version +" | By NriotHrreion\n"+
   "%c    Website: https://nin.red/#/projects/ferrum/\n"+
-  "%cGithub Repo: https://github.com/NriotHrreion/ferrum\n",
+  "%cGithub Repo: https://github.com/NriotHrreion/ferrum\n\n"+
+  "%c       Demo: https://ferrum-demo.nin.red\n" },
   "font-size: 16pt;font-weight: bold; padding: 10px",
   "font-size: 8pt;color: gray",
+  "font-size: 8pt;color: white",
   "font-size: 8pt;color: white",
   "font-size: 8pt;color: white"
 );
@@ -50,7 +57,10 @@ Axios.get("https://v1.hitokoto.cn/?c=i&encode=json", {responseType: "json"})
       length: number
     }
   }) => {
-    console.log("%c"+ res.data.hitokoto +"%c ————"+ res.data.from_who +"《"+ res.data.from +"》", "font-weight: bold", "font-weight: 400;color: yellow");
+    Logger.log(
+      { as: "Hitokoto", value: "%c"+ res.data.hitokoto +"%c ————"+ res.data.from_who +"《"+ res.data.from +"》" },
+      "font-weight: bold", "font-weight: 400;color: yellow"
+    );
   })
   .catch((err) => {throw err});
 

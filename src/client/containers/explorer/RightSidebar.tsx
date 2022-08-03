@@ -11,6 +11,7 @@ import { FilePond } from "react-filepond";
 import MainContext from "../../contexts/MainContext";
 
 import Emitter from "../../utils/emitter";
+import Logger from "../../utils/logger";
 import DialogBox from "../../components/DialogBox";
 import Bar from "../../components/Bar";
 import {
@@ -101,7 +102,7 @@ const RightSidebar: React.FC<ExplorerRightSidebarProps> = (props) => {
                     labelIdle="[ 拖放 / 浏览文件 ]"
                     server={apiUrl +"/uploadFile?path="+ props.path.replaceAll("/", "\\")}
                     oninit={() => {
-                        console.log("Filepond is ready.", pond.current);
+                        Logger.log({ value: "Filepond is ready." }, pond.current);
                     }}
                     onprocessfile={() => {
                         Emitter.get().emit("fileListUpdate");

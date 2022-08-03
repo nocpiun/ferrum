@@ -10,6 +10,7 @@ import License from "./client/pages/License";
 import Viewer from "./plugin/Viewer";
 
 import PluginLoader from "./plugin/PluginLoader";
+import Logger from "./client/utils/logger";
 import { version } from "./client/global";
 
 // style sheets
@@ -50,6 +51,8 @@ const Main: React.FC<RouteComponentProps<{}, {}, unknown>> = (props) => {
 
     for(let i = 0; i < viewers.length; i++) {
         if(url.indexOf(viewers[i].route) == 0) {
+            Logger.log({ value: "Opening viewer..." }, viewers[i]);
+
             component = <Viewer
                 path={props.location.search.replace("?path=", "").replaceAll("/", "\\")}
                 viewerMetadata={viewers[i]}/>
