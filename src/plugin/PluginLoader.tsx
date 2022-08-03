@@ -118,7 +118,7 @@ export default class PluginLoader {
          */
 
         // Register Babel presets & plugins
-        await this.init();
+        if(Babel.availablePresets["preset-react"] == undefined) await this.init();
         // Transform jsx to js
         const compiled = Babel.transform(script, {
             presets: [Babel.availablePresets["preset-react"]],
