@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="./public/icon.png" style="width:82px;image-rendering:pixelated;"/>
+<img src="./public/logo.png" style="width:82px;image-rendering:pixelated;"/>
 
-# 🌏 Ferrum 文件管理器
+# Ferrum 文件管理器
 
 [![Author](https://img.shields.io/badge/Author-NriotHrreion-red.svg "Author")](https://github.com/NriotHrreion)
 [![LICENSE](https://img.shields.io/badge/license-MIT-green.svg "LICENSE")](./LICENSE)

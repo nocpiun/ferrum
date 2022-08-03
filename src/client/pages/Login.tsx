@@ -57,7 +57,7 @@ export default class Login extends Component<LoginPanelProps, LoginPanelState> {
                 </div>
                 <div className="main-container">
                     <div className="header-container">
-                        <img className="icon" src="/icon.png" alt="icon" title="Ferrum Explorer"/>
+                        <img className="icon" src="/logo.png" alt="icon" title="Ferrum Explorer"/>
                         <h1 className="title">Ferrum 登录</h1>
                     </div>
                     <div className="input-container">
