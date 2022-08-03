@@ -104,7 +104,7 @@ Viewer is a page that is shown when the user opens a file. The viewer's page wil
 
 You need to create a new `jsx` file. And a metadata list of the plugin is needed. (The following is a complete example).
 
-```js
+```jsx
 ({
     name: "example-viewer",
     displayName: "Example Viewer",

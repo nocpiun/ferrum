@@ -16,6 +16,26 @@ import Utils from "../Utils";
 import LocalStorage from "../client/utils/localStorage";
 import Logger from "../client/utils/logger";
 
+/**
+ * **Plugin Loader**
+ * 
+ * The core of plugin system,
+ * which provides the registering, unregistering, loading of the plugins,
+ * and supports JSX syntax (*.jsx).
+ * 
+ * The following is an example of a plugin:
+ * 
+ * @example
+ * ```js
+ * ({
+ *   name: "example-plugin",
+ *   displayName: "Example Plugin",
+ *   setup() {
+ *     console.log("HelloWorld");
+ *   }
+ * })
+ * ```
+ */
 export default class PluginLoader {
     private static instance: PluginLoader | null;
 
@@ -31,6 +51,7 @@ export default class PluginLoader {
     }
 
     public register(plugin: PluginMetadata): void {
+        // Query whether the name of plugin is duplicated.
         for(let i = 0; i < this.pluginList.length; i++) {
             if(this.pluginList[i].name == plugin.name) {
                 Logger.error({ as: "PluginLoader", value: `Registering plugin "${plugin.name}" failed: Plugin ID isn't unique.` });
@@ -39,6 +60,8 @@ export default class PluginLoader {
             }
         }
 
+        // If the plugin doesn't have a `displayName`,
+        // then make the `displayName` equal to its `name`.
         plugin.displayName ??= plugin.name;
         this.pluginList.push(plugin);
 
@@ -85,6 +108,14 @@ export default class PluginLoader {
     public async loadExternalPlugin(script: string): Promise<void> {
         var plugins = LocalStorage.getItem<string[]>(pluginStorageKey) ?? [];
         plugins.push(script);
+
+        /**
+         * In order to make the plugin system supports the JSX syntax,
+         * we need to use Babel to compile the plugin sourcecode so that it can be run by `window.eval()`.
+         * 
+         * Also, inside the `window.eval()`, it hasn't improved React defaultly,
+         * so we should do `window.React = React`.
+         */
 
         // Register Babel presets & plugins
         await this.init();

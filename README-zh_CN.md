@@ -102,7 +102,7 @@ sudo sysctl fs.inotify.max_user_watches=582222 && sudo sysctl -p
 
 如果你打算写一个查看器插件, 你首先需要创建一个`jsx`后缀的文件, 然后你需要为你的插件提供如下的信息. (下面是一个完整的示例).
 
-```js
+```jsx
 ({
     name: "example-viewer",
     displayName: "Example Viewer",
