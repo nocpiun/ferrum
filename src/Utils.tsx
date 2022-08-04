@@ -7,7 +7,15 @@ export default class Utils {
      * Get multi-language texts
      */
     public static $(strId: string): string {
-        return (languages as any)[lang][strId] ?? "";
+        var str: string;
+
+        try {
+            str = (languages as any)[lang][strId];
+        } catch {
+            str = "";
+        }
+
+        return str;
     }
 
     /** @see https://blog.csdn.net/LUxxxX/article/details/90177682 */

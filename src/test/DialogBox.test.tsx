@@ -11,8 +11,6 @@ describe("DialogBox Component tests", () => {
             </DialogBox>
         );
         var closeBtn = ReactTestUtils.findRenderedDOMComponentWithTag(component, "button");
-
-        expect(closeBtn.innerHTML).toBe("关闭");
         
         ReactTestUtils.Simulate.click(closeBtn);
         expect(component.state.isOpen).toBeFalsy();
