@@ -55,7 +55,7 @@ export default class PluginLoader {
         for(let i = 0; i < this.pluginList.length; i++) {
             if(this.pluginList[i].name == plugin.name) {
                 Logger.error({ as: "PluginLoader", value: `Registering plugin "${plugin.name}" failed: Plugin ID isn't unique.` });
-                toast.error("插件注册失败: ID不唯一");
+                toast.error(Utils.$("toast.msg23"));
                 return;
             }
         }
@@ -80,7 +80,7 @@ export default class PluginLoader {
 
         if(list[index].native) {
             Logger.error({ as: "PluginLoader", value: `Unregistering plugin "${pluginId}" failed: Unable to unregister a native plugin.` })
-            toast.error("插件卸载失败: 无法卸载内置插件");
+            toast.error(Utils.$("toast.msg24"));
             return;
         }
 

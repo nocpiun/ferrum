@@ -10,6 +10,7 @@ import Header from "../containers/pictureViewer/Header";
 // icons
 import transparentImage from "../../icons/transparent.png";
 
+import Utils from "../../Utils";
 import {
     PictureViewerProps,
     PictureViewerState,
@@ -56,7 +57,7 @@ export default class PictureViewer extends Component<PictureViewerProps, Picture
         Axios.get(apiUrl +"/getDataUrl?path="+ this.path.replaceAll("/", "\\"))
             .then((res: GetDataUrlResponse) => {
                 if(res.data.err == 404) {
-                    toast.error("无法找到指定图片");
+                    toast.error(Utils.$("toast.msg10"));
                     return;
                 }
 

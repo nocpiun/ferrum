@@ -14,6 +14,7 @@ import Emitter from "../../utils/emitter";
 import Logger from "../../utils/logger";
 import DialogBox from "../../components/DialogBox";
 import Bar from "../../components/Bar";
+import Utils from "../../../Utils";
 import {
     ExplorerRightSidebarProps,
     ExplorerRightSidebarState,
@@ -82,24 +83,24 @@ const RightSidebar: React.FC<ExplorerRightSidebarProps> = (props) => {
     return (
         <aside className="sidebar-right-container">
             <div className="right-sidebar-panel about-container">
-                <p><b>Ferrum 文件管理器</b> 是一个用React + Typescript写的基于Web的文件资源管理器，可用于服务器等的文件管理</p>
+                <p><b>{Utils.$("app.name")}</b> {Utils.$("app.description")}</p>
                 <p><a href="https://github.com/NriotHrreion/ferrum" target="_blank" rel="noreferrer">https://github.com/NriotHrreion/ferrum</a></p>
                 <p>
                     <object
                         data="https://img.shields.io/github/stars/NriotHrreion/ferrum.svg?style=social&label=Star"
                         aria-label="Github Stars"></object>
-                    <a href="/license">许可</a>
+                    <a href="/license">{Utils.$("page.explorer.right.license")}</a>
                     <span>Ver: {version}</span>
                 </p>
             </div>
             <div className="right-sidebar-panel upload-container">
-                <p>拖放或浏览文件（最多5个）以上传至当前文件夹</p>
+                <p>{Utils.$("page.explorer.right.upload.note")}</p>
                 <FilePond
                     disabled={isDemo}
                     ref={pond}
                     allowMultiple={true}
                     maxFiles={5}
-                    labelIdle="[ 拖放 / 浏览文件 ]"
+                    labelIdle={Utils.$("page.explorer.right.upload.placeholder")}
                     server={apiUrl +"/uploadFile?path="+ props.path.replaceAll("/", "\\")}
                     oninit={() => {
                         Logger.log({ value: "Filepond is ready." }, pond.current);
@@ -110,29 +111,29 @@ const RightSidebar: React.FC<ExplorerRightSidebarProps> = (props) => {
             </div>
             <div className="right-sidebar-panel system-info-container">
                 <ul>
-                    <li><b>系统:</b> {sysInfo.system}</li>
-                    <li><b>内存:</b> {Math.floor(usedmem * 100) +"%"} (总内存 {(sysInfo.memory.total / 1024 / 1024 / 1024).toFixed(2)})</li>
-                    <li><b>CPU占用:</b> {Math.floor(sysInfo.cpuUsage) +"%"}</li>
-                    <li><b>运行时间:</b> {(utHour < 10 ? "0"+ utHour : utHour) +":"+ (utMinute < 10 ? "0"+ utMinute : utMinute) +":"+ (utSecond < 10 ? "0"+ utSecond : utSecond)}</li>
+                    <li><b>{Utils.$("sysinfo.system")}:</b> {sysInfo.system}</li>
+                    <li><b>{Utils.$("sysinfo.memory")}:</b> {Math.floor(usedmem * 100) +"%"} ({Utils.$("sysinfo.memory.total")} {(sysInfo.memory.total / 1024 / 1024 / 1024).toFixed(2)})</li>
+                    <li><b>{Utils.$("sysinfo.cpu")}:</b> {Math.floor(sysInfo.cpuUsage) +"%"}</li>
+                    <li><b>{Utils.$("sysinfo.uptime")}:</b> {(utHour < 10 ? "0"+ utHour : utHour) +":"+ (utMinute < 10 ? "0"+ utMinute : utMinute) +":"+ (utSecond < 10 ? "0"+ utSecond : utSecond)}</li>
                     <li>
                         <Button variant="secondary" onClick={() => {
                             if(sysInfoDialogBox.current) sysInfoDialogBox.current.setOpen(true);
-                        }}>详细信息</Button>
+                        }}>{Utils.$("page.explorer.right.sysinfo.details")}</Button>
                     </li>
                 </ul>
             </div>
 
             {DialogBox.createDialog("sys-info",
-                <DialogBox ref={sysInfoDialogBox} id="sys-info" title={"系统信息 ("+ sysInfo.system +")"}>
+                <DialogBox ref={sysInfoDialogBox} id="sys-info" title={Utils.$("sysinfo") +" ("+ sysInfo.system +")"}>
                     <div className="sys-info-dialog">
                         <ul>
-                            <li><b>系统版本:</b> {sysInfo.version}</li>
-                            <li><b>系统类型:</b> {sysInfo.arch}</li>
-                            <li><b>当前用户:</b> {sysInfo.userInfo.username}</li>
-                            <li><b>用户文件夹:</b> {sysInfo.userInfo.homedir}</li>
-                            <li><b>内存:</b> <Bar ref={memoryUsageBar}/> {Math.floor(usedmem * 100) +"% / "+ (sysInfo.memory.total / 1024 / 1024 / 1024).toFixed(2)}</li>
-                            <li><b>CPU占用:</b> <Bar ref={CPUUsageBar}/> {Math.floor(sysInfo.cpuUsage) +"%"}</li>
-                            <li><b>运行时间:</b> {(utHour < 10 ? "0"+ utHour : utHour) +":"+ (utMinute < 10 ? "0"+ utMinute : utMinute) +":"+ (utSecond < 10 ? "0"+ utSecond : utSecond)}</li>
+                            <li><b>{Utils.$("sysinfo.version")}:</b> {sysInfo.version}</li>
+                            <li><b>{Utils.$("sysinfo.arch")}:</b> {sysInfo.arch}</li>
+                            <li><b>{Utils.$("sysinfo.user.name")}:</b> {sysInfo.userInfo.username}</li>
+                            <li><b>{Utils.$("sysinfo.user.home")}:</b> {sysInfo.userInfo.homedir}</li>
+                            <li><b>{Utils.$("sysinfo.memory")}:</b> <Bar ref={memoryUsageBar}/> {Math.floor(usedmem * 100) +"% / "+ (sysInfo.memory.total / 1024 / 1024 / 1024).toFixed(2)}</li>
+                            <li><b>{Utils.$("sysinfo.cpu")}:</b> <Bar ref={CPUUsageBar}/> {Math.floor(sysInfo.cpuUsage) +"%"}</li>
+                            <li><b>{Utils.$("sysinfo.uptime")}:</b> {(utHour < 10 ? "0"+ utHour : utHour) +":"+ (utMinute < 10 ? "0"+ utMinute : utMinute) +":"+ (utSecond < 10 ? "0"+ utSecond : utSecond)}</li>
                         </ul>
                     </div>
                 </DialogBox>

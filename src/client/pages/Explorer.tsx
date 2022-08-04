@@ -53,7 +53,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
 
         if(item.isFile && itemFormat) {
             if(Utils.formatTester(["exe", "sys", "com", "bin", "elf", "axf"], itemFormat)) {
-                toast.error("无法打开可执行文件");
+                toast.error(Utils.$("toast.msg1"));
                 return;
             }
 
@@ -106,7 +106,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
      */
     private handleBack(): void {
         if(this.path == Explorer.root +"/") {
-            toast.error("你在根目录，无法进入上级目录");
+            toast.error(Utils.$("toast.msg2"));
             return;
         }
 
@@ -231,9 +231,9 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         }
 
         toast.promise(deleteLoop(), {
-            loading: "加载中...",
-            success: "删除成功",
-            error: "删除失败"
+            loading: Utils.$("toast.msg3"),
+            success: Utils.$("toast.msg4"),
+            error: Utils.$("toast.msg5")
         }).then(() => {
             this.refreshItemList();
             this.setControlButtonsDisabled(true, true, true);
@@ -255,7 +255,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
     }
     
     private async handleCreateFile(): Promise<void> {
-        const newFileName = "新建文本文档";
+        const newFileName = Utils.$("page.explorer.list.newfile");
         const newFileFormat = "txt";
         var dirInfo: FetchDirInfoResponse = await Axios.get(apiUrl +"/fetchDirInfo?path="+ this.path.replaceAll("/", "\\"));
         var dirItemList = dirInfo.data.list;
@@ -273,14 +273,14 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
             path: this.path.replaceAll("/", "\\"),
             fileName: newFileFullName
         }), {
-            loading: "创建中...",
-            success: "创建成功",
-            error: "创建失败"
+            loading: Utils.$("toast.msg6"),
+            success: Utils.$("toast.msg7"),
+            error: Utils.$("toast.msg8")
         }).then(() => this.refreshItemList());
     }
 
     private async handleCreateDirectory(): Promise<void> {
-        const newDirName = "新建文件夹";
+        const newDirName = Utils.$("page.explorer.list.newdir");
         var dirInfo: FetchDirInfoResponse = await Axios.get(apiUrl +"/fetchDirInfo?path="+ this.path.replaceAll("/", "\\"));
         var dirItemList = dirInfo.data.list;
         var newDirIndex = 1;
@@ -297,9 +297,9 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
             path: this.path.replaceAll("/", "\\"),
             dirName: newDirFullName
         }), {
-            loading: "创建中...",
-            success: "创建成功",
-            error: "创建失败"
+            loading: Utils.$("toast.msg6"),
+            success: Utils.$("toast.msg7"),
+            error: Utils.$("toast.msg8")
         }).then(() => this.refreshItemList());
     }
 
@@ -394,7 +394,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         }
 
         if(dirInfo.data.err == 404) {
-            toast.error("无法找到指定文件夹");
+            toast.error(Utils.$("toast.msg9"));
             return;
         }
 
@@ -422,7 +422,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                 <>
                     {
                         dirItemList.length == 0
-                            ? <p className="list-message-text">此文件夹为空</p>
+                            ? <p className="list-message-text">{Utils.$("page.explorer.list.empty")}</p>
                             : dirItemList.map((value, index) => {
                                 if(
                                     value.fullName[0] == "." &&
@@ -430,7 +430,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                                 ) return;
 
                                 return <ListItem
-                                    title="勾选多选框选中 / 双击打开 (文件夹) / 单击后再次单击重命名"
+                                    title={Utils.$("page.explorer.list.item.tooltip")}
                                     itemType={value.isFile ? ItemType.FILE : ItemType.FOLDER}
                                     itemName={value.fullName}
                                     itemSize={value.size ?? -1}

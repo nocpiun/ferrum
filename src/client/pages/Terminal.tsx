@@ -24,7 +24,7 @@ const Terminal: React.FC = () => {
         term.open(Utils.getElem("xterm"));
 
         if(config.terminal.ip == "0.0.0.0") {
-            term.write("使用终端之前, 你需要在设置中配置终端服务器信息.");
+            term.write(Utils.$("page.terminal.nocfg"));
             return;
         }
 
@@ -55,7 +55,7 @@ const Terminal: React.FC = () => {
         <div className="terminal">
             <div className="main-container">
                 <div className="header-container">
-                    <h1>Ferrum 终端</h1>
+                    <h1>{Utils.$("page.terminal.title")}</h1>
                 </div>
                 <div className="xterm-container" id="xterm"></div>
             </div>

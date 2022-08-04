@@ -4,6 +4,7 @@ import Axios from "axios";
 
 import MainContext from "../client/contexts/MainContext";
 
+import Utils from "../Utils";
 import {
     ViewerProps,
     ViewerState,
@@ -36,7 +37,7 @@ export default class Viewer extends Component<ViewerProps, ViewerState> {
         Axios.get(apiUrl +"/getDataUrl?path="+ this.path.replaceAll("/", "\\"))
             .then((res: GetDataUrlResponse) => {
                 if(res.data.err == 404) {
-                    toast.error("无法找到指定文件");
+                    toast.error(Utils.$("toast.msg10"));
                     return;
                 }
 
@@ -56,7 +57,7 @@ export default class Viewer extends Component<ViewerProps, ViewerState> {
                     </div>
                     <header className="header-container">
                         <h1>{this.props.viewerMetadata.pageTitle}</h1>
-                        <p>路径: {decodeURI(this.props.path)}</p>
+                        <p>{Utils.$("global.path")}: {decodeURI(this.props.path)}</p>
                     </header>
                     <div className="viewer-container">{this.state.viewerComponent}</div>
                 </div>

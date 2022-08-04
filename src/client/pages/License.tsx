@@ -29,7 +29,7 @@ export default class License extends Component {
             <div className="license-page">
                 <div className="main-container">
                     <div className="header-container">
-                        <h1>许可</h1>
+                        <h1>{Utils.$("page.license.title")}</h1>
                         <p>https://choosealicense.com/licenses/mit/</p>
                     </div>
                     <div className="content-container">

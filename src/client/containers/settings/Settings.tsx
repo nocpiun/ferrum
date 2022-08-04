@@ -81,9 +81,9 @@ const Settings: React.FC = () => {
             toast.promise(Axios.post(apiUrl +"/setConfig", {
                 config: newConfig
             }), {
-                loading: "保存中...",
-                success: "保存成功",
-                error: "保存失败"
+                loading: Utils.$("toast.msg14"),
+                success: Utils.$("toast.msg15"),
+                error: Utils.$("toast.msg16")
             }).then(() => window.location.reload());
         }
     };
@@ -115,17 +115,17 @@ const Settings: React.FC = () => {
         var newPassword = (Utils.getElem("new-password") as HTMLInputElement).value;
     
         if(md5(oldPassword) !== config.explorer.password) {
-            toast.error("旧密码输入错误");
+            toast.error(Utils.$("toast.msg17"));
             return;
         }
     
         if(newPassword === "" || /[^a-zA-Z0-9]/g.test(newPassword)) {
-            toast.error("密码更改失败，请输入有效密码");
+            toast.error(Utils.$("toast.msg18"));
             return;
         }
     
         if(md5(newPassword) === config.explorer.password) {
-            toast.error("密码更改失败, 新密码与旧密码不能相同");
+            toast.error(Utils.$("toast.msg19"));
             return;
         }
     
@@ -134,9 +134,9 @@ const Settings: React.FC = () => {
             oldPassword: md5(oldPassword),
             newPassword: md5(newPassword)
         }), {
-            loading: "更改中...",
-            success: "更改成功",
-            error: "更改失败"
+            loading: Utils.$("toast.msg20"),
+            success: Utils.$("toast.msg21"),
+            error: Utils.$("toast.msg22")
         }).then(() => window.location.reload());
     };
 
@@ -149,10 +149,10 @@ const Settings: React.FC = () => {
             <>
                 {PluginLoader.get().pluginList.map((plugin, i) => {
                     return (
-                        <ListGroup.Item title={(plugin.description ?? "") + (!plugin.native ? " (右键卸载插件)" : "")} key={i}>
+                        <ListGroup.Item title={(plugin.description ?? "") + (!plugin.native ? " "+ Utils.$("settings.plugin.tooltip") : "")} key={i}>
                             <ContextMenuTrigger id={"plugin-rcmenu--"+ plugin.name}>
                                 <span className="plugin-name">{plugin.displayName}</span>
-                                <span className="plugin-id">{plugin.name + (plugin.native ? " (内置)" : "")}</span>
+                                <span className="plugin-id">{plugin.name + (plugin.native ? " "+ Utils.$("settings.plugin.native") : "")}</span>
                             </ContextMenuTrigger>
                             {!plugin.native ? <ContextMenu id={"plugin-rcmenu--"+ plugin.name}>
                                 <MenuItem
@@ -160,7 +160,7 @@ const Settings: React.FC = () => {
                                     onClick={(e, data: MenuItemData) => {
                                         PluginLoader.get().unregister(data.pluginId);
                                         refreshPluginList();
-                                    }}>卸载插件</MenuItem>
+                                    }}>{Utils.$("settings.plugin.uninstall")}</MenuItem>
                             </ContextMenu> : null}
                         </ListGroup.Item>
                     );
@@ -190,11 +190,32 @@ const Settings: React.FC = () => {
         <div className="settings-dialog">
             <aside className="settings-sidebar">
                 <ul>
-                    <SidebarItem id={SettingsItem.EXPLORER} title="文件管理器" icon={folderOutline} onClick={(e) => handleItemBeOn(e)} defaultValue={true}/>
-                    <SidebarItem id={SettingsItem.EDITOR} title="编辑器" icon={editNote} onClick={(e) => handleItemBeOn(e)}/>
-                    <SidebarItem id={SettingsItem.TERMINAL} title="终端配置" icon={terminal} onClick={(e) => handleItemBeOn(e)}/>
-                    <SidebarItem id={SettingsItem.PLUGIN} title="插件列表" icon={extension} onClick={(e) => handleItemBeOn(e)}/>
-                    <SidebarItem id={SettingsItem.PASSWORD} title="密码设置" icon={key} onClick={(e) => handleItemBeOn(e)}/>
+                    <SidebarItem
+                        id={SettingsItem.EXPLORER}
+                        title={Utils.$("settings.explorer")}
+                        icon={folderOutline}
+                        onClick={(e) => handleItemBeOn(e)}
+                        defaultValue={true}/>
+                    <SidebarItem
+                        id={SettingsItem.EDITOR}
+                        title={Utils.$("settings.editor")}
+                        icon={editNote}
+                        onClick={(e) => handleItemBeOn(e)}/>
+                    <SidebarItem
+                        id={SettingsItem.TERMINAL}
+                        title={Utils.$("settings.terminal")}
+                        icon={terminal}
+                        onClick={(e) => handleItemBeOn(e)}/>
+                    <SidebarItem
+                        id={SettingsItem.PLUGIN}
+                        title={Utils.$("settings.plugin")}
+                        icon={extension}
+                        onClick={(e) => handleItemBeOn(e)}/>
+                    <SidebarItem
+                        id={SettingsItem.PASSWORD}
+                        title={Utils.$("settings.password")}
+                        icon={key}
+                        onClick={(e) => handleItemBeOn(e)}/>
                 </ul>
                 <div className="add-plugin">
                     <input
@@ -202,72 +223,76 @@ const Settings: React.FC = () => {
                         type="file"
                         style={{display: "none"}}
                         onChange={() => handleAddPlugin()}/>
-                    <Button variant="secondary" onClick={() => Utils.getElem("plugin-uploader").click()}>添加插件</Button>
+                    <Button variant="secondary" onClick={() => Utils.getElem("plugin-uploader").click()}>
+                        {Utils.$("settings.plugin.add")}
+                    </Button>
                 </div>
             </aside>
             <div className="settings-main">
                 <Form>
-                    <SettingsSection title="文件管理器" style={{display: currentPage == "s-explorer" ? "block" : "none"}}>
-                        <Option name="根目录" description="Unix系统应选择'(Unix系统根目录)'">
+                    <SettingsSection title={Utils.$("settings.explorer")} style={{display: currentPage == "s-explorer" ? "block" : "none"}}>
+                        <Option name={Utils.$("settings.explorer.o1")} description={Utils.$("settings.explorer.o1.description")}>
                             <Form.Select id="settings-root" defaultValue={config.explorer.root}>
-                                <option value="">(Unix系统根目录)</option>
-                                <option value="C:">C: (默认)</option>
+                                <option value="">{Utils.$("settings.explorer.o1.unixroot")}</option>
+                                <option value="C:">C: ({Utils.$("global.default")})</option>
                                 {["D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "A", "B"].map((item, i) => {
                                     return <option value={item +":"} key={i}>{item +":"}</option>
                                 })}
                             </Form.Select>
                         </Option>
-                        <Option name="显示隐藏文件">
+                        <Option name={Utils.$("settings.explorer.o2")}>
                             <Toggle ref={displayHiddenFileToggle} id="settings-display-hidden-file" defaultValue={config.explorer.displayHiddenFile}/>
                         </Option>
                     </SettingsSection>
-                    <SettingsSection title="编辑器" style={{display: currentPage == "s-editor" ? "block" : "none"}}>
-                        <Option name="显示行数">
+                    <SettingsSection title={Utils.$("settings.editor")} style={{display: currentPage == "s-editor" ? "block" : "none"}}>
+                        <Option name={Utils.$("settings.editor.o1")}>
                             <Toggle ref={lineNumberToggle} id="settings-line-number" defaultValue={config.editor.lineNumber}/>
                         </Option>
-                        <Option name="自动换行" description="当一行字的长度超过编辑器宽度时, 自动换行">
+                        <Option name={Utils.$("settings.editor.o2")} description={Utils.$("settings.editor.o2.description")}>
                             <Toggle ref={autoWrapToggle} id="settings-auto-wrap" defaultValue={config.editor.autoWrap}/>
                         </Option>
-                        <Option name="活动行高亮" description="使当前光标所在的行高亮">
+                        <Option name={Utils.$("settings.editor.o3")} description={Utils.$("settings.editor.o3.description")}>
                             <Toggle ref={highlightActiveLineToggle} id="settings-highlight-active-line" defaultValue={config.editor.highlightActiveLine}/>
                         </Option>
-                        <Option name="字体大小">
+                        <Option name={Utils.$("settings.editor.o4")}>
                             <Form.Select id="settings-font-size" defaultValue={config.editor.fontSize}>
-                                <option value={12}>特小</option>
-                                <option value={13}>小</option>
-                                <option value={14}>中 (默认)</option>
-                                <option value={15}>大</option>
-                                <option value={16}>特大</option>
+                                <option value={12}>{Utils.$("settings.editor.o4.verysmall")}</option>
+                                <option value={13}>{Utils.$("settings.editor.o4.small")}</option>
+                                <option value={14}>{Utils.$("settings.editor.o4.middle")} ({Utils.$("global.default")})</option>
+                                <option value={15}>{Utils.$("settings.editor.o4.large")}</option>
+                                <option value={16}>{Utils.$("settings.editor.o4.verylarge")}</option>
                             </Form.Select>
                         </Option>
                     </SettingsSection>
-                    <SettingsSection title="终端配置" style={{display: currentPage == "s-terminal" ? "block" : "none"}}>
-                        <Option name="IP 地址">
+                    <SettingsSection title={Utils.$("settings.terminal")} style={{display: currentPage == "s-terminal" ? "block" : "none"}}>
+                        <Option name={Utils.$("settings.terminal.o1")}>
                             <Form.Control type="text" id="settings-ip" defaultValue={config.terminal.ip}/>
                         </Option>
-                        <Option name="端口">
+                        <Option name={Utils.$("settings.terminal.o2")}>
                             <Form.Control type="text" id="settings-port" defaultValue={config.terminal.port}/>
                         </Option>
-                        <Option name="用户名">
+                        <Option name={Utils.$("settings.terminal.o3")}>
                             <Form.Control type="text" id="settings-username" defaultValue={config.terminal.username}/>
                         </Option>
-                        <Option name="密码">
+                        <Option name={Utils.$("settings.terminal.o4")}>
                             <Form.Control type="password" id="settings-password" autoComplete="off" defaultValue={config.terminal.password}/>
                         </Option>
                     </SettingsSection>
-                    <SettingsSection title="插件列表" style={{display: currentPage == "s-plugin" ? "block" : "none"}}>
+                    <SettingsSection title={Utils.$("settings.plugin")} style={{display: currentPage == "s-plugin" ? "block" : "none"}}>
                         <ListGroup className="plugin-list">
                             {pluginList}
                         </ListGroup>
                     </SettingsSection>
-                    <SettingsSection title="密码设置" style={{display: currentPage == "s-password" ? "block" : "none"}}>
-                        <Option name="旧密码">
+                    <SettingsSection title={Utils.$("settings.password")} style={{display: currentPage == "s-password" ? "block" : "none"}}>
+                        <Option name={Utils.$("settings.password.o1")}>
                             <Form.Control type="password" id="old-password" autoComplete="off" required/>
                         </Option>
-                        <Option name="新密码">
+                        <Option name={Utils.$("settings.password.o2")}>
                             <Form.Control type="password" id="new-password" autoComplete="off" required/>
                         </Option>
-                        <Button className="submit" onClick={() => handleSetPassword()} disabled={isDemo}>提交</Button>
+                        <Button className="submit" onClick={() => handleSetPassword()} disabled={isDemo}>
+                            {Utils.$("settings.password.submit")}
+                        </Button>
                     </SettingsSection>
                 </Form>
             </div>

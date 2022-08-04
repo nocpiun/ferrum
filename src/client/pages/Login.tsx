@@ -33,11 +33,11 @@ export default class Login extends Component<LoginPanelProps, LoginPanelState> {
         if(md5(password) === this.context.config.explorer.password) {
             Utils.setCookie(cookieKey, md5(md5(password))); // The value that store into cookie has been double-md5ed
 
-            toast.success("登录成功");
+            toast.success(Utils.$("toast.msg12"));
             await Utils.sleep(500);
             window.location.reload();
         } else {
-            toast.error("密码错误");
+            toast.error(Utils.$("toast.msg13"));
         }
     }
 
@@ -58,19 +58,19 @@ export default class Login extends Component<LoginPanelProps, LoginPanelState> {
                 <div className="main-container">
                     <div className="header-container">
                         <img className="icon" src="/logo.png" alt="icon" title="Ferrum Explorer"/>
-                        <h1 className="title">Ferrum 登录</h1>
+                        <h1 className="title">{Utils.$("page.login.title")}</h1>
                     </div>
                     <div className="input-container">
                         <Form>
                             <Form.Control
                                 type="password"
-                                placeholder="输入密码"
+                                placeholder={Utils.$("page.login.password.placeholder")}
                                 autoComplete="off"
                                 onChange={() => this.handleInputChange()}
                                 ref={(r: HTMLInputElement | null) => this.passwordInput = r}/>
                             <Button
                                 onClick={() => this.handleLogin()}
-                                disabled={this.state.isEnterDisabled}>登录</Button>
+                                disabled={this.state.isEnterDisabled}>{Utils.$("page.login.login")}</Button>
                         </Form>
                     </div>
                 </div>

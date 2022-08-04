@@ -9,6 +9,7 @@ import Explorer from "../../pages/Explorer";
 import ListItem from "../../components/ListItem";
 import DirectoryInfoContext from "../../contexts/DirectoryInfoContext";
 
+import Utils from "../../../Utils";
 import { ItemType, DirectoryItem } from "../../types";
 
 const Search: React.FC = () => {
@@ -55,13 +56,13 @@ const Search: React.FC = () => {
                     ref={searchInput}
                     className="search-input"
                     type="text"
-                    placeholder="搜索文件夹 / 文件"
+                    placeholder={Utils.$("search.input.placeholder")}
                     autoComplete="off"
                     onChange={() => handleInputChange()}/>
                 <Button
                     className="search-open-item"
                     disabled={result.length == 0 || selected.length > 1 || selected.length == 0}
-                    onClick={() => handleOpenFile()}>打开</Button>
+                    onClick={() => handleOpenFile()}>{Utils.$("search.open")}</Button>
             </div>
             <div className="search-result">
                 <ListGroup>
@@ -79,7 +80,7 @@ const Search: React.FC = () => {
                                 str3 = value.fullName.substring(targetEndIndex, fullName.length);
 
                             return <ListItem
-                                title="勾选多选框选中 / 双击打开 (文件夹)"
+                                title={Utils.$("search.list.item.tooltip")}
                                 itemType={value.isFile ? ItemType.FILE : ItemType.FOLDER}
                                 itemName={value.fullName}
                                 itemDisplayName={

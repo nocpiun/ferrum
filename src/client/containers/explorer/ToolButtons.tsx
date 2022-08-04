@@ -3,6 +3,7 @@ import { Button } from "react-bootstrap";
 
 import MainContext from "../../contexts/MainContext";
 
+import Utils from "../../../Utils";
 import { hostname } from "../../global";
 import { ExplorerToolButtonsProps } from "../../types";
 
@@ -15,23 +16,25 @@ const ToolButtons: React.FC<ExplorerToolButtonsProps> = (props) => {
                 <Button
                     className="left-sided-toolbutton"
                     id="open-file"
-                    onClick={props.onOpenFile}>打开</Button>
+                    onClick={props.onOpenFile}>{Utils.$("page.explorer.tool.open")}</Button>
                 <Button
                     disabled={isDemo}
                     className="left-sided-toolbutton"
                     id="delete-file"
                     onClick={props.onDeleteFile}
-                    variant="danger">删除</Button>
+                    variant="danger">{Utils.$("page.explorer.tool.delete")}</Button>
                 <Button
                     className="left-sided-toolbutton"
                     id="download-file"
-                    onClick={props.onDownloadFile}>下载</Button>
+                    onClick={props.onDownloadFile}>{Utils.$("page.explorer.tool.download")}</Button>
                 <Button
                     disabled={isDemo}
                     className="left-sided-toolbutton"
                     id="open-terminal"
-                    title="使用此功能需要事先在服务器上搭建好ssh服务器"
-                    onClick={() => window.location.href = hostname +":3300/terminal"}>打开终端</Button>
+                    title={Utils.$("page.explorer.tool.terminal.tooltip")}
+                    onClick={() => window.location.href = hostname +":3300/terminal"}>
+                        {Utils.$("page.explorer.tool.terminal")}
+                </Button>
             </div>
             
             <div>
@@ -42,7 +45,7 @@ const ToolButtons: React.FC<ExplorerToolButtonsProps> = (props) => {
                     onClick={props.onCreateDirectory}
                     variant="success"
                     // style={{float: "right", marginLeft: "10px", marginRight: "0"}}
-                    >新建文件夹</Button>
+                    >{Utils.$("page.explorer.tool.newdir")}</Button>
                 <Button
                     disabled={isDemo}
                     className="right-sided-toolbutton"
@@ -50,7 +53,7 @@ const ToolButtons: React.FC<ExplorerToolButtonsProps> = (props) => {
                     onClick={props.onCreateFile}
                     variant="success"
                     // style={{float: "right", marginRight: "0"}}
-                    >新建文件</Button>
+                    >{Utils.$("page.explorer.tool.newfile")}</Button>
             </div>
         </div>
     );

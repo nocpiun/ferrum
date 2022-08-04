@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { Button } from "react-bootstrap";
 
 import Emitter from "../utils/emitter";
+import Utils from "../../Utils";
 import { DialogBoxProps, DialogBoxState } from "../types";
 
 export default class DialogBox extends Component<DialogBoxProps, DialogBoxState> {
@@ -41,7 +42,7 @@ export default class DialogBox extends Component<DialogBoxProps, DialogBoxState>
                         <Button id="dialog-close" onClick={() => {
                             Emitter.get().emit("dialogClose", this.props.id);
                             this.setOpen(false);
-                        }}>关闭</Button>
+                        }}>{Utils.$("dialog.close")}</Button>
                     </div>
                 </dialog>
             </>

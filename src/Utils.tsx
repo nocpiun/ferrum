@@ -1,4 +1,15 @@
+import languages from "./lang";
+
+const lang = window.navigator.language;
+
 export default class Utils {
+    /**
+     * Get multi-language texts
+     */
+    public static $(strId: string): string {
+        return (languages as any)[lang][strId] ?? "";
+    }
+
     /** @see https://blog.csdn.net/LUxxxX/article/details/90177682 */
     public static formatFloat(num: number, n: number): string | boolean {   
         var f = parseFloat(num.toString());

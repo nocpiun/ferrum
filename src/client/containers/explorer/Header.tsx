@@ -32,50 +32,50 @@ const Header: React.FC<ExplorerHeaderProps> = (props) => {
 
     return (
         <header className="header-container">
-            <h1>Ferrum 文件管理器 {isDemo ? "(Demo)": ""}</h1>
+            <h1>{Utils.$("page.explorer.title")} {isDemo ? "(Demo)": ""}</h1>
             <nav id="navbar">
                 <button
                     className="header-button back-button"
                     id="back-to-parent"
-                    title="返回上级目录"
+                    title={Utils.$("page.explorer.nav.back")}
                     onClick={() => props.onBack()}></button>
                 
                 <Form.Control 
                     type="text"
                     className="path-input"
                     defaultValue={props.path}
-                    placeholder="文件夹路径..."
+                    placeholder={Utils.$("page.explorer.nav.path.placeholder")}
                     onKeyDown={(e) => props.onEnter(e)}/>
                 
                 <button
                     className="header-button settings-button"
                     id="settings"
-                    title="设置"
+                    title={Utils.$("page.explorer.nav.settings")}
                     onClick={() => {
                         if(settingsDialogBox.current) settingsDialogBox.current.setOpen(true);
                     }}></button>
                 <button
                     className="header-button search-button"
                     id="search"
-                    title="搜索"
+                    title={Utils.$("page.explorer.nav.search")}
                     onClick={() => {
                         if(searchDialogBox.current) searchDialogBox.current.setOpen(true);
                     }}></button>
                 <button
                     className="header-button star-button"
                     id="star"
-                    title="收藏"
+                    title={Utils.$("page.explorer.nav.star")}
                     onClick={() => props.onStar()}></button>
             </nav>
 
             {DialogBox.createDialog("settings",
-                <DialogBox ref={settingsDialogBox} id="settings" title="设置">
+                <DialogBox ref={settingsDialogBox} id="settings" title={Utils.$("settings")}>
                     <Settings />
                 </DialogBox>
             )}
             
             {DialogBox.createDialog("search",
-                <DialogBox ref={searchDialogBox} id="search" title="搜索">
+                <DialogBox ref={searchDialogBox} id="search" title={Utils.$("search")}>
                     <Search />
                 </DialogBox>
             )}

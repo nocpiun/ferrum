@@ -22,6 +22,7 @@ import {
 import { apiUrl, editorDefaultValue } from "../global";
 // import * as config from "../../config.json";
 import Emitter from "../utils/emitter";
+import Utils from "../../Utils";
 
 /**
  * In order to make the browser not display a message if the file didn't change,
@@ -104,7 +105,7 @@ export default class Editor extends Component<EditorProps, EditorState> {
             Axios.get(apiUrl +"/getFileContent?path="+ this.path.replaceAll("/", "\\"))
             .then((res: GetFileContentResponse) => {
                 if(res.data.err == 404) {
-                    toast.error("无法找到指定文件");
+                    toast.error(Utils.$("toast.msg10"));
                     return;
                 }
 
@@ -142,7 +143,7 @@ export default class Editor extends Component<EditorProps, EditorState> {
             .then(() => {
                 this.setState({hasChanged: false});
                 Emitter.get().emit("fileStatusChange", false);
-                toast.success("文件已保存 ("+ decodeURI(this.path) +")");
+                toast.success(Utils.$("toast.msg11") +" ("+ decodeURI(this.path) +")");
             })
             .catch((err) => {throw err});
     }

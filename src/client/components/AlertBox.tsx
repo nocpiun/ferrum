@@ -1,8 +1,9 @@
 import React from "react";
 import { Alert, Button } from "react-bootstrap";
 
-import { AlertBoxProps } from "../types";
 import Emitter from "../utils/emitter";
+import Utils from "../../Utils";
+import { AlertBoxProps } from "../types";
 
 /** @deprecated */
 const AlertBox: React.FC<AlertBoxProps> = (props) => {
@@ -16,7 +17,7 @@ const AlertBox: React.FC<AlertBoxProps> = (props) => {
             <div className="close-button-container">
                 <Button variant={"outline-"+ props.variant} onClick={() => {
                     Emitter.get().emit("closeAlert", props.alertId);
-                }}>关闭</Button>
+                }}>{Utils.$("alert.close")}</Button>
             </div>
         </Alert>
     );
