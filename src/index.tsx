@@ -58,7 +58,7 @@ Axios.get("https://v1.hitokoto.cn/?c=i&encode=json", {responseType: "json"})
   }) => {
     Logger.log(
       { as: "Hitokoto", value: "%c"+ res.data.hitokoto +"%c ————"+ res.data.from_who +"《"+ res.data.from +"》" },
-      "font-weight: bold", "font-weight: 400;color: yellow"
+      "font-weight: bold", "font-weight: 400;color: #e3b341"
     );
   })
   .catch((err) => {throw err});
