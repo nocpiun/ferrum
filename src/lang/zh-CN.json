@@ -60,6 +60,7 @@
     "settings.explorer.o1.description": "Unix系统应选择'(Unix系统根目录)'",
     "settings.explorer.o1.unixroot": "(Unix系统根目录)",
     "settings.explorer.o2": "显示隐藏文件",
+    "settings.explorer.o3": "语言",
     "settings.editor.o1": "显示行数",
     "settings.editor.o2": "自动换行",
     "settings.editor.o2.description": "当一行字的长度超过编辑器宽度时, 自动换行",

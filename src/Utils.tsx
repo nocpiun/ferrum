@@ -1,6 +1,19 @@
 import languages from "./lang";
+import LocalStorage from "./client/utils/localStorage";
+import { langStorageKey, langStorageType } from "./client/global";
 
-const lang = window.navigator.language;
+// Init language list
+var langList = [];
+for(let key in languages) {
+    langList.push(key);
+}
+document.querySelector("html")?.setAttribute("data-languages", JSON.stringify(langList));
+
+// Init language
+var currentLang = LocalStorage.getItem<langStorageType>(langStorageKey);
+if(!currentLang) LocalStorage.setItem(langStorageKey, { language: window.navigator.language });
+
+const lang = currentLang?.language ?? "";
 
 export default class Utils {
     /**
@@ -16,6 +29,21 @@ export default class Utils {
         }
 
         return str;
+    }
+
+    public static setLanguage(l: string): void {
+        LocalStorage.setItem(langStorageKey, { language: l });
+    }
+
+    public static getLanguage(): string {
+        return LocalStorage.getItem<langStorageType>(langStorageKey)?.language ?? "";
+    }
+
+    public static getLanguages(): string[] {
+        var html = document.querySelector("html");
+        if(!html) return [];
+
+        return JSON.parse(html.getAttribute("data-languages") ?? "") as string[];
     }
 
     /** @see https://blog.csdn.net/LUxxxX/article/details/90177682 */

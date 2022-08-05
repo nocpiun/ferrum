@@ -60,6 +60,7 @@
     "settings.explorer.o1.description": "",
     "settings.explorer.o1.unixroot": "(Unix Root Path)",
     "settings.explorer.o2": "Display hidden file(s)",
+    "settings.explorer.o3": "Language",
     "settings.editor.o1": "Line Number",
     "settings.editor.o2": "Auto Wrap",
     "settings.editor.o2.description": "",

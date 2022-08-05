@@ -140,6 +140,11 @@ const Settings: React.FC = () => {
         }).then(() => window.location.reload());
     };
 
+    const handleLanguageChange = () => {
+        Utils.setLanguage((Utils.getElem("settings-language") as HTMLSelectElement).value);
+        window.location.reload();
+    };
+
     const refreshPluginList = () => {
         interface MenuItemData {
             pluginId: string
@@ -242,6 +247,16 @@ const Settings: React.FC = () => {
                         </Option>
                         <Option name={Utils.$("settings.explorer.o2")}>
                             <Toggle ref={displayHiddenFileToggle} id="settings-display-hidden-file" defaultValue={config.explorer.displayHiddenFile}/>
+                        </Option>
+                        <Option name={Utils.$("settings.explorer.o3")}>
+                            <Form.Select
+                                id="settings-language"
+                                defaultValue={Utils.getLanguage()}
+                                onChange={() => handleLanguageChange()}>
+                                {Utils.getLanguages().map((item, i) => {
+                                    return <option value={item} key={i}>{item}</option>
+                                })}
+                            </Form.Select>
                         </Option>
                     </SettingsSection>
                     <SettingsSection title={Utils.$("settings.editor")} style={{display: currentPage == "s-editor" ? "block" : "none"}}>
