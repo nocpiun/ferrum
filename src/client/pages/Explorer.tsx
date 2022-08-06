@@ -473,11 +473,12 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                 Utils.getElem("star").style.backgroundImage = "url("+ starRate +")";
                 this.isStarred = true;
                 p = true;
-            } else {
-                Utils.getElem("star").style.backgroundImage = "url("+ starOutline +")";
-                this.isStarred = false;
             }
         });
+        if(!p) {
+            Utils.getElem("star").style.backgroundImage = "url("+ starOutline +")";
+            this.isStarred = false;
+        }
 
         var listArr: [any, any][] = Array.from(list);
         // list the starred directories
