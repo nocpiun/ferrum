@@ -21,7 +21,6 @@ import {
 } from "../types";
 import { apiUrl, editorDefaultValue } from "../global";
 // import * as config from "../../config.json";
-import Emitter from "../utils/emitter";
 import Utils from "../../Utils";
 
 /**
@@ -49,8 +48,7 @@ export default class Editor extends Component<EditorProps, EditorState> {
 
         this.state = {
             editorLanguage: "text",
-            editorValue: "",
-            hasChanged: false
+            editorValue: ""
         };
         this.path = Editor.root + this.props.path.replaceAll("\\", "/");
     }
@@ -66,9 +64,7 @@ export default class Editor extends Component<EditorProps, EditorState> {
                         path={decodeURI(this.path)}
                         onSaveFile={() => this.saveFile()}
                         onUndo={() => {
-                            // When you click the undo button or press ctrl+z while the file didn't change,
-                            // the editor will clear all the content in the file.
-                            if(this.aceInstance && this.state.hasChanged) this.aceInstance.editor.undo();
+                            if(this.aceInstance) this.aceInstance.editor.undo();
                         }}/>
                     <div className="text-container">
                         <AceEditor
@@ -89,8 +85,7 @@ export default class Editor extends Component<EditorProps, EditorState> {
                                 showLineNumbers: this.context.config.editor.lineNumber,
                             }}
                             onChange={(v) => {
-                                this.setState({editorValue: v, hasChanged: true});
-                                Emitter.get().emit("fileStatusChange", true);
+                                this.setState({editorValue: v});
                             }}/>
                     </div>
                 </div>
@@ -132,7 +127,7 @@ export default class Editor extends Component<EditorProps, EditorState> {
 
         window.addEventListener("beforeunload", (e: BeforeUnloadEvent) => {
             // display a message when the user is about to leave the page
-            if(this.state.hasChanged) return e.returnValue = "";
+            return e.returnValue = "";
         });
     }
 
@@ -141,8 +136,6 @@ export default class Editor extends Component<EditorProps, EditorState> {
 
         Axios.post(apiUrl +"/saveFileContent", {path: decodeURI(this.path), content: this.state.editorValue})
             .then(() => {
-                this.setState({hasChanged: false});
-                Emitter.get().emit("fileStatusChange", false);
                 toast.success(Utils.$("toast.msg11") +" ("+ decodeURI(this.path) +")");
             })
             .catch((err) => {throw err});

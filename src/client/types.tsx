@@ -174,17 +174,12 @@ export interface EditorProps extends PageProps {}
 export interface EditorState {
     editorLanguage: string
     editorValue: string
-    hasChanged: boolean
 }
 
 export interface EditorHeaderProps {
     path: string
     onSaveFile: DefaultCallback
     onUndo: DefaultCallback
-}
-
-export interface EditorHeaderState {
-    hasChanged: boolean
 }
 
 // Picture Viewer
