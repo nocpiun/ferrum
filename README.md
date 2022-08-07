@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./public/logo.png" style="width:82px;image-rendering:pixelated;"/>
+<img src="./public/logo256.png" style="width:82px;"/>
 
 # Ferrum Explorer
 
