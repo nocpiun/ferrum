@@ -314,6 +314,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                 </div>
                 <LeftSidebar starredList={this.state.starredList}/>
                 <div className="main-container" id="main">
+                    {/* Main */}
                     <DirectoryInfoContext.Provider value={{
                         path: this.path,
                         directoryItems: this.state.direcotryItems
@@ -334,6 +335,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                             itemList={this.state.itemList}/>
                     </DirectoryInfoContext.Provider>
 
+                    {/* Footer */}
                     <div className="footer-container">
                         <p className="copy-info">Copyright (c) NriotHrreion {new Date().getFullYear()}</p>
                     </div>
@@ -425,7 +427,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                             ? <p className="list-message-text">{Utils.$("page.explorer.list.empty")}</p>
                             : dirItemList.map((value, index) => {
                                 if(
-                                    value.fullName[0] == "." &&
+                                    /^[.|$]/.test(value.fullName) &&
                                     !this.context.config.explorer.displayHiddenFile
                                 ) return;
 

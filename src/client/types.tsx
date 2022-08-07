@@ -7,7 +7,12 @@ interface PageProps {
     path: string
 }
 
-type DefaultCallback = () => any
+type DefC = () => any // Default Callback
+type OPC<P, RT = any> = (param: P) => RT // One Parameter Callback
+
+interface Response<C> { // XHR Response
+    data: C & { err?: number }
+}
 
 export interface Config {
     explorer: {
@@ -70,9 +75,9 @@ export interface LoginPanelState {
 
 // Explorer
 
-export interface FetchDirInfoResponse {
-    data: {list: DirectoryItem[], err?: number}
-}
+export type FetchDirInfoResponse = Response<{
+    list: DirectoryItem[]
+}>
 
 export interface FetchSysInfoResponse {
     data: SysInfo
@@ -97,9 +102,9 @@ export interface ExplorerState {
 
 export interface ExplorerHeaderProps {
     path: string
-    onEnter: (e: React.KeyboardEvent) => any
-    onStar: DefaultCallback
-    onBack: DefaultCallback
+    onEnter: OPC<React.KeyboardEvent>
+    onStar: DefC
+    onBack: DefC
 }
 
 export enum SettingsItem {
@@ -115,7 +120,7 @@ export interface ExplorerSettingsSidebarItemProps {
     title: string
     icon: string
     defaultValue?: any
-    onClick: (id: SettingsItem) => any
+    onClick: OPC<SettingsItem>
 }
 
 export interface ExplorerSettingsSectionProps {
@@ -128,26 +133,16 @@ export interface ExplorerSettingsOptionProps {
     description?: string
 }
 
-export interface ExplorerSettingsToggleProps {
-    id: string
-    defaultValue: boolean
-    disabled?: boolean
-}
-
-export interface ExplorerSettingsToggleState {
-    isOn: boolean
-}
-
 export interface ExplorerToolButtonsProps {
-    onOpenFile: DefaultCallback
-    onDeleteFile: DefaultCallback
-    onDownloadFile: DefaultCallback
-    onCreateFile: DefaultCallback
-    onCreateDirectory: DefaultCallback
+    onOpenFile: DefC
+    onDeleteFile: DefC
+    onDownloadFile: DefC
+    onCreateFile: DefC
+    onCreateDirectory: DefC
 }
 
 export interface ExplorerListProps {
-    onBack: DefaultCallback
+    onBack: DefC
     itemList: React.ReactElement | null
 }
 
@@ -165,9 +160,10 @@ export interface ExplorerRightSidebarState {
 
 // Editor
 
-export interface GetFileContentResponse {
-    data: {format: string, content: string, err?: number}
-}
+export type GetFileContentResponse = Response<{
+    format: string
+    content: string
+}>
 
 export interface EditorProps extends PageProps {}
 
@@ -178,15 +174,15 @@ export interface EditorState {
 
 export interface EditorHeaderProps {
     path: string
-    onSaveFile: DefaultCallback
-    onUndo: DefaultCallback
+    onSaveFile: DefC
+    onUndo: DefC
 }
 
 // Picture Viewer
 
-export interface GetDataUrlResponse {
-    data: {bdata: string, err?: number}
-}
+export type GetDataUrlResponse = Response<{
+    bdata: string
+}>
 
 export interface PictureViewerProps extends PageProps {}
 
@@ -212,8 +208,8 @@ export interface ListItemProps {
     itemSize: number
     itemInfo: string
     itemPath: string // The path don't have the file name
-    onSelect: (item: DirectoryItem) => any
-    onUnselect: (item: DirectoryItem) => any
+    onSelect: OPC<DirectoryItem>
+    onUnselect: OPC<DirectoryItem>
 }
 
 // export interface ListItemState {
@@ -252,6 +248,18 @@ export interface BarState {
     value: number
 }
 
+// Toggle Component
+
+export interface ToggleProps {
+    id: string
+    defaultValue: boolean
+    disabled?: boolean
+}
+
+export interface ToggleState {
+    isOn: boolean
+}
+
 // Plugin
 
 export interface ViewerProps extends PageProps {
@@ -263,15 +271,15 @@ export interface ViewerState {
 }
 
 interface PluginSetupParameters {
-    addViewer: (viewer: ViewerOption) => void
-    addDialog: (dialog: DialogOption) => void
+    addViewer: OPC<ViewerOption, void>
+    addDialog: OPC<DialogOption, void>
 }
 
 export interface PluginMetadata {
     name: string
     displayName?: string
     description?: string
-    setup: (params: PluginSetupParameters) => any
+    setup: OPC<PluginSetupParameters>
     native?: boolean
 }
 
@@ -283,12 +291,12 @@ export interface ViewerOption extends FunctionalOption {
     pageTitle: string
     route: string
     formats: string[]
-    render: (dataUrl: string) => ReactElement
+    render: OPC<string, ReactElement>
 }
 
 export interface DialogOption extends FunctionalOption {
     icon: string
     dialogTitle: string
-    onOpen: DefaultCallback
+    onOpen: DefC
     render: () => ReactElement
 }

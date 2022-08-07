@@ -18,6 +18,7 @@
 @import "./components/dialog.less";
 @import "./components/bar.less";
 @import "./components/viewer.less";
+@import "./components/toggle.less";
 
 body {
     margin: 0;
@@ -47,4 +48,14 @@ body {
             color: #fff
         }
     }
+}
+
+.btn,
+.form-control,
+.form-select,
+.list-group,
+.toggle, /* settings toggle */
+.dialog-container, /* dialog */
+textarea /* license */ {
+    border-radius: @c-border-radius;
 }

@@ -15,7 +15,7 @@ import toast from "react-hot-toast";
 import SidebarItem from "./SidebarItem";
 import SettingsSection from "./SettingsSection";
 import Option from "./Option";
-import Toggle from "./Toggle";
+import Toggle from "../../components/Toggle";
 
 import MainContext from "../../contexts/MainContext";
 import Utils from "../../../Utils";
