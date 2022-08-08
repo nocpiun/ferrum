@@ -12,7 +12,6 @@
     "type": "git",
     "url": "https://github.com/NriotHrreion/ferrum"
   },
-  "homepage": "https://github.com/NriotHrreion/ferrum",
   "bugs": {
     "url": "https://github.com/NriotHrreion/ferrum/issues"
   },
@@ -104,7 +103,7 @@
     "react-dev-utils": "^11.0.3",
     "react-dom": "^17.0.2",
     "react-filepond": "^7.1.1",
-    "react-hot-toast": "^2.2.0",
+    "react-hot-toast": "^2.3.0",
     "react-refresh": "^0.8.3",
     "react-router": "^5.2.1",
     "react-svg": "^14.1.14",
@@ -132,7 +131,7 @@
   },
   "scripts": {
     "start": "node src/server/InitConfig && node scripts/build.js && cross-env NODE_ENV=production concurrently \"npm run server\" \"node --experimental-json-modules production-start.mjs\"",
-    "dev": "node --experimental-json-modules launch.mjs",
+    "dev": "node src/server/InitConfig && concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon --config config/nodemon.config.json",
     "client": "cross-env NODE_ENV=development node scripts/start.js",
     "build": "node scripts/build.js",
