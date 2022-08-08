@@ -1,7 +1,18 @@
 {
-  "name": "ferrum",
+  "name": "@nocp/ferrum",
   "version": "1.7.1",
-  "private": true,
+  "author": "NoahHrreion <nriot233@outlook.com> (https://nin.red)",
+  "repository": "NriotHrreion/ferrum",
+  "homepage": "https://github.com/NriotHrreion/ferrum",
+  "keywords": [
+    "react",
+    "reactjs",
+    "typescript",
+    "file-manager",
+    "file-explorer",
+    "web-based",
+    "web-app"
+  ],
   "dependencies": {
     "@babel/core": "7.12.3",
     "@babel/standalone": "^7.18.10",
@@ -106,12 +117,15 @@
   },
   "scripts": {
     "start": "node src/server/InitConfig && node scripts/build.js && cross-env NODE_ENV=production concurrently \"npm run server\" \"node --experimental-json-modules production-start.mjs\"",
-    "dev": "node src/server/InitConfig && concurrently \"npm run server\" \"npm run client\"",
+    "dev": "node --experimental-json-modules launch.mjs",
     "server": "nodemon --config config/nodemon.config.json",
     "client": "cross-env NODE_ENV=development node scripts/start.js",
     "build": "node scripts/build.js",
     "build:netlify": "node src/server/InitConfig && node scripts/build.js",
     "test": "node scripts/test.js"
+  },
+  "bin": {
+    "felaunch": "./launch.mjs"
   },
   "browserslist": {
     "production": [
