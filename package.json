@@ -1,9 +1,21 @@
 {
   "name": "@nocp/ferrum",
   "version": "1.7.2",
-  "author": "NoahHrreion <nriot233@outlook.com> (https://nin.red)",
-  "repository": "NriotHrreion/ferrum",
+  "description": "Explore through your server - A web-based file explorer app for servers",
+  "license": "MIT",
+  "author": {
+    "name": "NoahHrreion",
+    "email": "nriot233@outlook.com",
+    "url": "https://nin.red"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NriotHrreion/ferrum"
+  },
   "homepage": "https://github.com/NriotHrreion/ferrum",
+  "bugs": {
+    "url": "https://github.com/NriotHrreion/ferrum/issues"
+  },
   "keywords": [
     "react",
     "reactjs",
@@ -217,5 +229,8 @@
       "jest-watch-typeahead/testname"
     ],
     "resetMocks": true
+  },
+  "engines": {
+    "node": ">=12.10.0"
   }
 }
