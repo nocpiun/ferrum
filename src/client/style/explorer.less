@@ -83,8 +83,8 @@
             display: flex;
             flex: 1;
             height: 40px;
-            margin-top: 15px;
-            margin-bottom: 15px;
+            margin-top: 10px;
+            margin-bottom: 10px;
             justify-content: space-between;
             * {
                 color: @theme-color;
@@ -92,6 +92,34 @@
             button {
                 margin-right: 10px;
                 color: @white !important;
+            }
+            .left-wrapper {
+                display: flex;
+                button {
+                    flex: 1;
+                    width: 20px;
+                    height: 20px;
+                    margin: 10px;
+                    border: none;
+                    background-color: transparent;
+                    background-position: center center;
+                    background-repeat: no-repeat;
+                    &#open-file {
+                        background-image: url(../../icons/file_open.svg);
+                    }
+                    &#delete-file {
+                        background-image: url(../../icons/delete.svg);
+                    }
+                    &#download-file {
+                        background-image: url(../../icons/file_download.svg);
+                    }
+                    &#open-terminal {
+                        background-image: url(../../icons/terminal_dark.svg);
+                    }
+                    &:disabled {
+                        opacity: 60%;
+                    }
+                }
             }
         }
         .list-container {

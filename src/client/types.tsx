@@ -209,6 +209,7 @@ export interface ListItemProps {
     itemSize: number
     itemInfo: string
     itemPath: string // The path don't have the file name
+    disabled?: boolean
     onSelect: OPC<DirectoryItem>
     onUnselect: OPC<DirectoryItem>
 }

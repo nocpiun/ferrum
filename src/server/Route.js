@@ -3,6 +3,7 @@ const multer = require("multer");
 // apis
 const fetchDirInfoApi = require("./api/FetchDirInfo");
 const fetchSysInfoApi = require("./api/FetchSysInfo");
+const fetchZipInfoApi = require("./api/FetchZipInfo");
 const getDataUrlApi = require("./api/GetDataUrl");
 const getStarredApi = require("./api/GetStarred");
 const addStarredApi = require("./api/AddStarred");
@@ -22,6 +23,7 @@ const getConfigApi = require("./api/GetConfig");
 module.exports = function(app) {
     app.get("/fetchDirInfo", (req, res) => fetchDirInfoApi(req, res));
     app.get("/fetchSysInfo", (req, res) => fetchSysInfoApi(req, res));
+    app.get("/fetchZipInfo", (req, res) => fetchZipInfoApi(req, res));
     app.get("/getDataUrl", (req, res) => getDataUrlApi(req, res));
     app.get("/getStarred", (req, res) => getStarredApi(req, res));
     app.post("/addStarred", (req, res) => addStarredApi(req, res));

@@ -30,6 +30,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     const renameBox = useRef<HTMLInputElement>(null);
 
     const renameBoxSwitch = () => {
+        if(props.disabled) return;
         if(!renameBox.current) return;
         if(props.itemDisplayName) return; // In search dialog
 
@@ -44,7 +45,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     };
 
     const renameFile = () => {
-        if(isDemo) return;
+        if(isDemo || props.disabled) return;
         if(!renameBox.current) return;
 
         toast.promise(Axios.post(apiUrl +"/renameFile", {
@@ -82,6 +83,8 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     };
 
     const handleSelectAll = (selected: boolean) => {
+        if(props.disabled) return;
+
         var item = JSON.parse(props.itemInfo) as DirectoryItem;
         var checkbox = Utils.getElem(props.itemName +"--checkbox") as HTMLInputElement;
 
@@ -104,7 +107,8 @@ const ListItem: React.FC<ListItemProps> = (props) => {
             if(
                 elem.id != props.itemName +"--renamebox" &&
                 elem.id != props.itemName +"--listitem" &&
-                isRenaming
+                isRenaming &&
+                !props.disabled
             ) {
                 if(renameBoxCurrentValue != props.itemName) renameFile();
                 renameBoxSwitch();
@@ -138,7 +142,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
             }}
             onDoubleClick={(e: React.MouseEvent) => {
                 if((e.target as HTMLElement).className == "form-check-input") return;
-                if(isRenaming) return;
+                if(isRenaming || props.disabled) return;
                 if(clickTimer) clearTimeout(clickTimer);
                 if(props.itemType == ItemType.FOLDER) window.location.href += "/"+ props.itemName;
             }}
@@ -149,7 +153,8 @@ const ListItem: React.FC<ListItemProps> = (props) => {
             <Form.Check
                 className="list-item-checkbox"
                 id={props.itemName +"--checkbox"}
-                onChange={(e: React.ChangeEvent) => handleSelect(e)}/>
+                onChange={(e: React.ChangeEvent) => handleSelect(e)}
+                disabled={props.disabled ?? false}/>
             <span
                 className="list-item-name"
                 style={{display: isRenaming ? "none" : "inline-block"}}>

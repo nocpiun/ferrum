@@ -18,6 +18,7 @@ import RightSidebar from "../containers/explorer/RightSidebar";
 
 import Utils from "../../Utils";
 import Emitter from "../utils/emitter";
+import Logger from "../utils/logger";
 import {
     FetchDirInfoResponse,
     ExplorerProps,
@@ -41,6 +42,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
 
     private path: string;
     private isStarred: boolean = false;
+    private isZipFile: boolean = false;
 
     /**
      * Open a file in Ferrum Explorer
@@ -57,8 +59,15 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                 return;
             }
 
+            // Picture
             if(Utils.formatTester(["png", "jpg", "jpeg", "bmp", "gif", "webp", "psd", "tiff", "ico"], itemFormat)) {
                 window.location.href = hostname + Explorer.port +"/picture/?path="+ itemPath;
+                return;
+            }
+
+            // Zip File
+            if(Utils.formatTester(["zip"], itemFormat)) {
+                window.location.href += "/"+ itemFullName;
                 return;
             }
 
@@ -99,6 +108,10 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
             direcotryItems: []
         };
         this.path = Explorer.root + this.props.path;
+
+        if(/\.zip$/.test(this.path)) { // Opening zip file
+            this.isZipFile = true;
+        }
     }
 
     /**
@@ -367,7 +380,11 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         // Get the info of current directory
         var dirInfo: FetchDirInfoResponse;
         if(!this.context.isDemo) {
-            dirInfo = await Axios.get(apiUrl +"/fetchDirInfo?path="+ this.path.replaceAll("/", "\\"));
+            !this.isZipFile
+                ? dirInfo = await Axios.get(apiUrl +"/fetchDirInfo?path="+ this.path.replaceAll("/", "\\"))
+                : dirInfo = await Axios.get(apiUrl +"/fetchZipInfo?path="+ this.path.replaceAll("/", "\\"));
+            
+            if(this.isZipFile) Logger.log({ value: "Opened a zip file: " }, dirInfo.data);
         } else if(this.path == "C:/") { // demo (root path)
             dirInfo = {
                 data: {
@@ -438,6 +455,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                                     itemSize={value.size ?? -1}
                                     itemInfo={JSON.stringify(value)}
                                     itemPath={this.path}
+                                    disabled={this.isZipFile}
                                     onSelect={(item) => this.handleItemSelect(item)}
                                     onUnselect={(item) => this.handleItemUnselect(item)}
                                     key={index}

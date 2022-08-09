@@ -12,32 +12,32 @@ const ToolButtons: React.FC<ExplorerToolButtonsProps> = (props) => {
 
     return (
         <div className="toolbuttons-container">
-            <div>
-                <Button
+            <div className="left-wrapper">
+                <button
                     className="left-sided-toolbutton"
                     id="open-file"
-                    onClick={props.onOpenFile}>{Utils.$("page.explorer.tool.open")}</Button>
-                <Button
+                    title={Utils.$("page.explorer.tool.open")}
+                    onClick={props.onOpenFile}></button>
+                <button
                     disabled={isDemo}
                     className="left-sided-toolbutton"
                     id="delete-file"
-                    onClick={props.onDeleteFile}
-                    variant="danger">{Utils.$("page.explorer.tool.delete")}</Button>
-                <Button
+                    title={Utils.$("page.explorer.tool.delete")}
+                    onClick={props.onDeleteFile}></button>
+                <button
                     className="left-sided-toolbutton"
                     id="download-file"
-                    onClick={props.onDownloadFile}>{Utils.$("page.explorer.tool.download")}</Button>
-                <Button
+                    title={Utils.$("page.explorer.tool.download")}
+                    onClick={props.onDownloadFile}></button>
+                <button
                     disabled={isDemo}
                     className="left-sided-toolbutton"
                     id="open-terminal"
-                    title={Utils.$("page.explorer.tool.terminal.tooltip")}
-                    onClick={() => window.location.href = hostname +":3300/terminal"}>
-                        {Utils.$("page.explorer.tool.terminal")}
-                </Button>
+                    title={Utils.$("page.explorer.tool.terminal") +" ("+ Utils.$("page.explorer.tool.terminal.tooltip") +")"}
+                    onClick={() => window.location.href = hostname +":3300/terminal"}></button>
             </div>
             
-            <div>
+            <div className="right-wrapper">
                 <Button
                     disabled={isDemo}
                     className="right-sided-toolbutton"
