@@ -31,6 +31,7 @@
     "page.editor.undo": "Undo",
     "page.terminal.title": "Ferrum Terminal",
     "page.terminal.nocfg": "Before using the terminal, you need to configure the server info in settings",
+    "page.terminal.reset": "Clear",
     "page.login.title": "Ferrum Login",
     "page.login.password.placeholder": "Input password",
     "page.login.login": "Enter",

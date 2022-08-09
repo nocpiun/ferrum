@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect } from "react";
+import { Button } from "react-bootstrap";
 import openSocket from "socket.io-client";
 import { Terminal as XTermTerminal } from "xterm";
 
@@ -20,6 +21,14 @@ const Terminal: React.FC = () => {
     var term: XTermTerminal;
 
     useEffect(() => {
+        document.addEventListener("keydown", (e: KeyboardEvent) => {
+            if(e.ctrlKey && e.key == "r") {
+                e.preventDefault();
+
+                term.reset();
+            }
+        });
+
         term = new XTermTerminal({ cursorBlink: true });
         term.open(Utils.getElem("xterm"));
 
@@ -56,6 +65,7 @@ const Terminal: React.FC = () => {
             <div className="main-container">
                 <div className="header-container">
                     <h1>{Utils.$("page.terminal.title")}</h1>
+                    <Button className="header-control-button" onClick={() => term.reset()}>{Utils.$("page.terminal.reset")} (R)</Button>
                 </div>
                 <div className="xterm-container" id="xterm"></div>
             </div>

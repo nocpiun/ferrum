@@ -25,6 +25,9 @@ export const isDemo = typeof document.body.getAttribute("demo") === "string" ? t
 console.warn = (value) => {
   Logger.warn({ value });
 };
+console.error = (value) => {
+  Logger.error({ value });
+};
 
 Logger.log({ value: "Launching..." });
 

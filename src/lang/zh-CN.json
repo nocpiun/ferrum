@@ -31,6 +31,7 @@
     "page.editor.undo": "撤销",
     "page.terminal.title": "Ferrum 终端",
     "page.terminal.nocfg": "使用终端之前, 你需要在设置中配置终端服务器信息.",
+    "page.terminal.reset": "清屏",
     "page.login.title": "Ferrum 登录",
     "page.login.password.placeholder": "输入密码",
     "page.login.login": "登录",

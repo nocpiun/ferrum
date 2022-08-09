@@ -31,6 +31,7 @@
     "page.editor.undo": "撤銷",
     "page.terminal.title": "Ferrum 終端",
     "page.terminal.nocfg": "使用終端之前, 你需要在設定中配置終端伺服器訊息.",
+    "page.terminal.reset": "清屏",
     "page.login.title": "Ferrum 登入",
     "page.login.password.placeholder": "輸入密碼",
     "page.login.login": "登入",

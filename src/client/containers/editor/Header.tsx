@@ -11,8 +11,8 @@ const Header: React.FC<EditorHeaderProps> = (props) => {
             <div className="status-bar">
                 <span id="file-path">{Utils.$("global.path")}: {props.path}</span>
             </div>
-            <Button className="control-button" onClick={props.onSaveFile}>{Utils.$("page.editor.save")} (S)</Button>
-            <Button className="control-button" onClick={props.onUndo}>{Utils.$("page.editor.undo")} (Z)</Button>
+            <Button className="header-control-button" onClick={props.onSaveFile}>{Utils.$("page.editor.save")} (S)</Button>
+            <Button className="header-control-button" onClick={props.onUndo}>{Utils.$("page.editor.undo")} (Z)</Button>
         </header>
     );
 }
