@@ -1,4 +1,5 @@
 import { Component, Context, ReactElement } from "react";
+import { Button } from "react-bootstrap";
 import { toast, Toaster } from "react-hot-toast";
 import Axios from "axios";
 
@@ -42,7 +43,7 @@ export default class Viewer extends Component<ViewerProps, ViewerState> {
                 }
 
                 this.setState({
-                    viewerComponent: this.props.viewerMetadata.render(res.data.bdata)
+                    viewerComponent: this.props.viewerMetadata.render(res.data.bdata, res.data.type)
                 });
             })
             .catch((err) => {throw err});
@@ -58,6 +59,17 @@ export default class Viewer extends Component<ViewerProps, ViewerState> {
                     <header className="header-container">
                         <h1>{this.props.viewerMetadata.pageTitle}</h1>
                         <p>{Utils.$("global.path")}: {decodeURI(this.props.path)}</p>
+                        
+                        {this.props.viewerMetadata.headerButtons?.map((item, i) => {
+                            return (
+                                <Button
+                                    className="header-control-button"
+                                    onClick={() => item.action()}
+                                    key={i}>
+                                    {`${item.text} (${item.shortcut.toUpperCase()})`}
+                                </Button>
+                            );
+                        })}
                     </header>
                     <div className="viewer-container">{this.state.viewerComponent}</div>
                 </div>
@@ -67,5 +79,20 @@ export default class Viewer extends Component<ViewerProps, ViewerState> {
 
     public componentDidMount(): void {
         this.fetchData();
+        
+        document.addEventListener("keydown", (e: KeyboardEvent) => {
+            const buttons = this.props.viewerMetadata.headerButtons;
+            if(!buttons) return;
+
+            if(e.ctrlKey) {
+                for(let i = 0; i < buttons.length; i++) {
+                    if(e.key == buttons[i].shortcut) {
+                        e.preventDefault();
+
+                        buttons[i].action();
+                    }
+                }
+            }
+        });
     }
 }

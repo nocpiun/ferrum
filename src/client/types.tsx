@@ -182,6 +182,7 @@ export interface EditorHeaderProps {
 
 export type GetDataUrlResponse = Response<{
     bdata: string
+    type: string
 }>
 
 export interface PictureViewerProps extends PageProps {}
@@ -287,11 +288,18 @@ interface FunctionalOption {
     id: string
 }
 
+interface ViewerHeaderButton {
+    text: string
+    shortcut: string
+    action: DefC
+}
+
 export interface ViewerOption extends FunctionalOption {
     pageTitle: string
     route: string
     formats: string[]
-    render: OPC<string, ReactElement>
+    render: (dataUrl: string, type: string) => ReactElement
+    headerButtons?: ViewerHeaderButton[]
 }
 
 export interface DialogOption extends FunctionalOption {

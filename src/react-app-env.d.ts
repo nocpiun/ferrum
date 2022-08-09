@@ -90,3 +90,4 @@ declare module 'worker-loader!*' {
 declare module '@babel/preset-react';
 declare module '@babel/plugin-transform-react-jsx';
 declare module '@babel/plugin-syntax-jsx';
+declare module "react-file-viewer";

@@ -15,12 +15,14 @@ module.exports = function(req, res) {
         return;
     }
 
-    const mime = mimeType.lookup(path.extname(filePath).replace(".", ""));
+    const fileType = path.extname(filePath).replace(".", "");
+    const mime = mimeType.lookup(fileType);
 
     var urlHead = "data:"+ mime +";base64,";
     var pictureData = fs.readFileSync(filePath).toString("base64");
     res.end(JSON.stringify({
         bdata: urlHead + pictureData,
+        type: fileType,
         err: 0
     }));
 };
