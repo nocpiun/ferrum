@@ -122,6 +122,51 @@ You need to create a new `jsx` file. And a metadata list of the plugin is needed
 
 Then, add your plugin in settings.
 
+#### Plugin I18n
+
+If you want to make your plugin supports different languages, just create a variable that stores your texts:
+
+```jsx
+const i18n = {
+    "zh-CN": {
+        "plugin.hello": "你好"
+    },
+    "en": {
+        "plugin.hello": "Hello"
+    }
+};
+```
+
+Then, put this variable into your plugin metadata list:
+
+```jsx
+({
+    // ...
+    setup(apis) {
+        // ...
+    },
+    i18n, // <== Here
+    // ...
+})
+```
+
+If you would like to use one of the texts in the i18n list, you just need to write down the key of the text and add a `$` before it. For example: `$plugin.hello`.
+
+```jsx
+({
+    // ...
+    setup({ addViewer }) {
+        addViewer({
+            // ...
+            pageTitle: "$plugin.hello", // <== Just like that
+            // ...
+        });
+    },
+    i18n,
+    // ...
+})
+```
+
 ## Testing
 
 Ferrum Explorer is using Jest to test code.

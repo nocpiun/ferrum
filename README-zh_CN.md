@@ -120,6 +120,52 @@ sudo sysctl fs.inotify.max_user_watches=582222 && sudo sysctl -p
 
 然后, 在设置中添加你的插件.
 
+#### 插件多语言
+
+如果你想让你的插件支持多个语言, 你只需要先创建一个存储文本的变量:
+
+```jsx
+const i18n = {
+    "zh-CN": {
+        "plugin.hello": "你好"
+    },
+    "en": {
+        "plugin.hello": "Hello"
+    }
+};
+```
+
+然后, 在你的插件信息列表里面添加这个变量:
+
+```jsx
+({
+    // ...
+    setup(apis) {
+        // ...
+    },
+    i18n, // <== 这里
+    // ...
+})
+```
+
+If you would like to use one of the texts in the i18n list, you just need to write down the key of the text and add a `$` before it. For example: `$plugin.hello`.
+接着在你想使用它的时候, 写下文本对应的key, 再在前面加一个`$`, 比如: `$plugin.hello`.
+
+```jsx
+({
+    // ...
+    setup({ addViewer }) {
+        addViewer({
+            // ...
+            pageTitle: "$plugin.hello", // <== 就像这样
+            // ...
+        });
+    },
+    i18n,
+    // ...
+})
+```
+
 ## 测试
 
 Ferrum使用Jest来测试代码.
