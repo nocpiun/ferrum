@@ -9,7 +9,8 @@ import DialogBox from "../client/components/DialogBox";
 import {
     PluginMetadata,
     ViewerOption,
-    DialogOption
+    DialogOption,
+    PluginI18n
 } from "../client/types";
 import { pluginStorageKey } from "../client/global";
 import Utils from "../Utils";
@@ -41,6 +42,13 @@ export default class PluginLoader {
 
     public pluginList: PluginMetadata[] = [];
     public viewerList: ViewerOption[] = [];
+    public pluginI18nList: PluginI18n[] = [];
+
+    public static $i18n(str: string): string {
+        const i18nRegexp = /^\$/;
+
+        return i18nRegexp.test(str) ? Utils.$(str.replace("$", "")) : str;
+    }
 
     private async init(): Promise<void> {
         Babel.registerPreset("preset-react", await import("@babel/preset-react"));
@@ -59,6 +67,8 @@ export default class PluginLoader {
                 return;
             }
         }
+
+        if(plugin.i18n) this.pluginI18nList.push(plugin.i18n);
 
         // If the plugin doesn't have a `displayName`,
         // then make the `displayName` equal to its `name`.

@@ -1,5 +1,6 @@
 import languages from "./lang";
 import LocalStorage from "./client/utils/localStorage";
+import PluginLoader from "./plugin/PluginLoader";
 import { langStorageKey, langStorageType } from "./client/global";
 
 // Init language list
@@ -20,12 +21,17 @@ export default class Utils {
      * Get multi-language texts
      */
     public static $(strId: string): string {
-        var str: string;
+        const pluginI18nList = PluginLoader.get().pluginI18nList;
+        var str: string = "";
 
-        try {
+        if(Object.hasOwn((languages as any)[lang], strId)) {
             str = (languages as any)[lang][strId];
-        } catch {
-            str = "";
+        } else {
+            for(let i = 0; i < pluginI18nList.length; i++) {
+                if(Object.hasOwn((pluginI18nList[i] as any)[lang], strId)) {
+                    str = pluginI18nList[i][lang][strId];
+                }
+            }
         }
 
         return str;

@@ -6,6 +6,7 @@ import Axios from "axios";
 import MainContext from "../client/contexts/MainContext";
 
 import Utils from "../Utils";
+import PluginLoader from "./PluginLoader";
 import {
     ViewerProps,
     ViewerState,
@@ -50,6 +51,8 @@ export default class Viewer extends Component<ViewerProps, ViewerState> {
     }
 
     public render(): ReactElement {
+        const $i18n = PluginLoader.$i18n;
+
         return (
             <div className={this.props.viewerMetadata.id +" viewer"}>
                 <div className="main-container">
@@ -57,7 +60,7 @@ export default class Viewer extends Component<ViewerProps, ViewerState> {
                         <Toaster/>
                     </div>
                     <header className="header-container">
-                        <h1>{this.props.viewerMetadata.pageTitle}</h1>
+                        <h1>{$i18n(this.props.viewerMetadata.pageTitle)}</h1>
                         <p>{Utils.$("global.path")}: {decodeURI(this.props.path)}</p>
                         
                         {this.props.viewerMetadata.headerButtons?.map((item, i) => {
@@ -66,7 +69,7 @@ export default class Viewer extends Component<ViewerProps, ViewerState> {
                                     className="header-control-button"
                                     onClick={() => item.action()}
                                     key={i}>
-                                    {`${item.text} (${item.shortcut.toUpperCase()})`}
+                                    {`${$i18n(item.text)} (${item.shortcut.toUpperCase()})`}
                                 </Button>
                             );
                         })}

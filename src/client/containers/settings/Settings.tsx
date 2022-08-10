@@ -153,10 +153,12 @@ const Settings: React.FC = () => {
         setPluginList(
             <>
                 {PluginLoader.get().pluginList.map((plugin, i) => {
+                    const $i18n = PluginLoader.$i18n;
+
                     return (
-                        <ListGroup.Item title={(plugin.description ?? "") + (!plugin.native ? " "+ Utils.$("settings.plugin.tooltip") : "")} key={i}>
+                        <ListGroup.Item title={$i18n(plugin.description ?? "") + (!plugin.native ? " "+ Utils.$("settings.plugin.tooltip") : "")} key={i}>
                             <ContextMenuTrigger id={"plugin-rcmenu--"+ plugin.name}>
-                                <span className="plugin-name">{plugin.displayName}</span>
+                                <span className="plugin-name">{$i18n(plugin.displayName ?? "")}</span>
                                 <span className="plugin-id">{plugin.name + (plugin.native ? " "+ Utils.$("settings.plugin.native") : "")}</span>
                             </ContextMenuTrigger>
                             {!plugin.native ? <ContextMenu id={"plugin-rcmenu--"+ plugin.name}>
