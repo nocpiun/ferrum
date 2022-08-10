@@ -5,7 +5,6 @@ import React, {
     useRef
 } from "react";
 import { ListGroup, Form } from "react-bootstrap";
-import { toast } from "react-hot-toast";
 import Axios from "axios";
 
 import MainContext from "../contexts/MainContext";
