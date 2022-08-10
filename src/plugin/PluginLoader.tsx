@@ -10,7 +10,7 @@ import {
     PluginMetadata,
     ViewerOption,
     DialogOption,
-    PluginI18n
+    I18n
 } from "../client/types";
 import { pluginStorageKey } from "../client/global";
 import Utils from "../Utils";
@@ -42,7 +42,7 @@ export default class PluginLoader {
 
     public pluginList: PluginMetadata[] = [];
     public viewerList: ViewerOption[] = [];
-    public pluginI18nList: PluginI18n[] = [];
+    public pluginI18nList: I18n[] = [];
 
     public static $i18n(str: string): string {
         const i18nRegexp = /^\$/;

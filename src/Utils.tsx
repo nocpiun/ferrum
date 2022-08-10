@@ -21,14 +21,16 @@ export default class Utils {
      * Get multi-language texts
      */
     public static $(strId: string): string {
+        if(!languages[lang]) return ""; // If doesn't support the current lang, then return
+
         const pluginI18nList = PluginLoader.get().pluginI18nList;
         var str: string = "";
 
-        if(Object.hasOwn((languages as any)[lang], strId)) {
+        if(Object.keys(languages[lang]).includes(strId)) {
             str = (languages as any)[lang][strId];
         } else {
             for(let i = 0; i < pluginI18nList.length; i++) {
-                if(Object.hasOwn((pluginI18nList[i] as any)[lang], strId)) {
+                if(Object.keys((pluginI18nList[i] as any)[lang]).includes(strId)) {
                     str = pluginI18nList[i][lang][strId];
                 }
             }

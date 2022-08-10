@@ -282,7 +282,7 @@ export interface PluginMetadata {
     displayName?: string
     description?: string
     setup: OPC<PluginSetupParameters>
-    i18n?: PluginI18n
+    i18n?: I18n
     native?: boolean
 }
 
@@ -311,6 +311,6 @@ export interface DialogOption extends FunctionalOption {
     render: () => ReactElement
 }
 
-export interface PluginI18n {
+export interface I18n {
     [lang: string]: { [key: string]: string }
 }
