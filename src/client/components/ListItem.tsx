@@ -47,14 +47,10 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     const renameFile = () => {
         if(isDemo || props.disabled) return;
         if(!renameBox.current) return;
-
-        toast.promise(Axios.post(apiUrl +"/renameFile", {
+        
+        Axios.post(apiUrl +"/renameFile", {
             path: (props.itemPath +"/"+ props.itemName).replaceAll("/", "\\"),
             newName: renameBox.current.value
-        }), {
-            loading: "加载中...",
-            success: "重命名成功",
-            error: "重命名失败"
         }).then(() => {
             renameBoxSwitch();
             Emitter.get().emit("fileListUpdate");

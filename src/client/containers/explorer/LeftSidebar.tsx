@@ -8,7 +8,7 @@ const LeftSidebar: React.FC<ExplorerLeftSidebarProps> = (props) => {
     return (
         <aside className="sidebar-left-container">
             <div className="header-container">
-                <h3>{Utils.$("page.explorer.left.title")}</h3>
+                <p>{Utils.$("page.explorer.left.title")}</p>
             </div>
             <div className="body-container">
                 <ListGroup id="starred-dir-list">{props.starredList ? props.starredList : null}</ListGroup>
