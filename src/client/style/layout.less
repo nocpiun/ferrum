@@ -24,15 +24,18 @@ body {
     margin: 0;
     padding: 0;
     background-color: @light-gray;
+    font-family: @font;
     main {
         display: flex;
         flex-direction: column;
-        font-family: @font;
         height: 100vh;
     }
     // To prevent that when the page is auto refreshed, the whole page is covered with <iframe>
     iframe {
         display: none;
+    }
+    &[data-lang=en] {
+        font-family: @font-en;
     }
 }
 

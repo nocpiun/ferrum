@@ -16,6 +16,8 @@ if(!currentLang) LocalStorage.setItem(langStorageKey, { language: window.navigat
 
 const lang = currentLang?.language ?? "";
 
+document.body.setAttribute("data-lang", lang);
+
 export default class Utils {
     /**
      * Get multi-language texts
