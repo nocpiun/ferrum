@@ -150,6 +150,11 @@ export interface ExplorerLeftSidebarProps {
     starredList: React.ReactElement | null
 }
 
+export interface ExplorerLeftSidebarPanelProps {
+    title: string
+    id: string
+}
+
 export interface ExplorerRightSidebarProps {
     path: string
 }

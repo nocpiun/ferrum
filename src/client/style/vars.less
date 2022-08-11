@@ -17,4 +17,19 @@
         vertical-align: @vertical-align;
         float: right;
     }
+    .scrollbar() {
+        &::-webkit-scrollbar {
+            width: 5px;
+            background: transparent;
+        }
+        &::-webkit-scrollbar-thumb {
+            background-color: @light-gray2;
+            &:hover {
+                background-color: @light-gray5;
+            }
+            &:active {
+                background-color: @light-gray6;
+            }
+        }
+    }
 }

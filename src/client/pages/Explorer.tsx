@@ -325,13 +325,13 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                 <div className="left-bottom-buttons">
                     <span className="left-sidebar-open"></span>
                 </div>
-                <LeftSidebar starredList={this.state.starredList}/>
-                <div className="main-container" id="main">
-                    {/* Main */}
-                    <DirectoryInfoContext.Provider value={{
+                <DirectoryInfoContext.Provider value={{
                         path: this.path,
                         directoryItems: this.state.direcotryItems
                     }}>
+                    <LeftSidebar starredList={this.state.starredList}/>
+                    <div className="main-container" id="main">
+                        {/* Main */}
                         <Header
                             path={this.path}
                             onEnter={(e) => this.handleEnter(e)}
@@ -346,14 +346,14 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                         <List
                             onBack={() => this.handleBack()}
                             itemList={this.state.itemList}/>
-                    </DirectoryInfoContext.Provider>
 
-                    {/* Footer */}
-                    <div className="footer-container">
-                        <p className="copy-info">Copyright (c) NriotHrreion {new Date().getFullYear()}</p>
+                        {/* Footer */}
+                        <div className="footer-container">
+                            <p className="copy-info">Copyright (c) NriotHrreion {new Date().getFullYear()}</p>
+                        </div>
                     </div>
-                </div>
-                <RightSidebar path={this.path}/>
+                    <RightSidebar path={this.path}/>
+                </DirectoryInfoContext.Provider>
             </div>
         );
     }

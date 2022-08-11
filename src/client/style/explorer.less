@@ -67,6 +67,7 @@
                     background-image: url(../../icons/star_outline.svg);
                 }
                 .search-button {
+                    display: none;
                     margin-left: 5px;
                     background-image: url(../../icons/search.svg);
                 }
@@ -145,19 +146,7 @@
                     }
                 }
             }
-            &::-webkit-scrollbar {
-                width: 5px;
-                background: transparent;
-            }
-            &::-webkit-scrollbar-thumb {
-                background-color: @light-gray2;
-                &:hover {
-                    background-color: @light-gray5;
-                }
-                &:active {
-                    background-color: @light-gray6;
-                }
-            }
+            #mixin.scrollbar();
         }
         .footer-container {
             height: 55px;
@@ -179,51 +168,82 @@
     }
     .sidebar-left-container {
         flex: 1;
+        height: 100vh;
         background-color: @light-gray4;
-        padding-top: 40px;
-        padding-left: 25px;
-        padding-right: 25px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-bottom: 40px;
+        #mixin.scrollbar();
         * {
             color: @theme-color;
         }
-        .header-container {
-            margin-bottom: 10px;
-            padding-left: 10px;
-            p {
-                margin-bottom: 5px;
-                font-weight: bold;
-            }
-        }
-        .body-container {
-            height: 560px;
-            overflow-y: auto;
-            button {
-                border: none;
-                background: transparent;
-                padding-top: 5px;
-                padding-bottom: 5px;
+        .left-sidebar-panel {
+            padding-top: 40px;
+            padding-left: 25px;
+            padding-right: 25px;
+            .header-container {
+                margin-bottom: 10px;
                 padding-left: 10px;
-                .list-item-name {
-                    display: block;
-                    margin-left: 30px;
-                    font-size: 11pt;
-                    width: 240px;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
+                p {
+                    margin-bottom: 5px;
+                    font-weight: bold;
                 }
-                &:hover {
+            }
+            .body-container {
+                button {
+                    border: none;
+                    background: transparent;
+                    padding-top: 5px;
+                    padding-bottom: 5px;
+                    padding-left: 10px;
                     .list-item-name {
-                        color: #0d6efd;
-                        text-decoration: underline;
+                        display: block;
+                        font-size: 11pt;
+                        margin-left: 30px;
+                        width: 90%;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                    &:hover {
+                        .list-item-name, .list-item-name > * {
+                            color: #0d6efd;
+                            text-decoration: underline;
+                        }
+                    }
+                    &::before {
+                        content: "";
+                        position: absolute;
+                        background-repeat: no-repeat;
+                        width: 20px;
+                        height: 20px;
                     }
                 }
-                &::before {
-                    content: "";
-                    position: absolute;
+            }
+            &#star-list {
+                button::before {
                     background-image: url(../../icons/star_rate.svg);
-                    background-repeat: no-repeat;
-                    width: 20px;
-                    height: 20px;
+                }
+            }
+            &#search {
+                overflow: visible;
+                .search-input {
+                    height: 35px;
+                    font-size: 10pt;
+                }
+                .search-result {
+                    margin-top: 10px;
+                    button {
+                        .list-item-name .highlight {
+                            font-weight: bold;
+                        }
+                        &.directory::before {
+                            background-image: url(../../icons/folder_rate.svg);
+                        }
+                        &.file::before {
+                            background-image: url(../../icons/file.svg);
+                        }
+                    }
                 }
             }
         }
