@@ -250,38 +250,53 @@
         }
     }
     .sidebar-right-container {
-        display: grid;
         flex: 1;
-        grid-template-rows: 180px 200px 330px;
-        background-color: @white;
-        
+        border-left: 1px solid @light-gray4;
+        height: 100vh;
+        overflow-y: auto;
+        #mixin.scrollbar();
         .right-sidebar-panel {
             padding: 15px;
-            border: @light-gray solid 1px;
+            padding-bottom: 0;
             color: @theme-color;
-        }
-        .about-container {
-            object {
-                vertical-align: bottom;
-                margin-right: 10px;
+            .header-container {
+                margin-bottom: 10px;
+                padding-left: 10px;
+                p {
+                    margin-bottom: 5px;
+                    font-weight: bold;
+                    font-size: 11.5pt;
+                }
             }
-            span {
-                float: right;
-                line-height: 30px;
-                font-size: 10pt;
+            .body-container {
+                padding-left: 5px;
+                padding-right: 5px;
             }
-        }
-        .upload-container {
-            overflow-y: auto;
-        }
-        .system-info-container {
-            ul {
-                padding-left: 20px;
-                li {
-                    margin-top: 3px;
-                    list-style: none;
-                    button { // details button
-                        margin-top: 10px;
+            &#about {
+                padding-bottom: 0;
+                border-bottom: 1px solid @light-gray4;
+                object {
+                    vertical-align: bottom;
+                    margin-right: 10px;
+                }
+                span {
+                    float: right;
+                    line-height: 30px;
+                    font-size: 10pt;
+                }
+            }
+            &#upload {
+                overflow-y: auto;
+            }
+            &#system-info {
+                ul {
+                    padding-left: 20px;
+                    li {
+                        margin-top: 3px;
+                        list-style: none;
+                        button { // details button
+                            margin-top: 10px;
+                        }
                     }
                 }
             }

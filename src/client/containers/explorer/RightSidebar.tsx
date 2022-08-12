@@ -9,6 +9,7 @@ import { Button } from "react-bootstrap";
 import { FilePond } from "react-filepond";
 
 import MainContext from "../../contexts/MainContext";
+import RightSidebarPanel from "./RightSidebarPanel";
 
 import Emitter from "../../utils/emitter";
 import Logger from "../../utils/logger";
@@ -82,9 +83,8 @@ const RightSidebar: React.FC<ExplorerRightSidebarProps> = (props) => {
 
     return (
         <aside className="sidebar-right-container">
-            <div className="right-sidebar-panel about-container">
-                <p><b>{Utils.$("app.name")}</b> {Utils.$("app.description")}</p>
-                <p><a href="https://github.com/NriotHrreion/ferrum" target="_blank" rel="noreferrer">https://github.com/NriotHrreion/ferrum</a></p>
+            {/* About */}
+            <RightSidebarPanel id="about">
                 <p>
                     <object
                         data="https://img.shields.io/github/stars/NriotHrreion/ferrum.svg?style=social&label=Star"
@@ -92,8 +92,9 @@ const RightSidebar: React.FC<ExplorerRightSidebarProps> = (props) => {
                     <a href="/license">{Utils.$("page.explorer.right.license")}</a>
                     <span>Ver: {version}</span>
                 </p>
-            </div>
-            <div className="right-sidebar-panel upload-container">
+            </RightSidebarPanel>
+            {/* Upload */}
+            <RightSidebarPanel title={Utils.$("page.explorer.right.upload")} id="upload">
                 <p>{Utils.$("page.explorer.right.upload.note")}</p>
                 <FilePond
                     disabled={isDemo}
@@ -108,8 +109,9 @@ const RightSidebar: React.FC<ExplorerRightSidebarProps> = (props) => {
                     onprocessfile={() => {
                         Emitter.get().emit("fileListUpdate");
                     }}/>
-            </div>
-            <div className="right-sidebar-panel system-info-container">
+            </RightSidebarPanel>
+            {/* System Info */}
+            <RightSidebarPanel title={Utils.$("page.explorer.right.sysinfo")} id="system-info">
                 <ul>
                     <li><b>{Utils.$("sysinfo.system")}:</b> {sysInfo.system}</li>
                     <li><b>{Utils.$("sysinfo.memory")}:</b> {Math.floor(usedmem * 100) +"%"} ({Utils.$("sysinfo.memory.total")} {(sysInfo.memory.total / 1024 / 1024 / 1024).toFixed(2)})</li>
@@ -121,7 +123,7 @@ const RightSidebar: React.FC<ExplorerRightSidebarProps> = (props) => {
                         }}>{Utils.$("page.explorer.right.sysinfo.details")}</Button>
                     </li>
                 </ul>
-            </div>
+            </RightSidebarPanel>
 
             {DialogBox.createDialog("sys-info",
                 <DialogBox ref={sysInfoDialogBox} id="sys-info" title={Utils.$("sysinfo") +" ("+ sysInfo.system +")"}>

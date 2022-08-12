@@ -163,6 +163,11 @@ export interface ExplorerRightSidebarState {
     sysInfo: SysInfo | null
 }
 
+export interface ExplorerRightSidebarPanelProps {
+    title?: string
+    id: string
+}
+
 // Editor
 
 export type GetFileContentResponse = Response<{
