@@ -36,7 +36,7 @@ if(window.location.pathname == "/" || window.location.pathname == "/dir") {
 }
 
 Logger.log(
-  { value: "%c\nFerrum Explorer%cv"+ version +" | By NriotHrreion\n"+
+  { value: "%c\nFerrum Explorer%cv"+ version +" | By NoahHrreion\n"+
   "%c    Website: https://nin.red/#/projects/ferrum/\n"+
   "%cGithub Repo: https://github.com/NriotHrreion/ferrum\n\n"+
   "%c       Demo: https://ferrum-demo.nin.red\n" },

@@ -1,6 +1,8 @@
 {
     "global.path": "路径",
     "global.default": "默认",
+    "app.name": "Ferrum 文件管理器",
+    "app.description": "是一个用React + Typescript写的基于Web的文件资源管理器，可用于服务器等的文件管理",
     "page.explorer.title": "Ferrum 文件管理器",
     "page.explorer.nav.back": "返回上级目录",
     "page.explorer.nav.path.placeholder": "文件夹路径...",
@@ -84,6 +86,11 @@
     "settings.password.o1": "旧密码",
     "settings.password.o2": "新密码",
     "settings.password.submit": "提交",
+    "settings.about": "关于",
+    "settings.about.o1": "版本",
+    "settings.about.o2": "作者",
+    "settings.about.o3": "Github 仓库",
+    "settings.about.checkupdate": "检查更新",
     "dialog.close": "关闭",
     "alert.close": "关闭",
     "toast.msg1": "无法打开可执行文件",
@@ -109,5 +116,8 @@
     "toast.msg21": "更改成功",
     "toast.msg22": "更改失败",
     "toast.msg23": "插件注册失败: ID不唯一",
-    "toast.msg24": "插件卸载失败: 无法卸载内置插件"
+    "toast.msg24": "插件卸载失败: 无法卸载内置插件",
+    "toast.msg25": "检查中...",
+    "toast.msg26": "当前已是最新版本",
+    "toast.msg27": "有新版本: "
 }

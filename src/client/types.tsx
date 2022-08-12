@@ -113,6 +113,7 @@ export enum SettingsItem {
     TERMINAL = "s-terminal",
     PLUGIN = "s-plugin",
     PASSWORD = "s-password",
+    ABOUT = "s-about",
 }
 
 export interface ExplorerSettingsSidebarItemProps {

@@ -138,11 +138,16 @@
             .list-group {
                 border-top-right-radius: 0;
                 border-bottom-right-radius: 0;
-                button:hover {
-                    background-color: @white;
+                button {
                     .list-item-name {
-                        color: #0d6efd;
-                        text-decoration: underline;
+                        font-size: 11pt;
+                    }
+                    &:hover {
+                        background-color: @white;
+                        .list-item-name {
+                            color: #0d6efd;
+                            text-decoration: underline;
+                        }
                     }
                 }
             }
@@ -282,7 +287,8 @@
                 span {
                     float: right;
                     line-height: 30px;
-                    font-size: 10pt;
+                    font-size: 9pt;
+                    font-family: Ubuntu-Light;
                 }
             }
             &#upload {
@@ -302,8 +308,14 @@
             }
         }
 
-        .filepond--wrapper .filepond--credits {
-            display: none;
+        .filepond--wrapper {
+            .filepond--credits {
+                display: none;
+            }
+            .filepond--drop-label {
+                font-size: 11pt;
+                font-family: Ubuntu-Light;
+            }
         }
         a {
             word-wrap: break-word;

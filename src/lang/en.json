@@ -1,6 +1,8 @@
 {
     "global.path": "Path",
     "global.default": "Default",
+    "app.name": "Ferrum Explorer",
+    "app.description": "is a web-based file explorer app which is written in React + Typescript and is for servers.",
     "page.explorer.title": "Ferrum Explorer",
     "page.explorer.nav.back": "Back to the parent directory",
     "page.explorer.nav.path.placeholder": "File path...",
@@ -84,6 +86,11 @@
     "settings.password.o1": "Old Password",
     "settings.password.o2": "New Password",
     "settings.password.submit": "Submit",
+    "settings.about": "About",
+    "settings.about.o1": "Version",
+    "settings.about.o2": "Author",
+    "settings.about.o3": "Github Repo",
+    "settings.about.checkupdate": "Check Update",
     "dialog.close": "Close",
     "alert.close": "Close",
     "toast.msg1": "Unable to open executable file",
@@ -109,5 +116,8 @@
     "toast.msg21": "Changed",
     "toast.msg22": "Failed to change",
     "toast.msg23": "Failed to register: The ID isn't unique",
-    "toast.msg24": "Failed to uninstall: Unable to uninstall native plugins"
+    "toast.msg24": "Failed to uninstall: Unable to uninstall native plugins",
+    "toast.msg25": "Checking...",
+    "toast.msg26": "Ferrum is up to date",
+    "toast.msg27": "New version: "
 }

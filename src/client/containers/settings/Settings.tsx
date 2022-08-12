@@ -21,7 +21,7 @@ import MainContext from "../../contexts/MainContext";
 import Utils from "../../../Utils";
 import Emitter from "../../utils/emitter";
 import PluginLoader from "../../../plugin/PluginLoader";
-import { apiUrl } from "../../global";
+import { apiUrl, version } from "../../global";
 import { Config, SettingsItem } from "../../types";
 
 // icons
@@ -30,6 +30,7 @@ import editNote from "../../../icons/edit_note.svg";
 import terminal from "../../../icons/terminal.svg";
 import extension from "../../../icons/extension.svg";
 import key from "../../../icons/key.svg";
+import info from "../../../icons/info.svg";
 
 const Settings: React.FC = () => {
     const [currentPage, setPage] = useState<SettingsItem>(SettingsItem.EXPLORER);
@@ -145,6 +146,21 @@ const Settings: React.FC = () => {
         window.location.reload();
     };
 
+    const handleCheckUpdate = () => {
+        return new Promise<string>(async (resolve, reject) => {
+            const releases = await Axios.get<{
+                tag_name: string
+            }[]>("https://api.github.com/repos/NriotHrreion/ferrum/releases");
+            const latestVersion = releases.data[0].tag_name;
+    
+            if(version === latestVersion) {
+                resolve(Utils.$("toast.msg26"));
+            } else {
+                reject(Utils.$("toast.msg27") + latestVersion);
+            }
+        });
+    };
+
     const refreshPluginList = () => {
         interface MenuItemData {
             pluginId: string
@@ -222,6 +238,11 @@ const Settings: React.FC = () => {
                         id={SettingsItem.PASSWORD}
                         title={Utils.$("settings.password")}
                         icon={key}
+                        onClick={(e) => handleItemBeOn(e)}/>
+                    <SidebarItem
+                        id={SettingsItem.ABOUT}
+                        title={Utils.$("settings.about")}
+                        icon={info}
                         onClick={(e) => handleItemBeOn(e)}/>
                 </ul>
                 <div className="add-plugin">
@@ -310,6 +331,27 @@ const Settings: React.FC = () => {
                         <Button className="submit" onClick={() => handleSetPassword()} disabled={isDemo}>
                             {Utils.$("settings.password.submit")}
                         </Button>
+                    </SettingsSection>
+                    <SettingsSection title={Utils.$("settings.about")} style={{display: currentPage == "s-about" ? "block" : "none"}}>
+                        <p><b>{Utils.$("app.name")}</b> {Utils.$("app.description")}</p>
+                        <Option name={Utils.$("settings.about.o1")}>
+                            <span className="text">@nocp/ferrum-{version}</span>
+                        </Option>
+                        <Option name={Utils.$("settings.about.o2")}>
+                            <span className="text">NoahHrreion</span>
+                        </Option>
+                        <Option name={Utils.$("settings.about.o3")}>
+                            <span className="text">
+                                <a href="https://github.com/NriotHrreion/ferrum" target="_blank" rel="noreferrer">NriotHrreion/ferrum</a>
+                            </span>
+                        </Option>
+                        <Button variant="success" className="check-update" onClick={() => {
+                            toast.promise(handleCheckUpdate(), {
+                                loading: Utils.$("toast.msg25"),
+                                success: (msg) => msg,
+                                error: (msg) => msg
+                            });
+                        }}>{Utils.$("settings.about.checkupdate")}</Button>
                     </SettingsSection>
                 </Form>
             </div>
