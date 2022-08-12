@@ -1,3 +1,4 @@
+@import "./fonts.less";
 @import "./vars.less";
 @import "./mobile.less";
 
@@ -34,8 +35,23 @@ body {
     iframe {
         display: none;
     }
+    &[data-lang=zh-CN] {
+        font-family: @font-sc;
+        .filepond--drop-label {
+            font-family: NotoSans-SC-Light;
+        }
+    }
+    &[data-lang=zh-TW] {
+        font-family: @font-tc;
+        .filepond--drop-label {
+            font-family: NotoSans-TC-Light;
+        }
+    }
     &[data-lang=en] {
         font-family: @font-en;
+        .filepond--drop-label {
+            font-family: Ubuntu-Light;
+        }
     }
 }
 
@@ -66,4 +82,14 @@ body {
 .dialog-container, /* dialog */
 textarea /* license */ {
     border-radius: @c-border-radius;
+}
+
+.filepond--wrapper {
+    .filepond--credits {
+        display: none;
+    }
+    .filepond--drop-label {
+        font-size: 11pt;
+        font-family: Ubuntu-Light;
+    }
 }
