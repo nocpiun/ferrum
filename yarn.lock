@@ -4316,11 +4316,6 @@
     "ieee754" "^1.1.4"
     "isarray" "^1.0.0"
 
-"buildcheck@0.0.3":
-  "integrity" "sha512-pziaA+p/wdVImfcbsZLNF32EiWyujlQLwolMqUQE8xpKNOH7KmZQaY8sXN7DGOEzPAElo9QTaeNRfGnf3iOJbA=="
-  "resolved" "https://registry.npmjs.org/buildcheck/-/buildcheck-0.0.3.tgz"
-  "version" "0.0.3"
-
 "builtin-modules@^3.1.0":
   "integrity" "sha512-lGzLKcioL90C7wMczpkY0n/oART3MbBa8R9OFGE1rJxoVI86u4WAGfEk8Wjv10eKSyTHVGkSo3bvBylCEtk7LA=="
   "resolved" "https://registry.npmjs.org/builtin-modules/-/builtin-modules-3.2.0.tgz"
@@ -5219,14 +5214,6 @@
     "parse-json" "^5.0.0"
     "path-type" "^4.0.0"
     "yaml" "^1.10.0"
-
-"cpu-features@0.0.3":
-  "integrity" "sha512-p6C/uud4F4bDyCz9+BNU22KdV1AGxPK6L9rQG9x3x4SSzdMPyBPErP7Rxn8avT2ex1M2g5Rpjz5Us/ri/766Qg=="
-  "resolved" "https://registry.npmjs.org/cpu-features/-/cpu-features-0.0.3.tgz"
-  "version" "0.0.3"
-  dependencies:
-    "buildcheck" "0.0.3"
-    "nan" "^2.15.0"
 
 "cpu-stat@^2.0.1":
   "integrity" "sha512-bC4ts/0IjYfNV6Dc7F2NauWM0tip0fneZjRek8HqX2ZERC4oSt6dmV+GTN1mfE9OKbLAppv58M2PVzKLGB731w=="
