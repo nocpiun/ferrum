@@ -1,7 +1,8 @@
 import React, {
     useState,
     useContext,
-    useRef
+    useRef,
+    useEffect
 } from "react";
 import { ListGroup, Form } from "react-bootstrap";
 
@@ -19,7 +20,10 @@ const LeftSidebar: React.FC<ExplorerLeftSidebarProps> = (props) => {
     const { path, directoryItems } = useContext(DirectoryInfoContext);
 
     const [result, setResult] = useState<DirectoryItem[]>([]);
+    const [width, setWidth] = useState(320);
     const searchInput = useRef<HTMLInputElement | null>(null);
+    const lsidebar = useRef<HTMLDivElement | null>(null);
+    const sash = useRef<HTMLDivElement | null>(null);
 
     const handleInputChange = () => {
         if(!searchInput.current) return;
@@ -45,8 +49,82 @@ const LeftSidebar: React.FC<ExplorerLeftSidebarProps> = (props) => {
         setResult(tempResult);
     };
 
+    useEffect(() => {
+        if(!sash.current || !lsidebar.current) return;
+        const sashElem = sash.current;
+        const asideElem = lsidebar.current;
+
+        const minW = 270;
+        const maxW = 700;
+
+        var isHovered = false;
+        var isResizing = false;
+
+        // The moving direction of the mouse
+        enum Dir {
+            LEFT = 0, RIGHT = 1
+        }
+
+        // Sash style
+        // When the mouse enter the sash div, after half a second, the sash will turn into blue
+        sashElem.addEventListener("mouseover", async () => {
+            isHovered = true;
+
+            await Utils.sleep(500);
+            if(isHovered) sashElem.classList.add("hover");
+        });
+        sashElem.addEventListener("mouseleave", () => {
+            isHovered = false;
+            if(isResizing) return;
+            sashElem.classList.remove("hover");
+        });
+
+        /** @see https://blog.csdn.net/fandyvon/article/details/88718914 */
+        asideElem.addEventListener("mousedown", (eOrigin: MouseEvent) => {
+            if(!asideElem) return;
+
+            isResizing = true
+            
+            const oW = asideElem.offsetWidth;
+            const oX = eOrigin.clientX;
+
+            var direction: Dir;
+
+            // If the mouse exceeds the right side of the sidebar 10px,
+            // then the moving direction is right, and vice versa.
+            if(oX > oW - 10) {
+                direction = Dir.RIGHT;
+            } else if(oX < oW + 10) {
+                direction = Dir.LEFT;
+            }
+
+            document.body.addEventListener("mousemove", (eMove: MouseEvent) => {
+                if(!isResizing) return;
+                var curW;
+
+                switch(direction) {
+                    case Dir.LEFT:
+                        curW = oW - (eMove.clientX - oX);
+                        break;
+                    case Dir.RIGHT:
+                        curW = oW + (eMove.clientX - oX);
+                        break;
+                }
+
+                setWidth(Math.max(minW, Math.min(maxW, curW))); // minW <= curW <= maxW
+            });
+
+            document.body.addEventListener("mouseup", () => {
+                if(!isResizing) return;
+
+                isResizing = false;
+                if(!isHovered) sashElem.classList.remove("hover");
+            });
+        });
+    }, []);
+
     return (
-        <aside className="sidebar-left-container">
+        <aside className="sidebar-left-container" style={{ width: width +"px" }} ref={lsidebar}>
             {/* Star list */}
             <LeftSidebarPanel title={Utils.$("page.explorer.left.title")} id="star-list">
                 <ListGroup id="starred-dir-list">{props.starredList ? props.starredList : null}</ListGroup>
@@ -92,6 +170,8 @@ const LeftSidebar: React.FC<ExplorerLeftSidebarProps> = (props) => {
                     </ListGroup>
                 </div>
             </LeftSidebarPanel>
+
+            <div className="sash" style={{ left: width +"px" }} ref={sash}></div>
         </aside>
     );
 }
