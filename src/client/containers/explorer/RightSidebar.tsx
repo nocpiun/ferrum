@@ -129,13 +129,34 @@ const RightSidebar: React.FC<ExplorerRightSidebarProps> = (props) => {
                 <DialogBox ref={sysInfoDialogBox} id="sys-info" title={Utils.$("sysinfo") +" ("+ sysInfo.system +")"}>
                     <div className="sys-info-dialog">
                         <ul>
-                            <li><b>{Utils.$("sysinfo.version")}:</b> {sysInfo.version}</li>
-                            <li><b>{Utils.$("sysinfo.arch")}:</b> {sysInfo.arch}</li>
-                            <li><b>{Utils.$("sysinfo.user.name")}:</b> {sysInfo.userInfo.username}</li>
-                            <li><b>{Utils.$("sysinfo.user.home")}:</b> {sysInfo.userInfo.homedir}</li>
-                            <li><b>{Utils.$("sysinfo.memory")}:</b> <Bar ref={memoryUsageBar}/> {Math.floor(usedmem * 100) +"% / "+ (sysInfo.memory.total / 1024 / 1024 / 1024).toFixed(2)}</li>
-                            <li><b>{Utils.$("sysinfo.cpu")}:</b> <Bar ref={CPUUsageBar}/> {Math.floor(sysInfo.cpuUsage) +"%"}</li>
-                            <li><b>{Utils.$("sysinfo.uptime")}:</b> {(utHour < 10 ? "0"+ utHour : utHour) +":"+ (utMinute < 10 ? "0"+ utMinute : utMinute) +":"+ (utSecond < 10 ? "0"+ utSecond : utSecond)}</li>
+                            <li>
+                                <b>{Utils.$("sysinfo.version")}:</b>
+                                <span>{sysInfo.version}</span>
+                            </li>
+                            <li>
+                                <b>{Utils.$("sysinfo.arch")}:</b>
+                                <span>{sysInfo.arch}</span>
+                            </li>
+                            <li>
+                                <b>{Utils.$("sysinfo.user.name")}:</b>
+                                <span>{sysInfo.userInfo.username}</span>
+                            </li>
+                            <li>
+                                <b>{Utils.$("sysinfo.user.home")}:</b>
+                                <span>{sysInfo.userInfo.homedir}</span>
+                            </li>
+                            <li>
+                                <b>{Utils.$("sysinfo.memory")}:</b>
+                                <span><Bar ref={memoryUsageBar}/> {Math.floor(usedmem * 100) +"% / "+ (sysInfo.memory.total / 1024 / 1024 / 1024).toFixed(2)}</span>
+                            </li>
+                            <li>
+                                <b>{Utils.$("sysinfo.cpu")}:</b>
+                                <span><Bar ref={CPUUsageBar}/> {Math.floor(sysInfo.cpuUsage) +"%"}</span>
+                            </li>
+                            <li>
+                                <b>{Utils.$("sysinfo.uptime")}:</b>
+                                <span>{(utHour < 10 ? "0"+ utHour : utHour) +":"+ (utMinute < 10 ? "0"+ utMinute : utMinute) +":"+ (utSecond < 10 ? "0"+ utSecond : utSecond)}</span>
+                            </li>
                         </ul>
                     </div>
                 </DialogBox>

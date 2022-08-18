@@ -1,19 +1,19 @@
 .bar {
-    @border-radius: 3px;
-
     display: inline-block;
     width: 300px;
-    height: 20px;
+    height: 15px;
     margin-left: 6px;
     margin-right: 6px;
-    border: 1px solid @light-gray3;
-    border-radius: @border-radius;
-    vertical-align: sub;
+    background-color: @light-gray;
+    border-radius: 3px;
+    overflow: hidden;
+    vertical-align: middle;
     .bar-value {
         height: 100%;
         background-color: #0d6efd;
-        border-top-left-radius: @border-radius;
-        border-bottom-left-radius: @border-radius;
-        transition: width .3s;
+        transition: transform .3s;
+        transform: scaleX(0);
+        transform-origin: left center;
+        will-change: transform;
     }
 }

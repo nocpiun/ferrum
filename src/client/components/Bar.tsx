@@ -18,7 +18,10 @@ export default class Bar extends Component<{}, BarState> {
     public render(): ReactElement {
         return (
             <div className="bar">
-                <div className="bar-value" title={this.state.value +"%"} style={{width: this.state.value +"%"}}></div>
+                <div
+                    className="bar-value"
+                    title={this.state.value +"%"}
+                    style={{ transform: "scaleX("+ this.state.value / 100 +")" }}/>
             </div>
         );
     }
