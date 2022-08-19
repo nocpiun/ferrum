@@ -6036,6 +6036,11 @@
   dependencies:
     "path-type" "^4.0.0"
 
+"diskinfo@^0.0.3":
+  "integrity" "sha512-uZoeIGLsRWBWX+P1K14R/JDvCpo4kdUd6p2jVh09dzsNog005gSYLF6GXjSqPKo6Tl9qsw2f6auy8UUcC2y6yg=="
+  "resolved" "https://registry.npmjs.org/diskinfo/-/diskinfo-0.0.3.tgz"
+  "version" "0.0.3"
+
 "dlv@^1.1.3":
   "integrity" "sha512-+HlytyjlPKnIG8XuRG8WvmBP8xs8P71y+SKKS6ZXWoEgLuePxtDoUEiH7WkdePWrQ5JBpE6aoVqfZfJUQkjXwA=="
   "resolved" "https://registry.npmjs.org/dlv/-/dlv-1.1.3.tgz"

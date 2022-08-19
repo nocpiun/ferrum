@@ -37,7 +37,8 @@ const defaultSysInfo: SysInfo = {
         free: 40
     },
     cpuUsage: 13,
-    upTime: 0
+    upTime: 0,
+    diskInfo: []
 };
 
 const RightSidebar: React.FC<ExplorerRightSidebarProps> = (props) => {
@@ -47,6 +48,7 @@ const RightSidebar: React.FC<ExplorerRightSidebarProps> = (props) => {
     // refs
     const pond = useRef<FilePond>(null);
     const sysInfoDialogBox = useRef<DialogBox>(null);
+    const diskInfoDialogBox = useRef<DialogBox>(null);
     const memoryUsageBar = useRef<Bar>(null);
     const CPUUsageBar = useRef<Bar>(null);
     
@@ -80,6 +82,8 @@ const RightSidebar: React.FC<ExplorerRightSidebarProps> = (props) => {
     var utHour = Math.floor(sysInfo.upTime / 60 / 60);
     var utMinute = Math.floor(sysInfo.upTime / 60) - utHour * 60;
     var utSecond = Math.floor(sysInfo.upTime - utMinute * 60 - utHour * 60 * 60);
+
+    var disks = sysInfo.diskInfo;
 
     return (
         <aside className="sidebar-right-container">
@@ -117,10 +121,16 @@ const RightSidebar: React.FC<ExplorerRightSidebarProps> = (props) => {
                     <li><b>{Utils.$("sysinfo.memory")}:</b> {Math.floor(usedmem * 100) +"%"} ({Utils.$("sysinfo.memory.total")} {(sysInfo.memory.total / 1024 / 1024 / 1024).toFixed(2)})</li>
                     <li><b>{Utils.$("sysinfo.cpu")}:</b> {Math.floor(sysInfo.cpuUsage) +"%"}</li>
                     <li><b>{Utils.$("sysinfo.uptime")}:</b> {(utHour < 10 ? "0"+ utHour : utHour) +":"+ (utMinute < 10 ? "0"+ utMinute : utMinute) +":"+ (utSecond < 10 ? "0"+ utSecond : utSecond)}</li>
+                    <li><b>{Utils.$("sysinfo.disks")}:</b> {disks.map((disk, i) => (<span key={i}>{disk.mounted}</span>))}</li>
                     <li>
                         <Button variant="secondary" onClick={() => {
                             if(sysInfoDialogBox.current) sysInfoDialogBox.current.setOpen(true);
                         }}>{Utils.$("page.explorer.right.sysinfo.details")}</Button>
+                    </li>
+                    <li>
+                        <Button variant="secondary" onClick={() => {
+                            if(diskInfoDialogBox.current) diskInfoDialogBox.current.setOpen(true);
+                        }}>{Utils.$("page.explorer.right.sysinfo.diskinfo")}</Button>
                     </li>
                 </ul>
             </RightSidebarPanel>
@@ -158,6 +168,21 @@ const RightSidebar: React.FC<ExplorerRightSidebarProps> = (props) => {
                                 <span>{(utHour < 10 ? "0"+ utHour : utHour) +":"+ (utMinute < 10 ? "0"+ utMinute : utMinute) +":"+ (utSecond < 10 ? "0"+ utSecond : utSecond)}</span>
                             </li>
                         </ul>
+                    </div>
+                </DialogBox>
+            )}
+
+            {DialogBox.createDialog("disk-info",
+                <DialogBox ref={diskInfoDialogBox} id="disk-info" title={Utils.$("page.explorer.right.sysinfo.diskinfo")}>
+                    <div className="disk-info-dialog">
+                        <ul>{disks.map((disk, i) => {
+                            return (
+                                <li key={i}>
+                                    <b>{disk.mounted}</b>
+                                    <span><Bar value={parseInt(disk.capacity)}/> {disk.capacity} {Utils.BToG(disk.used) +" / "+ Utils.BToG(disk.used + disk.available)}</span>
+                                </li>
+                            );
+                        })}</ul>
                     </div>
                 </DialogBox>
             )}

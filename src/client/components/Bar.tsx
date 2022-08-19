@@ -1,13 +1,13 @@
 import { Component, ReactElement } from "react";
 
-import { BarState } from "../types";
+import { BarProps, BarState } from "../types";
 
-export default class Bar extends Component<{}, BarState> {
-    public constructor(props: {}) {
+export default class Bar extends Component<BarProps, BarState> {
+    public constructor(props: BarProps) {
         super(props);
 
         this.state = {
-            value: 0
+            value: this.props.value ?? 0
         };
     }
     

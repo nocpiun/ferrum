@@ -34,6 +34,15 @@ export interface Config {
     }
 }
 
+interface DiskInfo {
+    filesystem: string
+    blocks: number
+    used: number
+    available: number
+    capacity: string
+    mounted: string
+}
+
 export interface SysInfo {
     system: string
     version: string
@@ -49,6 +58,7 @@ export interface SysInfo {
     }
     cpuUsage: number
     upTime: number
+    diskInfo: DiskInfo[]
 }
 
 // Contexts
@@ -256,6 +266,10 @@ export interface DialogBoxState {
 }
 
 // Bar Component
+
+export interface BarProps {
+    value?: number
+}
 
 export interface BarState {
     value: number

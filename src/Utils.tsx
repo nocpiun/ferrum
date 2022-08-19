@@ -144,4 +144,8 @@ export default class Utils {
         }
         return arr;
     }
+
+    public static BToG(num: number): number {
+        return parseFloat((num / 1024 / 1024 / 1024).toFixed(2));
+    }
 }
