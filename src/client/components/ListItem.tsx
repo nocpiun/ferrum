@@ -173,7 +173,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
             onDrop={(e: React.DragEvent) => handleDrop(e)}
             data-info={props.itemInfo}
             data-type={props.itemType}
-            draggable={!(isZipFile || isRenaming)}>
+            draggable={!(isDemo || isZipFile || isRenaming)}>
             <Form.Check
                 className="list-item-checkbox"
                 id={props.itemName +"--checkbox"}

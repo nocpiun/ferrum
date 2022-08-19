@@ -38,7 +38,14 @@ const defaultSysInfo: SysInfo = {
     },
     cpuUsage: 13,
     upTime: 0,
-    diskInfo: []
+    diskInfo: [{
+        filesystem: "",
+        blocks: 0,
+        used: 122958471233536,
+        available: 83179557879808,
+        capacity: "60%",
+        mounted: "C:"
+    }]
 };
 
 const RightSidebar: React.FC<ExplorerRightSidebarProps> = (props) => {
