@@ -61,6 +61,7 @@ export interface MainContextType {
 export interface DirectoryInfoContextType {
     path: string
     directoryItems: DirectoryItem[]
+    isZipFile: boolean
 }
 
 // Login Panel

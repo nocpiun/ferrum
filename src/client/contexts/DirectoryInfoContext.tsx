@@ -4,7 +4,8 @@ import { DirectoryInfoContextType } from "../types";
 
 const DirectoryInfoContext = React.createContext<DirectoryInfoContextType>({
     path: "",
-    directoryItems: []
+    directoryItems: [],
+    isZipFile: false
 });
 DirectoryInfoContext.displayName = "DirItemContext";
 

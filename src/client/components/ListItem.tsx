@@ -8,6 +8,7 @@ import { ListGroup, Form } from "react-bootstrap";
 import Axios from "axios";
 
 import MainContext from "../contexts/MainContext";
+import DirectoryInfoContext from "../contexts/DirectoryInfoContext";
 
 import Utils from "../../Utils";
 import { DirectoryItem, ListItemProps, ItemType } from "../types";
@@ -26,6 +27,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     const [isRenaming, setIsRenaming] = useState<boolean>(false);
     const [isSelected, setIsSelected] = useState<boolean>(false); // Not equal to the selection of checkbox
     const { isDemo } = useContext(MainContext);
+    const { isZipFile } = useContext(DirectoryInfoContext);
     const renameBox = useRef<HTMLInputElement | null>(null);
 
     const renameBoxSwitch = () => {
@@ -172,7 +174,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
             onDrop={(e: React.DragEvent) => handleDrop(e)}
             data-info={props.itemInfo}
             data-type={props.itemType}
-            draggable={!isRenaming}>
+            draggable={!(isZipFile || isRenaming)}>
             <Form.Check
                 className="list-item-checkbox"
                 id={props.itemName +"--checkbox"}

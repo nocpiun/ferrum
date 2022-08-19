@@ -327,7 +327,8 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                 </div>
                 <DirectoryInfoContext.Provider value={{
                         path: this.path,
-                        directoryItems: this.state.direcotryItems
+                        directoryItems: this.state.direcotryItems,
+                        isZipFile: this.isZipFile
                     }}>
                     <LeftSidebar starredList={this.state.starredList}/>
                     <div className="main-container" id="main">
