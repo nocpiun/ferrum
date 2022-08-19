@@ -4,21 +4,43 @@ import React, {
     useEffect
 } from "react";
 import { Form } from "react-bootstrap";
+import Axios from "axios";
 
 import MainContext from "../../contexts/MainContext";
+import DirectoryInfoContext from "../../contexts/DirectoryInfoContext";
 import Settings from "../settings/Settings";
 import Search from "../search/Search";
 
 import DialogBox from "../../components/DialogBox";
 import { ExplorerHeaderProps } from "../../types";
+import { apiUrl } from "../../global";
 import Utils from "../../../Utils";
 import Emitter from "../../utils/emitter";
 // import * as config from "../../../config.json";
 
 const Header: React.FC<ExplorerHeaderProps> = (props) => {
     const { isDemo } = useContext(MainContext);
+    const { path } = useContext(DirectoryInfoContext);
+
     const settingsDialogBox = useRef<DialogBox | null>(null);
     const searchDialogBox = useRef<DialogBox | null>(null);
+
+    const handleDrop = (e: React.DragEvent) => {
+        if(!e.dataTransfer) return;
+
+        const name = e.dataTransfer.getData("name");
+        const origin = e.dataTransfer.getData("oldPath") +"/"+ name,
+            target = path +"/../"+ name;
+        e.dataTransfer.clearData("oldPath");
+        e.dataTransfer.clearData("name");
+
+        Axios.post(apiUrl +"/move", {
+            oldPath: origin,
+            newPath: target
+        }).then(() => Emitter.get().emit("fileListUpdate"));
+
+        e.preventDefault();
+    };
 
     useEffect(() => {
         Emitter.get().on("dialogClose", (dialogId: string) => {
@@ -38,7 +60,9 @@ const Header: React.FC<ExplorerHeaderProps> = (props) => {
                     className="header-button back-button"
                     id="back-to-parent"
                     title={Utils.$("page.explorer.nav.back")}
-                    onClick={() => props.onBack()}></button>
+                    onClick={() => props.onBack()}
+                    onDragOver={(e: React.DragEvent) => e.preventDefault()}
+                    onDrop={(e: React.DragEvent) => handleDrop(e) /* To allow drop */}/>
                 
                 <Form.Control 
                     type="text"
@@ -53,19 +77,19 @@ const Header: React.FC<ExplorerHeaderProps> = (props) => {
                     title={Utils.$("page.explorer.nav.settings")}
                     onClick={() => {
                         if(settingsDialogBox.current) settingsDialogBox.current.setOpen(true);
-                    }}></button>
+                    }}/>
                 <button
                     className="header-button search-button"
                     id="search"
                     title={Utils.$("page.explorer.nav.search")}
                     onClick={() => {
                         if(searchDialogBox.current) searchDialogBox.current.setOpen(true);
-                    }}></button>
+                    }}/>
                 <button
                     className="header-button star-button"
                     id="star"
                     title={Utils.$("page.explorer.nav.star")}
-                    onClick={() => props.onStar()}></button>
+                    onClick={() => props.onStar()}/>
             </nav>
 
             {DialogBox.createDialog("settings",

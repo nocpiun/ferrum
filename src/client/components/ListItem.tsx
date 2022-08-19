@@ -26,7 +26,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     const [isRenaming, setIsRenaming] = useState<boolean>(false);
     const [isSelected, setIsSelected] = useState<boolean>(false); // Not equal to the selection of checkbox
     const { isDemo } = useContext(MainContext);
-    const renameBox = useRef<HTMLInputElement>(null);
+    const renameBox = useRef<HTMLInputElement | null>(null);
 
     const renameBoxSwitch = () => {
         if(props.disabled) return;
@@ -96,6 +96,31 @@ const ListItem: React.FC<ListItemProps> = (props) => {
         setIsSelected(false);
     };
 
+    const handleDrag = (e: React.DragEvent) => {
+        e.dataTransfer?.setData("oldPath", props.itemPath);
+        e.dataTransfer?.setData("name", props.itemName);
+    };
+
+    const handleDrop = (e: React.DragEvent) => {
+        if(!e.dataTransfer) return;
+        if(props.itemType == ItemType.FILE) return false;
+
+        const name = e.dataTransfer.getData("name");
+        const origin = e.dataTransfer.getData("oldPath") +"/"+ name,
+            target = props.itemPath +"/"+ props.itemName +"/"+ name;
+        e.dataTransfer.clearData("oldPath");
+        e.dataTransfer.clearData("name");
+
+        if(origin == props.itemPath +"/"+ props.itemName) return false;
+
+        Axios.post(apiUrl +"/move", {
+            oldPath: origin,
+            newPath: target
+        }).then(() => Emitter.get().emit("fileListUpdate"));
+
+        e.preventDefault();
+    };
+
     useEffect(() => {
         document.body.addEventListener("click", (e: MouseEvent) => {
             var elem = e.target as HTMLElement;
@@ -142,9 +167,12 @@ const ListItem: React.FC<ListItemProps> = (props) => {
                 if(props.itemType == ItemType.FOLDER) window.location.href += "/"+ props.itemName;
             }}
             onBlur={() => handleBlur()}
+            onDragStart={(e: React.DragEvent) => handleDrag(e)}
+            onDragOver={(e: React.DragEvent) => e.preventDefault() /* To allow drop */}
+            onDrop={(e: React.DragEvent) => handleDrop(e)}
             data-info={props.itemInfo}
             data-type={props.itemType}
-        >
+            draggable={!isRenaming}>
             <Form.Check
                 className="list-item-checkbox"
                 id={props.itemName +"--checkbox"}
