@@ -155,7 +155,6 @@ const ListItem: React.FC<ListItemProps> = (props) => {
             action
             className="list-item"
             id={props.itemName +"--listitem"}
-            title={props.title}
             onClick={(e: React.MouseEvent) => {
                 if(clickTimer) clearTimeout(clickTimer);
                 clickTimer = setTimeout(() => {

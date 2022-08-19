@@ -81,7 +81,7 @@ const LeftSidebar: React.FC<ExplorerLeftSidebarProps> = (props) => {
 
         /** @see https://blog.csdn.net/fandyvon/article/details/88718914 */
         asideElem.addEventListener("mousedown", (eOrigin: MouseEvent) => {
-            if(!asideElem) return;
+            if(!asideElem || !isHovered) return;
 
             isResizing = true
             

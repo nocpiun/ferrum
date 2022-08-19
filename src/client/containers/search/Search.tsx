@@ -65,7 +65,7 @@ const Search: React.FC = () => {
                     onClick={() => handleOpenFile()}>{Utils.$("search.open")}</Button>
             </div>
             <div className="search-result">
-                <ListGroup>
+                <ListGroup title={Utils.$("search.list.item.tooltip")}>
                     {
                         result.map((value, index) => {
                             if(!searchInput.current) return;
@@ -80,7 +80,6 @@ const Search: React.FC = () => {
                                 str3 = value.fullName.substring(targetEndIndex, fullName.length);
 
                             return <ListItem
-                                title={Utils.$("search.list.item.tooltip")}
                                 itemType={value.isFile ? ItemType.FILE : ItemType.FOLDER}
                                 itemName={value.fullName}
                                 itemDisplayName={

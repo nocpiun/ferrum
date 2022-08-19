@@ -450,7 +450,6 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                                 ) return;
 
                                 return <ListItem
-                                    title={Utils.$("page.explorer.list.item.tooltip")}
                                     itemType={value.isFile ? ItemType.FILE : ItemType.FOLDER}
                                     itemName={value.fullName}
                                     itemSize={value.size ?? -1}

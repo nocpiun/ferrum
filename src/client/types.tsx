@@ -214,7 +214,6 @@ export enum ItemType {
 }
 
 export interface ListItemProps {
-    title: string
     itemType: ItemType
     itemName: string
     itemDisplayName?: string | ReactElement
