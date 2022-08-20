@@ -119,12 +119,21 @@ const LeftSidebar: React.FC<ExplorerLeftSidebarProps> = (props) => {
 
                 isResizing = false;
                 if(!isHovered) sashElem.classList.remove("hover");
+
+                asideElem.style.transition = "width .3s"; // Turn on the transition when resizing finished
             });
         });
     }, []);
 
+    useEffect(() => {
+        if(!lsidebar.current) return;
+        const asideElem = lsidebar.current;
+
+        asideElem.style.transition = "none"; // Turn off the transition when resizing
+    }, [width]);
+
     return (
-        <aside className="sidebar-left-container" style={{ width: width +"px" }} ref={lsidebar}>
+        <aside className="sidebar-left-container" id="lsidebar" style={{ width: width +"px" }} ref={lsidebar}>
             {/* Star list */}
             <LeftSidebarPanel title={Utils.$("page.explorer.left.title")} id="star-list">
                 <ListGroup id="starred-dir-list">{props.starredList ? props.starredList : null}</ListGroup>

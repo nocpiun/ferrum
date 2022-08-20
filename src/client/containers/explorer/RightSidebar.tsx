@@ -93,7 +93,7 @@ const RightSidebar: React.FC<ExplorerRightSidebarProps> = (props) => {
     var disks = sysInfo.diskInfo;
 
     return (
-        <aside className="sidebar-right-container">
+        <aside className="sidebar-right-container" id="rsidebar">
             {/* About */}
             <RightSidebarPanel id="about">
                 <p>

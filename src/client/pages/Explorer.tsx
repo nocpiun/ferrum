@@ -43,6 +43,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
     private path: string;
     private isStarred: boolean = false;
     private isZipFile: boolean = false;
+    public isLsidebarOpen: boolean = true;
 
     /**
      * Open a file in Ferrum Explorer
@@ -323,7 +324,9 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                     <Toaster position="bottom-right"/>
                 </div>
                 <div className="left-bottom-buttons">
-                    <span className="left-sidebar-open"></span>
+                    <button
+                        className="left-sidebar-open"
+                        onClick={() => this.toggleLsidebar(!this.isLsidebarOpen)}/>
                 </div>
                 <DirectoryInfoContext.Provider value={{
                         path: this.path,
@@ -361,6 +364,12 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
 
     public componentDidMount(): void {
         document.title = "Ferrum - "+ this.path;
+
+        // Close the left sidebar if the window width is smaller than 1423px
+        if(document.body.clientWidth <= 1423) {
+            this.isLsidebarOpen = false;
+            this.toggleLsidebar(false);
+        }
 
         // The control buttons is defaultly disabled
         this.setControlButtonsDisabled(true, true, true);
@@ -529,5 +538,12 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         openButton.disabled = openBtn;
         if(!this.context.isDemo) deleteButton.disabled = deleteBtn;
         downloadButton.disabled = downloadBtn;
+    }
+
+    private toggleLsidebar(isOn: boolean): void {
+        var lsidebar = Utils.getElem("lsidebar");
+        lsidebar.classList.toggle("closed");
+        lsidebar.style.transition = "width .3s"; // To prevent the transition effect being turned off when the layout initializes
+        this.isLsidebarOpen = isOn;
     }
 }

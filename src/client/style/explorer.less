@@ -5,14 +5,20 @@
     justify-content: center;
 
     .left-bottom-buttons {
-        display: none;
+        z-index: 10;
         .left-sidebar-open {
+            cursor: pointer;
             position: absolute;
             bottom: 0;
             left: 0;
             margin: 10px;
             width: 20px;
-            background-image: url("../../icons/right_arrow.svg");
+            height: 20px;
+            background-image: url("../../icons/menu.svg");
+            border: none;
+            background-color: transparent;
+            background-position: center center;
+            background-repeat: no-repeat;
         }
     }
     .main-container {
@@ -181,6 +187,9 @@
         overflow-x: hidden;
         padding-bottom: 40px;
         #mixin.scrollbar();
+        &.closed {
+            width: 0 !important;
+        }
         * {
             color: @theme-color;
         }
