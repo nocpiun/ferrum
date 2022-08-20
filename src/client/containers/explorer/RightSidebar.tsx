@@ -98,7 +98,7 @@ const RightSidebar: React.FC<ExplorerRightSidebarProps> = (props) => {
             <RightSidebarPanel id="about">
                 <p>
                     <object
-                        data="https://img.shields.io/github/stars/NriotHrreion/ferrum.svg?style=social&label=Star"
+                        data="https://img.shields.io/github/stars/nocpiun/ferrum.svg?style=social&label=Star"
                         aria-label="Github Stars"></object>
                     <a href="/license">{Utils.$("page.explorer.right.license")}</a>
                     <span>Ver: {version}</span>

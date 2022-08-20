@@ -342,7 +342,7 @@ const Settings: React.FC = () => {
                         </Option>
                         <Option name={Utils.$("settings.about.o3")}>
                             <span className="text">
-                                <a href="https://github.com/NriotHrreion/ferrum" target="_blank" rel="noreferrer">NriotHrreion/ferrum</a>
+                                <a href="https://github.com/nocpiun/ferrum" target="_blank" rel="noreferrer">nocpiun/ferrum</a>
                             </span>
                         </Option>
                         <Button variant="success" className="check-update" onClick={() => {
