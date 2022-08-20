@@ -16,6 +16,9 @@ import { apiUrl } from "../global";
 import Emitter from "../utils/emitter";
 
 const ListItem: React.FC<ListItemProps> = (props) => {
+    var itemFormat: string = props.itemType == ItemType.FILE
+        ? props.itemName.split(".")[props.itemName.split(".").length - 1] +" "+ Utils.$("page.explorer.list.file")
+        : Utils.$("page.explorer.list.folder");
     var itemSize: string = props.itemSize > -1
         ? Utils.formatFloat(props.itemSize / 1024, 1) +"KB"
         : "";
@@ -174,6 +177,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
             data-info={props.itemInfo}
             data-type={props.itemType}
             draggable={!(isDemo || isZipFile || isRenaming)}>
+            
             <Form.Check
                 className="list-item-checkbox"
                 id={props.itemName +"--checkbox"}
@@ -184,6 +188,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
                 style={{display: isRenaming ? "none" : "inline-block"}}>
                     {props.itemDisplayName ?? props.itemName}
             </span>
+            <span className="list-item-format">{itemFormat}</span>
             <span className="list-item-size">{itemSize}</span>
             
             <Form.Control

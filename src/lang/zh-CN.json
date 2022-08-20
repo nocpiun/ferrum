@@ -20,6 +20,8 @@
     "page.explorer.list.item.tooltip": "勾选多选框选中 / 双击打开 (文件夹) / 单击后再次单击重命名",
     "page.explorer.list.newfile": "新建文本文档",
     "page.explorer.list.newdir": "新建文件夹",
+    "page.explorer.list.file": "文件",
+    "page.explorer.list.folder": "文件夹",
     "page.explorer.left.title": "收藏夹",
     "page.explorer.right.license": "许可",
     "page.explorer.right.upload": "上传",

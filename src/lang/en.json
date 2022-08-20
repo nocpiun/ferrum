@@ -20,6 +20,8 @@
     "page.explorer.list.item.tooltip": "Check the checkbox to select / Double click to open (Directory) / Click again after click to rename",
     "page.explorer.list.newfile": "New file",
     "page.explorer.list.newdir": "New directory",
+    "page.explorer.list.file": "File",
+    "page.explorer.list.folder": "Folder",
     "page.explorer.left.title": "Star list",
     "page.explorer.right.license": "License",
     "page.explorer.right.upload": "Upload",
