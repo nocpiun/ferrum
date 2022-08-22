@@ -268,10 +268,6 @@ export interface DialogBoxState {
 // Bar Component
 
 export interface BarProps {
-    value?: number
-}
-
-export interface BarState {
     value: number
 }
 
