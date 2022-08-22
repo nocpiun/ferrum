@@ -76,8 +76,8 @@ export default class Login extends Component<LoginPanelProps, LoginPanelState> {
                 </div>
                 <div className="footer-container">
                     <p>
-                        Ferrum Explorer - <a href="https://github.com/NriotHrreion/ferrum" target="_blank" rel="noreferrer">Github Repo</a>
-                        <object data="https://img.shields.io/github/stars/NriotHrreion/ferrum.svg?style=social&label=Star" aria-label="Github Stars"></object>
+                        Ferrum Explorer - <a href="https://github.com/nocpiun/ferrum" target="_blank" rel="noreferrer">Github Repo</a>
+                        <object data="https://img.shields.io/github/stars/nocpiun/ferrum.svg?style=social&label=Star" aria-label="Github Stars"></object>
                     </p>
                     <p className="copy-info">Copyright (c) NriotHrreion {new Date().getFullYear()}</p>
                 </div>

@@ -112,7 +112,12 @@ Axios.get("https://v1.hitokoto.cn/?c=i&encode=json", {responseType: "json"})
     
     mainRoot.style.display = "none";
     loginRoot.style.display = "block";
-    ReactDOM.render(<Login isDemo={isDemo}/>, loginRoot);
+    ReactDOM.render(
+      <React.StrictMode>
+        <Login isDemo={isDemo}/>
+      </React.StrictMode>,
+      loginRoot
+    );
   }
   
   // Rendering
