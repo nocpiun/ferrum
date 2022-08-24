@@ -55,7 +55,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         var viewers = PluginLoader.get().viewerList;
 
         if(item.isFile && itemFormat) {
-            if(Utils.formatTester(["exe", "sys", "com", "bin", "elf", "axf"], itemFormat)) {
+            if(Utils.formatTester(["exe", "sys", "com", "bin", "elf", "axf", "dll", "jar"], itemFormat)) {
                 toast.error(Utils.$("toast.msg1"));
                 return;
             }

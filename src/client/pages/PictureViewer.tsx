@@ -1,4 +1,5 @@
 import { Component, Context, ReactElement } from "react";
+import { Image } from "react-bootstrap";
 import { toast, Toaster } from "react-hot-toast";
 import Axios from "axios";
 
@@ -46,7 +47,7 @@ export default class PictureViewer extends Component<PictureViewerProps, Picture
                     </div>
                     <Header path={decodeURI(this.path)}/>
                     <div className="viewer-container">
-                        <img src={this.state.pictureData} alt={this.path}/>
+                        <Image src={this.state.pictureData} fluid/>
                     </div>
                 </div>
             </div>

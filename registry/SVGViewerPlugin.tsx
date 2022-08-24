@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Image } from "react-bootstrap";
 
 import { PluginMetadata } from "../src/client/types";
 
@@ -30,7 +31,7 @@ const SVGPage: React.FC<{ dataUrl: string }> = (props) => {
         });
     }, []);
 
-    return <embed src={props.dataUrl} type="image/svg+xml"/>;
+    return <Image src={props.dataUrl} fluid/>
 };
 
 export const SVGViewerPlugin: PluginMetadata = {
