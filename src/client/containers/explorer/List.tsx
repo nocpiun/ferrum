@@ -5,7 +5,6 @@ import { ExplorerListProps } from "../../types";
 import Utils from "../../../Utils";
 
 const List: React.FC<ExplorerListProps> = (props) => {
-    /** @todo */
     return (
         <div className="list-container">
             <ListGroup id="list" title={Utils.$("page.explorer.list.item.tooltip")}>

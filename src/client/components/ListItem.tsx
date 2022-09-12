@@ -108,11 +108,14 @@ const ListItem: React.FC<ListItemProps> = (props) => {
 
     const handleDrop = (e: React.DragEvent) => {
         if(!e.dataTransfer) return;
-        if(props.itemType == ItemType.FILE) return false;
 
         const name = e.dataTransfer.getData("name");
-        const origin = e.dataTransfer.getData("oldPath") +"/"+ name,
+        var origin = e.dataTransfer.getData("oldPath") +"/"+ name,
             target = props.itemPath +"/"+ props.itemName +"/"+ name;
+        if(props.itemType == ItemType.FILE) {
+            target = props.itemPath +"/"+ name;
+        }
+
         e.dataTransfer.clearData("oldPath");
         e.dataTransfer.clearData("name");
 
