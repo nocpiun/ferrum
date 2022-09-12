@@ -1,5 +1,5 @@
-import React, { ReactElement } from "react"
-import { Variant } from "react-bootstrap/esm/types"
+import React, { ReactElement } from "react";
+import { Variant } from "react-bootstrap/esm/types";
 
 // Global
 
@@ -281,6 +281,17 @@ export interface ToggleProps {
 
 export interface ToggleState {
     isOn: boolean
+}
+
+// Sash Component
+
+export interface SashProps {
+    children?: JSX.Element[]
+    defaultWidth: number
+    min: number
+    max: number
+    position: "left" | "right"
+    onResize: OPC<number, void>;
 }
 
 // Plugin

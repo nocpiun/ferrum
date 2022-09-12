@@ -180,7 +180,6 @@
         }
     }
     .sidebar-left-container {
-        // flex: 1;
         height: 100vh;
         background-color: @light-gray4;
         overflow-y: auto;
@@ -188,6 +187,7 @@
         padding-bottom: 40px;
         word-break: keep-all;
         #mixin.scrollbar();
+        #mixin.sashed();
         &.closed {
             width: 0 !important;
         }
@@ -266,11 +266,11 @@
         }
     }
     .sidebar-right-container {
-        flex: 1;
         border-left: 1px solid @light-gray4;
         height: 100vh;
         overflow-y: auto;
         #mixin.scrollbar();
+        #mixin.sashed();
         .right-sidebar-panel {
             padding: 15px;
             padding-bottom: 0;

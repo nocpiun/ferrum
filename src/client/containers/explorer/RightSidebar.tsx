@@ -15,6 +15,7 @@ import Emitter from "../../utils/emitter";
 import Logger from "../../utils/logger";
 import DialogBox from "../../components/DialogBox";
 import Bar from "../../components/Bar";
+import Sash from "../../components/Sash";
 import Utils from "../../../Utils";
 import {
     ExplorerRightSidebarProps,
@@ -49,7 +50,11 @@ const defaultSysInfo: SysInfo = {
 };
 
 const RightSidebar: React.FC<ExplorerRightSidebarProps> = (props) => {
+    const defaultWidth = 380;
+
     const [state, setState] = useState<ExplorerRightSidebarState>({ sysInfo: null });
+    const [width, setWidth] = useState(defaultWidth);
+    const rsidebar = useRef<HTMLDivElement | null>(null);
     const { isDemo } = useContext(MainContext);
     
     // refs
@@ -79,7 +84,14 @@ const RightSidebar: React.FC<ExplorerRightSidebarProps> = (props) => {
     var disks = sysInfo.diskInfo;
 
     return (
-        <aside className="sidebar-right-container" id="rsidebar">
+        <aside className="sidebar-right-container" id="rsidebar" style={{ width: width +"px" }} ref={rsidebar}>
+            <Sash
+                defaultWidth={defaultWidth}
+                min={270}
+                max={700}
+                position="left"
+                onResize={(w) => setWidth(w)}
+                ref={rsidebar}>
             {/* About */}
             <RightSidebarPanel id="about">
                 <p>
@@ -127,6 +139,7 @@ const RightSidebar: React.FC<ExplorerRightSidebarProps> = (props) => {
                     </li>
                 </ul>
             </RightSidebarPanel>
+            </Sash>
 
             {DialogBox.createDialog("sys-info",
                 <DialogBox ref={sysInfoDialogBox} id="sys-info" title={Utils.$("sysinfo") +" ("+ sysInfo.system +")"}>
