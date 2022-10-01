@@ -41,11 +41,16 @@ export default class DialogBox extends Component<DialogBoxProps, DialogBoxState>
                     <div className="dialog-footer">
                         <Button id="dialog-close" onClick={() => {
                             Emitter.get().emit("dialogClose", this.props.id);
-                            this.setOpen(false);
                         }}>{Utils.$("dialog.close")}</Button>
                     </div>
                 </dialog>
             </>
         );
+    }
+
+    public componentDidMount(): void {
+        Emitter.get().on("dialogClose", (id: string) => {
+            if(id == this.props.id) this.setOpen(false);
+        });
     }
 }

@@ -16,6 +16,8 @@ import SidebarItem from "./SidebarItem";
 import SettingsSection from "./SettingsSection";
 import Option from "./Option";
 import Toggle from "../../components/Toggle";
+import DialogBox from "../../components/DialogBox";
+import PluginInstaller from "./PluginInstaller";
 
 import MainContext from "../../contexts/MainContext";
 import Utils from "../../../Utils";
@@ -40,6 +42,7 @@ const Settings: React.FC = () => {
     const lineNumberToggle = useRef<Toggle | null>(null);
     const autoWrapToggle = useRef<Toggle | null>(null);
     const highlightActiveLineToggle = useRef<Toggle | null>(null);
+    const pluginInstallerDialog = useRef<DialogBox | null>(null);
 
     const { isDemo, config } = useContext(MainContext);
 
@@ -245,16 +248,6 @@ const Settings: React.FC = () => {
                         icon={info}
                         onClick={(e) => handleItemBeOn(e)}/>
                 </ul>
-                <div className="add-plugin">
-                    <input
-                        id="plugin-uploader"
-                        type="file"
-                        style={{display: "none"}}
-                        onChange={() => handleAddPlugin()}/>
-                    <Button variant="secondary" onClick={() => Utils.getElem("plugin-uploader").click()}>
-                        {Utils.$("settings.plugin.add")}
-                    </Button>
-                </div>
             </aside>
             <div className="settings-main">
                 <Form>
@@ -316,10 +309,42 @@ const Settings: React.FC = () => {
                             <Form.Control type="password" id="settings-password" autoComplete="off" defaultValue={config.terminal.password}/>
                         </Option>
                     </SettingsSection>
-                    <SettingsSection title={Utils.$("settings.plugin")} style={{display: currentPage == "s-plugin" ? "block" : "none"}}>
+                    <SettingsSection
+                        title={Utils.$("settings.plugin")}
+                        style={{display: currentPage == "s-plugin" ? "block" : "none"}}
+                        sideElem={
+                            <>
+                                <div className="add-plugin">
+                                    <input
+                                        id="plugin-uploader"
+                                        type="file"
+                                        style={{display: "none"}}
+                                        onChange={() => handleAddPlugin()}/>
+                                    <Button
+                                        className="small-button"
+                                        onClick={() => Utils.getElem("plugin-uploader").click()}
+                                        variant="secondary">
+                                        {Utils.$("settings.plugin.add")}
+                                    </Button>
+                                </div>
+                                <Button
+                                    className="small-button"
+                                    onClick={() => {
+                                        Emitter.get().emit("dialogClose", "settings");
+                                        if(pluginInstallerDialog.current) pluginInstallerDialog.current.setOpen(true);
+                                    }}
+                                    variant="success">{Utils.$("settings.plugin.browse")}</Button>
+                            </>
+                        }>
                         <ListGroup className="plugin-list">
                             {pluginList}
                         </ListGroup>
+
+                        {DialogBox.createDialog("plugin-installer",
+                            <DialogBox ref={pluginInstallerDialog} id="plugin-installer" title={Utils.$("settings.plugin.installer.title")}>
+                                <PluginInstaller />
+                            </DialogBox>
+                        )}
                     </SettingsSection>
                     <SettingsSection title={Utils.$("settings.password")} style={{display: currentPage == "s-password" ? "block" : "none"}}>
                         <Option name={Utils.$("settings.password.o1")}>

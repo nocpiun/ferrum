@@ -138,11 +138,20 @@ export interface ExplorerSettingsSidebarItemProps {
 export interface ExplorerSettingsSectionProps {
     title: string
     style: React.CSSProperties
+    sideElem?: React.ReactElement
 }
 
 export interface ExplorerSettingsOptionProps {
     name: string
     description?: string
+}
+
+export interface PluginListResponse {
+    pluginList: {
+        name: string
+        path: string
+        version: string
+    }[]
 }
 
 export interface ExplorerToolButtonsProps {

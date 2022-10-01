@@ -14,6 +14,7 @@
 @import "./dialogs/search.less";
 @import "./dialogs/sys-info.less";
 @import "./dialogs/disk-info.less";
+@import "./dialogs/plugin-installer.less";
 
 // components
 @import "./components/list-item.less";
@@ -89,6 +90,13 @@ body {
 .dialog-container, /* dialog */
 textarea /* license */ {
     border-radius: @c-border-radius;
+}
+
+.btn.small-button {
+    width: auto;
+    height: 30px;
+    font-size: 9pt;
+    padding: .175rem .55rem;
 }
 
 .filepond--wrapper {
