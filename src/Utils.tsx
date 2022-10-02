@@ -148,4 +148,8 @@ export default class Utils {
     public static BToG(num: number): number {
         return parseFloat((num / 1024 / 1024 / 1024).toFixed(2));
     }
+
+    public static getRandom(min: number, max: number): number {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    }
 }

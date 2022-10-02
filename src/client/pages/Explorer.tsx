@@ -8,6 +8,7 @@ import DirectoryInfoContext from "../contexts/DirectoryInfoContext";
 // components
 import ListItem from "../components/ListItem";
 import StarredItem from "../components/StarredItem";
+import Easter from "../components/Easter";
 
 // containers
 import Header from "../containers/explorer/Header";
@@ -320,6 +321,8 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
     public render(): ReactElement {
         return (
             <div className="explorer">
+                <Easter />
+
                 <div className="toast-container">
                     <Toaster position="bottom-right"/>
                 </div>
