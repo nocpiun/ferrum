@@ -316,6 +316,7 @@ export interface ViewerState {
 interface PluginSetupParameters {
     addViewer: OPC<ViewerOption, void>
     addDialog: OPC<DialogOption, void>
+    addStyle: OPC<StyleOption, void>
 }
 
 export interface PluginMetadata {
@@ -350,6 +351,10 @@ export interface DialogOption extends FunctionalOption {
     dialogTitle: string
     onOpen: DefC
     render: () => ReactElement
+}
+
+export interface StyleOption extends FunctionalOption {
+    css: string
 }
 
 export interface I18n {

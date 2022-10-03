@@ -4,25 +4,29 @@ import Utils from "../../Utils";
 import Logger from "../utils/logger";
 import BasketballIcon from "../../icons/basketball.png";
 
-const g = 9.8; // Gravity / m/s^2
+const g = 0.98; // Gravity
+const f = 0.6; // Resistance
 
 class Basketball {
+    private readonly screenHeight = (Utils.getElem("easter-canvas") as HTMLCanvasElement).height;
+
     public x: number;
     public y: number;
     private v: number = 0;
-    private a: number = g;
 
     public constructor(x: number, y: number = 0) {
         this.x = x;
         this.y = y;
     }
 
-    public updateFrame(t: number): boolean {
-        this.v += this.a * t;
-        this.y = this.v * t + (this.a * Math.pow(t, 2)) / 2;
-        if(this.y >= (Utils.getElem("easter-canvas") as HTMLCanvasElement).height) {
-            return false;
+    public updateFrame(): boolean {
+        if(this.y >= this.screenHeight) {
+            this.v = -this.v;
+            this.v *= f;
+        } else {
+            this.v += g;
         }
+        this.y += this.v;
         return true;
     }
 }
@@ -39,7 +43,6 @@ const Easter: React.FC = () => {
                 const canvas = Utils.getElem("easter-canvas") as HTMLCanvasElement;
                 var ctx = canvas.getContext("2d");
                 var objects: Basketball[] = [];
-                var t = 0;
 
                 // Init canvas size
                 canvas.width = 2 * canvas.offsetWidth;
@@ -56,21 +59,16 @@ const Easter: React.FC = () => {
 
                 const update = () => {
                     if(!ctx) return;
-                    t += .02; // delta t
-
                     ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
 
                     objects.forEach((obj) => {
                         if(!ctx) return;
-                        if(obj.updateFrame(t)) ctx.drawImage(icon, obj.x, obj.y, 70, 70);
+                        obj.updateFrame()
+                        ctx.drawImage(icon, obj.x, obj.y, 70, 70);
                     });
 
-                    if(Utils.getRandom(0, 1) == 1) objects.push(new Basketball(Utils.getRandom(0, canvas.width)));
+                    if(Utils.getRandom(0, 3) == 1) objects.push(new Basketball(Utils.getRandom(0, canvas.width)));
 
-                    if(t > 3) {
-                        setVisible(false);
-                        return;
-                    }
                     window.requestAnimationFrame(update); // Next frame
                 };
 

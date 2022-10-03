@@ -14,7 +14,8 @@
             margin: 10px;
             width: 20px;
             height: 20px;
-            background-image: url("../../icons/menu.svg");
+            mask-image: url(../../icons/menu.svg);
+            background-image: url(../../icons/menu.svg);
             border: none;
             background-color: transparent;
             background-position: center center;
@@ -61,6 +62,7 @@
                     display: inline-block;
                 }
                 .back-button {
+                    mask-image: url(../../icons/arrow_back.svg);
                     background-image: url(../../icons/arrow_back.svg);
                 }
 
@@ -70,18 +72,28 @@
 
                 .star-button {
                     margin-left: 5px;
-                    background-image: url(../../icons/star_outline.svg);
+                    &[active=true] {
+                        mask-image: url(../../icons/star_rate.svg);
+                        background-image: url(../../icons/star_rate.svg);
+                    }
+                    &[active=false] {
+                        mask-image: url(../../icons/star_outline.svg);
+                        background-image: url(../../icons/star_outline.svg);
+                    }
                 }
                 .search-button {
                     display: none;
                     margin-left: 5px;
+                    mask-image: url(../../icons/search.svg);
                     background-image: url(../../icons/search.svg);
                 }
                 .settings-button {
                     margin-left: 5px;
+                    mask-image: url(../../icons/settings.svg);
                     background-image: url(../../icons/settings.svg);
                 }
                 .newpage-button {
+                    mask-image: url(../../icons/open_in_new.svg);
                     background-image: url(../../icons/open_in_new.svg);
                 }
             }
@@ -112,15 +124,19 @@
                     background-position: center center;
                     background-repeat: no-repeat;
                     &#open-file {
+                        mask-image: url(../../icons/file_open.svg);
                         background-image: url(../../icons/file_open.svg);
                     }
                     &#delete-file {
+                        mask-image: url(../../icons/delete.svg);
                         background-image: url(../../icons/delete.svg);
                     }
                     &#download-file {
+                        mask-image: url(../../icons/file_download.svg);
                         background-image: url(../../icons/file_download.svg);
                     }
                     &#open-terminal {
+                        mask-image: url(../../icons/terminal_dark.svg);
                         background-image: url(../../icons/terminal_dark.svg);
                     }
                     &:disabled {
@@ -167,7 +183,7 @@
             right: 0;
             bottom: 0;
             * {
-                color: @light-gray3 !important;
+                color: @light-gray3;
             }
             p {
                 text-align: center;
@@ -239,6 +255,7 @@
             }
             &#star-list {
                 button::before {
+                    mask-image: url(../../icons/star_rate.svg);
                     background-image: url(../../icons/star_rate.svg);
                 }
             }
@@ -255,9 +272,11 @@
                             font-weight: bold;
                         }
                         &.directory::before {
+                            mask-image: url(../../icons/folder_rate.svg);
                             background-image: url(../../icons/folder_rate.svg);
                         }
                         &.file::before {
+                            mask-image: url(../../icons/file.svg);
                             background-image: url(../../icons/file.svg);
                         }
                     }

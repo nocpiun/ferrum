@@ -32,10 +32,6 @@ import { hostname, apiUrl, editorDefaultValue } from "../global";
 // import * as config from "../../config.json";
 import PluginLoader from "../../plugin/PluginLoader";
 
-// icons
-import starOutline from "../../icons/star_outline.svg";
-import starRate from "../../icons/star_rate.svg";
-
 export default class Explorer extends Component<ExplorerProps, ExplorerState> {
     public static contextType?: React.Context<MainContextType> | undefined = MainContext;
     private static root: string;
@@ -499,16 +495,16 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
 
         // display the full star if the directory is starred
         var p = false;
-        list.forEach((value, index) => {
+        list.forEach((value) => {
             if(p) return;
             if(value == this.path) {
-                Utils.getElem("star").style.backgroundImage = "url("+ starRate +")";
+                Utils.getElem("star").setAttribute("active", "true");
                 this.isStarred = true;
                 p = true;
             }
         });
         if(!p) {
-            Utils.getElem("star").style.backgroundImage = "url("+ starOutline +")";
+            Utils.getElem("star").setAttribute("active", "false");
             this.isStarred = false;
         }
 

@@ -30,6 +30,9 @@ body {
     padding: 0;
     background-color: @light-gray;
     font-family: @font;
+    &[theme=default] * {
+        mask: none !important;
+    }
     main {
         display: flex;
         flex-direction: column;

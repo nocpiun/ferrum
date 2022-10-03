@@ -10,12 +10,23 @@ import {
     PluginMetadata,
     ViewerOption,
     DialogOption,
+    StyleOption,
     I18n
 } from "../client/types";
 import { pluginStorageKey } from "../client/global";
 import Utils from "../Utils";
 import LocalStorage from "../client/utils/localStorage";
 import Logger from "../client/utils/logger";
+
+const babelConfig = (babel: typeof Babel) => {
+    return {
+        presets: [babel.availablePresets["preset-react"]],
+        plugins: [
+            babel.availablePlugins["plugin-transform-react-jsx"],
+            babel.availablePlugins["plugin-syntax-jsx"],
+        ]
+    }
+};
 
 /**
  * **Plugin Loader**
@@ -111,6 +122,7 @@ export default class PluginLoader {
             if(plugin.setup) plugin.setup({
                 addViewer: PluginLoader.addViewer,
                 addDialog: PluginLoader.addDialog,
+                addStyle: PluginLoader.addStyle,
             });
         });
     }
@@ -130,13 +142,7 @@ export default class PluginLoader {
         // Register Babel presets & plugins
         if(Babel.availablePresets["preset-react"] == undefined) await this.init();
         // Transform jsx to js
-        const compiled = Babel.transform(script, {
-            presets: [Babel.availablePresets["preset-react"]],
-            plugins: [
-                Babel.availablePlugins["plugin-transform-react-jsx"],
-                Babel.availablePlugins["plugin-syntax-jsx"],
-            ]
-        });
+        const compiled = Babel.transform(script, babelConfig(Babel));
 
         window.React = React; // Import React for the plugin
         this.register(window.eval(compiled.code ?? ""));
@@ -152,13 +158,7 @@ export default class PluginLoader {
         for(let i = 0; i < plugins.length; i++) {
             const script = plugins[i];
             // Transform jsx to js
-            const compiled = Babel.transform(script, {
-                presets: [Babel.availablePresets["preset-react"]],
-                plugins: [
-                    Babel.availablePlugins["plugin-transform-react-jsx"],
-                    Babel.availablePlugins["plugin-syntax-jsx"],
-                ]
-            });
+            const compiled = Babel.transform(script, babelConfig(Babel));
 
             window.React = React; // Import React for the plugin
             const metadata = window.eval(compiled.code ?? "") as PluginMetadata;
@@ -190,6 +190,30 @@ export default class PluginLoader {
                 {dialog.render()}
             </DialogBox>
         ), document.getElementById("temp"));
+    }
+
+    private static addStyle(style: StyleOption): void { // API
+        if(document.getElementById(style.id) != null) return;
+        document.body.setAttribute("theme", style.id);
+
+        var styleElem = document.createElement("style");
+        /** @see https://cdn.jsdelivr.net/npm/cssidjs@1.0.3/cssid.js line 42~52 */
+        styleElem.innerText = "/*Compressed*/"
+            + style.css
+            .replaceAll("\n", "")
+            .replace(/\/\*{1,2}[\s\S]*?\*\//g, "")
+            .replace(/(\s*){/g, "{")
+            .replace(/{(\s*)/g, "{")
+            .replace(/}(\s*)/g, "}")
+            .replace(/(\s*)}/g, "}")
+            .replace(/:(\s*)/g, ":")
+            .replace(/,(\s*)/g, ",")
+            .replace(/(\n*)/g, "")
+            .replace(/ {4}/g, "")
+            .replace(/ {3}/g, "")
+            .replace(/ {2}/g, "");
+        styleElem.id = style.id;
+        document.head.appendChild(styleElem);
     }
 
     public static get(): PluginLoader {
