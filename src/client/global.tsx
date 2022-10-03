@@ -1,4 +1,4 @@
-export const version = "1.7.4";
+export const version = "1.7.5";
 export const hostname = "http://"+ window.location.hostname;
 export const apiUrl = hostname +":3301";
 export const pluginUrl = "https://cdn.jsdelivr.net/gh/nocpiun/ferrum-plugins@latest/";
