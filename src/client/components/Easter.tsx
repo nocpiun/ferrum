@@ -52,11 +52,6 @@ const Easter: React.FC = () => {
                 const icon = new Image(10, 10);
                 icon.src = BasketballIcon;
 
-                // Init basketball objects
-                for(let i = 0; i < 30; i++) {
-                    objects.push(new Basketball(Utils.getRandom(0, canvas.width)));
-                }
-
                 const update = () => {
                     if(!ctx) return;
                     ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
