@@ -73,8 +73,8 @@ const Header: React.FC<ExplorerHeaderProps> = (props) => {
                 
                 <button
                     className="header-button newpage-button"
-                    id="settings"
-                    title={"newpage"}
+                    id="newpage"
+                    title={Utils.$("page.explorer.nav.newpage")}
                     onClick={() => {
                         window.open(window.location.href, "newwindow", "width=1200,height=700");
                     }}/>

@@ -24,10 +24,19 @@ const PluginInstaller: React.FC = () => {
         Axios.get<PluginListResponse>(pluginListUrl)
             .then((res) => {
                 const fetched = res.data.pluginList;
+                const installed = PluginLoader.get().pluginList;
 
                 setPluginList(
                     <>
                         {fetched.map((plugin, i) => {
+                            var hasInstalled = false;
+
+                            for(let j = 0; j < installed.length; j++) {
+                                if(plugin.name === installed[j].name) {
+                                    hasInstalled = true;
+                                }
+                            }
+
                             return (
                                 <ListGroup.Item title={plugin.name} key={i}>
                                     <span className="plugin-name">{plugin.name}</span>
@@ -35,7 +44,12 @@ const PluginInstaller: React.FC = () => {
                                     <Button
                                         className="small-button"
                                         onClick={() => handleInstall(plugin.path)}
-                                        variant="success">{Utils.$("settings.plugin.installer.install")}</Button>
+                                        variant="success"
+                                        disabled={hasInstalled}>{
+                                            hasInstalled
+                                            ? Utils.$("settings.plugin.installer.installed")
+                                            : Utils.$("settings.plugin.installer.install")
+                                        }</Button>
                                     <span className="plugin-version">{plugin.version}</span>
                                 </ListGroup.Item>
                             );

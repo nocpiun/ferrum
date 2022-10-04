@@ -6,6 +6,7 @@ import BasketballIcon from "../../icons/basketball.png";
 
 const g = 0.98; // Gravity
 const f = 0.6; // Resistance
+const radius = 35;
 
 class Basketball {
     private readonly screenHeight = (Utils.getElem("easter-canvas") as HTMLCanvasElement).height;
@@ -19,15 +20,14 @@ class Basketball {
         this.y = y;
     }
 
-    public updateFrame(): boolean {
-        if(this.y >= this.screenHeight) {
+    public updateFrame(): void {
+        if(this.y >= this.screenHeight - (radius / 2)) {
             this.v = -this.v;
             this.v *= f;
         } else {
             this.v += g;
         }
         this.y += this.v;
-        return true;
     }
 }
 
@@ -58,8 +58,8 @@ const Easter: React.FC = () => {
 
                     objects.forEach((obj) => {
                         if(!ctx) return;
-                        obj.updateFrame()
-                        ctx.drawImage(icon, obj.x, obj.y, 70, 70);
+                        obj.updateFrame();
+                        ctx.drawImage(icon, obj.x, obj.y, 2 * radius, 2 * radius);
                     });
 
                     if(Utils.getRandom(0, 3) == 1) objects.push(new Basketball(Utils.getRandom(0, canvas.width)));

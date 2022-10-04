@@ -336,6 +336,7 @@ const Settings: React.FC = () => {
                                     variant="success">{Utils.$("settings.plugin.browse")}</Button>
                             </>
                         }>
+                        
                         <ListGroup className="plugin-list">
                             {pluginList}
                         </ListGroup>
@@ -357,7 +358,21 @@ const Settings: React.FC = () => {
                             {Utils.$("settings.password.submit")}
                         </Button>
                     </SettingsSection>
-                    <SettingsSection title={Utils.$("settings.about")} style={{display: currentPage == "s-about" ? "block" : "none"}}>
+                    <SettingsSection
+                        title={Utils.$("settings.about")}
+                        style={{display: currentPage == "s-about" ? "block" : "none"}}
+                        sideElem={
+                            <Button
+                                variant="success"
+                                className="small-button check-update"
+                                onClick={() => {
+                                    toast.promise(handleCheckUpdate(), {
+                                        loading: Utils.$("toast.msg25"),
+                                        success: (msg) => msg,
+                                        error: (msg) => msg
+                                    });
+                                }}>{Utils.$("settings.about.checkupdate")}</Button>
+                        }>
                         <p><b>{Utils.$("app.name")}</b> {Utils.$("app.description")}</p>
                         <Option name={Utils.$("settings.about.o1")}>
                             <span className="text">@nocp/ferrum-{version}</span>
@@ -370,13 +385,6 @@ const Settings: React.FC = () => {
                                 <a href="https://github.com/nocpiun/ferrum" target="_blank" rel="noreferrer">nocpiun/ferrum</a>
                             </span>
                         </Option>
-                        <Button variant="success" className="check-update" onClick={() => {
-                            toast.promise(handleCheckUpdate(), {
-                                loading: Utils.$("toast.msg25"),
-                                success: (msg) => msg,
-                                error: (msg) => msg
-                            });
-                        }}>{Utils.$("settings.about.checkupdate")}</Button>
                     </SettingsSection>
                 </Form>
             </div>
