@@ -37,7 +37,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
     private static root: string;
     private static port: string; // include `:`
 
-    private path: string;
+    private _path: string = "";
     private isStarred: boolean = false;
     private isZipFile: boolean = false;
     public isLsidebarOpen: boolean = true;
@@ -110,6 +110,15 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         if(/\.zip$/.test(this.path)) { // Opening zip file
             this.isZipFile = true;
         }
+    }
+
+    private get path(): string {
+        return this._path;
+    }
+
+    private set path(value: string) {
+        document.body.setAttribute("path", value);
+        this._path = value;
     }
 
     /**

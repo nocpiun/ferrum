@@ -152,4 +152,22 @@ export default class Utils {
     public static getRandom(min: number, max: number): number {
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
+
+    /** @see https://cdn.jsdelivr.net/npm/cssidjs@1.0.3/cssid.js (line 42) */
+    public static compressCSS(css: string): string {
+        return css
+            .replaceAll("\n", "")
+            .replace(/\/\*{1,2}[\s\S]*?\*\//g, "")
+            .replace(/(\s*){/g, "{")
+            .replace(/{(\s*)/g, "{")
+            .replace(/}(\s*)/g, "}")
+            .replace(/(\s*)}/g, "}")
+            .replace(/;}/g, "}")
+            .replace(/:(\s*)/g, ":")
+            .replace(/,(\s*)/g, ",")
+            .replace(/(\n*)/g, "")
+            .replace(/ {4}/g, "")
+            .replace(/ {3}/g, "")
+            .replace(/ {2}/g, "");
+    }
 }

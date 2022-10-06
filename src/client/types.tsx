@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react";
 import { Variant } from "react-bootstrap/esm/types";
+import toast from "react-hot-toast";
 
 // Global
 
@@ -7,7 +8,7 @@ interface PageProps {
     path: string
 }
 
-type DefC = () => any // Default Callback
+type DefC<RT = any> = () => RT // Default Callback
 type OPC<P, RT = any> = (param: P) => RT // One Parameter Callback
 
 interface Response<C> { // XHR Response
@@ -244,11 +245,6 @@ export interface ListItemProps {
     onUnselect: OPC<DirectoryItem>
 }
 
-// export interface ListItemState {
-//     isRenaming: boolean
-//     isSelected: boolean
-// }
-
 // StarredItem Component
 
 export interface StarredItemProps {
@@ -313,10 +309,14 @@ export interface ViewerState {
     viewerComponent: React.ReactElement | null;
 }
 
-interface PluginSetupParameters {
+export interface PluginSetupParameters {
     addViewer: OPC<ViewerOption, void>
     addDialog: OPC<DialogOption, void>
     addStyle: OPC<StyleOption, void>
+    getPath: DefC<string>;
+    getItemList: DefC<DirectoryItem[] | null>
+    getVersion: DefC<string>
+    toast: typeof toast
 }
 
 export interface PluginMetadata {

@@ -11,9 +11,11 @@ import {
     ViewerOption,
     DialogOption,
     StyleOption,
-    I18n
+    I18n,
+    DirectoryItem,
+    PluginSetupParameters
 } from "../client/types";
-import { pluginStorageKey } from "../client/global";
+import { version, pluginStorageKey } from "../client/global";
 import Utils from "../Utils";
 import LocalStorage from "../client/utils/localStorage";
 import Logger from "../client/utils/logger";
@@ -118,12 +120,18 @@ export default class PluginLoader {
     public load(): void {
         this.viewerList = [];
 
-        this.pluginList.forEach((plugin, i) => {
-            if(plugin.setup) plugin.setup({
-                addViewer: PluginLoader.addViewer,
-                addDialog: PluginLoader.addDialog,
-                addStyle: PluginLoader.addStyle,
-            });
+        const apis: PluginSetupParameters = {
+            addViewer: PluginLoader.addViewer,
+            addDialog: PluginLoader.addDialog,
+            addStyle: PluginLoader.addStyle,
+            getPath: PluginLoader.getPath,
+            getItemList: PluginLoader.getItemList,
+            getVersion: PluginLoader.getVersion,
+            toast,
+        };
+
+        this.pluginList.forEach((plugin) => {
+            if(plugin.setup) plugin.setup(apis);
         });
     }
 
@@ -170,11 +178,49 @@ export default class PluginLoader {
         LocalStorage.setItem<string[]>(pluginStorageKey, plugins);
     }
 
-    private static addViewer(viewer: ViewerOption): void { // API
+    /**
+     * **addViewer**
+     * 
+     * Add a custom viewer to Ferrum Explorer.
+     * 
+     * @example
+     * ```jsx
+     * addViewer({
+     *   id: "example-viewer",
+     *   pageTitle: "Example Viewer",
+     *   route: "/example-viewer",
+     *   formats: [],
+     *   render: (dataUrl) => <div>{dataUrl}</div>
+     * });
+     * ```
+     * @api
+     */
+    private static addViewer(viewer: ViewerOption): void {
         PluginLoader.get().viewerList.push(viewer);
     }
 
-    private static addDialog(dialog: DialogOption): void { // API
+    /**
+     * **addDialog**
+     * 
+     * Add a custom dialog and an opening button of the dialog to Ferrum Explorer.
+     * 
+     * @example
+     * ```jsx
+     * addDialog({
+     *   id: "example-dialog",
+     *   icon: "data:image/svg+xml;base64,....",
+     *   dialogTitle: "Example",
+     *   onOpen: () => {
+     *     // ...
+     *   },
+     *   render: () => {
+     *     return <p>HelloWorld!</p>;
+     *   }
+     * });
+     * ```
+     * @api
+     */
+    private static addDialog(dialog: DialogOption): void {
         const navbar = Utils.getElem("navbar");
 
         var button = document.createElement("button");
@@ -192,29 +238,86 @@ export default class PluginLoader {
         ), document.getElementById("temp"));
     }
 
-    private static addStyle(style: StyleOption): void { // API
+    /**
+     * **addStyle**
+     * 
+     * Add a custom stylesheet to Ferrum Explorer.
+     * 
+     * @example
+     * ```js
+     * addStyle({
+     *   id: "example-theme",
+     *   css: "body {background: #000}"
+     * });
+     * ```
+     * @api
+     */
+    private static addStyle(style: StyleOption): void {
         if(document.getElementById(style.id) != null) return;
         document.body.setAttribute("theme", style.id);
 
         var styleElem = document.createElement("style");
-        /** @see https://cdn.jsdelivr.net/npm/cssidjs@1.0.3/cssid.js line 42~52 */
-        styleElem.innerText = "/*Compressed*/"
-            + style.css
-            .replaceAll("\n", "")
-            .replace(/\/\*{1,2}[\s\S]*?\*\//g, "")
-            .replace(/(\s*){/g, "{")
-            .replace(/{(\s*)/g, "{")
-            .replace(/}(\s*)/g, "}")
-            .replace(/(\s*)}/g, "}")
-            .replace(/;}/g, "}")
-            .replace(/:(\s*)/g, ":")
-            .replace(/,(\s*)/g, ",")
-            .replace(/(\n*)/g, "")
-            .replace(/ {4}/g, "")
-            .replace(/ {3}/g, "")
-            .replace(/ {2}/g, "");
+        styleElem.innerText = "/*Compressed*/"+ Utils.compressCSS(style.css);
         styleElem.id = style.id;
         document.head.appendChild(styleElem);
+    }
+
+    /**
+     * **getPath**
+     * 
+     * Get the current path.
+     * 
+     * @example
+     * ```js
+     * var currentPath = getPath();
+     * ```
+     * @api
+     */
+    private static getPath(): string {
+        return document.body.getAttribute("path") ?? "";
+    }
+
+    /**
+     * **getItemList**
+     * 
+     * Get the current list of directory item.
+     * 
+     * @example
+     * ```js
+     * var list = getItemList();
+     * ```
+     * @api
+     */
+    private static getItemList(): DirectoryItem[] | null {
+        if(!document.getElementById("list")) return null;
+
+        var nodes = Utils.getElem("list").childNodes;
+        var list: DirectoryItem[] = [];
+
+        for(let i = 0; i < nodes.length; i++) {
+            const item = nodes[i] as HTMLDivElement;
+            const itemInfoStr = item.getAttribute("data-info");
+            if(!itemInfoStr) continue;
+
+            list.push(JSON.parse(itemInfoStr) as DirectoryItem);
+        }
+
+        return list;
+    }
+
+    /**
+     * **getVersion**
+     * 
+     * Get the version of Ferrum Explorer.
+     * 
+     * @example
+     * ```js
+     * const version = getVersion();
+     * ```
+     * @api
+     */
+    private static getVersion(): string {
+        return version;
     }
 
     public static get(): PluginLoader {
