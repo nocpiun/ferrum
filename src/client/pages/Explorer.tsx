@@ -9,6 +9,7 @@ import DirectoryInfoContext from "../contexts/DirectoryInfoContext";
 import ListItem from "../components/ListItem";
 import StarredItem from "../components/StarredItem";
 import Easter from "../components/Easter";
+import DialogBox from "../components/DialogBox";
 
 // containers
 import Header from "../containers/explorer/Header";
@@ -41,6 +42,8 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
     private isStarred: boolean = false;
     private isZipFile: boolean = false;
     public isLsidebarOpen: boolean = true;
+    
+    private propertiesDialogRef: React.RefObject<DialogBox> = React.createRef<DialogBox>();
 
     /**
      * Open a file in Ferrum Explorer
@@ -103,7 +106,8 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
             itemSelected: [],
             itemList: null,
             starredList: null,
-            direcotryItems: []
+            direcotryItems: [],
+            propertiesContent: null
         };
         this.path = Explorer.root + this.props.path;
 
@@ -324,6 +328,8 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
     }
 
     public render(): ReactElement {
+        const propertiesContent = this.state.propertiesContent;
+
         return (
             <div className="explorer">
                 <Easter />
@@ -366,6 +372,37 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                     </div>
                     <RightSidebar path={this.path}/>
                 </DirectoryInfoContext.Provider>
+
+                {DialogBox.createDialog("properties",
+                    <DialogBox ref={this.propertiesDialogRef} id="properties" title={Utils.$("page.explorer.list.properties")}>
+                        <div className="properties-dialog">
+                            <ul>
+                                <li>
+                                    <b>{Utils.$("page.explorer.list.properties.name")}:</b>
+                                    <span>{propertiesContent?.fullName}</span>
+                                </li>
+                                <li>
+                                    <b>{Utils.$("page.explorer.list.properties.format")}:</b>
+                                    <span>
+                                        {
+                                            propertiesContent?.isFile
+                                            ? propertiesContent.format +" "+ Utils.$("page.explorer.list.file")
+                                            : Utils.$("page.explorer.list.folder")
+                                        }
+                                    </span>
+                                </li>
+                                {
+                                    propertiesContent?.isFile && propertiesContent.size
+                                    ? <li>
+                                        <b>{Utils.$("page.explorer.list.properties.size")}:</b>
+                                        <span>{Utils.formatFloat(propertiesContent.size / 1024, 1) +"KB"}</span>
+                                    </li>
+                                    : null
+                                }
+                            </ul>
+                        </div>
+                    </DialogBox>
+                )}
             </div>
         );
     }
@@ -384,6 +421,11 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
 
         // document.addEventListener("fileListUpdate", () => this.refreshItemList());
         Emitter.get().on("fileListUpdate", () => this.refreshItemList());
+
+        Emitter.get().on("openProperties", (info: DirectoryItem) => {
+            this.setState({ propertiesContent: info });
+            this.propertiesDialogRef.current?.setOpen(true);
+        });
 
         this.refreshItemList();
         this.refreshStarredList();

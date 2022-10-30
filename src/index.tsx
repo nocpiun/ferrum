@@ -38,7 +38,7 @@ if(window.location.pathname == "/" || window.location.pathname == "/dir") {
 Logger.log(
   { value: "%c\nFerrum Explorer%cv"+ version +" | By NoahHrreion\n"+
   "%c    Website: https://nin.red/#/projects/ferrum/\n"+
-  "%cGithub Repo: https://github.com/NriotHrreion/ferrum\n\n"+
+  "%cGithub Repo: https://github.com/nocpiun/ferrum\n\n"+
   "%c       Demo: https://ferrum-demo.nin.red\n" },
   "font-size: 16pt;font-weight: bold; padding: 10px",
   "font-size: 8pt;color: gray",

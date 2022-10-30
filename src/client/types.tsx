@@ -110,6 +110,7 @@ export interface ExplorerState {
     itemList: ReactElement | null
     starredList: ReactElement | null
     direcotryItems: DirectoryItem[]
+    propertiesContent: DirectoryItem | null
 }
 
 export interface ExplorerHeaderProps {

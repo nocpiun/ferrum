@@ -5,6 +5,7 @@ import React, {
     useRef
 } from "react";
 import { ListGroup, Form } from "react-bootstrap";
+import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import Axios from "axios";
 
 import MainContext from "../contexts/MainContext";
@@ -156,6 +157,10 @@ const ListItem: React.FC<ListItemProps> = (props) => {
         // Emitter.get().on("selectAll", (selected: boolean) => handleSelectAll(selected));
     });
 
+    interface MenuItemData {
+        info: string
+    }
+
     return (
         <ListGroup.Item
             action
@@ -180,32 +185,42 @@ const ListItem: React.FC<ListItemProps> = (props) => {
             data-info={props.itemInfo}
             data-type={props.itemType}
             draggable={!(isDemo || isZipFile || isRenaming)}>
-            
-            <Form.Check
-                className="list-item-checkbox"
-                id={props.itemName +"--checkbox"}
-                onChange={(e: React.ChangeEvent) => handleSelect(e)}
-                disabled={props.disabled ?? false}/>
-            <span
-                className="list-item-name"
-                style={{display: isRenaming ? "none" : "inline-block"}}>
-                    {props.itemDisplayName ?? props.itemName}
-            </span>
-            <span className="list-item-format">{itemFormat}</span>
-            <span className="list-item-size">{itemSize}</span>
-            
-            <Form.Control
-                className="list-item-rename"
-                type={isRenaming ? "text" : "hidden"}
-                defaultValue={props.itemName as string}
-                onKeyDown={(e) => {
-                    if(e.key == "Enter") renameFile();
-                }}
-                onChange={() => {
-                    if(renameBox.current) renameBoxCurrentValue = renameBox.current.value;
-                }}
-                id={props.itemName +"--renamebox"}
-                ref={renameBox}/>
+            <ContextMenuTrigger id={props.itemName +"--rcmenu"}>
+                <Form.Check
+                    className="list-item-checkbox"
+                    id={props.itemName +"--checkbox"}
+                    onChange={(e: React.ChangeEvent) => handleSelect(e)}
+                    disabled={props.disabled ?? false}/>
+                <span
+                    className="list-item-name"
+                    style={{display: isRenaming ? "none" : "inline-block"}}>
+                        {props.itemDisplayName ?? props.itemName}
+                </span>
+                <span className="list-item-format">{itemFormat}</span>
+                <span className="list-item-size">{itemSize}</span>
+
+                <Form.Control
+                    className="list-item-rename"
+                    type={isRenaming ? "text" : "hidden"}
+                    defaultValue={props.itemName as string}
+                    onKeyDown={(e) => {
+                        if(e.key == "Enter") renameFile();
+                    }}
+                    onChange={() => {
+                        if(renameBox.current) renameBoxCurrentValue = renameBox.current.value;
+                    }}
+                    id={props.itemName +"--renamebox"}
+                    ref={renameBox}/>
+            </ContextMenuTrigger>
+
+            <ContextMenu id={props.itemName +"--rcmenu"}>
+                <MenuItem
+                    className="common"
+                    data={{ info: props.itemInfo } as MenuItemData}
+                    onClick={(e, data: MenuItemData) => {
+                        Emitter.get().emit("openProperties", JSON.parse(data.info) as DirectoryItem);
+                    }}>{Utils.$("page.explorer.list.properties")}</MenuItem>
+            </ContextMenu>
         </ListGroup.Item>
     );
 }

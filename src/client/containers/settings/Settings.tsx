@@ -182,6 +182,7 @@ const Settings: React.FC = () => {
                             </ContextMenuTrigger>
                             {!plugin.native ? <ContextMenu id={"plugin-rcmenu--"+ plugin.name}>
                                 <MenuItem
+                                    className="danger"
                                     data={{ pluginId: plugin.name } as MenuItemData}
                                     onClick={(e, data: MenuItemData) => {
                                         PluginLoader.get().unregister(data.pluginId);
