@@ -110,7 +110,6 @@ export interface ExplorerState {
     itemList: ReactElement | null
     starredList: ReactElement | null
     direcotryItems: DirectoryItem[]
-    propertiesContent: DirectoryItem | null
 }
 
 export interface ExplorerHeaderProps {
@@ -298,6 +297,12 @@ export interface SashProps {
     max: number
     position: "left" | "right"
     onResize: OPC<number, void>;
+}
+
+// Properties Component
+
+export interface PropertiesProps {
+    path: string
 }
 
 // Plugin

@@ -26,6 +26,7 @@
     "page.explorer.list.properties": "属性",
     "page.explorer.list.properties.name": "项目名称",
     "page.explorer.list.properties.format": "格式",
+    "page.explorer.list.properties.path": "路径",
     "page.explorer.list.properties.size": "大小",
     "page.explorer.left.title": "收藏夹",
     "page.explorer.right.license": "许可",

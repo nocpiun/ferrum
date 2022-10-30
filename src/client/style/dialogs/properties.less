@@ -1,5 +1,9 @@
 .properties-dialog {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
     ul {
+        flex: 3;
         padding-top: 10px;
         padding-left: 25px;
         li {
@@ -11,6 +15,15 @@
                 text-align: right;
                 margin-right: 6px;
             }
+        }
+    }
+    .properties-icon {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        img {
+            width: 100%;
         }
     }
 }

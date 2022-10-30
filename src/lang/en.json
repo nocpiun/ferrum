@@ -26,6 +26,7 @@
     "page.explorer.list.properties": "Properties",
     "page.explorer.list.properties.name": "Item Name",
     "page.explorer.list.properties.format": "Format",
+    "page.explorer.list.properties.path": "Path",
     "page.explorer.list.properties.size": "Size",
     "page.explorer.left.title": "Star list",
     "page.explorer.right.license": "License",

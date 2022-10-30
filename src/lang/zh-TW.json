@@ -26,6 +26,7 @@
     "page.explorer.list.properties": "屬性",
     "page.explorer.list.properties.name": "項目名稱",
     "page.explorer.list.properties.format": "類型",
+    "page.explorer.list.properties.path": "路徑",
     "page.explorer.list.properties.size": "大小",
     "page.explorer.left.title": "收藏夾",
     "page.explorer.right.license": "許可",

@@ -10,6 +10,7 @@ import ListItem from "../components/ListItem";
 import StarredItem from "../components/StarredItem";
 import Easter from "../components/Easter";
 import DialogBox from "../components/DialogBox";
+import Properties from "../components/Properties";
 
 // containers
 import Header from "../containers/explorer/Header";
@@ -106,8 +107,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
             itemSelected: [],
             itemList: null,
             starredList: null,
-            direcotryItems: [],
-            propertiesContent: null
+            direcotryItems: []
         };
         this.path = Explorer.root + this.props.path;
 
@@ -328,8 +328,6 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
     }
 
     public render(): ReactElement {
-        const propertiesContent = this.state.propertiesContent;
-
         return (
             <div className="explorer">
                 <Easter />
@@ -375,32 +373,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
 
                 {DialogBox.createDialog("properties",
                     <DialogBox ref={this.propertiesDialogRef} id="properties" title={Utils.$("page.explorer.list.properties")}>
-                        <div className="properties-dialog">
-                            <ul>
-                                <li>
-                                    <b>{Utils.$("page.explorer.list.properties.name")}:</b>
-                                    <span>{propertiesContent?.fullName}</span>
-                                </li>
-                                <li>
-                                    <b>{Utils.$("page.explorer.list.properties.format")}:</b>
-                                    <span>
-                                        {
-                                            propertiesContent?.isFile
-                                            ? propertiesContent.format +" "+ Utils.$("page.explorer.list.file")
-                                            : Utils.$("page.explorer.list.folder")
-                                        }
-                                    </span>
-                                </li>
-                                {
-                                    propertiesContent?.isFile && propertiesContent.size
-                                    ? <li>
-                                        <b>{Utils.$("page.explorer.list.properties.size")}:</b>
-                                        <span>{Utils.formatFloat(propertiesContent.size / 1024, 1) +"KB"}</span>
-                                    </li>
-                                    : null
-                                }
-                            </ul>
-                        </div>
+                        <Properties path={this.path}/>
                     </DialogBox>
                 )}
             </div>
@@ -422,8 +395,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         // document.addEventListener("fileListUpdate", () => this.refreshItemList());
         Emitter.get().on("fileListUpdate", () => this.refreshItemList());
 
-        Emitter.get().on("openProperties", (info: DirectoryItem) => {
-            this.setState({ propertiesContent: info });
+        Emitter.get().on("openProperties", () => {
             this.propertiesDialogRef.current?.setOpen(true);
         });
 
