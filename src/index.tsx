@@ -114,7 +114,9 @@ Axios.get("https://v1.hitokoto.cn/?c=i&encode=json", {responseType: "json"})
     loginRoot.style.display = "block";
     ReactDOM.render(
       <React.StrictMode>
-        <Login isDemo={isDemo}/>
+        <MainContext.Provider value={{ isDemo, config }}>
+          <Login isDemo={isDemo}/>
+        </MainContext.Provider>
       </React.StrictMode>,
       loginRoot
     );

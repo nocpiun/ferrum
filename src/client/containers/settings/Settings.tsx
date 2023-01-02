@@ -250,8 +250,10 @@ const Settings: React.FC = () => {
                         onClick={(e) => handleItemBeOn(e)}/>
                 </ul>
             </aside>
+
             <div className="settings-main">
                 <Form>
+
                     <SettingsSection title={Utils.$("settings.explorer")} style={{display: currentPage == "s-explorer" ? "block" : "none"}}>
                         <Option name={Utils.$("settings.explorer.o1")} description={Utils.$("settings.explorer.o1.description")}>
                             <Form.Select id="settings-root" defaultValue={config.explorer.root}>
@@ -276,6 +278,7 @@ const Settings: React.FC = () => {
                             </Form.Select>
                         </Option>
                     </SettingsSection>
+
                     <SettingsSection title={Utils.$("settings.editor")} style={{display: currentPage == "s-editor" ? "block" : "none"}}>
                         <Option name={Utils.$("settings.editor.o1")}>
                             <Toggle ref={lineNumberToggle} id="settings-line-number" defaultValue={config.editor.lineNumber}/>
@@ -296,6 +299,7 @@ const Settings: React.FC = () => {
                             </Form.Select>
                         </Option>
                     </SettingsSection>
+
                     <SettingsSection title={Utils.$("settings.terminal")} style={{display: currentPage == "s-terminal" ? "block" : "none"}}>
                         <Option name={Utils.$("settings.terminal.o1")}>
                             <Form.Control type="text" id="settings-ip" defaultValue={config.terminal.ip}/>
@@ -310,6 +314,7 @@ const Settings: React.FC = () => {
                             <Form.Control type="password" id="settings-password" autoComplete="off" defaultValue={config.terminal.password}/>
                         </Option>
                     </SettingsSection>
+
                     <SettingsSection
                         title={Utils.$("settings.plugin")}
                         style={{display: currentPage == "s-plugin" ? "block" : "none"}}
@@ -348,6 +353,7 @@ const Settings: React.FC = () => {
                             </DialogBox>
                         )}
                     </SettingsSection>
+
                     <SettingsSection title={Utils.$("settings.password")} style={{display: currentPage == "s-password" ? "block" : "none"}}>
                         <Option name={Utils.$("settings.password.o1")}>
                             <Form.Control type="password" id="old-password" autoComplete="off" required/>
@@ -359,6 +365,7 @@ const Settings: React.FC = () => {
                             {Utils.$("settings.password.submit")}
                         </Button>
                     </SettingsSection>
+
                     <SettingsSection
                         title={Utils.$("settings.about")}
                         style={{display: currentPage == "s-about" ? "block" : "none"}}
@@ -387,6 +394,7 @@ const Settings: React.FC = () => {
                             </span>
                         </Option>
                     </SettingsSection>
+                    
                 </Form>
             </div>
         </div>
