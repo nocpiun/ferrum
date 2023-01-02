@@ -330,6 +330,7 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
     public render(): ReactElement {
         return (
             <div className="explorer">
+                {/* ctrl+m */}
                 <Easter />
 
                 <div className="toast-container">
@@ -370,7 +371,8 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
                     </div>
                     <RightSidebar path={this.path}/>
                 </DirectoryInfoContext.Provider>
-
+                
+                {/* File Properties Dialog */}
                 {DialogBox.createDialog("properties",
                     <DialogBox ref={this.propertiesDialogRef} id="properties" title={Utils.$("page.explorer.list.properties")}>
                         <Properties path={this.path}/>
@@ -392,12 +394,10 @@ export default class Explorer extends Component<ExplorerProps, ExplorerState> {
         // The control buttons is defaultly disabled
         this.setControlButtonsDisabled(true, true, true);
 
-        // document.addEventListener("fileListUpdate", () => this.refreshItemList());
         Emitter.get().on("fileListUpdate", () => this.refreshItemList());
 
-        Emitter.get().on("openProperties", () => {
-            this.propertiesDialogRef.current?.setOpen(true);
-        });
+        // Will be triggered when right-click
+        Emitter.get().on("openProperties", () => this.propertiesDialogRef.current?.setOpen(true));
 
         this.refreshItemList();
         this.refreshStarredList();

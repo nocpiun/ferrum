@@ -203,7 +203,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
                     className="list-item-rename"
                     type={isRenaming ? "text" : "hidden"}
                     defaultValue={props.itemName as string}
-                    onKeyDown={(e) => {
+                    onKeyDown={(e: React.KeyboardEvent) => {
                         if(e.key == "Enter") renameFile();
                     }}
                     onChange={() => {
@@ -218,6 +218,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
                     className="common"
                     data={{ info: props.itemInfo } as MenuItemData}
                     onClick={(e, data: MenuItemData) => {
+                        // Open properties dialog which is declared in Explorer.tsx
                         Emitter.get().emit("openProperties", JSON.parse(data.info) as DirectoryItem);
                     }}>{Utils.$("page.explorer.list.properties")}</MenuItem>
             </ContextMenu>
