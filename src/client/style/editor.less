@@ -1,0 +1,38 @@
+.editor {
+    .main-container {
+        margin: 0 auto;
+        width: 700px;
+        height: 100%;
+        .header-container {
+            margin-top: 30px;
+            height: 120px;
+            top: 0;
+            color: @theme-color;
+            h1 {
+                font-weight: bold;
+            }
+            .status-bar {
+                display: inline-block;
+                span {
+                    display: inline-block;
+                }
+                #file-path {
+                    max-width: 415px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+                #file-edited {
+                    margin-left: 5px;
+                    vertical-align: super;
+                }
+            }
+        }
+        .text-container {
+            height: 525px;
+            #ferrum-editor .ace_gutter {
+                background-color: #f0f0f0;
+            }
+        }
+    }
+}

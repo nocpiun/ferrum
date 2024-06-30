@@ -1,0 +1,72 @@
+#login {
+    display: none;
+    height: 100vh;
+    font-family: @font;
+}
+
+.login-panel {
+    padding-top: 100px;
+    width: 100vw;
+    
+    .main-container {
+        width: 400px;
+        margin: 0 auto;
+
+        & > * {
+            text-align: center;
+        }
+        .header-container {
+            margin-bottom: 30px;
+
+            .icon {
+                width: 70px;
+                height: 70px;
+                margin-bottom: 10px;
+                image-rendering: pixelated;
+            }
+            .title {
+                font-weight: bold;
+            }
+        }
+        .input-container form {
+            display: flex;
+            flex-direction: row;
+
+            input {
+                flex: 9;
+                margin-right: 10px;
+            }
+            button {
+                flex: 1;
+            }
+        }
+    }
+    .footer-container {
+        height: 110px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding-top: 20px;
+
+        * {
+            color: @light-gray3;
+        }
+        p {
+            text-align: center;
+            margin: 0;
+
+            a {
+                color: #0b6dff !important;
+            }
+            object {
+                margin-left: 5px;
+                vertical-align: bottom;
+            }
+        }
+        .copy-info {
+            padding-top: 15px;
+            font-style: italic;
+        }
+    }
+}

@@ -1,0 +1,44 @@
+.search-dialog {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    .search-header {
+        flex: 1;
+        .search-input {
+            display: inline-block;
+            width: 90%;
+        }
+        .search-open-item {
+            float: right;
+        }
+    }
+    .search-result {
+        flex: 6;
+        margin-top: 5px;
+        overflow-y: auto;
+        .list-group {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            button:hover {
+                background-color: @white;
+                .list-item-name {
+                    color: #0d6efd;
+                    text-decoration: underline;
+                }
+            }
+        }
+        &::-webkit-scrollbar {
+            width: 5px;
+            background: transparent;
+        }
+        &::-webkit-scrollbar-thumb {
+            background-color: @light-gray2;
+            &:hover {
+                background-color: @light-gray5;
+            }
+            &:active {
+                background-color: @light-gray6;
+            }
+        }
+    }
+}

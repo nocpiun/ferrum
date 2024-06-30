@@ -1,0 +1,116 @@
+@import "./fonts.less";
+@import "./vars.less";
+@import "./mobile.less";
+
+// pages
+@import "./login.less";
+@import "./explorer.less";
+@import "./editor.less";
+@import "./terminal.less";
+@import "./license.less";
+
+// dialogs
+@import "./dialogs/settings.less";
+@import "./dialogs/search.less";
+@import "./dialogs/sys-info.less";
+@import "./dialogs/disk-info.less";
+@import "./dialogs/plugin-installer.less";
+@import "./dialogs/properties.less";
+
+// components
+@import "./components/list-item.less";
+@import "./components/dialog.less";
+@import "./components/bar.less";
+@import "./components/viewer.less";
+@import "./components/toggle.less";
+@import "./components/sash.less";
+@import "./components/easter.less";
+@import "./components/contextmenu.less";
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: @light-gray;
+    font-family: @font;
+    &[theme=default] * {
+        mask: none !important;
+    }
+    main {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+    }
+    // To prevent that when the page is auto refreshed, the whole page is covered with <iframe>
+    iframe {
+        display: none;
+    }
+    &[data-lang=zh-CN] {
+        font-family: @font-sc;
+        .filepond--drop-label {
+            font-family: NotoSans-SC-Light;
+        }
+    }
+    &[data-lang=zh-TW] {
+        font-family: @font-tc;
+        .filepond--drop-label {
+            font-family: NotoSans-TC-Light;
+        }
+    }
+    &[data-lang=en] {
+        font-family: @font-en;
+        .filepond--drop-label {
+            font-family: Ubuntu-Light;
+        }
+    }
+    &[data-lang=zh-CN], &[data-lang=zh-TW] {
+        input[type=password] {
+            font-family: Ubuntu-Light;
+        }
+    }
+}
+
+.alert-box {
+    margin-top: 30px;
+    margin-right: 30px;
+    button.btn-outline-warning {
+        @warning-color: #b0940a;
+        border-color: @warning-color;
+        color: @warning-color;
+        &:hover {
+            background-color: @warning-color;
+            color: #fff
+        }
+    }
+}
+
+.header-control-button {
+    float: right;
+    margin-left: 10px;
+}
+
+.btn,
+.form-control,
+.form-select,
+.list-group,
+.toggle, /* settings toggle */
+.dialog-container, /* dialog */
+textarea /* license */ {
+    border-radius: @c-border-radius;
+}
+
+.btn.small-button {
+    width: auto;
+    height: 30px;
+    font-size: 9pt;
+    padding: .175rem .55rem;
+}
+
+.filepond--wrapper {
+    .filepond--credits {
+        display: none;
+    }
+    .filepond--drop-label {
+        font-size: 11pt;
+        font-family: Ubuntu-Light;
+    }
+}

@@ -1,0 +1,35 @@
+.viewer {
+    .main-container {
+        margin: 0 auto;
+        width: 700px;
+        height: 100%;
+        .header-container {
+            margin-top: 30px;
+            height: 120px;
+            top: 0;
+            color: @theme-color;
+            h1 {
+                font-weight: bold;
+            }
+            p {
+                display: inline-block;
+            }
+        }
+        .viewer-container {
+            height: 100%;
+            img, video, embed {
+                width: 100%;
+            }
+            img {
+                margin-top: 50px;
+            }
+            video {
+                margin-top: 50px;
+                height: 450px;
+            }
+            .pg-viewer-wrapper {
+                overflow-y: auto;
+            }
+        }
+    }
+}
