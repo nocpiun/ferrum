@@ -1,11 +1,11 @@
 {
-	"name": "next-app-template",
+	"name": "ferrum",
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"dev": "next dev --turbo",
+		"dev": "next dev --turbo -p 3300",
 		"build": "next build",
-		"start": "next start",
+		"start": "next start -p 3300",
 		"lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix"
 	},
 	"dependencies": {
