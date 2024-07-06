@@ -6,9 +6,9 @@ export default function Layout({
   	children: React.ReactNode;
 }) {
   	return (
-    	<>
+    	<div className="flex flex-col w-full h-[100vh]">
       		<Nav />
       		{children}
-    	</>
+    	</div>
   	);
 }

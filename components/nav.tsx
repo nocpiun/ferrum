@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
     Navbar,
     NavbarBrand,
@@ -13,9 +13,29 @@ import { Switch } from "@nextui-org/switch";
 import Link from "next/link";
 import { Sun, Moon, LogOut, Gauge, Folders, Settings2 } from "lucide-react";
 import { useTheme } from "next-themes";
+import { redirect, usePathname } from "next/navigation";
+
+type NavPage = "dashboard" | "explorer" | "settings";
 
 const Nav: React.FC = () => {
     const { setTheme, theme } = useTheme();
+    const pathname = usePathname();
+    const [page, setPage] = useState<NavPage | null>(() => {
+        switch(pathname) {
+            case "/dashboard":
+                return "dashboard";
+            case "/settings":
+                return "settings";
+            default:
+                if(/^\/x\S*/.test(pathname)) {
+                    return "explorer";
+                }
+
+                return null;
+        }
+    });
+
+    if(!page) return redirect("/");
 
     const handleSwitchTheme = (value: boolean) => {
         value
@@ -27,9 +47,10 @@ const Nav: React.FC = () => {
         <Navbar
             classNames={{
                 item: [
+                    "px-3",
+                    "py-1",
                     "data-[active=true]:bg-primary",
-                    "data-[active=true]:px-3",
-                    "data-[active=true]:py-1",
+                    "data-[active=true]:text-white",
                     "data-[active=true]:rounded-lg",
                 ]
             }}>
@@ -37,21 +58,30 @@ const Nav: React.FC = () => {
                 <Image alt="logo" src="/icon.png"/>
                 <h1 className="font-semibold text-lg">Ferrum</h1>
             </NavbarBrand>
-            <NavbarContent className="space-x-5" justify="center">
-                <NavbarItem>
-                    <Link className="flex items-center space-x-2" href="/dashboard">
+            <NavbarContent className="space-x-4" justify="center">
+                <NavbarItem isActive={page === "dashboard"}>
+                    <Link
+                        className="flex items-center space-x-2"
+                        href="/dashboard"
+                        onClick={() => setPage("dashboard")}>
                         <Gauge size={20}/>
                         <span>仪表盘</span>
                     </Link>
                 </NavbarItem>
-                <NavbarItem>
-                    <Link className="flex items-center space-x-2" href="/x/">
+                <NavbarItem isActive={page === "explorer"}>
+                    <Link
+                        className="flex items-center space-x-2"
+                        href="/x/"
+                        onClick={() => setPage("explorer")}>
                         <Folders size={20}/>
                         <span>文件管理器</span>
                     </Link>
                 </NavbarItem>
-                <NavbarItem>
-                    <Link className="flex items-center space-x-2" href="/settings">
+                <NavbarItem isActive={page === "settings"}>
+                    <Link
+                        className="flex items-center space-x-2"
+                        href="/settings"
+                        onClick={() => setPage("settings")}>
                         <Settings2 size={20}/>
                         <span>设置</span>
                     </Link>

@@ -9,6 +9,7 @@
 		"lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix"
 	},
 	"dependencies": {
+		"@nextui-org/breadcrumbs": "^2.0.10",
 		"@nextui-org/button": "2.0.34",
 		"@nextui-org/code": "2.0.29",
 		"@nextui-org/image": "^2.0.29",
@@ -31,7 +32,8 @@
 		"next-themes": "^0.2.1",
 		"preps": "^0.1.1",
 		"react": "18.3.1",
-		"react-dom": "18.3.1"
+		"react-dom": "18.3.1",
+		"zustand": "^4.5.4"
 	},
 	"devDependencies": {
 		"@types/node": "20.5.7",
