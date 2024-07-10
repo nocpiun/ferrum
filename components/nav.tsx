@@ -15,12 +15,15 @@ import { Sun, Moon, LogOut, Gauge, Folders, Settings2 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { usePathname, useRouter } from "next/navigation";
 
+import { useExplorer } from "@/hooks/useExplorer";
+
 type NavPage = "dashboard" | "explorer" | "settings";
 
 const Nav: React.FC = () => {
     const router = useRouter();
     const { setTheme, theme } = useTheme();
     const pathname = usePathname();
+    const explorer = useExplorer();
     const [page, setPage] = useState<NavPage | null>(() => {
         switch(pathname) {
             case "/dashboard":
@@ -77,7 +80,7 @@ const Nav: React.FC = () => {
                 <NavbarItem isActive={page === "explorer"}>
                     <Link
                         className="flex items-center space-x-2"
-                        href="/x/"
+                        href={"/x/root"+ explorer.stringifyPath()}
                         onClick={() => setPage("explorer")}>
                         <Folders size={20}/>
                         <span>文件管理器</span>
