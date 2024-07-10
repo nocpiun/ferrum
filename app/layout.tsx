@@ -33,7 +33,11 @@ export default function RootLayout({
 		<html suppressHydrationWarning lang="zh-cn">
 			<head />
 			<body className={clsx("m-0 p-0 w-[100vw] h-[100vh]", fontNoto.className, fontSans.className)}>
-				<Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
+				<Providers themeProps={{
+					attribute: "class",
+					defaultTheme: "system",
+					storageKey: "ferrum-theme",
+				}}>
 					{children}
 				</Providers>
 			</body>

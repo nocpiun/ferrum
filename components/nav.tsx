@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     Navbar,
     NavbarBrand,
@@ -13,11 +13,12 @@ import { Switch } from "@nextui-org/switch";
 import Link from "next/link";
 import { Sun, Moon, LogOut, Gauge, Folders, Settings2 } from "lucide-react";
 import { useTheme } from "next-themes";
-import { redirect, usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 type NavPage = "dashboard" | "explorer" | "settings";
 
 const Nav: React.FC = () => {
+    const router = useRouter();
     const { setTheme, theme } = useTheme();
     const pathname = usePathname();
     const [page, setPage] = useState<NavPage | null>(() => {
@@ -34,14 +35,19 @@ const Nav: React.FC = () => {
                 return null;
         }
     });
-
-    if(!page) return redirect("/");
+    const [mouted, setMouted] = useState<boolean>(false);
 
     const handleSwitchTheme = (value: boolean) => {
         value
         ? setTheme("light")
         : setTheme("dark");
     };
+
+    useEffect(() => {
+        setMouted(true);
+    }, []);
+
+    if(!page) router.push("/");
 
     return (
         <Navbar
@@ -89,12 +95,12 @@ const Nav: React.FC = () => {
             </NavbarContent>
             <NavbarContent justify="end">
                 <NavbarItem>
-                    <Switch
+                    {mouted && <Switch
                         size="md"
                         startContent={<Sun size={13}/>}
                         endContent={<Moon size={13}/>}
                         defaultSelected={theme === "light"}
-                        onValueChange={(value) => handleSwitchTheme(value)}/>
+                        onValueChange={(value) => handleSwitchTheme(value)}/>}
                 </NavbarItem>
                 <NavbarItem>
                     <Button size="sm">
