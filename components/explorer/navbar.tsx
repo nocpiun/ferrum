@@ -3,13 +3,19 @@
 import React from "react";
 import { Breadcrumbs, BreadcrumbItem } from "@nextui-org/breadcrumbs";
 
-const Navbar: React.FC = () => {
+import { useExplorer } from "@/hooks/useExplorer";
+import { PropsWithCN } from "@/types";
+
+const Navbar: React.FC<PropsWithCN> = ({ className }) => {
+    const explorer = useExplorer();
+
     return (
-        <Breadcrumbs className="w-[1000px]">
-            <BreadcrumbItem>test</BreadcrumbItem>
-            <BreadcrumbItem>test</BreadcrumbItem>
-            <BreadcrumbItem>test</BreadcrumbItem>
-            <BreadcrumbItem>test</BreadcrumbItem>
+        <Breadcrumbs className={className}>
+            {
+                explorer.path.map((value, index) => (
+                    <BreadcrumbItem key={index}>{value}</BreadcrumbItem>
+                ))
+            }
         </Breadcrumbs>
     );
 }

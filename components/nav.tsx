@@ -47,11 +47,11 @@ const Nav: React.FC = () => {
         <Navbar
             classNames={{
                 item: [
-                    "px-3",
-                    "py-1",
-                    "data-[active=true]:bg-primary",
-                    "data-[active=true]:text-white",
-                    "data-[active=true]:rounded-lg",
+                    "p-2",
+                    "border-b-2",
+                    "border-transparent",
+                    "data-[active=true]:text-primary",
+                    "data-[active=true]:border-primary",
                 ]
             }}>
             <NavbarBrand className="space-x-2">
