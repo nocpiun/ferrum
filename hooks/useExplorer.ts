@@ -1,11 +1,14 @@
 import { create } from "zustand";
 import { isURL } from "validator";
+import { to } from "preps";
 
 interface ExplorerStore {
     path: string[]
 
     setPath: (path: string[]) => boolean
     stringifyPath: () => string
+    enterPath: (target: string) => void
+    back: () => void
 }
 
 function stringifyPath(path: string[]) {
@@ -15,7 +18,7 @@ function stringifyPath(path: string[]) {
 }
 
 export const useExplorer = create<ExplorerStore>((set, get) => ({
-    path: [],
+    path: ["root"],
 
     setPath: (path) => {
         if(
@@ -41,4 +44,13 @@ export const useExplorer = create<ExplorerStore>((set, get) => ({
         return false;
     },
     stringifyPath: () => stringifyPath(get().path),
+    enterPath: (target: string) => {
+        set({ path: [...get().path, target] });
+    },
+    back: () => {
+        const { path } = get();
+        
+        if(path.length === 1) return;
+        set({ path: to(path).remove(path.length - 1).f() });
+    }
 }));

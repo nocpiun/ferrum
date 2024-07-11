@@ -5,3 +5,9 @@ export interface PropsWithCN {
 export interface BaseResponseData {
     status: number
 }
+
+export interface DirectoryItem {
+    name: string
+    type: "folder" | "file"
+    size: number
+}

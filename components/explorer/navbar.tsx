@@ -3,35 +3,13 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { Breadcrumbs, BreadcrumbItem } from "@nextui-org/breadcrumbs";
+import { FolderRoot } from "lucide-react";
 import { to } from "preps";
-import {
-    Folder,
-    FolderRoot,
-    FolderGit2,
-    FolderDot,
-    FolderHeart,
-    Music,
-    Images,
-    Film
-} from "lucide-react";
+
+import { getIcon } from "./explorer-item";
 
 import { useExplorer } from "@/hooks/useExplorer";
 import { PropsWithCN } from "@/types";
-
-function getIcon(index: number, folderName: string): React.ReactNode {
-    const folderNameLowered = folderName.toLowerCase();
-    const size = 18;
-
-    if(index === 0) return <FolderRoot size={size}/>;
-    if(folderNameLowered === ".git") return <FolderGit2 size={size}/>;
-    if(/^\.\S+/.test(folderNameLowered)) return <FolderDot size={size}/>;
-    if(/^(favo(u?)rite(s?))$/.test(folderNameLowered)) return <FolderHeart size={size}/>;
-    if(/^(music|song(s?))$/.test(folderNameLowered)) return <Music size={size}/>;
-    if(/^(picture(s?)|image(s?))$/.test(folderNameLowered)) return <Images size={size}/>;
-    if(/^(video(s?)|film(s?)|movie(s?))$/.test(folderNameLowered)) return <Film size={size}/>;
-    
-    return <Folder size={size}/>;
-}
 
 const Navbar: React.FC<PropsWithCN> = ({ className }) => {
     const router = useRouter();
@@ -58,7 +36,11 @@ const Navbar: React.FC<PropsWithCN> = ({ className }) => {
                         isDisabled={index === 0 && length === 1}
                         onClick={() => handleClick(index)}
                         key={index}>
-                        {getIcon(index, folderName)}
+                        {
+                            index === 0
+                            ? <FolderRoot size={18}/>
+                            : getIcon(folderName, 18)
+                        }
                         {folderName}
                     </BreadcrumbItem>
                 ))
