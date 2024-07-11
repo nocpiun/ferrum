@@ -1,9 +1,15 @@
-import { Metadata } from "next";
+"use client";
 
-export const metadata: Metadata = {
-    title: "仪表盘",
-};
+import { useEffect } from "react";
+
+import { useDetectCookie } from "@/hooks/useDetectCookie";
 
 export default function Page() {
+    useEffect(() => {
+        document.title = "Ferrum - 仪表盘";
+    }, []);
+
+    useDetectCookie();
+
     return <></>;
 }

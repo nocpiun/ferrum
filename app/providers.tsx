@@ -5,6 +5,7 @@ import { NextUIProvider } from "@nextui-org/system";
 import { useRouter } from "next/navigation";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ThemeProviderProps } from "next-themes/dist/types";
+import { ToastContainer } from "react-toastify";
 
 export interface ProvidersProps {
 	children: React.ReactNode;
@@ -16,7 +17,13 @@ export function Providers({ children, themeProps }: ProvidersProps) {
 
 	return (
 		<NextUIProvider navigate={router.push}>
-			<NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
+			<NextThemesProvider {...themeProps}>
+				{children}
+				<ToastContainer
+					toastClassName="!bg-content1 !text-default-foreground !shadow-lg border border-default-100"
+					position="bottom-right"
+					hideProgressBar/>
+			</NextThemesProvider>
 		</NextUIProvider>
 	);
 }

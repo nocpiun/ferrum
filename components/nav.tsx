@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import Cookies from "js-cookie";
 import {
     Navbar,
     NavbarBrand,
@@ -9,19 +10,20 @@ import {
 } from "@nextui-org/navbar";
 import { Image } from "@nextui-org/image";
 import { Button } from "@nextui-org/button";
-import { Switch } from "@nextui-org/switch";
 import Link from "next/link";
-import { Sun, Moon, LogOut, Gauge, Folders, Settings2 } from "lucide-react";
-import { useTheme } from "next-themes";
+import { LogOut, Gauge, Folders, Settings2 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+
+import ThemeSwitch from "./theme-switch";
 
 import { useExplorer } from "@/hooks/useExplorer";
+import { tokenStorageKey } from "@/lib/global";
 
 type NavPage = "dashboard" | "explorer" | "settings";
 
 const Nav: React.FC = () => {
     const router = useRouter();
-    const { setTheme, theme } = useTheme();
     const pathname = usePathname();
     const explorer = useExplorer();
     const [page, setPage] = useState<NavPage | null>(() => {
@@ -38,19 +40,12 @@ const Nav: React.FC = () => {
                 return null;
         }
     });
-    const [mouted, setMouted] = useState<boolean>(false);
 
-    const handleSwitchTheme = (value: boolean) => {
-        value
-        ? setTheme("light")
-        : setTheme("dark");
+    const handleLogout = () => {
+        Cookies.remove(tokenStorageKey);
+        toast.success("登出成功");
+        router.refresh();
     };
-
-    useEffect(() => {
-        setMouted(true);
-    }, []);
-
-    if(!page) router.push("/");
 
     return (
         <Navbar
@@ -98,15 +93,10 @@ const Nav: React.FC = () => {
             </NavbarContent>
             <NavbarContent justify="end">
                 <NavbarItem>
-                    {mouted && <Switch
-                        size="md"
-                        startContent={<Sun size={13}/>}
-                        endContent={<Moon size={13}/>}
-                        defaultSelected={theme === "light"}
-                        onValueChange={(value) => handleSwitchTheme(value)}/>}
+                    <ThemeSwitch />
                 </NavbarItem>
                 <NavbarItem>
-                    <Button size="sm">
+                    <Button size="sm" onClick={() => handleLogout()}>
                         登出
                         <LogOut size={15}/>
                     </Button>

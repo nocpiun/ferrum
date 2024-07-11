@@ -1,4 +1,6 @@
 import "@/styles/globals.css";
+import "@/styles/toastify.css";
+import "react-toastify/dist/ReactToastify.css";
 import { Metadata, Viewport } from "next";
 import { clsx } from "clsx";
 

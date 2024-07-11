@@ -6,6 +6,7 @@ import { Input } from "@nextui-org/input";
 
 import Navbar from "@/components/explorer/navbar";
 import { useExplorer } from "@/hooks/useExplorer";
+import { useDetectCookie } from "@/hooks/useDetectCookie";
 
 interface FileExplorerProps {
     params: {
@@ -33,6 +34,8 @@ export default function Page({ params }: FileExplorerProps) {
 
         document.title = "Ferrum - "+ explorer.stringifyPath();
     }, []);
+
+    useDetectCookie();
 
     return (
         <div className="w-full h-full flex flex-col items-center space-y-3">
