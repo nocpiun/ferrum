@@ -15,8 +15,9 @@ import {
     Film
 } from "lucide-react";
 
-import { DirectoryItem } from "@/types";
+import { BytesType, DirectoryItem } from "@/types";
 import { useExplorer } from "@/hooks/useExplorer";
+import { bytesSizeTransform, getBytesType } from "@/lib/utils";
 
 export function getIcon(folderName: string, size: number = 18, color?: string): React.ReactNode {
     const folderNameLowered = folderName.toLowerCase();
@@ -34,7 +35,23 @@ export function getIcon(folderName: string, size: number = 18, color?: string): 
 interface ExplorerItemProps extends DirectoryItem {}
 
 const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
-    const type = mime.getExtension(props.name);
+    const type = mime.getExtension(mime.getType(props.name) ?? "");
+    var size = {
+        value: props.size.toFixed(2),
+        type: BytesType.B
+    };
+
+    if(props.size <= 1024) {
+        //
+    } else if(props.size > 1024 && props.size <= 1048576) {
+        size = bytesSizeTransform(props.size, BytesType.B, BytesType.KB);
+    } else if(props.size > 1048576 && props.size <= 1073741824) {
+        size = bytesSizeTransform(props.size, BytesType.B, BytesType.MB);
+    } else if(props.size > 1073741824 && props.size <= 1099511627776) {
+        size = bytesSizeTransform(props.size, BytesType.B, BytesType.GB);
+    } else if(props.size > 1099511627776) {
+        size = bytesSizeTransform(props.size, BytesType.B, BytesType.TB);
+    }
     
     const router = useRouter();
     const explorer = useExplorer();
@@ -46,20 +63,22 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
 
     return (
         <div className="w-full h-8 text-md flex items-center gap-4">
-            <div className="flex-1 flex items-center gap-2">
+            <div className="flex-1 min-w-0 flex items-center gap-2">
                 {(
-                    props.type === "folder" ? getIcon(props.name, 20, "#9e9e9e") : <File size={20} color="#9e9e9e"/>
+                    props.type === "folder" ? getIcon(props.name, 20, "#9e9e9e") : (
+                        <File size={20} color="#9e9e9e" className="min-w-[20px]"/>
+                    )
                 ) as ReactNode}
                 <button
-                    className="hover:underline hover:text-primary-500 cursor-pointer"
+                    className="text-ellipsis whitespace-nowrap cursor-pointer overflow-hidden hover:underline hover:text-primary-500"
                     onClick={() => handleClick()}>
                     {props.name}
                 </button>
             </div>
             <Divider orientation="vertical" className="bg-transparent"/>
-            <span className="flex-1 text-default-400 text-sm cursor-default">{props.type === "folder" ? "文件夹" : type}</span>
+            <span className="flex-1 text-default-400 text-sm cursor-default">{props.type === "folder" ? "文件夹" : (type +" 文件")}</span>
             <Divider orientation="vertical" className="bg-transparent"/>
-            <span className="flex-1 text-default-400 text-sm cursor-default">{props.size.toFixed(2) +" KB"}</span>
+            <span className="flex-1 text-default-400 text-right text-sm cursor-default">{props.type === "file" ? (size?.value +" "+ getBytesType(size?.type)) : ""}</span>
         </div>
     );
 };

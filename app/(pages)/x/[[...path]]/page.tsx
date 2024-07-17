@@ -1,13 +1,13 @@
 "use client";
 
-import { Suspense, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Input } from "@nextui-org/input";
 import { Card } from "@nextui-org/card";
 import { Button } from "@nextui-org/button";
-import { Skeleton } from "@nextui-org/skeleton";
 import { Tooltip } from "@nextui-org/tooltip";
 import { ArrowLeft, Home } from "lucide-react";
+import { to } from "preps";
 
 import Navbar from "@/components/explorer/navbar";
 import { useExplorer } from "@/hooks/useExplorer";
@@ -25,6 +25,7 @@ export default function Page({ params }: FileExplorerProps) {
 
     const router = useRouter();
     const explorer = useExplorer();
+    const [currentPath, setCurrentPath] = useState<string>();
 
     const handleHome = () => {
         explorer.setPath(["root"]);
@@ -35,6 +36,12 @@ export default function Page({ params }: FileExplorerProps) {
         explorer.back();
         router.push("/x/root"+ explorer.stringifyPath());
     };
+
+    useExplorer.subscribe((state, prevState) => {
+        if(to(state.path).is(prevState.path)) return;
+
+        setCurrentPath(state.stringifyPath());
+    });
 
     useEffect(() => {
         if(
@@ -49,6 +56,9 @@ export default function Page({ params }: FileExplorerProps) {
         }
 
         document.title = "Ferrum - "+ explorer.stringifyPath();
+
+        // Trigger the explorer to fetch the folder info
+        setCurrentPath(explorer.stringifyPath());
     }, []);
 
     useDetectCookie();
@@ -92,15 +102,7 @@ export default function Page({ params }: FileExplorerProps) {
             <div className="w-[1000px] h-full flex gap-7">
                 <Card className="flex-1"/>
 
-                <Suspense fallback={
-                    <div className="w-[730px] flex flex-col gap-3">
-                        {new Array(4).fill(0).map((_, index) => (
-                            <Skeleton className="h-8 rounded-md" key={index}/>
-                        ))}
-                    </div>
-                }>
-                    <Explorer currentPath={explorer.stringifyPath()}/>
-                </Suspense>
+                <Explorer currentPath={currentPath}/>
             </div>
         </div>
     );

@@ -34,7 +34,7 @@ export default function RootLayout({
 	return (
 		<html suppressHydrationWarning lang="zh-cn">
 			<head />
-			<body className={clsx("m-0 p-0 w-[100vw] h-[100vh]", fontNoto.className, fontSans.className)}>
+			<body className={clsx("m-0 p-0 w-[100vw] h-[100vh] overflow-x-hidden", fontNoto.className, fontSans.className)}>
 				<Providers themeProps={{
 					attribute: "class",
 					defaultTheme: "system",

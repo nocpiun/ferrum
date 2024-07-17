@@ -11,3 +11,11 @@ export interface DirectoryItem {
     type: "folder" | "file"
     size: number
 }
+
+export enum BytesType {
+    B = 0,
+    KB = 1,
+    MB = 2,
+    GB = 3,
+    TB = 4
+}
