@@ -4,7 +4,6 @@ import React, { ReactNode } from "react";
 import { Divider } from "@nextui-org/divider";
 import { File } from "lucide-react";
 import { useRouter } from "next/navigation";
-import mime from "mime";
 import {
     Folder,
     FolderGit2,
@@ -15,7 +14,7 @@ import {
     Film
 } from "lucide-react";
 
-import { BytesType, DirectoryItem } from "@/types";
+import { BytesType, type DirectoryItem } from "@/types";
 import { useExplorer } from "@/hooks/useExplorer";
 import { bytesSizeTransform, getBytesType, getFileTypeName } from "@/lib/utils";
 

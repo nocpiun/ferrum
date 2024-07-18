@@ -1,5 +1,7 @@
 "use client";
 
+import type { PropsWithCN } from "@/types";
+
 import React from "react";
 import { useRouter } from "next/navigation";
 import { Breadcrumbs, BreadcrumbItem } from "@nextui-org/breadcrumbs";
@@ -9,7 +11,6 @@ import { to } from "preps";
 import { getIcon } from "./explorer-item";
 
 import { useExplorer } from "@/hooks/useExplorer";
-import { PropsWithCN } from "@/types";
 
 const Navbar: React.FC<PropsWithCN> = ({ className }) => {
     const router = useRouter();

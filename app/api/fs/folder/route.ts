@@ -1,31 +1,33 @@
+import type { DirectoryItem } from "@/types";
+
 import fs from "node:fs";
 import path from "node:path";
 
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 import { tokenStorageKey } from "@/lib/global";
 import { validateToken } from "@/lib/token";
+import { packet, error } from "@/lib/packet";
 
 export async function GET(req: NextRequest) {
     const token = req.cookies.get(tokenStorageKey)?.value;
 
-    if(!token) return NextResponse.json({ status: 401 });
-    if(!validateToken(token)) return NextResponse.json({ status: 403 });
+    if(!token) return error(401);
+    if(!validateToken(token)) return error(403);
 
     const { searchParams } = new URL(req.url);
     const targetDisk = searchParams.get("disk");
-    const targetPath = path.join((targetDisk ?? "C") +":", searchParams.get("path") ?? "/");
+    const targetPath = path.join(targetDisk ?? "C:", searchParams.get("path") ?? "/");
     
     try {
-        if(!targetPath || !fs.existsSync(targetPath)) return NextResponse.json({ status: 404 });
+        if(!targetPath || !fs.existsSync(targetPath)) return error(404);
     
         const stat = fs.statSync(targetPath);
     
-        if(!stat.isDirectory()) return NextResponse.json({ status: 400 });
+        if(!stat.isDirectory()) return error(400);
     
-        return NextResponse.json({
-            status: 200,
-            items: fs.readdirSync(targetPath).map((itemName) => {
+        return packet({
+            items: fs.readdirSync(targetPath).map<DirectoryItem>((itemName) => {
                 const itemPath = path.join(targetPath, itemName);
 
                 if(!fs.existsSync(itemPath)) {
@@ -49,8 +51,8 @@ export async function GET(req: NextRequest) {
         });
     } catch (err) {
         // eslint-disable-next-line no-console
-        console.log("[Server: /api/folder] "+ err);
+        console.log("[Server: /api/fs/folder] "+ err);
 
-        return NextResponse.json({ status: 500 });
+        return error(500);
     }
 }

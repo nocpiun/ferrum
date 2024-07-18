@@ -1,6 +1,6 @@
-import { BytesType } from "@/types";
-
 import fileTypes from "./store/file-types.json";
+
+import { BytesType } from "@/types";
 
 export function getCurrentState<T>(setState: React.Dispatch<React.SetStateAction<T>>): Promise<T> {
     return new Promise((resolve, _reject) => {

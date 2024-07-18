@@ -1,6 +1,8 @@
 /* eslint-disable padding-line-between-statements */
 "use client";
 
+import type { BaseResponseData, DirectoryItem } from "@/types";
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Divider } from "@nextui-org/divider";
@@ -8,7 +10,6 @@ import { toast } from "react-toastify";
 
 import ExplorerItem from "./explorer-item";
 
-import { BaseResponseData, DirectoryItem } from "@/types";
 import { useExplorer } from "@/hooks/useExplorer";
 
 interface FolderResponseData extends BaseResponseData {
@@ -24,9 +25,9 @@ const Explorer: React.FC<ExplorerProps> = ({ currentPath }) => {
     const [items, setItems] = useState<DirectoryItem[]>([]);
 
     useEffect(() => {
-        if(!currentPath) return;
+        if(!currentPath || explorer.disk.length === 0) return;
 
-        axios.get<FolderResponseData>(`/api/fs/folder?disk=${explorer.disk}&path=${currentPath}`)
+        axios.get<FolderResponseData>(`/api/fs/folder?disk=${useExplorer.getState().disk}&path=${currentPath}`)
             .then(({ data }) => {
                 var list: DirectoryItem[] = [];
 
@@ -62,10 +63,10 @@ const Explorer: React.FC<ExplorerProps> = ({ currentPath }) => {
                 toast.error(err);
                 throw err;
             });
-    }, [currentPath]);
+    }, [currentPath, explorer.disk]);
 
     return (
-        <div className="w-[730px] flex flex-col gap-2">
+        <div className="w-[730px] flex flex-col gap-1">
             <div className="w-full h-6 text-sm flex items-center gap-4 pr-5">
                 <span className="flex-[2] cursor-default">名称</span>
                 <Divider orientation="vertical"/>

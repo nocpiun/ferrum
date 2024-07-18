@@ -7,6 +7,7 @@ interface ExplorerStore {
     disk: string
 
     setPath: (path: string[]) => boolean
+    setDisk: (disk: string) => void
     stringifyPath: () => string
     enterPath: (target: string) => void
     back: () => void
@@ -20,7 +21,7 @@ function stringifyPath(path: string[]) {
 
 export const useExplorer = create<ExplorerStore>((set, get) => ({
     path: ["root"],
-    disk: "D", // for dev
+    disk: "",
 
     setPath: (path) => {
         if(
