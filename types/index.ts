@@ -10,6 +10,7 @@ export interface DirectoryItem {
     name: string
     type: "folder" | "file"
     size: number
+    access: boolean
 }
 
 export enum BytesType {

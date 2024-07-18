@@ -22,12 +22,24 @@ export async function GET(req: NextRequest) {
         return NextResponse.json({
             status: 200,
             items: fs.readdirSync(targetPath).map((itemName) => {
-                const item = fs.statSync(path.join(targetPath, itemName));
+                const itemPath = path.join(targetPath, itemName);
+
+                if(!fs.existsSync(itemPath)) {
+                    return {
+                        name: itemName,
+                        type: "file",
+                        size: 0,
+                        access: false
+                    };
+                }
+
+                const item = fs.statSync(itemPath);
     
                 return {
                     name: itemName,
                     type: item.isDirectory() ? "folder" : "file",
-                    size: item.size
+                    size: item.size,
+                    access: true
                 };
             })
         });

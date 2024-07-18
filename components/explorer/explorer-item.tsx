@@ -62,8 +62,8 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
     };
 
     return (
-        <div className="w-full h-8 text-md flex items-center gap-4">
-            <div className="flex-1 min-w-0 flex items-center gap-2">
+        <div className="w-full min-h-8 text-md flex items-center gap-4">
+            <div className="flex-[2] min-w-0 flex items-center gap-2">
                 {(
                     props.type === "folder" ? getIcon(props.name, 20, "#9e9e9e") : (
                         <File size={20} color="#9e9e9e" className="min-w-[20px]"/>

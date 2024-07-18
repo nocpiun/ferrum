@@ -99,7 +99,7 @@ export default function Page({ params }: FileExplorerProps) {
             </div>
             <Navbar className="w-[1000px] px-3"/>
 
-            <div className="w-[1000px] h-full flex gap-7">
+            <div className="w-[1000px] h-[78vh] flex gap-7">
                 <Card className="flex-1"/>
 
                 <Explorer currentPath={currentPath}/>
