@@ -4,6 +4,7 @@ import { to } from "preps";
 
 interface ExplorerStore {
     path: string[]
+    disk: string
 
     setPath: (path: string[]) => boolean
     stringifyPath: () => string
@@ -19,6 +20,7 @@ function stringifyPath(path: string[]) {
 
 export const useExplorer = create<ExplorerStore>((set, get) => ({
     path: ["root"],
+    disk: "D", // for dev
 
     setPath: (path) => {
         if(
@@ -43,6 +45,7 @@ export const useExplorer = create<ExplorerStore>((set, get) => ({
         
         return false;
     },
+    setDisk: (disk: string) => set({ disk }),
     stringifyPath: () => stringifyPath(get().path),
     enterPath: (target: string) => {
         set({ path: [...get().path, target] });

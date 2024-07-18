@@ -17,7 +17,7 @@ import {
 
 import { BytesType, DirectoryItem } from "@/types";
 import { useExplorer } from "@/hooks/useExplorer";
-import { bytesSizeTransform, getBytesType } from "@/lib/utils";
+import { bytesSizeTransform, getBytesType, getFileTypeName } from "@/lib/utils";
 
 export function getIcon(folderName: string, size: number = 18, color?: string): React.ReactNode {
     const folderNameLowered = folderName.toLowerCase();
@@ -35,7 +35,7 @@ export function getIcon(folderName: string, size: number = 18, color?: string): 
 interface ExplorerItemProps extends DirectoryItem {}
 
 const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
-    const type = mime.getExtension(mime.getType(props.name) ?? "");
+    const extname = props.name.split(".").findLast(() => true);
     var size = {
         value: props.size.toFixed(2),
         type: BytesType.B
@@ -76,7 +76,7 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
                 </button>
             </div>
             <Divider orientation="vertical" className="bg-transparent"/>
-            <span className="flex-1 text-default-400 text-sm cursor-default">{props.type === "folder" ? "文件夹" : (type +" 文件")}</span>
+            <span className="flex-1 text-default-400 text-sm cursor-default">{props.type === "folder" ? "文件夹" : getFileTypeName(extname)}</span>
             <Divider orientation="vertical" className="bg-transparent"/>
             <span className="flex-1 text-default-400 text-right text-sm cursor-default">{props.type === "file" ? (size?.value +" "+ getBytesType(size?.type)) : ""}</span>
         </div>

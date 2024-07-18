@@ -1,5 +1,7 @@
 import { BytesType } from "@/types";
 
+import fileTypes from "./store/file-types.json";
+
 export function getCurrentState<T>(setState: React.Dispatch<React.SetStateAction<T>>): Promise<T> {
     return new Promise((resolve, _reject) => {
         setState((currentState) => {
@@ -25,4 +27,19 @@ export function getBytesType(type: BytesType): string {
         case BytesType.GB: return "GB";
         case BytesType.TB: return "TB";
     }
+}
+
+export function getFileTypeName(extname?: string): string {
+    if(!extname) return "文件";
+    extname = extname.toLowerCase();
+
+    for(let item of fileTypes) {
+        for(let ext of item.extensions) {
+            if(extname === ext) {
+                return item.name;
+            }
+        }
+    }
+
+    return "文件";
 }

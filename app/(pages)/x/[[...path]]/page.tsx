@@ -72,7 +72,8 @@ export default function Page({ params }: FileExplorerProps) {
                             isIconOnly
                             className="flex justify-center"
                             variant="light"
-                            onClick={() => handleHome()}>
+                            onClick={() => handleHome()}
+                            isDisabled={explorer.path.length === 1}>
                             <Home size={20}/>
                         </Button>
                     </Tooltip>
@@ -81,18 +82,22 @@ export default function Page({ params }: FileExplorerProps) {
                             isIconOnly
                             className="flex justify-center"
                             variant="light"
-                            onClick={() => handleBack()}>
+                            onClick={() => handleBack()}
+                            isDisabled={explorer.path.length === 1}>
                             <ArrowLeft size={20}/>
                         </Button>
                     </Tooltip>
                 </div>
 
                 <Input
-                    className="flex-1"
+                    className="flex-1 !mt-6"
                     classNames={{
                         input: [
                             "px-1",
                         ],
+                        label: [
+                            "text-sm"
+                        ]
                     }}
                     label="搜索文件 / 文件夹"
                     labelPlacement="outside"/>

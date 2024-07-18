@@ -41,7 +41,11 @@ const Navbar: React.FC<PropsWithCN> = ({ className }) => {
                             ? <FolderRoot size={18}/>
                             : getIcon(folderName, 18)
                         }
-                        {decodeURIComponent(folderName)}
+                        {
+                            index === 0
+                            ? explorer.disk
+                            : decodeURIComponent(folderName)
+                        }
                     </BreadcrumbItem>
                 ))
             }

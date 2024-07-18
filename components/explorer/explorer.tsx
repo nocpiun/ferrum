@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import ExplorerItem from "./explorer-item";
 
 import { BaseResponseData, DirectoryItem } from "@/types";
+import { useExplorer } from "@/hooks/useExplorer";
 
 interface FolderResponseData extends BaseResponseData {
     items: DirectoryItem[]
@@ -19,13 +20,13 @@ interface ExplorerProps {
 }
 
 const Explorer: React.FC<ExplorerProps> = ({ currentPath }) => {
+    const explorer = useExplorer();
     const [items, setItems] = useState<DirectoryItem[]>([]);
-    const currentDisk = "D"; // for dev
 
     useEffect(() => {
         if(!currentPath) return;
 
-        axios.get<FolderResponseData>(`/api/folder?disk=${currentDisk}&path=${currentPath}`)
+        axios.get<FolderResponseData>(`/api/fs/folder?disk=${explorer.disk}&path=${currentPath}`)
             .then(({ data }) => {
                 var list: DirectoryItem[] = [];
 
@@ -34,6 +35,9 @@ const Explorer: React.FC<ExplorerProps> = ({ currentPath }) => {
                         toast.error(`该路径无效 (${data.status})`);
                         return;
                     case 401:
+                        toast.error(`未登录 (${data.status})`);
+                        return;
+                    case 403:
                         toast.error(`无效的访问token (${data.status})`);
                         return;
                     case 404:

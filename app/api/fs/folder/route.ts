@@ -4,9 +4,13 @@ import path from "node:path";
 import { NextRequest, NextResponse } from "next/server";
 
 import { tokenStorageKey } from "@/lib/global";
+import { validateToken } from "@/lib/token";
 
 export async function GET(req: NextRequest) {
-    if(!req.cookies.get(tokenStorageKey)) return NextResponse.json({ status: 401 });
+    const token = req.cookies.get(tokenStorageKey)?.value;
+
+    if(!token) return NextResponse.json({ status: 401 });
+    if(!validateToken(token)) return NextResponse.json({ status: 403 });
 
     const { searchParams } = new URL(req.url);
     const targetDisk = searchParams.get("disk");

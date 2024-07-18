@@ -1,0 +1,58 @@
+[
+    {
+        "name": "文本文件",
+        "extensions": ["txt"]
+    },
+    {
+        "name": "Word 文档",
+        "extensions": ["doc", "docx"]
+    },
+    {
+        "name": "Powerpoint 演示文稿",
+        "extensions": ["ppt", "pptx"]
+    },
+    {
+        "name": "Excel 工作表",
+        "extensions": ["xls", "xlsx"]
+    },
+    {
+        "name": "压缩包",
+        "extensions": ["zip", "rar", "tar", "7z", "gz", "bz2", "xz"]
+    },
+    {
+        "name": "可执行文件",
+        "extensions": ["exe"]
+    },
+    {
+        "name": "批处理文件",
+        "extensions": ["bat", "cmd", "sh"]
+    },
+    {
+        "name": "配置文件",
+        "extensions": ["ini", "conf", "cfg", "xml", "json", "yml", "yaml", "toml", "properties", "prop"]
+    },
+    {
+        "name": "Git 配置文件",
+        "extensions": ["gitconfig", "gitignore", "gitmodules", "gitattributes"]
+    },
+    {
+        "name": "NPM 配置文件",
+        "extensions": ["npmrc", "npmignore"]
+    },
+    {
+        "name": "Docker 配置文件",
+        "extensions": ["dockerfile", "dockerignore"]
+    },
+    {
+        "name": "Markdown 文档",
+        "extensions": ["md", "markdown"]
+    },
+    {
+        "name": "许可",
+        "extensions": ["license"]
+    },
+    {
+        "name": "环境文件",
+        "extensions": ["env"]
+    }
+]
