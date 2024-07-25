@@ -126,7 +126,14 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
     }, []);
 
     return (
-        <div className="w-full min-h-8 text-md flex items-center gap-4" onClick={() => setSelected((s) => !s)}>
+        <div
+            className="w-full min-h-8 text-md flex items-center gap-4"
+            onClick={() => setSelected((s) => !s)}
+            onKeyDown={({ key }) => {
+                key === "Enter" && setSelected((s) => !s);
+            }}
+            role="button"
+            tabIndex={0}>
             <div className="w-[2%] flex items-center">
                 <Checkbox
                     className=""
