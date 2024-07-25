@@ -103,13 +103,13 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
     
     const explorer = useExplorer();
 
-    const handleClick = (e: React.MouseEvent) => {
+    const handleOpen = () => {
         setSelected(false);
         explorer.enterPath(props.name);
+    };
 
-        // To prevent the click event of the parent element
-        // which will select the checkbox of the item
-        e.stopPropagation();
+    const handleSelection = () => {
+        setSelected((s) => !s);
     };
 
     useEffect(() => {
@@ -128,9 +128,9 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
     return (
         <div
             className="w-full min-h-8 text-md flex items-center gap-4"
-            onClick={() => setSelected((s) => !s)}
+            onClick={() => handleSelection()}
             onKeyDown={({ key }) => {
-                key === "Enter" && setSelected((s) => !s);
+                key === "Enter" && handleSelection();
             }}
             role="button"
             tabIndex={0}>
@@ -148,7 +148,7 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
                 ) as React.ReactNode}
                 <button
                     className="text-ellipsis whitespace-nowrap cursor-pointer overflow-hidden hover:underline hover:text-primary-500"
-                    onClick={(e) => handleClick(e)}>
+                    onDoubleClick={() => handleOpen()}>
                     {props.name}
                 </button>
             </div>
