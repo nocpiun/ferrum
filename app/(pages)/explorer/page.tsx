@@ -8,7 +8,6 @@ import { Card } from "@nextui-org/card";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-import Navbar from "@/components/explorer/navbar";
 import Explorer from "@/components/explorer/explorer";
 import { useExplorer } from "@/hooks/useExplorer";
 import { useDetectCookie } from "@/hooks/useDetectCookie";
@@ -73,19 +72,17 @@ export default function Page() {
             });
 
         document.title = "Ferrum - "+ explorer.stringifyPath();
+
+        explorer.clearCurrentViewing();
     }, []);
 
     useDetectCookie();
 
     return (
-        <div className="w-full h-full pb-10 flex flex-col items-center space-y-3">
-            <Navbar />
-
-            <div className="w-[1000px] h-[78vh] flex gap-7">
-                <Card className="flex-1 dark:bg-[#111]"/>
-
-                <Explorer />
-            </div>
-        </div>
+        <>
+            <Card className="flex-1 dark:bg-[#111]"/>
+            
+            <Explorer />
+        </>
     );
 }

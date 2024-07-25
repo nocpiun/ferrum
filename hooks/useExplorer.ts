@@ -7,9 +7,12 @@ import { diskStorageKey } from "@/lib/global";
 interface ExplorerStore {
     path: string[]
     disk: string
+    currentViewing: string | null
 
     setPath: (path: string[]) => void
     setDisk: (disk: string) => void
+    setCurrentViewing: (file: string) => void
+    clearCurrentViewing: () => void
     stringifyPath: () => string
     enterPath: (target: string) => void
     backToRoot: () => void
@@ -35,12 +38,15 @@ export function parseStringPath(path: string): string[] {
 export const useExplorer = create<ExplorerStore>((set, get) => ({
     path: ["root"],
     disk: "",
+    currentViewing: null,
 
     setPath: (path) => set({ path }),
     setDisk: (disk: string) => {
         set({ disk });
         storage.setItem(diskStorageKey, disk);
     },
+    setCurrentViewing: (file) => set({ currentViewing: file }),
+    clearCurrentViewing: () => set({ currentViewing: null }),
     stringifyPath: () => stringifyPath(get().path),
     enterPath: (target: string) => {
         set({ path: [...get().path, target] });

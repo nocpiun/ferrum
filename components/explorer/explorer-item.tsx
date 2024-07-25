@@ -24,8 +24,10 @@ import {
     FileAudio,
     AppWindow,
     FileDigit,
-    FileCode2
+    FileCode2,
+    BookMarked
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 import { useExplorer } from "@/hooks/useExplorer";
 import { formatSize, getFileType, getFileTypeName } from "@/lib/utils";
@@ -71,6 +73,8 @@ export function getFileIcon(extname: string, size: number = 18, color?: string):
             return <FileDigit size={size} color={color} className={className}/>;
         case "code":
             return <FileCode2 size={size} color={color} className={className}/>;
+        case "markdown":
+            return <BookMarked size={size} color={color} className={className}/>;
     }
 
     return <File size={size} color={color} className={className}/>;
@@ -85,9 +89,18 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
     const [selected, setSelected] = useState<boolean>(false);
     
     const explorer = useExplorer();
+    const router = useRouter();
 
     const handleOpen = () => {
         setSelected(false);
+        
+        if(props.type === "file") {
+            explorer.setCurrentViewing(props.name);
+            router.push("/explorer/viewer?type="+ (getFileType(extname ?? "")?.id ?? "text"));
+
+            return;
+        }
+
         explorer.enterPath(props.name);
     };
 

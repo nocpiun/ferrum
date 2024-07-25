@@ -29,6 +29,7 @@ const Nav: React.FC = () => {
             case "/dashboard":
                 return "dashboard";
             case "/explorer":
+            case "/explorer/viewer":
                 return "explorer";
             case "/settings":
                 return "settings";
@@ -71,7 +72,7 @@ const Nav: React.FC = () => {
                 <NavbarItem isActive={page === "explorer"}>
                     <Link
                         className="flex items-center space-x-2"
-                        href="explorer"
+                        href="/explorer"
                         onClick={() => setPage("explorer")}>
                         <Folders size={20}/>
                         <span>文件管理器</span>

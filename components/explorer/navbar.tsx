@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useCallback, useState } from "react";
+import React, { useEffect, useCallback, useState, useMemo } from "react";
 import { Breadcrumbs, BreadcrumbItem } from "@nextui-org/breadcrumbs";
 import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
@@ -8,8 +8,9 @@ import { Tooltip } from "@nextui-org/tooltip";
 import { Dropdown, DropdownMenu, DropdownTrigger, DropdownItem } from "@nextui-org/dropdown";
 import { ArrowLeft, HardDrive, Home, FolderRoot } from "lucide-react";
 import { to } from "preps";
+import { usePathname, useRouter } from "next/navigation";
 
-import { getFolderIcon } from "./explorer-item";
+import { getFileIcon, getFolderIcon } from "./explorer-item";
 import DiskItem from "./disk-item";
 
 import { parseStringPath, useExplorer } from "@/hooks/useExplorer";
@@ -19,22 +20,50 @@ import { isValidPath } from "@/lib/utils";
 const Navbar: React.FC = () => {
     const ferrum = useFerrum();
     const explorer = useExplorer();
+    const router = useRouter();
+    const pathname = usePathname();
 
-    const defaultInputPath = explorer.stringifyPath();
+    const defaultInputPath = useMemo(() => {
+        return explorer.stringifyPath() + (
+            explorer.currentViewing
+            ? (
+                explorer.path.length === 1
+                ? explorer.currentViewing
+                : "/"+ explorer.currentViewing
+            )
+            : ""
+        );
+    }, [explorer]);
     const [inputPath, setInputPath] = useState<string>(defaultInputPath);
+
+    /**
+     * @returns {boolean} `true` if the viewer is on, `false` otherwise
+     */
+    function exitViewerIfViewerIsOn(): boolean {
+        if(pathname === "/explorer") return false;
+
+        explorer.clearCurrentViewing();
+        router.push("/explorer");
+        
+        return true;
+    }
 
     const handleHome = () => {
         explorer.backToRoot();
+
+        exitViewerIfViewerIsOn();
     };
 
     const handleBack = () => {
-        explorer.back();
+        !exitViewerIfViewerIsOn() && explorer.back();
     };
 
     const handleBreadcrumbClick = (index: number) => {
         const { path } = explorer;
 
         explorer.setPath(to(path).cut(index + 1).f(0));
+        
+        exitViewerIfViewerIsOn();
     };
 
     const handleInputChange = (value: string) => {
@@ -46,6 +75,8 @@ const Navbar: React.FC = () => {
         if(!isValidPath(inputPath)) return;
         
         explorer.setPath(parseStringPath(inputPath));
+        
+        exitViewerIfViewerIsOn();
     }, [defaultInputPath, inputPath]);
 
     useEffect(() => {
@@ -62,7 +93,7 @@ const Navbar: React.FC = () => {
                             className="flex justify-center"
                             variant="light"
                             onPress={() => handleHome()}
-                            isDisabled={explorer.path.length === 1}>
+                            isDisabled={explorer.path.length === 1 && !explorer.currentViewing}>
                             <Home size={20}/>
                         </Button>
                     </Tooltip>
@@ -72,7 +103,7 @@ const Navbar: React.FC = () => {
                             className="flex justify-center"
                             variant="light"
                             onPress={() => handleBack()}
-                            isDisabled={explorer.path.length === 1}>
+                            isDisabled={explorer.path.length === 1 && !explorer.currentViewing}>
                             <ArrowLeft size={20}/>
                         </Button>
                     </Tooltip>
@@ -110,6 +141,7 @@ const Navbar: React.FC = () => {
                         selectionMode="single"
                         selectedKeys={[explorer.disk]}
                         onSelectionChange={(keys) => {
+                            exitViewerIfViewerIsOn();
                             explorer.setDisk(Array.from(keys)[0] as string);
                             explorer.backToRoot();
                         }}>
@@ -118,7 +150,8 @@ const Navbar: React.FC = () => {
                                 <DropdownItem
                                     key={disk._mounted}
                                     className="data-[selected=true]:!bg-default-100"
-                                    startContent={<HardDrive className="w-4 h-4 mr-2 stroke-default-400"/>}>
+                                    startContent={<HardDrive className="w-4 h-4 mr-2 stroke-default-400"/>}
+                                    aria-label={disk._mounted}>
                                     <DiskItem {...disk}/>
                                 </DropdownItem>
                             ))
@@ -136,8 +169,8 @@ const Navbar: React.FC = () => {
                     explorer.path.map((folderName, index, { length }) => (
                         <BreadcrumbItem
                             classNames={{ item: "gap-1" }}
-                            isCurrent={index !== 0 && index === length - 1}
-                            isDisabled={index === 0 && length === 1}
+                            isCurrent={index !== 0 && index === length - 1 && !explorer.currentViewing}
+                            isDisabled={index === 0 && length === 1 && !explorer.currentViewing}
                             onPress={() => handleBreadcrumbClick(index)}
                             key={index}>
                             {
@@ -152,6 +185,18 @@ const Navbar: React.FC = () => {
                             }
                         </BreadcrumbItem>
                     ))
+                }
+                {
+                    explorer.currentViewing
+                    ? (
+                        <BreadcrumbItem
+                            classNames={{ item: "gap-1" }}
+                            isCurrent>
+                            {getFileIcon(explorer.currentViewing.split(".").findLast(() => true) ?? "")}
+                            {explorer.currentViewing}
+                        </BreadcrumbItem>
+                    )
+                    : null
                 }
             </Breadcrumbs>
         </>
