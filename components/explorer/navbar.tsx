@@ -20,7 +20,7 @@ const Navbar: React.FC = () => {
     const ferrum = useFerrum();
     const explorer = useExplorer();
 
-    const defaultInputPath = useMemo(() => explorer.disk + explorer.stringifyPath(), [explorer]);
+    const defaultInputPath = explorer.stringifyPath();
     const [inputPath, setInputPath] = useState<string>(defaultInputPath);
 
     const handleHome = () => {
@@ -43,6 +43,7 @@ const Navbar: React.FC = () => {
 
     const handleInputEnter = useCallback(() => {
         if(inputPath === defaultInputPath) return;
+        if(!isValidPath(inputPath)) return;
         
         explorer.setPath(parseStringPath(inputPath));
     }, [defaultInputPath, inputPath]);

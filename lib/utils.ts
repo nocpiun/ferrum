@@ -85,5 +85,14 @@ export function isValidPath(path: string): boolean {
         allow_fragments: true,
         allow_protocol_relative_urls: false,
         allow_query_components: false
-    });
+    }) && (
+        path.indexOf("\\") === -1 &&
+        path.indexOf(":") === -1 &&
+        path.indexOf("*") === -1 &&
+        path.indexOf("\"") === -1 &&
+        path.indexOf("<") === -1 &&
+        path.indexOf(">") === -1 &&
+        path.indexOf("|") === -1 &&
+        path.indexOf("\/\/") === -1
+    );
 }
