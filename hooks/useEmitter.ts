@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import Emitter from "@/lib/emitter";
+import { emitter } from "@/lib/emitter";
 
 type EmitterInstance = [string, (...args: any[]) => any];
 
@@ -14,13 +14,13 @@ type EmitterInstance = [string, (...args: any[]) => any];
  * ]);
  * 
  * // in somewhere...
- * new Emitter().emit("foo"); // bar
+ * emitter.emit("foo"); // bar
  * ```
  */
 export default function useEmitter(instances: EmitterInstance[]) {
     useEffect(() => {
         instances.forEach((instance: EmitterInstance) => {
-            Emitter.get().on(instance[0], (...args: any[]) => instance[1](...args));
+            emitter.on(instance[0], (...args: any[]) => instance[1](...args));
         });
     }, []);
 }

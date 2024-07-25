@@ -50,7 +50,7 @@ export default function Page() {
 
             Cookie.set(tokenStorageKey, token);
             toast.success("登录成功");
-            router.push("/x/root");
+            router.push("/explorer");
         } catch (err) {
             toast.error("登录失败: "+ err);
         }

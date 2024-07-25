@@ -1,3 +1,5 @@
+import { isURL } from "validator";
+
 import fileTypes from "./store/file-types.json";
 
 import { BytesType } from "@/types";
@@ -42,4 +44,16 @@ export function getFileTypeName(extname?: string): string {
     }
 
     return "文件";
+}
+
+export function isValidPath(path: string): boolean {
+    return isURL(path.replaceAll(" ", "_"), {
+        require_protocol: false,
+        require_host: false,
+        require_port: false,
+        require_tld: false,
+        allow_fragments: true,
+        allow_protocol_relative_urls: false,
+        allow_query_components: false
+    });
 }

@@ -1,55 +1,52 @@
 import { create } from "zustand";
-import { isURL } from "validator";
 import { to } from "preps";
+
+import { storage } from "@/lib/storage";
+import { diskStorageKey } from "@/lib/global";
 
 interface ExplorerStore {
     path: string[]
     disk: string
 
-    setPath: (path: string[]) => boolean
+    setPath: (path: string[]) => void
     setDisk: (disk: string) => void
     stringifyPath: () => string
     enterPath: (target: string) => void
+    backToRoot: () => void
     back: () => void
 }
 
-function stringifyPath(path: string[]) {
+export function stringifyPath(path: string[]): string {
     return decodeURIComponent(
         path.join("/").replace("root", path.length === 1 ? "/" : "")
     );
+}
+
+export function parseStringPath(path: string): string[] {
+    const arr = path.split("/");
+
+    return arr.map((value, index) => {
+        if(index === 0) return "root";
+
+        return value;
+    }).filter((value) => value.length !== 0)
 }
 
 export const useExplorer = create<ExplorerStore>((set, get) => ({
     path: ["root"],
     disk: "",
 
-    setPath: (path) => {
-        if(
-            (
-                path.length === 1 &&
-                path[0] === "root"
-            ) ||
-            isURL(stringifyPath(path), {
-                require_protocol: false,
-                require_host: false,
-                require_port: false,
-                require_tld: false,
-                allow_fragments: true,
-                allow_protocol_relative_urls: false,
-                allow_query_components: false
-            })
-        ) {
-            set({ path });
-
-            return true;
-        }
-        
-        return false;
+    setPath: (path) => set({ path }),
+    setDisk: (disk: string) => {
+        set({ disk });
+        storage.setItem(diskStorageKey, disk);
     },
-    setDisk: (disk: string) => set({ disk }),
     stringifyPath: () => stringifyPath(get().path),
     enterPath: (target: string) => {
         set({ path: [...get().path, target] });
+    },
+    backToRoot: () => {
+        set({ path: ["root"] });
     },
     back: () => {
         const { path } = get();

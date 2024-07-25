@@ -17,7 +17,6 @@ import { toast } from "react-toastify";
 
 import ThemeSwitch from "./theme-switch";
 
-import { useExplorer } from "@/hooks/useExplorer";
 import { tokenStorageKey } from "@/lib/global";
 
 type NavPage = "dashboard" | "explorer" | "settings";
@@ -25,18 +24,15 @@ type NavPage = "dashboard" | "explorer" | "settings";
 const Nav: React.FC = () => {
     const router = useRouter();
     const pathname = usePathname();
-    const explorer = useExplorer();
     const [page, setPage] = useState<NavPage | null>(() => {
         switch(pathname) {
             case "/dashboard":
                 return "dashboard";
+            case "/explorer":
+                return "explorer";
             case "/settings":
                 return "settings";
             default:
-                if(/^\/x\S*/.test(pathname)) {
-                    return "explorer";
-                }
-
                 return null;
         }
     });
@@ -75,7 +71,7 @@ const Nav: React.FC = () => {
                 <NavbarItem isActive={page === "explorer"}>
                     <Link
                         className="flex items-center space-x-2"
-                        href={"/x/root"+ explorer.stringifyPath()}
+                        href="explorer"
                         onClick={() => setPage("explorer")}>
                         <Folders size={20}/>
                         <span>文件管理器</span>

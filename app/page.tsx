@@ -11,5 +11,5 @@ export default function Page() {
 	if(!token || !validateToken(token.value)) redirect("/login");
 
 	// default redirection
-	redirect("/x/root");
+	redirect("/explorer");
 }

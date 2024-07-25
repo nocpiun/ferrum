@@ -3,7 +3,6 @@
 import React, { ReactNode } from "react";
 import { Divider } from "@nextui-org/divider";
 import { File } from "lucide-react";
-import { useRouter } from "next/navigation";
 import {
     Folder,
     FolderGit2,
@@ -52,12 +51,10 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
         size = bytesSizeTransform(props.size, BytesType.B, BytesType.TB);
     }
     
-    const router = useRouter();
     const explorer = useExplorer();
 
     const handleClick = () => {
         explorer.enterPath(props.name);
-        router.push("/x/root"+ explorer.stringifyPath());
     };
 
     return (
