@@ -70,6 +70,7 @@ const Explorer: React.FC = () => {
     return (
         <div className="w-[730px] flex flex-col gap-1">
             <div className="w-full h-6 text-sm flex items-center gap-4 pr-5">
+                <div className="w-[2%]"/> {/* placeholder */}
                 <span className="flex-[2] cursor-default">名称</span>
                 <Divider orientation="vertical"/>
                 <span className="flex-1 cursor-default">类型</span>

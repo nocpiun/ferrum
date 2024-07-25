@@ -10,6 +10,7 @@ import { ArrowLeft, HardDrive, Home, FolderRoot } from "lucide-react";
 import { to } from "preps";
 
 import { getIcon } from "./explorer-item";
+import DiskItem from "./disk-item";
 
 import { parseStringPath, useExplorer } from "@/hooks/useExplorer";
 import { useFerrum } from "@/hooks/useFerrum";
@@ -37,9 +38,6 @@ const Navbar: React.FC = () => {
     };
 
     const handleInputChange = (value: string) => {
-        // if(value === explorer.disk) return; // If we are at the root directory, prevent the change
-        // if(value.indexOf("//") > -1) return; // If we have double slash, prevent the change
-
         setInputPath(value);
     };
 
@@ -115,8 +113,13 @@ const Navbar: React.FC = () => {
                             explorer.backToRoot();
                         }}>
                         {
-                            ferrum.getMountedList().map((mountedName) => (
-                                <DropdownItem key={mountedName}>{mountedName}</DropdownItem>
+                            ferrum.disks.map((disk) => (
+                                <DropdownItem
+                                    key={disk._mounted}
+                                    className="data-[selected=true]:!bg-default-100"
+                                    startContent={<HardDrive className="w-4 h-4 mr-2 stroke-default-400"/>}>
+                                    <DiskItem {...disk}/>
+                                </DropdownItem>
                             ))
                         }
                     </DropdownMenu>

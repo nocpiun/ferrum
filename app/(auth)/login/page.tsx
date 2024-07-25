@@ -70,7 +70,7 @@ export default function Page() {
                         className="w-[70px] mb-4"
                         style={{ imageRendering: "pixelated" }}/>
                     <h1 className="font-bold text-2xl mb-2">登录 Ferrum</h1>
-                    <p className=" text-default-400 text-sm">Explore throughout your server.</p>
+                    <p className="text-default-400 text-sm">Explore throughout your server.</p>
                 </div>
 
                 <form className="flex flex-col gap-4" onSubmit={form.handleSubmit(handleLogin)}>
@@ -80,7 +80,7 @@ export default function Page() {
                         label="访问密码"
                         labelPlacement="outside"/>
                     <Button color="primary" type="submit">
-                        登录
+                        访问
                     </Button>
                 </form>
             </Card>

@@ -31,6 +31,27 @@ export function getBytesType(type: BytesType): string {
     }
 }
 
+export function formatSize(bytes: number, fixed: number = 2): string {
+    var size = {
+        value: bytes.toFixed(2),
+        type: BytesType.B
+    };
+
+    if(bytes <= 1024) {
+        //
+    } else if(bytes > 1024 && bytes <= 1048576) {
+        size = bytesSizeTransform(bytes, BytesType.B, BytesType.KB, fixed);
+    } else if(bytes > 1048576 && bytes <= 1073741824) {
+        size = bytesSizeTransform(bytes, BytesType.B, BytesType.MB, fixed);
+    } else if(bytes > 1073741824 && bytes <= 1099511627776) {
+        size = bytesSizeTransform(bytes, BytesType.B, BytesType.GB, fixed);
+    } else if(bytes > 1099511627776) {
+        size = bytesSizeTransform(bytes, BytesType.B, BytesType.TB, fixed);
+    }
+
+    return size.value + getBytesType(size.type);
+}
+
 export function getFileTypeName(extname?: string): string {
     if(!extname) return "文件";
     extname = extname.toLowerCase();
