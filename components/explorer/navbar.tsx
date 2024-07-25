@@ -9,7 +9,7 @@ import { Dropdown, DropdownMenu, DropdownTrigger, DropdownItem } from "@nextui-o
 import { ArrowLeft, HardDrive, Home, FolderRoot } from "lucide-react";
 import { to } from "preps";
 
-import { getIcon } from "./explorer-item";
+import { getFolderIcon } from "./explorer-item";
 import DiskItem from "./disk-item";
 
 import { parseStringPath, useExplorer } from "@/hooks/useExplorer";
@@ -142,7 +142,7 @@ const Navbar: React.FC = () => {
                             {
                                 index === 0
                                 ? <FolderRoot size={18}/>
-                                : getIcon(folderName, 18)
+                                : getFolderIcon(folderName, 18)
                             }
                             {
                                 index === 0

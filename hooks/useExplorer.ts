@@ -52,6 +52,8 @@ export const useExplorer = create<ExplorerStore>((set, get) => ({
         const { path } = get();
         
         if(path.length === 1) return;
-        set({ path: to(path).remove(path.length - 1).f() });
+
+        // Use `Array.from` to clone the array
+        set({ path: Array.from(to(path).remove(path.length - 1).f()) });
     }
 }));
