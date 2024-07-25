@@ -9,10 +9,9 @@ import { Divider } from "@nextui-org/divider";
 import { toast } from "react-toastify";
 
 import ExplorerItem from "./explorer-item";
+import ExplorerError from "./explorer-error";
 
 import { useExplorer } from "@/hooks/useExplorer";
-import { emitter } from "@/lib/emitter";
-import ExplorerError from "./explorer-error";
 
 interface FolderResponseData extends BaseResponseData {
     items: DirectoryItem[]

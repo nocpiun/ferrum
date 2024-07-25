@@ -1,4 +1,3 @@
-import _Drive from "node-disk-info/dist/classes/drive";
 
 export interface PropsWithCN {
     className?: string;
