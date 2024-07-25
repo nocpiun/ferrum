@@ -14,6 +14,9 @@ module.exports = {
         sans: ["var(--font-sans)"],
         noto: ["var(--font-noto)"],
       },
+      colors: {
+        danger: "#e70d0d"
+      }
     },
   },
   darkMode: "class",

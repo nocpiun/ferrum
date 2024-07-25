@@ -2,7 +2,7 @@ import { isURL } from "validator";
 
 import fileTypes from "./store/file-types.json";
 
-import { BytesType } from "@/types";
+import { BytesType, FileType } from "@/types";
 
 export function getCurrentState<T>(setState: React.Dispatch<React.SetStateAction<T>>): Promise<T> {
     return new Promise((resolve, _reject) => {
@@ -52,19 +52,28 @@ export function formatSize(bytes: number, fixed: number = 2): string {
     return size.value + getBytesType(size.type);
 }
 
-export function getFileTypeName(extname?: string): string {
-    if(!extname) return "文件";
+export function getFileType(extname: string): FileType | null {
     extname = extname.toLowerCase();
 
     for(let item of fileTypes) {
         for(let ext of item.extensions) {
             if(extname === ext) {
-                return item.name;
+                return item;
             }
         }
     }
 
-    return "文件";
+    return null;
+}
+
+export function getFileTypeName(extname?: string): string {
+    if(!extname) return "文件";
+
+    const fileType = getFileType(extname);
+    
+    if(fileType?.id === "code") return extname.toUpperCase() +" 源文件";
+
+    return fileType?.name ?? "文件";
 }
 
 export function isValidPath(path: string): boolean {

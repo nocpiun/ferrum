@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Progress } from "@nextui-org/progress";
 
 import { Drive } from "@/types";
@@ -9,6 +9,8 @@ interface DiskItemProps extends Drive {
 }
 
 const DiskItem: React.FC<DiskItemProps> = (props) => {
+    const capacity = useMemo(() => parseFloat(props._capacity), [props._capacity]);
+
     return (
         <div className="w-40 flex flex-col gap-1">
             <div className="flex justify-between items-end">
@@ -20,7 +22,12 @@ const DiskItem: React.FC<DiskItemProps> = (props) => {
 
             <Progress
                 size="sm"
-                value={parseFloat(props._capacity)}
+                value={capacity}
+                color={
+                    capacity <= 90
+                    ? "primary"
+                    : "danger"
+                }
                 disableAnimation/>
         </div>
     );

@@ -31,3 +31,9 @@ export interface Drive {
 }
 
 export type SystemPlatform = "aix" | "darwin" | "freebsd" | "linux" | "openbsd" | "sunos" | "win32";
+
+export interface FileType {
+    id: string
+    name: string
+    extensions: string[]
+}

@@ -92,7 +92,7 @@ const Nav: React.FC = () => {
                     <ThemeSwitch />
                 </NavbarItem>
                 <NavbarItem>
-                    <Button size="sm" onClick={() => handleLogout()}>
+                    <Button color="primary" size="sm" onClick={() => handleLogout()}>
                         登出
                         <LogOut size={15}/>
                     </Button>

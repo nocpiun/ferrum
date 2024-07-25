@@ -1,58 +1,102 @@
 [
     {
+        "id": "text",
         "name": "文本文件",
         "extensions": ["txt"]
     },
     {
+        "id": "document",
         "name": "Word 文档",
         "extensions": ["doc", "docx"]
     },
     {
+        "id": "powerpoint",
         "name": "Powerpoint 演示文稿",
         "extensions": ["ppt", "pptx"]
     },
     {
+        "id": "excel",
         "name": "Excel 工作表",
         "extensions": ["xls", "xlsx"]
     },
     {
+        "id": "archive",
         "name": "压缩包",
         "extensions": ["zip", "rar", "tar", "7z", "gz", "bz2", "xz"]
     },
     {
+        "id": "executable",
         "name": "可执行文件",
         "extensions": ["exe"]
     },
     {
+        "id": "binary",
+        "name": "二进制文件",
+        "extensions": ["bin", "dll", "so", "dylib"]
+    },
+    {
+        "id": "command",
         "name": "批处理文件",
         "extensions": ["bat", "cmd", "sh"]
     },
     {
+        "id": "config",
         "name": "配置文件",
         "extensions": ["ini", "conf", "cfg", "xml", "json", "yml", "yaml", "toml", "properties", "prop"]
     },
     {
+        "id": "git",
         "name": "Git 配置文件",
         "extensions": ["gitconfig", "gitignore", "gitmodules", "gitattributes"]
     },
     {
+        "id": "npm",
         "name": "NPM 配置文件",
         "extensions": ["npmrc", "npmignore"]
     },
     {
+        "id": "docker",
         "name": "Docker 配置文件",
         "extensions": ["dockerfile", "dockerignore"]
     },
     {
+        "id": "markdown",
         "name": "Markdown 文档",
         "extensions": ["md", "markdown"]
     },
     {
+        "id": "license",
         "name": "许可",
         "extensions": ["license"]
     },
     {
+        "id": "environment",
         "name": "环境文件",
         "extensions": ["env"]
+    },
+    {
+        "id": "audio",
+        "name": "音频文件",
+        "extensions": ["mp3", "wav", "ogg", "flac"]
+    },
+    {
+        "id": "video",
+        "name": "视频文件",
+        "extensions": ["mp4", "avi", "mkv", "mov", "wmv", "flv", "webm", "3gp", "mpg", "mpeg", "m4v", "m3u8", "webm"]
+    },
+    {
+        "id": "image",
+        "name": "图片文件",
+        "extensions": ["jpg", "jpeg", "png", "gif", "bmp", "webp", "svg", "ico"]
+    },
+    {
+        "id": "font",
+        "name": "字体文件",
+        "extensions": ["ttf", "otf", "woff", "woff2"]
+    },
+    {
+        "id": "code",
+        "name": "源文件",
+        "extensions": ["c", "cpp", "cc", "h", "hpp", "cs", "go", "java", "js", "mjs", "cjs", "jsx", "php", "py", "rb", "rs", "swift", "ts", "mts", "cts", "tsx", "vue", "htm", "html", "css", "scss", "sass", "less"]
     }
 ]

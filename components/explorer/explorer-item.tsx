@@ -21,74 +21,57 @@ import {
     FileImage,
     Images,
     FileVideo,
-    FileAudio
+    FileAudio,
+    AppWindow,
+    FileDigit,
+    FileCode2
 } from "lucide-react";
 
 import { useExplorer } from "@/hooks/useExplorer";
-import { formatSize, getFileTypeName } from "@/lib/utils";
+import { formatSize, getFileType, getFileTypeName } from "@/lib/utils";
 
 export function getFolderIcon(folderName: string, size: number = 18, color?: string): React.ReactNode {
     const folderNameLowered = folderName.toLowerCase();
+    const className = "min-w-[20px]";
 
-    if(folderNameLowered === ".git") return <FolderGit2 size={size} color={color}/>;
-    if(/^\.\S+/.test(folderNameLowered)) return <FolderDot size={size} color={color}/>;
-    if(/^(favo(u?)rite(s?))$/.test(folderNameLowered)) return <FolderHeart size={size} color={color}/>;
-    if(/^(music|song(s?))$/.test(folderNameLowered)) return <Music size={size} color={color}/>;
-    if(/^(picture(s?)|image(s?)|photo(s?))$/.test(folderNameLowered)) return <Images size={size} color={color}/>;
-    if(/^(video(s?)|film(s?)|movie(s?))$/.test(folderNameLowered)) return <Film size={size} color={color}/>;
+    if(folderNameLowered === ".git") return <FolderGit2 size={size} color={color} className={className}/>;
+    if(/^\.\S+/.test(folderNameLowered)) return <FolderDot size={size} color={color} className={className}/>;
+    if(/^(favo(u?)rite(s?))$/.test(folderNameLowered)) return <FolderHeart size={size} color={color} className={className}/>;
+    if(/^(music|song(s?))$/.test(folderNameLowered)) return <Music size={size} color={color} className={className}/>;
+    if(/^(picture(s?)|image(s?)|photo(s?))$/.test(folderNameLowered)) return <Images size={size} color={color} className={className}/>;
+    if(/^(video(s?)|film(s?)|movie(s?))$/.test(folderNameLowered)) return <Film size={size} color={color} className={className}/>;
     
-    return <Folder size={size} color={color}/>;
+    return <Folder size={size} color={color} className={className}/>;
 }
 
 export function getFileIcon(extname: string, size: number = 18, color?: string): React.ReactNode {
-    const extnameLowered = extname.toLowerCase();
+    const fileType = getFileType(extname);
     const className = "min-w-[20px]";
 
-    if(
-        extnameLowered === "zip" ||
-        extnameLowered === "rar" ||
-        extnameLowered === "tar" ||
-        extnameLowered === "7z" ||
-        extnameLowered === "gz" ||
-        extnameLowered === "bz2" ||
-        extnameLowered === "xz"
-    ) return <FileArchive size={size} color={color} className={className}/>
-    if(
-        extnameLowered === "mp3" ||
-        extnameLowered === "wav" ||
-        extnameLowered === "ogg" ||
-        extnameLowered === "flac"
-    ) return <FileAudio size={size} color={color} className={className}/>
-    if(
-        extnameLowered === "jpg" ||
-        extnameLowered === "jpeg" ||
-        extnameLowered === "png" ||
-        extnameLowered === "gif" ||
-        extnameLowered === "bmp" ||
-        extnameLowered === "webp" ||
-        extnameLowered === "svg" ||
-        extnameLowered === "ico"
-    ) return <FileImage size={size} color={color} className={className}/>
-    if(
-        extnameLowered == "mp4" ||
-        extnameLowered == "mkv" ||
-        extnameLowered == "avi" ||
-        extnameLowered == "mov" ||
-        extnameLowered == "mpg" ||
-        extnameLowered == "mpeg" ||
-        extnameLowered == "wmv" ||
-        extnameLowered == "webm" ||
-        extnameLowered == "flv"
-    ) return <FileVideo size={size} color={color} className={className}/>
-    if(extnameLowered === "doc" || extnameLowered === "docx") return <FileText size={size} color={color} className={className}/>
-    if(extnameLowered === "ppt" || extnameLowered === "pptx") return <FilePieChart size={size} color={color} className={className}/>
-    if(extnameLowered === "xls" || extnameLowered === "xlsx") return <FileSpreadsheet size={size} color={color} className={className}/>
-    if(
-        extnameLowered === "ttf" ||
-        extnameLowered === "otf" ||
-        extnameLowered === "woff" ||
-        extnameLowered === "woff2"
-    ) return <FileType2 size={size} color={color} className={className}/>
+    switch(fileType?.id) {
+        case "archive":
+            return <FileArchive size={size} color={color} className={className}/>;
+        case "audio":
+            return <FileAudio size={size} color={color} className={className}/>;
+        case "image":
+            return <FileImage size={size} color={color} className={className}/>;
+        case "video":
+            return <FileVideo size={size} color={color} className={className}/>;
+        case "document":
+            return <FileText size={size} color={color} className={className}/>;
+        case "powerpoint":
+            return <FilePieChart size={size} color={color} className={className}/>;
+        case "excel":
+            return <FileSpreadsheet size={size} color={color} className={className}/>;
+        case "font":
+            return <FileType2 size={size} color={color} className={className}/>;
+        case "executable":
+            return <AppWindow size={size} color={color} className={className}/>;
+        case "binary":
+            return <FileDigit size={size} color={color} className={className}/>;
+        case "code":
+            return <FileCode2 size={size} color={color} className={className}/>;
+    }
 
     return <File size={size} color={color} className={className}/>;
 }
