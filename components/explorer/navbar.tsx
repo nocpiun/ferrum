@@ -15,7 +15,7 @@ import DiskItem from "./disk-item";
 
 import { parseStringPath, useExplorer } from "@/hooks/useExplorer";
 import { useFerrum } from "@/hooks/useFerrum";
-import { isValidPath } from "@/lib/utils";
+import { concatPath, isValidPath } from "@/lib/utils";
 
 const Navbar: React.FC = () => {
     const ferrum = useFerrum();
@@ -23,17 +23,7 @@ const Navbar: React.FC = () => {
     const router = useRouter();
     const pathname = usePathname();
 
-    const defaultInputPath = useMemo(() => {
-        return explorer.stringifyPath() + (
-            explorer.currentViewing
-            ? (
-                explorer.path.length === 1
-                ? explorer.currentViewing
-                : "/"+ explorer.currentViewing
-            )
-            : ""
-        );
-    }, [explorer]);
+    const defaultInputPath = useMemo(() => concatPath(explorer.stringifyPath(), explorer.currentViewing), [explorer]);
     const [inputPath, setInputPath] = useState<string>(defaultInputPath);
 
     /**
@@ -123,7 +113,7 @@ const Navbar: React.FC = () => {
                     onValueChange={(value) => handleInputChange(value)}
                     onKeyDown={({ key }) => { key === "Enter" && handleInputEnter() }}/>
                 
-                <Dropdown>
+                <Dropdown isDisabled={pathname === "/explorer/viewer"}>
                     <Tooltip content="选择磁盘">
                         <div>
                             <DropdownTrigger>

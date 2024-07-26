@@ -1,0 +1,14 @@
+#ferrum-ace-editor {
+    flex: 1;
+    height: 100%;
+    border-radius: 5px;
+}
+
+#ferrum-ace-editor .ace_scroller {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+#ferrum-ace-editor .ace_gutter .ace_gutter-cell {
+    color: #777;
+}

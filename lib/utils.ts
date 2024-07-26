@@ -96,3 +96,15 @@ export function isValidPath(path: string): boolean {
         path.indexOf("\/\/") === -1
     );
 }
+
+export function concatPath(folderPath: string, currentViewing?: string | null): string {
+    return folderPath + (
+        currentViewing
+        ? (
+            folderPath === "/"
+            ? currentViewing
+            : "/"+ currentViewing
+        )
+        : ""
+    );
+}

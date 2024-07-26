@@ -30,7 +30,7 @@ import {
 import { useRouter } from "next/navigation";
 
 import { useExplorer } from "@/hooks/useExplorer";
-import { formatSize, getFileType, getFileTypeName } from "@/lib/utils";
+import { concatPath, formatSize, getFileType, getFileTypeName } from "@/lib/utils";
 
 export function getFolderIcon(folderName: string, size: number = 18, color?: string): React.ReactNode {
     const folderNameLowered = folderName.toLowerCase();
@@ -96,7 +96,7 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
         
         if(props.type === "file") {
             explorer.setCurrentViewing(props.name);
-            router.push("/explorer/viewer?type="+ (getFileType(extname ?? "")?.id ?? "text"));
+            router.push(`/explorer/viewer?type=${getFileType(extname ?? "")?.id ?? "text"}&folder=${explorer.stringifyPath()}&file=${props.name}`);
 
             return;
         }
