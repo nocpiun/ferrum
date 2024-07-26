@@ -30,7 +30,7 @@ import {
 import { useRouter } from "next/navigation";
 
 import { useExplorer } from "@/hooks/useExplorer";
-import { concatPath, formatSize, getFileType, getFileTypeName } from "@/lib/utils";
+import { formatSize, getFileType, getFileTypeName } from "@/lib/utils";
 
 export function getFolderIcon(folderName: string, size: number = 18, color?: string): React.ReactNode {
     const folderNameLowered = folderName.toLowerCase();
