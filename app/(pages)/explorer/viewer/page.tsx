@@ -1,19 +1,25 @@
+/* eslint-disable import/order */
 "use client";
 
 import React, { useEffect } from "react";
 
-import TextViewer from "@/components/viewers/text-viewer";
 import { parseStringPath, useExplorer } from "@/hooks/useExplorer";
 import { concatPath } from "@/lib/utils";
 import { ViewerProps } from "@/components/viewers";
 import { diskStorageKey } from "@/lib/global";
 import { storage } from "@/lib/storage";
+
+// Viewers
+import TextViewer from "@/components/viewers/text-viewer";
 import ImageViewer from "@/components/viewers/image-viewer";
+import VideoViewer from "@/components/viewers/video-viewer";
 
 function getViewer(type: string): typeof React.Component<ViewerProps> {
     switch(type) {
         case "image":
             return ImageViewer;
+        case "video":
+            return VideoViewer;
         case "text":
         case "command":
         case "config":

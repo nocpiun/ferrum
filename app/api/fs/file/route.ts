@@ -21,11 +21,13 @@ export async function GET(req: NextRequest) {
         const stat = fs.statSync(targetPath);
     
         if(!stat.isFile()) return error(400);
+        
+        const fileContent = fs.readFileSync(targetPath);
     
         return packet({
             path: targetPath,
             size: stat.size,
-            content: fs.readFileSync(targetPath)
+            content: fileContent
         });
     } catch (err) {
         // eslint-disable-next-line no-console
