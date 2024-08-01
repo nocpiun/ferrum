@@ -38,4 +38,9 @@ export default class ImageViewer extends Viewer<ImageViewerProps, ImageViewerSta
     public async componentDidMount() {
         this.setState({ value: URL.createObjectURL(new Blob([Buffer.from(await this.loadFile())])) });
     }
+
+    public componentWillUnmount() {
+        URL.revokeObjectURL(this.state.value);
+        this.setState({ value: "" });
+    }
 }

@@ -13,11 +13,14 @@ import { storage } from "@/lib/storage";
 import TextViewer from "@/components/viewers/text-viewer";
 import ImageViewer from "@/components/viewers/image-viewer";
 import VideoViewer from "@/components/viewers/video-viewer";
+import AudioViewer from "@/components/viewers/audio-viewer";
 
 function getViewer(type: string): typeof React.Component<ViewerProps> {
     switch(type) {
         case "image":
             return ImageViewer;
+        case "audio":
+            return AudioViewer;
         case "video":
             return VideoViewer;
         case "text":
