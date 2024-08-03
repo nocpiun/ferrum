@@ -59,6 +59,13 @@ export default class AudioViewer extends Viewer<AudioViewerProps, AudioViewerSta
         }
     }
 
+    private handleTimeChange(time: number) {
+        if(!this.audioRef.current) return;
+
+        this.audioRef.current.currentTime = time;
+        this.setState({ currentTime: time });
+    }
+
     public render(): React.ReactNode {
         return (
             <div className="w-full h-full flex justify-center pt-44">
@@ -135,9 +142,13 @@ export default class AudioViewer extends Viewer<AudioViewerProps, AudioViewerSta
                                 ref={this.audioRef}>
                                 <track kind="captions"/>
                             </audio>
+                            
                             <PlayerProgress
                                 duration={this.state.duration}
-                                current={this.state.currentTime}/>
+                                current={this.state.currentTime}
+                                timePlacement="top"
+                                disabled={this.state.isLoading}
+                                onTimeChange={(time) => this.handleTimeChange(time)}/>
                         </div>
                     </div>
                 </div>
@@ -180,12 +191,5 @@ export default class AudioViewer extends Viewer<AudioViewerProps, AudioViewerSta
                 e.stopImmediatePropagation();
             }
         }, { signal: this.eventController.signal });
-
-        emitter.on("viewer:audio-player-time-change", (time: number) => {
-            if(!this.audioRef.current) return;
-
-            this.audioRef.current.currentTime = time;
-            this.setState({ currentTime: time });
-        });
     }
 }

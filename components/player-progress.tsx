@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { Progress } from "@nextui-org/progress";
 import { cn } from "@nextui-org/theme";
 
-import { emitter } from "@/lib/emitter";
 import { getCurrentState } from "@/lib/utils";
 
 function secondToTime(second: number): string {
@@ -18,11 +17,15 @@ function secondToTime(second: number): string {
 interface PlayerProgressProps {
     duration: number
     current: number
+    timePlacement: "top" | "bottom"
+    disabled?: boolean
+    onTimeChange?: (time: number) => void
 }
 
 const PlayerProgress: React.FC<PlayerProgressProps> = (props) => {
     const currentTime = secondToTime(props.current);
     const duration = secondToTime(props.duration);
+    const disabled = props.disabled === undefined ? false : props.disabled;
     const percent = props.current / props.duration;
 
     const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -33,10 +36,10 @@ const PlayerProgress: React.FC<PlayerProgressProps> = (props) => {
 
         if(!progressBar) return;
 
-        var x = e.clientX - progressBar.offsetLeft;
+        var x = e.clientX - progressBar.getBoundingClientRect().left;
         var result = x / progressBar.clientWidth * 100;
 
-        emitter.emit("viewer:audio-player-time-change", result / 100 * props.duration);
+        if(props.onTimeChange) props.onTimeChange(result / 100 * props.duration);
     };
 
     useEffect(() => {
@@ -49,7 +52,7 @@ const PlayerProgress: React.FC<PlayerProgressProps> = (props) => {
 
             if(!progressBar) return;
             
-            var x = e.clientX - progressBar.offsetLeft;
+            var x = e.clientX - progressBar.getBoundingClientRect().left;
             var result = x / progressBar.clientWidth * 100;
 
             if(result < 0) {
@@ -71,7 +74,7 @@ const PlayerProgress: React.FC<PlayerProgressProps> = (props) => {
             if(!(await getCurrentState(setIsDragging))) return;
 
             setIsDragging(false);
-            emitter.emit("viewer:audio-player-time-change", draggingValue / 100 * props.duration);
+            if(props.onTimeChange) props.onTimeChange(draggingValue / 100 * props.duration);
             setDraggingValue(-1);
         }, { signal: controller.signal });
 
@@ -79,13 +82,13 @@ const PlayerProgress: React.FC<PlayerProgressProps> = (props) => {
     }, [draggingValue]);
 
     return (
-        <div className="flex flex-col gap-1">
+        <div className={cn("flex flex-col gap-1", props.timePlacement === "bottom" ? "flex-col-reverse" : "")}>
             <div className="flex justify-between *:text-sm *:text-default-400">
                 <span>{currentTime}</span>
                 <span>{duration}</span>
             </div>
 
-            <div className="relative h-3 flex items-center" id="progress-bar">
+            <div className="relative h-3 mt-[-0.25rem] flex items-center" id="progress-bar">
                 <Progress
                     classNames={{
                         indicator: "bg-default-800"
@@ -104,6 +107,8 @@ const PlayerProgress: React.FC<PlayerProgressProps> = (props) => {
                         role="slider"
                         className="w-2 h-2 hover:w-3 hover:h-3 transition-all mt-[0.125rem] hover:mt-0 bg-default-800 rounded-full"
                         onMouseDown={(e) => {
+                            if(disabled) return;
+
                             setIsDragging(true);
                             setDraggingValue(percent * 100);
 
@@ -113,7 +118,7 @@ const PlayerProgress: React.FC<PlayerProgressProps> = (props) => {
                         tabIndex={-1}
                         aria-valuenow={percent}/>
                     
-                    <div className={cn((isDragging ? "block" : "hidden"), "absolute top-3")}>
+                    <div className={cn((isDragging ? "block" : "hidden"), "absolute", props.timePlacement === "bottom" ? "top-[-1.5rem]" : "top-3")}>
                         <span className="font-semibold">{secondToTime(draggingValue / 100 * props.duration)}</span>
                     </div>
                 </div>

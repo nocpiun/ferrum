@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import path from "node:path";
 
 import { NextRequest, NextResponse } from "next/server";
 import mime from "mime";
@@ -7,6 +8,7 @@ import { tokenStorageKey } from "@/lib/global";
 import { validateToken } from "@/lib/token";
 import { packet, error } from "@/lib/packet";
 import { streamFile } from "@/lib/stream";
+import { getFileType } from "@/lib/utils";
 
 export async function GET(req: NextRequest) {
     const token = req.cookies.get(tokenStorageKey)?.value;
@@ -17,13 +19,14 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const targetPath = searchParams.get("path") ?? "/";
     const isStream = (searchParams.get("stream") ?? "0") === "1"; // 0 = false, 1 = true
+    const fileType = getFileType(path.extname(targetPath).replace(".", ""))?.id;
     
     try {
         if(!targetPath || !fs.existsSync(targetPath)) return error(404);
     
         const stat = fs.statSync(targetPath);
     
-        if(!stat.isFile()) return error(400);
+        if(!stat.isFile() || ((fileType === "audio" || fileType === "video") && !isStream)) return error(400);
 
         if(isStream) {
             const stream = fs.createReadStream(targetPath);
