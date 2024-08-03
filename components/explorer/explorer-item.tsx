@@ -28,6 +28,7 @@ import {
     BookMarked
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 import { useExplorer } from "@/hooks/useExplorer";
 import { formatSize, getFileType, getFileTypeName } from "@/lib/utils";
@@ -96,7 +97,14 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
         
         if(props.type === "file") {
             explorer.setCurrentViewing(props.name);
-            router.push(`/explorer/viewer?type=${getFileType(extname ?? "")?.id ?? "text"}&folder=${explorer.stringifyPath()}&file=${props.name}`);
+            const viewerType = getFileType(extname ?? "")?.id;
+            
+            if(!viewerType) {
+                toast.error("暂不支持打开此类型的文件");
+
+                return;
+            }
+            router.push(`/explorer/viewer?type=${viewerType}&folder=${explorer.stringifyPath()}&file=${props.name}`);
 
             return;
         }

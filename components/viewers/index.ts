@@ -26,12 +26,14 @@ export default abstract class Viewer<P extends ViewerProps, S = {}> extends Reac
 
     public abstract render(): React.ReactNode;
 
-    /** @todo */
-    protected async loadFile(): Promise<Buffer> {
+    protected async loadFile(isStream: boolean = false): Promise<Buffer | ArrayBuffer> {
         try {
-            const { data } = await axios.get<GetFileResponseData>(`/api/fs/file?path=${this.props.path}`);
+            const { data } = await axios.get<GetFileResponseData | ArrayBuffer>(
+                `/api/fs/file?path=${this.props.path}&stream=${isStream ? 1 : 0}`,
+                { responseType: isStream ? "arraybuffer" : undefined }
+            );
 
-            return data.content;
+            return isStream ? (data as ArrayBuffer) : (data as GetFileResponseData).content;
         } catch (_err) {
             const err = _err as AxiosError;
             const status = err.response?.status ?? 0;

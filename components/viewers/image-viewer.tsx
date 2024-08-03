@@ -22,7 +22,7 @@ export default class ImageViewer extends Viewer<ImageViewerProps, ImageViewerSta
 
     public render(): React.ReactNode {
         return (
-            <div className="w-full h-full flex flex-col items-center">
+            <div className="w-full h-full flex flex-col justify-center items-center">
                 <Image
                     className="max-h-[700px]"
                     src={this.state.value}

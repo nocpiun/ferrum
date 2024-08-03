@@ -25,8 +25,8 @@ interface AudioViewerState {
 }
 
 export default class AudioViewer extends Viewer<AudioViewerProps, AudioViewerState> {
+    private blob: Blob = new Blob();
     private audioRef = React.createRef<HTMLAudioElement>();
-    private blob: Blob | null = null;
 
     private readonly eventController = new AbortController();
 
@@ -77,9 +77,9 @@ export default class AudioViewer extends Viewer<AudioViewerProps, AudioViewerSta
                             ? <img
                                 className="w-full h-full rounded-lg"
                                 src={
-                                    URL.createObjectURL(new Blob([this.state.metadata?.common.picture[0].data.buffer]))
+                                    "data:"+ this.state.metadata?.common.picture[0].format +";base64,"+ Buffer.from(this.state.metadata?.common.picture[0].data.buffer).toString("base64")
                                 }
-                                alt="专辑封面"/>
+                                alt={this.state.metadata?.common.picture[0].description}/>
                             : (
                                 <div className="w-full h-full flex justify-center items-center bg-default-100 rounded-lg">
                                     <span className="text-4xl font-bold text-default-400">{this.props.fileName.split(".").findLast(() => true)?.toUpperCase()}</span>
@@ -124,7 +124,6 @@ export default class AudioViewer extends Viewer<AudioViewerProps, AudioViewerSta
                                     + ((this.state.metadata && this.state.metadata.common.genre) ? this.state.metadata.common.genre?.join(", ") : "未知流派")
                                 }
                             </span>
-                            <span className="text-sm text-default-400">{this.props.path}</span>
                         </div>
 
                         <div className="pb-5">
@@ -147,7 +146,9 @@ export default class AudioViewer extends Viewer<AudioViewerProps, AudioViewerSta
     }
 
     public async componentDidMount() {
-        this.blob = new Blob([Buffer.from(await this.loadFile())]);
+        const data = await this.loadFile(true) as ArrayBuffer;
+        
+        this.blob = new Blob([Buffer.from(data)], { type: "audio/mpeg" });
         this.setState({ isLoading: false });
 
         const metadata = await parseBlob(this.blob);
@@ -163,7 +164,7 @@ export default class AudioViewer extends Viewer<AudioViewerProps, AudioViewerSta
         if(!this.blob) return;
 
         URL.revokeObjectURL(this.state.value);
-        this.blob = null;
+        this.blob = new Blob();
         this.setState({ value: "" });
 
         this.eventController.abort();

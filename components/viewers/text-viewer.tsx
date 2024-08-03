@@ -4,6 +4,7 @@ import React from "react";
 import AceEditor from "react-ace";
 import { Button } from "@nextui-org/button";
 import { Copy, Save } from "lucide-react";
+import { toast } from "react-toastify";
 
 import "ace-builds";
 import "ace-builds/src-noconflict/theme-ambiance";
@@ -34,9 +35,9 @@ export default class TextViewer extends Viewer<TextViewerProps, TextViewerState>
         this.setState({ edited: false });
     }
 
-    /** @todo */
     private handleCopy() {
-
+        navigator.clipboard.writeText(this.state.value);
+        toast.success("已复制");
     }
 
     public render(): React.ReactNode {
@@ -80,6 +81,8 @@ export default class TextViewer extends Viewer<TextViewerProps, TextViewerState>
     }
 
     public async componentDidMount() {
-        this.setState({ value: (await this.loadFile()).toString("utf-8") });
+        const buffer = Buffer.from(await this.loadFile());
+
+        this.setState({ value: buffer.toString("utf-8") });
     }
 }

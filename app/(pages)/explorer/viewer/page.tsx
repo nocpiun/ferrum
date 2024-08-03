@@ -14,15 +14,11 @@ import TextViewer from "@/components/viewers/text-viewer";
 import ImageViewer from "@/components/viewers/image-viewer";
 import VideoViewer from "@/components/viewers/video-viewer";
 import AudioViewer from "@/components/viewers/audio-viewer";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
-function getViewer(type: string): typeof React.Component<ViewerProps> {
+function getViewer(type: string): typeof React.Component<ViewerProps> | null {
     switch(type) {
-        case "image":
-            return ImageViewer;
-        case "audio":
-            return AudioViewer;
-        case "video":
-            return VideoViewer;
         case "text":
         case "command":
         case "config":
@@ -33,8 +29,15 @@ function getViewer(type: string): typeof React.Component<ViewerProps> {
         case "license":
         case "environment":
         case "code":
-        default:
             return TextViewer;
+        case "image":
+            return ImageViewer;
+        case "audio":
+            return AudioViewer;
+        case "video":
+            return VideoViewer;
+        default:
+            return null;
     }
 }
 
@@ -47,6 +50,8 @@ export default function Page({ searchParams }: {
 }) {
     const { type, folder, file } = searchParams;
     const explorer = useExplorer();
+    const router = useRouter();
+
     const ViewerComponent = getViewer(type);
 
     useEffect(() => {
@@ -54,6 +59,13 @@ export default function Page({ searchParams }: {
         explorer.setPath(parseStringPath(folder));
         explorer.setCurrentViewing(file);
     }, []);
+
+    if(!ViewerComponent) {
+        toast.error("暂不支持打开此类型的文件");
+        router.back();
+
+        return <></>;
+    }
 
     return <ViewerComponent path={(explorer.disk || storage.getItem(diskStorageKey, "C:")) + concatPath(folder, file)} fileName={file}/>;
 }
