@@ -6,5 +6,6 @@ export const fontSans = FontSans({
 });
 
 export const fontNoto = FontNoto({
+	subsets: ["latin"],
 	variable: "--font-noto",
 });

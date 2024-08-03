@@ -32,6 +32,7 @@ import { toast } from "react-toastify";
 
 import { useExplorer } from "@/hooks/useExplorer";
 import { formatSize, getFileType, getFileTypeName } from "@/lib/utils";
+import { getViewer } from "@/app/(pages)/explorer/viewer/page";
 
 export function getFolderIcon(folderName: string, size: number = 18, color?: string): React.ReactNode {
     const folderNameLowered = folderName.toLowerCase();
@@ -96,14 +97,15 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
         setSelected(false);
         
         if(props.type === "file") {
-            explorer.setCurrentViewing(props.name);
             const viewerType = getFileType(extname ?? "")?.id;
             
-            if(!viewerType) {
+            if(!viewerType || !getViewer(viewerType)) {
                 toast.error("暂不支持打开此类型的文件");
-
+                
                 return;
             }
+            
+            explorer.setCurrentViewing(props.name);
             router.push(`/explorer/viewer?type=${viewerType}&folder=${explorer.stringifyPath()}&file=${props.name}`);
 
             return;

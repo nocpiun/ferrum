@@ -1,7 +1,7 @@
 import os from "node:os";
 
 import { NextRequest } from "next/server";
-import diskinfo from "node-disk-info";
+import * as diskinfo from "node-disk-info";
 
 import { tokenStorageKey } from "@/lib/global";
 import { validateToken } from "@/lib/token";

@@ -10,7 +10,6 @@ import Viewer, { ViewerProps } from ".";
 
 import PlayIcon from "@/styles/icons/play.svg";
 import PauseIcon from "@/styles/icons/pause.svg";
-import { emitter } from "@/lib/emitter";
 
 interface AudioViewerProps extends ViewerProps {}
 
@@ -179,7 +178,6 @@ export default class AudioViewer extends Viewer<AudioViewerProps, AudioViewerSta
         this.setState({ value: "" });
 
         this.eventController.abort();
-        emitter.removeAllListeners("viewer:audio-player-time-change");
     }
 
     private initEvents() {

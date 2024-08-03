@@ -2,6 +2,7 @@
 "use client";
 
 import React, { useEffect } from "react";
+import { toast } from "react-toastify";
 
 import { parseStringPath, useExplorer } from "@/hooks/useExplorer";
 import { concatPath } from "@/lib/utils";
@@ -14,10 +15,9 @@ import TextViewer from "@/components/viewers/text-viewer";
 import ImageViewer from "@/components/viewers/image-viewer";
 import VideoViewer from "@/components/viewers/video-viewer";
 import AudioViewer from "@/components/viewers/audio-viewer";
-import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
+import PDFViewer from "@/components/viewers/pdf-viewer";
 
-function getViewer(type: string): typeof React.Component<ViewerProps> | null {
+export function getViewer(type: string): typeof React.Component<ViewerProps> | null {
     switch(type) {
         case "text":
         case "command":
@@ -36,6 +36,8 @@ function getViewer(type: string): typeof React.Component<ViewerProps> | null {
             return AudioViewer;
         case "video":
             return VideoViewer;
+        case "pdf":
+            return PDFViewer;
         default:
             return null;
     }
@@ -50,7 +52,6 @@ export default function Page({ searchParams }: {
 }) {
     const { type, folder, file } = searchParams;
     const explorer = useExplorer();
-    const router = useRouter();
 
     const ViewerComponent = getViewer(type);
 
@@ -62,9 +63,13 @@ export default function Page({ searchParams }: {
 
     if(!ViewerComponent) {
         toast.error("暂不支持打开此类型的文件");
-        router.back();
 
         return <></>;
+    }
+
+    if(typeof window === "undefined") {
+        // Fuck you ssr
+        return <ViewerComponent path={explorer.disk + concatPath(folder, file)} fileName={file}/>;
     }
 
     return <ViewerComponent path={(explorer.disk || storage.getItem(diskStorageKey, "C:")) + concatPath(folder, file)} fileName={file}/>;

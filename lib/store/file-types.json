@@ -20,6 +20,11 @@
         "extensions": ["xls", "xlsx"]
     },
     {
+        "id": "pdf",
+        "name": "PDF 文档",
+        "extensions": ["pdf"]
+    },
+    {
         "id": "archive",
         "name": "压缩包",
         "extensions": ["zip", "rar", "tar", "7z", "gz", "bz2", "xz"]
