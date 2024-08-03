@@ -4,6 +4,7 @@ import React from "react";
 import { ReactSVG } from "react-svg";
 import { Maximize } from "lucide-react";
 import { cn } from "@nextui-org/theme";
+import { CircularProgress } from "@nextui-org/progress";
 
 import PlayerProgress from "../player-progress";
 
@@ -12,7 +13,6 @@ import Viewer, { ViewerProps } from ".";
 import PlayIcon from "@/styles/icons/play.svg";
 import PauseIcon from "@/styles/icons/pause.svg";
 import { emitter } from "@/lib/emitter";
-import { CircularProgress } from "@nextui-org/progress";
 
 interface VideoViewerProps extends ViewerProps {}
 
