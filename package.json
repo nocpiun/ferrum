@@ -32,6 +32,7 @@
     "@nextui-org/tooltip": "^2.0.36",
     "@react-aria/ssr": "3.9.4",
     "@react-aria/visually-hidden": "3.8.12",
+    "@xiaohuohumax/lrc-parser": "^1.0.1",
     "ace-builds": "^1.35.4",
     "axios": "^1.7.2",
     "clsx": "2.1.1",

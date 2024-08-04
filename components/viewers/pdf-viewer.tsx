@@ -4,9 +4,11 @@ import React from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Button } from "@nextui-org/button";
 import { pdfjs, Document, Page } from "react-pdf";
+import { cn } from "@nextui-org/theme";
 
 import Viewer, { ViewerProps } from ".";
 
+import { scrollbarStyle } from "@/lib/style";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 
@@ -73,7 +75,7 @@ export default class PDFViewer extends Viewer<PDFViewerProps, PDFViewerState> {
                     </div>
                 </div>
                 
-                <div className="rounded-lg overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-default-200 hover:scrollbar-thumb-default-300 active:scrollbar-thumb-default-400 scrollbar-thumb-rounded-sm">
+                <div className={cn("rounded-lg overflow-y-auto", scrollbarStyle)}>
                     <Document
                         file={this.state.value}
                         onLoadSuccess={({ numPages }) => this.setState({ totalPages: numPages })}>

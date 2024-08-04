@@ -7,11 +7,13 @@ import React, { useState, useEffect } from "react";
 import axios, { AxiosError } from "axios";
 import { Divider } from "@nextui-org/divider";
 import { toast } from "react-toastify";
+import { cn } from "@nextui-org/theme";
 
 import ExplorerItem from "./explorer-item";
 import ExplorerError from "./explorer-error";
 
 import { useExplorer } from "@/hooks/useExplorer";
+import { scrollbarStyle } from "@/lib/style";
 
 interface FolderResponseData extends BaseResponseData {
     items: DirectoryItem[]
@@ -78,7 +80,7 @@ const Explorer: React.FC = () => {
                 <span className="flex-1 cursor-default">大小</span>
             </div>
 
-            <div className="w-full relative flex-1 flex flex-col overflow-y-auto pr-5 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-default-200 hover:scrollbar-thumb-default-300 active:scrollbar-thumb-default-400 scrollbar-thumb-rounded-sm">
+            <div className={cn("w-full relative flex-1 flex flex-col overflow-y-auto pr-5", scrollbarStyle)}>
                 {
                     !error
                     ? items.map((item, index) => (

@@ -4,15 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Progress } from "@nextui-org/progress";
 import { cn } from "@nextui-org/theme";
 
-import { getCurrentState } from "@/lib/utils";
-
-function secondToTime(second: number): string {
-    const h = Math.floor(second / 3600);
-    const m = Math.floor((second - h * 3600) / 60);
-    const s = Math.floor(second - h * 3600 - m * 60);
-
-    return `${h < 10 ? ("0" + h) : h}:${m < 10 ? ("0" + m) : m}:${s < 10 ? ("0" + s) : s}`;
-}
+import { getCurrentState, secondToTime } from "@/lib/utils";
 
 interface PlayerProgressProps {
     duration: number

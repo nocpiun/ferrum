@@ -108,3 +108,25 @@ export function concatPath(folderPath: string, currentViewing?: string | null): 
         : ""
     );
 }
+
+export function secondToTime(second: number): string {
+    const h = Math.floor(second / 3600);
+    const m = Math.floor((second - h * 3600) / 60);
+    const s = Math.floor(second - h * 3600 - m * 60);
+
+    return `${h < 10 ? ("0" + h) : h}:${m < 10 ? ("0" + m) : m}:${s < 10 ? ("0" + s) : s}`;
+}
+
+export function timeToSecond(time: string): number {
+    var nums = time.split(":");
+    
+    if(nums.length === 2) {
+        var [m, s] = nums;
+
+        return parseInt(m) * 60 + parseInt(s);
+    }
+    
+    var [h, m, s] = nums;
+
+    return parseInt(h) * 3600 + parseInt(m) * 60 + parseInt(s);
+}
