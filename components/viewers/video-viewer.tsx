@@ -5,6 +5,7 @@ import { ReactSVG } from "react-svg";
 import { Maximize } from "lucide-react";
 import { cn } from "@nextui-org/theme";
 import { CircularProgress } from "@nextui-org/progress";
+import mime from "mime";
 
 import PlayerProgress from "../player-progress";
 
@@ -29,7 +30,7 @@ export default class VideoViewer extends Viewer<VideoViewerProps, VideoViewerSta
     private blob: Blob = new Blob();
     private videoRef = React.createRef<HTMLVideoElement>();
 
-    private readonly eventController = new AbortController();
+    private eventController = new AbortController();
 
     public constructor(props: VideoViewerProps) {
         super(props, "视频播放器");
@@ -105,7 +106,7 @@ export default class VideoViewer extends Viewer<VideoViewerProps, VideoViewerSta
                                 disabled={this.state.isLoading}>
                                 <ReactSVG
                                     src={this.state.paused ? PlayIcon["src"] : PauseIcon["src"]}
-                                    className="w-6 h-6 [&_svg]:w-full [&_svg]:h-full"/>
+                                    className="w-6 h-6 [&_svg]:w-full [&_svg]:h-full fill-[#e8eaed]"/>
                             </button>
                         </div>
 
@@ -132,7 +133,7 @@ export default class VideoViewer extends Viewer<VideoViewerProps, VideoViewerSta
     public async componentDidMount() {
         const data = await this.loadFile(true) as ArrayBuffer;
         
-        this.blob = new Blob([Buffer.from(data)], { type: "video/mp4" });
+        this.blob = new Blob([Buffer.from(data)], { type: mime.getType(this.props.fileName) ?? "video/mp4" });
         this.setState({ isLoading: false });
         
         this.setState({ value: URL.createObjectURL(this.blob) });
@@ -147,6 +148,7 @@ export default class VideoViewer extends Viewer<VideoViewerProps, VideoViewerSta
         this.setState({ value: "" });
 
         this.eventController.abort();
+        this.eventController = new AbortController();
     }
 
     private initEvents() {

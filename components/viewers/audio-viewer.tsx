@@ -40,7 +40,7 @@ export default class AudioViewer extends Viewer<AudioViewerProps, AudioViewerSta
     private audioRef = React.createRef<HTMLAudioElement>();
     private lyricsRef = React.createRef<HTMLDivElement>();
 
-    private readonly eventController = new AbortController();
+    private eventController = new AbortController();
 
     public constructor(props: AudioViewerProps) {
         super(props, "音频播放器");
@@ -154,18 +154,20 @@ export default class AudioViewer extends Viewer<AudioViewerProps, AudioViewerSta
                         {
                             this.state.lyrics.length > 0 && (
                                 <div
-                                    className={cn("flex-1 flex flex-col items-center overflow-y-auto transition-all scroll-smooth *:text-default-500 *:text-center", scrollbarStyle)}
+                                    className={cn("flex-1 flex flex-col items-center gap-3 mt-2 pr-3 overflow-y-auto scroll-smooth *:transition-all *:text-default-500 *:text-center", scrollbarStyle)}
                                     ref={this.lyricsRef}>
+                                    <div className="sticky top-0 left-0 right-0 w-full min-h-5 bg-gradient-to-b from-background to-transparent"/>
                                     {
                                         this.state.lyrics.map(({ text }, index) => (
                                             <span
-                                                className="data-[is-current=true]:text-default-800 data-[is-current=true]:font-semibold"
+                                                className="data-[is-current=true]:text-default-800 data-[is-current=true]:font-bold"
                                                 data-is-current={index === this.getCurrentLyricLine()}
                                                 key={index}>
                                                 {text}
                                             </span>
                                         ))
                                     }
+                                    <div className="sticky left-0 right-0 bottom-0 w-full min-h-5 bg-gradient-to-t from-background to-transparent"/>
                                 </div>
                             )
                         }
@@ -255,7 +257,7 @@ export default class AudioViewer extends Viewer<AudioViewerProps, AudioViewerSta
         if(!lyricElem) return;
         
         // Scroll the lyrics
-        this.lyricsRef.current.scrollTop = lyricElem.offsetTop - this.lyricsRef.current.offsetTop - this.lyricsRef.current.clientHeight / 2 + (lyricElem.offsetHeight / 2);
+        this.lyricsRef.current.scrollTop = lyricElem.offsetTop - this.lyricsRef.current.offsetTop - this.lyricsRef.current.offsetHeight / 4 + (lyricElem.offsetHeight / 2);
         this.setState({ currentLyricLine: current });
     }
 
@@ -267,6 +269,7 @@ export default class AudioViewer extends Viewer<AudioViewerProps, AudioViewerSta
         this.setState({ value: "" });
 
         this.eventController.abort();
+        this.eventController = new AbortController();
     }
 
     private initEvents() {
