@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
     const targetPath = path.join(targetDisk ?? "C:", searchParams.get("path") ?? "/");
     const newName = (await req.formData()).get("newName");
     
-    if(!newName) error(400);
+    if(!newName || /[\\\/:*?"<>|]/.test(newName.toString())) error(400);
     const newPath = path.join(path.dirname(targetPath), newName?.toString() ?? "");
     
     try {
