@@ -13,6 +13,12 @@ export function useFile(path: string): FileOperations {
 
     return {
         rename: async (newName: string) => {
+            if(/[\\\/:*?"<>|]/.test(newName)) {
+                toast.warn(`文件名称中不能包含下列任何字符 \\ / : * ? " < > |`);
+    
+                return;
+            }
+            
             return new Promise(async (resolve, reject) => {
                 try {
                     const { status } = await axios.post(
