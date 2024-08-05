@@ -31,7 +31,7 @@ export default class TextViewer extends Viewer<TextViewerProps, TextViewerState>
     }
 
     private async handleSave() {
-        await this.saveFile();
+        await this.saveFile(this.state.value);
         this.setState({ edited: false });
     }
 

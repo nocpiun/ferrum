@@ -53,3 +53,33 @@ export async function GET(req: NextRequest) {
         return error(500);
     }
 }
+
+export async function PATCH(req: NextRequest) {
+    const token = req.cookies.get(tokenStorageKey)?.value;
+
+    if(!token) return error(401);
+    if(!validateToken(token)) return error(403);
+
+    const { searchParams } = new URL(req.url);
+    const targetPath = searchParams.get("path") ?? "/";
+    const content = (await req.formData()).get("content");
+
+    if(!content) error(400);
+
+    try {
+        if(!targetPath || !fs.existsSync(targetPath)) return error(404);
+
+        const stat = fs.statSync(targetPath);
+    
+        if(!stat.isFile()) return error(400);
+
+        fs.writeFileSync(targetPath, content?.toString() ?? "");
+        
+        return packet({});
+    } catch (err) {
+        // eslint-disable-next-line no-console
+        console.log("[Server: /api/fs/file] "+ err);
+
+        return error(500);
+    }
+}

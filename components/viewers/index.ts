@@ -60,8 +60,42 @@ export default abstract class Viewer<P extends ViewerProps, S = {}> extends Reac
         }
     }
 
-    /** @todo */
-    protected async saveFile() {}
+    protected async saveFile(data: string) {
+        try {
+            const { status } = await axios.patch(
+                `/api/fs/file?path=${this.props.path}`,
+                { content: data },
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    }
+                }
+            );
+
+            if(status === 200) toast.success("保存成功");
+        } catch (_err) {
+            const err = _err as AxiosError;
+            const status = err.response?.status ?? 0;
+
+            switch(status) {
+                case 400:
+                    toast.error(`该路径或请求无效 (${status})`);
+                    break;
+                case 401:
+                    toast.error(`未登录 (${status})`);
+                    break;
+                case 403:
+                    toast.error(`无效的访问token (${status})`);
+                    break;
+                case 404:
+                    toast.error(`找不到该文件 (${status})`);
+                    break;
+                case 500:
+                    toast.error(`服务器内部错误 (${status})`);
+                    break;
+            }
+        }
+    }
 
     public componentDidMount() {
         document.title = this.name +" - "+ this.props.path;

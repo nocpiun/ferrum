@@ -26,7 +26,6 @@ interface VideoViewerState {
 }
 
 export default class VideoViewer extends Viewer<VideoViewerProps, VideoViewerState> {
-    private readonly isFlv: boolean;
     private blob: Blob = new Blob();
     private videoRef = React.createRef<HTMLVideoElement>();
 
@@ -42,8 +41,6 @@ export default class VideoViewer extends Viewer<VideoViewerProps, VideoViewerSta
             duration: 0,
             currentTime: 0
         };
-
-        this.isFlv = this.props.fileName.split(".").findLast(() => true) === "flv";
     }
 
     private handlePlayButtonClick() {
