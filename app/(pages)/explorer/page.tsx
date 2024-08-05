@@ -4,7 +4,6 @@
 import type { BaseResponseData, SystemPlatform, Drive } from "@/types";
 
 import { useEffect } from "react";
-import { Card } from "@nextui-org/card";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -14,6 +13,7 @@ import { useDetectCookie } from "@/hooks/useDetectCookie";
 import { useFerrum } from "@/hooks/useFerrum";
 import { storage } from "@/lib/storage";
 import { diskStorageKey } from "@/lib/global";
+import Sidebar from "@/components/explorer/sidebar";
 
 interface DisksResponseData extends BaseResponseData {
     system: SystemPlatform
@@ -80,7 +80,7 @@ export default function Page() {
 
     return (
         <>
-            <Card className="flex-1 dark:bg-[#111]"/>
+            <Sidebar />
             
             <Explorer />
         </>

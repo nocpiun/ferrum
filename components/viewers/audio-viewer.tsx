@@ -5,13 +5,12 @@ import { type IAudioMetadata, parseBlob } from "music-metadata";
 import { ReactSVG } from "react-svg";
 import { LrcParser } from "@xiaohuohumax/lrc-parser";
 import { Button } from "@nextui-org/button";
-import { cn } from "@nextui-org/theme";
+import { ScrollShadow } from "@nextui-org/scroll-shadow";
 
 import PlayerProgress from "../player-progress";
 
 import Viewer, { ViewerProps } from ".";
 
-import { scrollbarStyle } from "@/lib/style";
 import PlayIcon from "@/styles/icons/play.svg";
 import PauseIcon from "@/styles/icons/pause.svg";
 import StopIcon from "@/styles/icons/stop.svg";
@@ -153,22 +152,22 @@ export default class AudioViewer extends Viewer<AudioViewerProps, AudioViewerSta
 
                         {
                             this.state.lyrics.length > 0 && (
-                                <div
-                                    className={cn("flex-1 flex flex-col items-center gap-3 mt-2 pr-3 overflow-y-auto scroll-smooth *:transition-all *:text-default-500 *:text-center", scrollbarStyle)}
-                                    ref={this.lyricsRef}>
-                                    <div className="sticky top-0 left-0 right-0 w-full min-h-5 bg-gradient-to-b from-background to-transparent"/>
-                                    {
-                                        this.state.lyrics.map(({ text }, index) => (
-                                            <span
-                                                className="data-[is-current=true]:text-default-800 data-[is-current=true]:font-bold"
-                                                data-is-current={index === this.getCurrentLyricLine()}
-                                                key={index}>
-                                                {text}
-                                            </span>
-                                        ))
-                                    }
-                                    <div className="sticky left-0 right-0 bottom-0 w-full min-h-5 bg-gradient-to-t from-background to-transparent"/>
-                                </div>
+                                <ScrollShadow hideScrollBar className="scroll-smooth overflow-y-auto">
+                                    <div
+                                        className="flex-1 flex flex-col items-center gap-3 mt-2 pr-3 *:transition-all *:text-default-500 *:text-center"
+                                        ref={this.lyricsRef}>
+                                        {
+                                            this.state.lyrics.map(({ text }, index) => (
+                                                <span
+                                                    className="data-[is-current=true]:text-default-800 data-[is-current=true]:font-bold"
+                                                    data-is-current={index === this.getCurrentLyricLine()}
+                                                    key={index}>
+                                                    {text}
+                                                </span>
+                                            ))
+                                        }
+                                    </div>
+                                </ScrollShadow>
                             )
                         }
                     </div>
@@ -257,7 +256,10 @@ export default class AudioViewer extends Viewer<AudioViewerProps, AudioViewerSta
         if(!lyricElem) return;
         
         // Scroll the lyrics
-        this.lyricsRef.current.scrollTop = lyricElem.offsetTop - this.lyricsRef.current.offsetTop - this.lyricsRef.current.offsetHeight / 4 + (lyricElem.offsetHeight / 2);
+        const scrollableElem = this.lyricsRef.current.parentElement
+
+        if(!scrollableElem) return;
+        scrollableElem.scrollTop = lyricElem.offsetTop - scrollableElem.offsetTop - scrollableElem.offsetHeight / 2 + (lyricElem.offsetHeight / 2);
         this.setState({ currentLyricLine: current });
     }
 

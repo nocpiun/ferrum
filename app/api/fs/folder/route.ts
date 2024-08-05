@@ -56,3 +56,64 @@ export async function GET(req: NextRequest) {
         return error(500);
     }
 }
+
+export async function POST(req: NextRequest) {
+    const token = req.cookies.get(tokenStorageKey)?.value;
+
+    if(!token) return error(401);
+    if(!validateToken(token)) return error(403);
+    
+    const { searchParams } = new URL(req.url);
+    const targetDisk = searchParams.get("disk");
+    const targetPath = path.join(targetDisk ?? "C:", searchParams.get("path") ?? "/");
+    const newName = (await req.formData()).get("newName");
+    
+    if(!newName) error(400);
+    const newPath = path.join(path.dirname(targetPath), newName?.toString() ?? "");
+    
+    try {
+        if(!targetPath || !fs.existsSync(targetPath)) return error(404);
+        if(fs.existsSync(newPath)) return error(409);
+        
+        const stat = fs.statSync(targetPath);
+        
+        if(!stat.isDirectory()) return error(400);
+        
+        fs.renameSync(targetPath, newPath);
+        
+        return packet({});
+    } catch (err) {
+        // eslint-disable-next-line no-console
+        console.log("[Server: /api/fs/folder] "+ err);
+        
+        return error(500);
+    }
+}
+
+export async function DELETE(req: NextRequest) {
+    const token = req.cookies.get(tokenStorageKey)?.value;
+
+    if(!token) return error(401);
+    if(!validateToken(token)) return error(403);
+
+    const { searchParams } = new URL(req.url);
+    const targetDisk = searchParams.get("disk");
+    const targetPath = path.join(targetDisk ?? "C:", searchParams.get("path") ?? "/");
+
+    try {
+        if(!targetPath || !fs.existsSync(targetPath)) return error(404);
+
+        const stat = fs.statSync(targetPath);
+    
+        if(!stat.isDirectory()) return error(400);
+
+        fs.rmSync(targetPath, { recursive: true, force: true });
+        
+        return packet({});
+    } catch (err) {
+        // eslint-disable-next-line no-console
+        console.log("[Server: /api/fs/folder] "+ err);
+
+        return error(500);
+    }
+}

@@ -54,6 +54,38 @@ export async function GET(req: NextRequest) {
     }
 }
 
+export async function POST(req: NextRequest) {
+    const token = req.cookies.get(tokenStorageKey)?.value;
+
+    if(!token) return error(401);
+    if(!validateToken(token)) return error(403);
+
+    const { searchParams } = new URL(req.url);
+    const targetPath = searchParams.get("path") ?? "/";
+    const newName = (await req.formData()).get("newName");
+    
+    if(!newName) error(400);
+    const newPath = path.join(path.dirname(targetPath), newName?.toString() ?? "");
+    
+    try {
+        if(!targetPath || !fs.existsSync(targetPath)) return error(404);
+        if(fs.existsSync(newPath)) return error(409);
+        
+        const stat = fs.statSync(targetPath);
+        
+        if(!stat.isFile()) return error(400);
+        
+        fs.renameSync(targetPath, newPath);
+        
+        return packet({});
+    } catch (err) {
+        // eslint-disable-next-line no-console
+        console.log("[Server: /api/fs/file] "+ err);
+        
+        return error(500);
+    }
+}
+
 export async function PATCH(req: NextRequest) {
     const token = req.cookies.get(tokenStorageKey)?.value;
 
@@ -74,6 +106,33 @@ export async function PATCH(req: NextRequest) {
         if(!stat.isFile()) return error(400);
 
         fs.writeFileSync(targetPath, content?.toString() ?? "");
+        
+        return packet({});
+    } catch (err) {
+        // eslint-disable-next-line no-console
+        console.log("[Server: /api/fs/file] "+ err);
+
+        return error(500);
+    }
+}
+
+export async function DELETE(req: NextRequest) {
+    const token = req.cookies.get(tokenStorageKey)?.value;
+
+    if(!token) return error(401);
+    if(!validateToken(token)) return error(403);
+
+    const { searchParams } = new URL(req.url);
+    const targetPath = searchParams.get("path") ?? "/";
+
+    try {
+        if(!targetPath || !fs.existsSync(targetPath)) return error(404);
+
+        const stat = fs.statSync(targetPath);
+    
+        if(!stat.isFile()) return error(400);
+
+        fs.unlinkSync(targetPath);
         
         return packet({});
     } catch (err) {

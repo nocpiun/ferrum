@@ -1,0 +1,61 @@
+*[data-context-menu] {
+    min-width: 150px;
+    padding: 6px 0;
+    border: 1px solid;
+    border-radius: var(--nextui-radius-medium);
+    box-shadow: 0 5px 10px 2px rgba(0, 0, 0, .1);
+}
+
+*[data-context-menu] *, *[data-context-menu] *:hover {
+    transition: none;
+}
+
+*[data-context-menu-item] {
+    margin: 0 6px;
+    padding: 3px 6px;
+    padding-left: 30px;
+    border-radius: var(--nextui-radius-small);
+    font-size: 14px;
+}
+
+*[data-context-menu-item]:hover, *[data-context-menu-item]:active {
+    background-color: #006fee;
+}
+
+*[data-context-menu-divider] {
+    margin: 0 12px;
+    padding: 5px 0;
+    background-color: transparent;
+}
+
+*[data-context-menu-divider]::after {
+    content: "";
+    display: block;
+    height: 1px;
+}
+
+html.dark *[data-context-menu] {
+    background-color: #181818;
+    border-color: #222;
+}
+
+html.dark *[data-context-menu-divider]::after {
+    background-color: #353535;
+}
+
+html.light *[data-context-menu] {
+    background-color: #f7f7f7;
+    border-color: #d4d4d4;
+}
+
+html.light *[data-context-menu-item] {
+    color: var(--nextui-default-400);
+}
+
+html.light *[data-context-menu-item]:hover {
+    color: #fff;
+}
+
+html.light *[data-context-menu-divider]::after {
+    background-color: #d2d2d2;
+}

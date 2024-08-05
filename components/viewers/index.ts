@@ -1,6 +1,6 @@
 import type { BaseResponseData } from "@/types";
 
-import axios, { AxiosError } from "axios";
+import axios, { type AxiosError } from "axios";
 import React from "react";
 import { toast } from "react-toastify";
 

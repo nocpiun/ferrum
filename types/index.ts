@@ -37,3 +37,8 @@ export interface FileType {
     name: string
     extensions: string[]
 }
+
+export interface DirectoryItemOperations {
+    rename: (name: string) => Promise<void>
+    remove: () => Promise<void>
+}

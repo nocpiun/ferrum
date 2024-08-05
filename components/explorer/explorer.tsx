@@ -4,7 +4,7 @@
 import type { BaseResponseData, DirectoryItem } from "@/types";
 
 import React, { useState, useEffect } from "react";
-import axios, { AxiosError } from "axios";
+import axios, { type AxiosError } from "axios";
 import { Divider } from "@nextui-org/divider";
 import { toast } from "react-toastify";
 import { cn } from "@nextui-org/theme";

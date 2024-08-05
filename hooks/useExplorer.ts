@@ -17,6 +17,7 @@ interface ExplorerStore {
     enterPath: (target: string) => void
     backToRoot: () => void
     back: () => void
+    refresh: () => void
 }
 
 export function stringifyPath(path: string[]): string {
@@ -61,5 +62,6 @@ export const useExplorer = create<ExplorerStore>((set, get) => ({
 
         // Use `Array.from` to clone the array
         set({ path: Array.from(to(path).remove(path.length - 1).f()) });
-    }
+    },
+    refresh: () => set({ path: get().path })
 }));

@@ -23,7 +23,9 @@ const ThemeSwitch: React.FC<ThemeSwitchProps> = ({ size }) => {
         setMouted(true);
     }, []);
 
-    return mouted && <Switch
+    if(!mouted) return <></>;
+
+    return <Switch
         size={size ?? "md"}
         startContent={<Sun size={13}/>}
         endContent={<Moon size={13}/>}

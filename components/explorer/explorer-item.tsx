@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
 import type { DirectoryItem } from "@/types";
@@ -29,10 +30,12 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { useContextMenu, ContextMenuItem, ContextMenuDivider } from "use-context-menu";
 
 import { useExplorer } from "@/hooks/useExplorer";
-import { formatSize, getFileType, getFileTypeName } from "@/lib/utils";
-import { getViewer } from "@/app/(pages)/explorer/viewer/page";
+import { concatPath, formatSize, getFileType, getFileTypeName } from "@/lib/utils";
+import { getViewer } from "@/lib/viewers";
+import { useDialog } from "@/hooks/useDialog";
 
 export function getFolderIcon(folderName: string, size: number = 18, color?: string): React.ReactNode {
     const folderNameLowered = folderName.toLowerCase();
@@ -90,6 +93,7 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
 
     const [selected, setSelected] = useState<boolean>(false);
     
+    const dialog = useDialog();
     const explorer = useExplorer();
     const router = useRouter();
 
@@ -131,6 +135,25 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
         });
     }, []);
 
+    const { contextMenu, onContextMenu } = useContextMenu(
+        <>
+            <ContextMenuItem onSelect={() => handleOpen()}>打开</ContextMenuItem>
+            <ContextMenuItem onSelect={() => {
+                dialog.open(props.type === "folder" ? "renameFolder" : "renameFile", {
+                    path: concatPath(explorer.stringifyPath(), props.name),
+                    oldName: props.name
+                });
+            }}>重命名</ContextMenuItem>
+            <ContextMenuItem onSelect={() => {}}>加星</ContextMenuItem>
+            <ContextMenuDivider />
+            <ContextMenuItem onSelect={() => {
+                dialog.open(props.type === "folder" ? "removeFolder" : "removeFile", {
+                    path: concatPath(explorer.stringifyPath(), props.name)
+                });
+            }}>删除</ContextMenuItem>
+        </>
+    );
+
     return (
         <div
             className="w-full min-h-8 text-md flex items-center gap-4"
@@ -154,14 +177,21 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
                 ) as React.ReactNode}
                 <button
                     className="text-ellipsis whitespace-nowrap cursor-pointer overflow-hidden hover:underline hover:text-primary-500"
-                    onDoubleClick={() => handleOpen()}>
+                    onDoubleClick={() => handleOpen()}
+                    onContextMenu={onContextMenu}>
                     {props.name}
                 </button>
             </div>
+
             <Divider orientation="vertical" className="bg-transparent"/>
+
             <span className="flex-1 text-default-400 text-sm cursor-default">{props.type === "folder" ? "文件夹" : getFileTypeName(extname)}</span>
+            
             <Divider orientation="vertical" className="bg-transparent"/>
+
             <span className="flex-1 text-default-400 text-right text-sm cursor-default">{props.type === "file" ? (size) : ""}</span>
+            
+            {contextMenu}
         </div>
     );
 };

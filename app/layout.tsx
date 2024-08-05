@@ -1,6 +1,8 @@
+import "react-toastify/dist/ReactToastify.css";
+import "use-context-menu/styles.css";
 import "@/styles/globals.css";
 import "@/styles/toastify.css";
-import "react-toastify/dist/ReactToastify.css";
+import "@/styles/context-menu.css";
 import { Metadata, Viewport } from "next";
 import { clsx } from "clsx";
 
