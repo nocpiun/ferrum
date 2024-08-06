@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
         return packet({});
     } catch (err) {
         // eslint-disable-next-line no-console
-        console.log("[Server: /api/fs/folder] "+ err);
+        console.log("[Server: /api/fs/upload] "+ err);
 
         return error(500);
     }

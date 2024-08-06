@@ -36,6 +36,7 @@ import { useExplorer } from "@/hooks/useExplorer";
 import { concatPath, formatSize, getFileType, getFileTypeName } from "@/lib/utils";
 import { getViewer } from "@/lib/viewers";
 import { useDialog } from "@/hooks/useDialog";
+import { useFile } from "@/hooks/useFile";
 
 export function getFolderIcon(folderName: string, size: number = 18, color?: string): React.ReactNode {
     const folderNameLowered = folderName.toLowerCase();
@@ -90,12 +91,15 @@ interface ExplorerItemProps extends DirectoryItem {}
 const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
     const extname = useMemo(() => props.name.split(".").findLast(() => true), [props.name]);
     const size = useMemo(() => formatSize(props.size), [props.size]);
-
+    
     const [selected, setSelected] = useState<boolean>(false);
     
     const dialog = useDialog();
     const explorer = useExplorer();
     const router = useRouter();
+    
+    const fullPath = useMemo(() => concatPath(explorer.stringifyPath(), props.name), [explorer, props.name]);
+    const file = useFile(fullPath);
 
     const handleOpen = () => {
         setSelected(false);
@@ -122,6 +126,12 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
         setSelected((s) => !s);
     };
 
+    const handleDownload = () => {
+        if(props.type !== "file") return;
+
+        file.download();
+    };
+
     useEffect(() => {
         setSelected(false);
     }, [explorer.path]);
@@ -140,16 +150,16 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
             <ContextMenuItem onSelect={() => handleOpen()}>打开</ContextMenuItem>
             <ContextMenuItem onSelect={() => {
                 dialog.open(props.type === "folder" ? "renameFolder" : "renameFile", {
-                    path: concatPath(explorer.stringifyPath(), props.name),
+                    path: fullPath,
                     oldName: props.name
                 });
             }}>重命名</ContextMenuItem>
-            <ContextMenuItem onSelect={() => {}}>下载</ContextMenuItem>
+            {props.type === "file" && <ContextMenuItem onSelect={() => handleDownload()}>下载</ContextMenuItem>}
             <ContextMenuItem onSelect={() => {}}>加星</ContextMenuItem>
             <ContextMenuDivider />
             <ContextMenuItem onSelect={() => {
                 dialog.open(props.type === "folder" ? "removeFolder" : "removeFile", {
-                    path: concatPath(explorer.stringifyPath(), props.name)
+                    path: fullPath
                 });
             }}>删除</ContextMenuItem>
         </>

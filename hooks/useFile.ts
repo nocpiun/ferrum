@@ -5,7 +5,9 @@ import { toast } from "react-toastify";
 
 import { useExplorer } from "./useExplorer";
 
-interface FileOperations extends DirectoryItemOperations {}
+interface FileOperations extends DirectoryItemOperations {
+    download: () => void
+}
 
 export function useFile(path: string): FileOperations {
     const explorer = useExplorer();
@@ -98,6 +100,9 @@ export function useFile(path: string): FileOperations {
                     reject(status);
                 }
             });
+        },
+        download: () => {
+            window.open(`/api/fs/download?path=${fullPath}`);
         }
     };
 }
