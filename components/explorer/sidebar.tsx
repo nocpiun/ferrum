@@ -1,5 +1,4 @@
 "use-client";
-import path from "path";
 
 import React, { useEffect, useState } from "react";
 import { Card } from "@nextui-org/card";
@@ -7,12 +6,14 @@ import { Button } from "@nextui-org/button";
 import { Tooltip } from "@nextui-org/tooltip";
 import { FilePlus2, FileUp, FolderPlus, Star } from "lucide-react";
 
-import { getFolderIcon } from "./explorer-item";
 import SidebarWidget from "./sidebar-widget";
+import StarredItem from "./starred-item";
 
-import { parseStringPath, useExplorer } from "@/hooks/useExplorer";
+import { useExplorer } from "@/hooks/useExplorer";
 import { useDialog } from "@/hooks/useDialog";
 import { useFolder } from "@/hooks/useFolder";
+import { useEmitter } from "@/hooks/useEmitter";
+import { useForceUpdate } from "@/hooks/useForceUpdate";
 import { storage } from "@/lib/storage";
 import { starListStorageKey } from "@/lib/global";
 
@@ -22,6 +23,7 @@ const Sidebar: React.FC = () => {
     const folder = useFolder(explorer.stringifyPath());
 
     const [starred, setStarred] = useState(folder.getIsStarred());
+    const forceUpdate = useForceUpdate();
 
     const handleCreateFolder = () => {
         dialog.open("createFolder", { path: explorer.stringifyPath() });
@@ -43,6 +45,10 @@ const Sidebar: React.FC = () => {
     useEffect(() => {
         setStarred(folder.getIsStarred());
     });
+
+    useEmitter([
+        ["star-list-change", () => forceUpdate()]
+    ]);
 
     return (
         <div className="flex-1 flex flex-col gap-2">
@@ -82,23 +88,9 @@ const Sidebar: React.FC = () => {
                 <SidebarWidget title="星标项目">
                     <div>
                         {
-                            (JSON.parse(storage.getItem(starListStorageKey, JSON.stringify([]))) as string[]).map((item, index) => {
-                                const itemName = path.basename(item);
-
-                                return (
-                                    <div
-                                        className="inline-block m-1"
-                                        aria-label={itemName}
-                                        key={index}>
-                                        <Tooltip content={item}>
-                                            <Button color="default" variant="flat" size="sm" onPress={() => explorer.setPath(parseStringPath(item))}>
-                                                {getFolderIcon(itemName)}
-                                                {itemName}
-                                            </Button>
-                                        </Tooltip>
-                                    </div>
-                                );
-                            })
+                            (JSON.parse(storage.getItem(starListStorageKey, JSON.stringify([]))) as string[]).map((item, index) => (
+                                <StarredItem itemPath={item} key={index}/>
+                            ))
                         }
                     </div>
                 </SidebarWidget>

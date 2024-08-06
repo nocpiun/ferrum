@@ -8,6 +8,7 @@ import { useExplorer } from "./useExplorer";
 
 import { storage } from "@/lib/storage";
 import { starListStorageKey } from "@/lib/global";
+import { emitter } from "@/lib/emitter";
 
 interface FolderOperations extends DirectoryItemOperations {
     create: (name: string, type: "folder" | "file") => Promise<void>
@@ -171,6 +172,8 @@ export function useFolder(fullPath: string): FolderOperations {
             } else {
                 storage.setItem(starListStorageKey, JSON.stringify([...starList, targetPath]));
             }
+
+            emitter.emit("star-list-change");
         },
         getIsStarred: () => {
             if(typeof window === "undefined") return false;
