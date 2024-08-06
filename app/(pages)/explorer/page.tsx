@@ -4,6 +4,7 @@
 import type { BaseResponseData, SystemPlatform, Drive } from "@/types";
 
 import { useEffect } from "react";
+import dynamic from "next/dynamic";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -13,7 +14,7 @@ import { useDetectCookie } from "@/hooks/useDetectCookie";
 import { useFerrum } from "@/hooks/useFerrum";
 import { storage } from "@/lib/storage";
 import { diskStorageKey } from "@/lib/global";
-import Sidebar from "@/components/explorer/sidebar";
+const Sidebar = dynamic(() => import("@/components/explorer/sidebar"), { ssr: false });
 
 interface DisksResponseData extends BaseResponseData {
     system: SystemPlatform

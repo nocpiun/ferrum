@@ -2,12 +2,17 @@ import type { DirectoryItemOperations } from "@/types";
 
 import axios, { type AxiosError } from "axios";
 import { toast } from "react-toastify";
+import { to } from "preps";
 
 import { useExplorer } from "./useExplorer";
 
+import { storage } from "@/lib/storage";
+import { starListStorageKey } from "@/lib/global";
+
 interface FolderOperations extends DirectoryItemOperations {
-    create: (name: string, type: "folder" | "file") => Promise<void>,
-    star: () => Promise<void>
+    create: (name: string, type: "folder" | "file") => Promise<void>
+    toggleStar: () => void
+    getIsStarred: () => boolean
 }
 
 export function useFolder(fullPath: string): FolderOperations {
@@ -155,8 +160,25 @@ export function useFolder(fullPath: string): FolderOperations {
                 }
             });
         },
-        star: async () => {
+        toggleStar: () => {
+            if(typeof window === "undefined") return;
 
+            const starList = JSON.parse(storage.getItem(starListStorageKey, JSON.stringify([]))) as string[];
+            const targetPath = explorer.disk + fullPath;
+
+            if(starList.includes(targetPath)) {
+                storage.setItem(starListStorageKey, JSON.stringify(to(starList).removeItem(targetPath).f()));
+            } else {
+                storage.setItem(starListStorageKey, JSON.stringify([...starList, targetPath]));
+            }
+        },
+        getIsStarred: () => {
+            if(typeof window === "undefined") return false;
+
+            const starList = JSON.parse(storage.getItem(starListStorageKey, JSON.stringify([]))) as string[];
+            const targetPath = explorer.disk + fullPath;
+
+            return starList.includes(targetPath);
         }
     };
 }

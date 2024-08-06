@@ -37,6 +37,7 @@ import { concatPath, formatSize, getFileType, getFileTypeName } from "@/lib/util
 import { getViewer } from "@/lib/viewers";
 import { useDialog } from "@/hooks/useDialog";
 import { useFile } from "@/hooks/useFile";
+import { useFolder } from "@/hooks/useFolder";
 
 export function getFolderIcon(folderName: string, size: number = 18, color?: string): React.ReactNode {
     const folderNameLowered = folderName.toLowerCase();
@@ -100,6 +101,7 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
     
     const fullPath = useMemo(() => concatPath(explorer.stringifyPath(), props.name), [explorer, props.name]);
     const file = useFile(fullPath);
+    const folder = useFolder(fullPath);
 
     const handleOpen = () => {
         setSelected(false);
@@ -132,6 +134,10 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
         file.download();
     };
 
+    const handleStar = () => {
+        folder.toggleStar();
+    };
+
     useEffect(() => {
         setSelected(false);
     }, [explorer.path]);
@@ -155,7 +161,13 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
                 });
             }}>重命名</ContextMenuItem>
             {props.type === "file" && <ContextMenuItem onSelect={() => handleDownload()}>下载</ContextMenuItem>}
-            <ContextMenuItem onSelect={() => {}}>加星</ContextMenuItem>
+            {props.type === "folder" && <ContextMenuItem onSelect={() => handleStar()}>
+                {
+                    folder.getIsStarred()
+                    ? "取消星标"
+                    : "星标"
+                }
+            </ContextMenuItem>}
             <ContextMenuDivider />
             <ContextMenuItem onSelect={() => {
                 dialog.open(props.type === "folder" ? "removeFolder" : "removeFile", {
