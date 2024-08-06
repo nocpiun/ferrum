@@ -36,7 +36,7 @@ const RemoveFolderDialog: React.FC = () => {
             <ModalContent>
                 <ModalHeader>删除文件夹</ModalHeader>
                 <ModalBody>
-                    <span>确定删除此文件夹？</span>
+                    <span>确定删除 <code>{explorer.disk + data?.path}</code> ？</span>
                 </ModalBody>
                 <ModalFooter>
                     <Button

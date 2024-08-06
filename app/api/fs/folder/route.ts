@@ -117,3 +117,41 @@ export async function DELETE(req: NextRequest) {
         return error(500);
     }
 }
+
+export async function PUT(req: NextRequest) {
+    const token = req.cookies.get(tokenStorageKey)?.value;
+
+    if(!token) return error(401);
+    if(!validateToken(token)) return error(403);
+
+    const { searchParams } = new URL(req.url);
+    const targetDisk = searchParams.get("disk");
+    const targetPath = path.join(targetDisk ?? "C:", searchParams.get("path") ?? "/");
+
+    const formData = await req.formData();
+    const name = formData.get("name");
+    const type = formData.get("type");
+    
+    if(!name || !type || /[\\\/:*?"<>|]/.test(name.toString())) error(400);
+    const newPath = path.join(targetPath, name?.toString() ?? "");
+
+    try {
+        if(!targetPath || !fs.existsSync(targetPath)) return error(404);
+        if(fs.existsSync(newPath)) return error(409);
+
+        const stat = fs.statSync(targetPath);
+    
+        if(!stat.isDirectory()) return error(400);
+
+        type?.toString() === "folder"
+        ? fs.mkdirSync(newPath) // create folder
+        : fs.writeFileSync(newPath, ""); // create file
+        
+        return packet({});
+    } catch (err) {
+        // eslint-disable-next-line no-console
+        console.log("[Server: /api/fs/folder] "+ err);
+
+        return error(500);
+    }
+}

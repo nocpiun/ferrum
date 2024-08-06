@@ -144,6 +144,7 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
                     oldName: props.name
                 });
             }}>重命名</ContextMenuItem>
+            <ContextMenuItem onSelect={() => {}}>下载</ContextMenuItem>
             <ContextMenuItem onSelect={() => {}}>加星</ContextMenuItem>
             <ContextMenuDivider />
             <ContextMenuItem onSelect={() => {

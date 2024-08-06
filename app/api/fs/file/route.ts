@@ -132,6 +132,7 @@ export async function DELETE(req: NextRequest) {
     
         if(!stat.isFile()) return error(400);
 
+        fs.truncateSync(targetPath);
         fs.unlinkSync(targetPath);
         
         return packet({});

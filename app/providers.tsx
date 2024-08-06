@@ -11,6 +11,9 @@ import RenameFolderDialog from "@/components/dialogs/rename-folder-dialog";
 import RenameFileDialog from "@/components/dialogs/rename-file-dialog";
 import RemoveFolderDialog from "@/components/dialogs/remove-folder-dialog";
 import RemoveFileDialog from "@/components/dialogs/remove-file-dialog";
+import CreateFolderDialog from "@/components/dialogs/create-folder-dialog";
+import CreateFileDialog from "@/components/dialogs/create-file-dialog";
+import UploadFileDialog from "@/components/dialogs/upload-file-dialog";
 
 export interface ProvidersProps {
 	children: React.ReactNode;
@@ -34,6 +37,9 @@ export function Providers({ children, themeProps }: ProvidersProps) {
 				<RenameFileDialog />
 				<RemoveFolderDialog />
 				<RemoveFileDialog />
+				<CreateFolderDialog />
+				<CreateFileDialog />
+				<UploadFileDialog />
 			</NextThemesProvider>
 		</NextUIProvider>
 	);
