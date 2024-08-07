@@ -1,11 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
-import type { DirectoryItem } from "@/types";
+import type { DirectoryItem, DisplayingMode } from "@/types";
 
 import React, { useState, useMemo, useEffect } from "react";
-import { Divider } from "@nextui-org/divider";
-import { Checkbox } from "@nextui-org/checkbox";
 import {
     Folder,
     FolderGit2,
@@ -32,8 +30,11 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { useContextMenu, ContextMenuItem, ContextMenuDivider } from "use-context-menu";
 
+import ExplorerListViewItem from "./explorer-list-view-item";
+import ExplorerGridViewItem from "./explorer-grid-view-item";
+
 import { useExplorer } from "@/hooks/useExplorer";
-import { concatPath, formatSize, getFileType, getFileTypeName } from "@/lib/utils";
+import { concatPath, getFileType } from "@/lib/utils";
 import { getViewer } from "@/lib/viewers";
 import { useDialog } from "@/hooks/useDialog";
 import { useFile } from "@/hooks/useFile";
@@ -87,11 +88,12 @@ export function getFileIcon(extname: string, size: number = 18, color?: string):
     return <File size={size} color={color} className={className}/>;
 }
 
-interface ExplorerItemProps extends DirectoryItem {}
+interface ExplorerItemProps extends DirectoryItem {
+    displayingMode: DisplayingMode
+}
 
-const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
+const ExplorerItem: React.FC<ExplorerItemProps> = ({ displayingMode, ...props }) => {
     const extname = useMemo(() => props.name.split(".").findLast(() => true), [props.name]);
-    const size = useMemo(() => formatSize(props.size), [props.size]);
     
     const [selected, setSelected] = useState<boolean>(false);
     
@@ -178,44 +180,9 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
     );
 
     return (
-        <div
-            className="w-full min-h-8 text-md flex items-center gap-4"
-            onClick={() => handleSelection()}
-            onKeyDown={({ key }) => {
-                key === "Enter" && handleSelection();
-            }}
-            role="button"
-            tabIndex={0}>
-            <div className="w-[2%] flex items-center">
-                <Checkbox
-                    className=""
-                    size="sm"
-                    isSelected={selected}
-                    onValueChange={(value) => setSelected(value)}/>
-            </div>
-
-            <div className="flex-[2] min-w-0 flex items-center gap-2">
-                {(
-                    props.type === "folder" ? getFolderIcon(props.name, 20, "#9e9e9e") : getFileIcon(extname ?? "txt", 20, "#9e9e9e")
-                ) as React.ReactNode}
-                <button
-                    className="text-ellipsis whitespace-nowrap cursor-pointer overflow-hidden hover:underline hover:text-primary-500"
-                    onDoubleClick={() => handleOpen()}
-                    onContextMenu={onContextMenu}>
-                    {props.name}
-                </button>
-            </div>
-
-            <Divider orientation="vertical" className="bg-transparent"/>
-
-            <span className="flex-1 text-default-400 text-sm cursor-default">{props.type === "folder" ? "文件夹" : getFileTypeName(extname)}</span>
-            
-            <Divider orientation="vertical" className="bg-transparent"/>
-
-            <span className="flex-1 text-default-400 text-right text-sm cursor-default">{props.type === "file" ? (size) : ""}</span>
-            
-            {contextMenu}
-        </div>
+        displayingMode === "list"
+        ? <ExplorerListViewItem {...props} extname={extname} selected={selected} contextMenu={contextMenu} setSelected={setSelected} handleSelection={handleSelection} handleOpen={handleOpen} onContextMenu={onContextMenu}/>
+        : <ExplorerGridViewItem {...props} extname={extname} selected={selected} contextMenu={contextMenu} setSelected={setSelected} handleSelection={handleSelection} handleOpen={handleOpen} onContextMenu={onContextMenu}/>
     );
 };
 

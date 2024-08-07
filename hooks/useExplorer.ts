@@ -1,3 +1,5 @@
+import type { DisplayingMode } from "@/types";
+
 import { create } from "zustand";
 import { to } from "preps";
 
@@ -8,6 +10,7 @@ interface ExplorerStore {
     path: string[]
     disk: string
     currentViewing: string | null
+    displayingMode: DisplayingMode
 
     setPath: (path: string[]) => void
     setDisk: (disk: string) => void
@@ -40,6 +43,7 @@ export const useExplorer = create<ExplorerStore>((set, get) => ({
     path: ["root"],
     disk: "",
     currentViewing: null,
+    displayingMode: "list",
 
     setPath: (path) => set({ path }),
     setDisk: (disk: string) => {

@@ -5,17 +5,16 @@ import type { BaseResponseData, DirectoryItem } from "@/types";
 
 import React, { useState, useEffect } from "react";
 import axios, { type AxiosError } from "axios";
-import { Divider } from "@nextui-org/divider";
 import { toast } from "react-toastify";
-import { cn } from "@nextui-org/theme";
 import { ContextMenuItem, useContextMenu } from "use-context-menu";
 
-import ExplorerItem from "./explorer-item";
-import ExplorerError from "./explorer-error";
+import ExplorerListView from "./explorer-list-view";
+import ExplorerGridView from "./explorer-grid-view";
 
 import { useExplorer } from "@/hooks/useExplorer";
-import { scrollbarStyle } from "@/lib/style";
 import { useDialog } from "@/hooks/useDialog";
+import { useForceUpdate } from "@/hooks/useForceUpdate";
+import { useEmitter } from "@/hooks/useEmitter";
 
 interface FolderResponseData extends BaseResponseData {
     items: DirectoryItem[]
@@ -24,6 +23,7 @@ interface FolderResponseData extends BaseResponseData {
 const Explorer: React.FC = () => {
     const explorer = useExplorer();
     const dialog = useDialog();
+    const forceUpdate = useForceUpdate();
 
     const [items, setItems] = useState<DirectoryItem[]>([]);
     const [error, setError] = useState<string | null>(null);
@@ -73,6 +73,10 @@ const Explorer: React.FC = () => {
         return () => setError(null);
     }, [explorer]);
 
+    useEmitter([
+        ["displaying-mode-change", () => forceUpdate()]
+    ]);
+
     const { contextMenu, onContextMenu } = useContextMenu(
         <>
             <ContextMenuItem onSelect={() => dialog.open("createFolder", { path: explorer.stringifyPath() })}>新建文件夹</ContextMenuItem>
@@ -82,32 +86,9 @@ const Explorer: React.FC = () => {
     );
 
     return (
-        <div className="w-[730px] flex flex-col gap-1">
-            <div className="w-full h-6 text-sm flex items-center gap-4 pr-5">
-                <div className="w-[2%]"/> {/* placeholder */}
-                <span className="flex-[2] cursor-default">名称</span>
-                <Divider orientation="vertical"/>
-                <span className="flex-1 cursor-default">类型</span>
-                <Divider orientation="vertical"/>
-                <span className="flex-1 cursor-default">大小</span>
-            </div>
-
-            <div
-                className={cn("w-full relative flex-1 flex flex-col overflow-y-auto pr-5", scrollbarStyle)}
-                onContextMenu={onContextMenu}>
-                {
-                    !error
-                    ? items.map((item, index) => (
-                        item.access
-                        ? <ExplorerItem {...item} key={index}/>
-                        : null // To hide inaccessible items
-                    ))
-                    : <ExplorerError error={error}/>
-                }
-            </div>
-
-            {contextMenu}
-        </div>
+        explorer.displayingMode === "list"
+        ? <ExplorerListView items={items} error={error} contextMenu={contextMenu} onContextMenu={onContextMenu}/>
+        : <ExplorerGridView items={items} error={error} contextMenu={contextMenu} onContextMenu={onContextMenu}/>
     );
 }
 

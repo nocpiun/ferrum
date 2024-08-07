@@ -22,6 +22,7 @@ const StarredItem: React.FC<StarredItemProps> = ({ itemPath }) => {
     const folder = useFolder(itemPath.replace(explorer.disk, ""));
 
     const handleOpen = () => {
+        explorer.setDisk(itemPath.split("/")[0]);
         explorer.setPath(parseStringPath(itemPath));
     };
 

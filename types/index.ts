@@ -42,3 +42,23 @@ export interface DirectoryItemOperations {
     rename: (name: string) => Promise<void>
     remove: () => Promise<void>
 }
+
+export type DisplayingMode = "list" | "grid";
+
+export interface ViewProps {
+    items: DirectoryItem[]
+    error: string | null
+    contextMenu: React.ReactNode
+    onContextMenu: (event: React.UIEvent) => void
+}
+
+export interface ViewItemProps extends DirectoryItem {
+    extname?: string
+    selected: boolean
+    contextMenu: React.ReactNode
+    
+    setSelected: (value: boolean) => void
+    handleSelection: () => void
+    handleOpen: () => void
+    onContextMenu: (event: React.UIEvent) => void
+}

@@ -84,7 +84,7 @@ const Sidebar: React.FC = () => {
                 </div>
             </div>
 
-            <Card className="flex-1 p-2 space-y-1">
+            <Card className="flex-1 p-2 space-y-1 dark:bg-[#111]">
                 <SidebarWidget title="星标项目">
                     <div>
                         {
