@@ -14,6 +14,7 @@ import RemoveFileDialog from "@/components/dialogs/remove-file-dialog";
 import CreateFolderDialog from "@/components/dialogs/create-folder-dialog";
 import CreateFileDialog from "@/components/dialogs/create-file-dialog";
 import UploadFileDialog from "@/components/dialogs/upload-file-dialog";
+import ChangePasswordDialog from "@/components/dialogs/change-password-dialog";
 
 export interface ProvidersProps {
 	children: React.ReactNode;
@@ -40,6 +41,7 @@ export function Providers({ children, themeProps }: ProvidersProps) {
 				<CreateFolderDialog />
 				<CreateFileDialog />
 				<UploadFileDialog />
+				<ChangePasswordDialog />
 			</NextThemesProvider>
 		</NextUIProvider>
 	);

@@ -23,15 +23,7 @@ export function useFile(path: string): FileOperations {
             
             return new Promise(async (resolve, reject) => {
                 try {
-                    const { status } = await axios.post(
-                        `/api/fs/file?path=${fullPath}`,
-                        { newName },
-                        {
-                            headers: {
-                                "Content-Type": "multipart/form-data"
-                            }
-                        }
-                    );
+                    const { status } = await axios.post(`/api/fs/file?path=${fullPath}`, { newName });
                     
                     if(status === 200) {
                         toast.success("修改成功");

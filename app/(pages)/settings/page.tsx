@@ -17,9 +17,11 @@ import ThemeSwitch from "@/components/theme-switch";
 import { tokenStorageKey } from "@/lib/global";
 import { scrollbarStyle } from "@/lib/style";
 import { useWithSettings } from "@/hooks/useWithSettings";
+import { useDialog } from "@/hooks/useDialog";
 
 export default function Page() {
     const router = useRouter();
+    const dialog = useDialog();
     const { settings, set } = useWithSettings();
 
     const handleLogout = () => {
@@ -108,7 +110,7 @@ export default function Page() {
 
             <SettingsSection title="安全">
                 <SettingsItem label="设置访问密码">
-                    <Button color="primary">开始设置</Button>
+                    <Button color="primary" onPress={() => dialog.open("changePassword")}>开始设置</Button>
                 </SettingsItem>
 
                 <SettingsItem label="登出 Ferrum" description="退出Ferrum 并清除token信息">

@@ -29,15 +29,7 @@ export function useFolder(fullPath: string): FolderOperations {
 
             return new Promise(async (resolve, reject) => {
                 try {
-                    const { status } = await axios.post(
-                        `/api/fs/folder?disk=${explorer.disk}&path=${fullPath}`,
-                        { newName },
-                        {
-                            headers: {
-                                "Content-Type": "multipart/form-data"
-                            }
-                        }
-                    );
+                    const { status } = await axios.post(`/api/fs/folder?disk=${explorer.disk}&path=${fullPath}`, { newName });
                     
                     if(status === 200) {
                         toast.success("修改成功");
@@ -118,15 +110,7 @@ export function useFolder(fullPath: string): FolderOperations {
 
             return new Promise(async (resolve, reject) => {
                 try {
-                    const { status } = await axios.put(
-                        `/api/fs/folder?disk=${explorer.disk}&path=${fullPath}`,
-                        { name, type },
-                        {
-                            headers: {
-                                "Content-Type": "multipart/form-data"
-                            }
-                        }
-                    );
+                    const { status } = await axios.put(`/api/fs/folder?disk=${explorer.disk}&path=${fullPath}`, { name, type });
                     
                     if(status === 200) {
                         toast.success("创建成功");

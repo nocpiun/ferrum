@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export type DialogType = "renameFolder" | "renameFile" | "removeFolder" | "removeFile" | "createFolder" | "createFile" | "uploadFile";
+export type DialogType = "renameFolder" | "renameFile" | "removeFolder" | "removeFile" | "createFolder" | "createFile" | "uploadFile" | "changePassword";
 
 export interface DialogStore<D = any> {
     type: DialogType | null;

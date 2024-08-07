@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import axios from "axios";
+import axios, { type AxiosError } from "axios";
 import md5 from "md5";
 import Cookie from "js-cookie";
 import { Button } from "@nextui-org/button";
@@ -19,7 +19,7 @@ import { BaseResponseData } from "@/types";
 import { tokenStorageKey } from "@/lib/global";
 
 const schema = z.object({
-    password: z.string().min(1, { message: "请输入访问密码" }),
+    password: z.string().min(6, { message: "请输入访问密码" }),
 });
 
 interface AuthResponseData extends BaseResponseData {
@@ -40,19 +40,35 @@ export default function Page() {
             const { data } = await axios.post<AuthResponseData>("/api/auth", { password: md5(password) });
             const { status, token } = data;
 
-            if(status === 401) throw new Error("访问密码错误");
-            if(status === 403) {
-                router.push("/");
-                throw new Error("已登录，无法重复登录");
-            }
-            if(status === 500) throw new Error("服务器错误");
-            if(!token) throw new Error("服务器未返回token");
+            if(!token) {
+                toast.error("服务器未返回token");
 
-            Cookie.set(tokenStorageKey, token);
-            toast.success("登录成功");
-            router.push("/explorer");
-        } catch (err) {
-            toast.error("登录失败: "+ err);
+                return;
+            }
+
+            if(status === 200) {
+                Cookie.set(tokenStorageKey, token);
+                toast.success("登录成功");
+                router.push("/explorer");
+            }
+        } catch (_err) {
+            const err = _err as AxiosError;
+            const status = err.response?.status ?? 0;
+
+            switch(status) {
+                case 400:
+                    toast.error(`请求无效 (${status})`);
+                    break;
+                case 401:
+                    toast.error(`访问密码错误 (${status})`);
+                    break;
+                case 403:
+                    toast.error(`已登录，无法重复登录 (${status})`);
+                    break;
+                case 500:
+                    toast.error(`服务器内部错误 (${status})`);
+                    break;
+            }
         }
     };
 

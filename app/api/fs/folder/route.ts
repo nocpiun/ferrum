@@ -57,6 +57,10 @@ export async function GET(req: NextRequest) {
     }
 }
 
+interface FolderPostRequestData {
+    newName: string
+}
+
 export async function POST(req: NextRequest) {
     const token = req.cookies.get(tokenStorageKey)?.value;
 
@@ -66,7 +70,7 @@ export async function POST(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const targetDisk = searchParams.get("disk");
     const targetPath = path.join(targetDisk ?? "C:", searchParams.get("path") ?? "/");
-    const newName = (await req.formData()).get("newName");
+    const { newName } = await req.json() as FolderPostRequestData;
     
     if(!newName || /[\\\/:*?"<>|]/.test(newName.toString())) error(400);
     const newPath = path.join(path.dirname(targetPath), newName?.toString() ?? "");
@@ -118,6 +122,11 @@ export async function DELETE(req: NextRequest) {
     }
 }
 
+interface FolderPutRequestData {
+    name: string
+    type: "folder" | "file"
+}
+
 export async function PUT(req: NextRequest) {
     const token = req.cookies.get(tokenStorageKey)?.value;
 
@@ -128,9 +137,7 @@ export async function PUT(req: NextRequest) {
     const targetDisk = searchParams.get("disk");
     const targetPath = path.join(targetDisk ?? "C:", searchParams.get("path") ?? "/");
 
-    const formData = await req.formData();
-    const name = formData.get("name");
-    const type = formData.get("type");
+    const { name, type } = await req.json() as FolderPutRequestData;
     
     if(!name || !type || /[\\\/:*?"<>|]/.test(name.toString())) error(400);
     const newPath = path.join(targetPath, name?.toString() ?? "");

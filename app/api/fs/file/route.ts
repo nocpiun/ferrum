@@ -54,6 +54,10 @@ export async function GET(req: NextRequest) {
     }
 }
 
+interface FilePostRequestData {
+    newName: string
+}
+
 export async function POST(req: NextRequest) {
     const token = req.cookies.get(tokenStorageKey)?.value;
 
@@ -62,7 +66,7 @@ export async function POST(req: NextRequest) {
 
     const { searchParams } = new URL(req.url);
     const targetPath = searchParams.get("path") ?? "/";
-    const newName = (await req.formData()).get("newName");
+    const { newName } = await req.json() as FilePostRequestData;
     
     if(!newName || /[\\\/:*?"<>|]/.test(newName.toString())) error(400);
     const newPath = path.join(path.dirname(targetPath), newName?.toString() ?? "");
@@ -86,6 +90,10 @@ export async function POST(req: NextRequest) {
     }
 }
 
+interface FilePatchRequestData {
+    content: string
+}
+
 export async function PATCH(req: NextRequest) {
     const token = req.cookies.get(tokenStorageKey)?.value;
 
@@ -94,7 +102,7 @@ export async function PATCH(req: NextRequest) {
 
     const { searchParams } = new URL(req.url);
     const targetPath = searchParams.get("path") ?? "/";
-    const content = (await req.formData()).get("content");
+    const { content } = await req.json() as FilePatchRequestData;
 
     if(!content) error(400);
 

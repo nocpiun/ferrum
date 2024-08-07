@@ -64,15 +64,7 @@ export default abstract class Viewer<P extends ViewerProps, S = {}> extends Reac
 
     protected async saveFile(data: string) {
         try {
-            const { status } = await axios.patch(
-                `/api/fs/file?path=${this.props.path}`,
-                { content: data },
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data"
-                    }
-                }
-            );
+            const { status } = await axios.patch(`/api/fs/file?path=${this.props.path}`, { content: data });
 
             if(status === 200) toast.success("保存成功");
         } catch (_err) {
