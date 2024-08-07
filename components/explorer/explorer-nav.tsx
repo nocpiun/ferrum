@@ -21,7 +21,7 @@ import { concatPath, getExtname, isValidPath } from "@/lib/utils";
 import { emitter } from "@/lib/emitter";
 import { useEmitter } from "@/hooks/useEmitter";
 
-const Navbar: React.FC = () => {
+const ExplorerNav: React.FC = () => {
     const ferrum = useFerrum();
     const explorer = useExplorer();
     const router = useRouter();
@@ -239,4 +239,4 @@ const Navbar: React.FC = () => {
     );
 }
 
-export default Navbar;
+export default ExplorerNav;
