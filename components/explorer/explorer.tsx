@@ -17,6 +17,7 @@ import { useForceUpdate } from "@/hooks/useForceUpdate";
 import { useEmitter } from "@/hooks/useEmitter";
 import { getExtname, getFileType } from "@/lib/utils";
 import { emitter } from "@/lib/emitter";
+import { useWithSettings } from "@/hooks/useWithSettings";
 
 interface FolderResponseData extends BaseResponseData {
     items: DirectoryItem[]
@@ -25,6 +26,7 @@ interface FolderResponseData extends BaseResponseData {
 const Explorer: React.FC = () => {
     const explorer = useExplorer();
     const dialog = useDialog();
+    const { settings } = useWithSettings();
     const forceUpdate = useForceUpdate();
 
     const [items, setItems] = useState<DirectoryItem[]>([]);
@@ -52,7 +54,7 @@ const Explorer: React.FC = () => {
                     }
                 });
 
-                const defaultDisplayingMode = imageCount >= 5 ? "grid" : "list";
+                const defaultDisplayingMode = (imageCount >= 5 || (settings && settings["view.default-displaying-mode"] === "grid")) ? "grid" : "list";
                 explorer.displayingMode = defaultDisplayingMode;
                 emitter.emit("displaying-mode-change", defaultDisplayingMode);
 
@@ -98,6 +100,8 @@ const Explorer: React.FC = () => {
             <ContextMenuItem onSelect={() => dialog.open("uploadFile", { path: explorer.stringifyPath() })}>上传文件</ContextMenuItem>
         </>
     );
+
+    if(!settings) return <></>;
 
     return (
         explorer.displayingMode === "list"

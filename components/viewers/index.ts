@@ -1,3 +1,4 @@
+import type { ConfigDataType } from "@/hooks/useWithSettings";
 import type { BaseResponseData } from "@/types";
 
 import axios, { type AxiosError } from "axios";
@@ -13,6 +14,7 @@ interface GetFileResponseData extends BaseResponseData {
 export interface ViewerProps {
     path: string
     fileName: string
+    settings: ConfigDataType
 }
 
 export default abstract class Viewer<P extends ViewerProps, S = {}> extends React.Component<P, S> {

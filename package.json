@@ -38,7 +38,6 @@
     "@xiaohuohumax/lrc-parser": "^1.0.1",
     "ace-builds": "^1.35.4",
     "axios": "^1.7.2",
-    "clsx": "2.1.1",
     "filepond-plugin-image-preview": "^4.6.12",
     "framer-motion": "~11.1.1",
     "intl-messageformat": "^10.5.0",

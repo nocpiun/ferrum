@@ -9,7 +9,6 @@ import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 
 import { DialogStore, useDialog } from "@/hooks/useDialog";
 import { useExplorer } from "@/hooks/useExplorer";
-
 import "filepond/dist/filepond.min.css";
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import "@/styles/filepond.css";

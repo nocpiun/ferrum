@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 "use client";
 
 import React from "react";
@@ -7,8 +8,8 @@ import { Copy, Save } from "lucide-react";
 import { toast } from "react-toastify";
 
 import "ace-builds";
-import "ace-builds/src-noconflict/theme-ambiance";
-import "ace-builds/src-noconflict/ext-language_tools";
+import "ace-builds/src-min-noconflict/theme-ambiance";
+import "ace-builds/src-min-noconflict/ext-language_tools";
 import "@/styles/ace.css";
 
 import Viewer, { ViewerProps } from ".";
@@ -61,18 +62,19 @@ export default class TextViewer extends Viewer<TextViewerProps, TextViewerState>
                 </div>
 
                 <AceEditor
-                    theme="ambiance"
+                    theme={this.props.settings["appearance.ace-theme"]}
                     name="ferrum-ace-editor"
                     width="900px"
                     fontSize={16}
                     showPrintMargin={false}
-                    enableBasicAutocompletion
-                    enableLiveAutocompletion
+                    enableBasicAutocompletion={this.props.settings["general.ace-auto-completion"]}
+                    enableLiveAutocompletion={this.props.settings["general.ace-auto-completion"]}
                     value={this.state.value}
                     setOptions={{
-                        wrap: true,
+                        wrap: this.props.settings["general.ace-wrap"],
                         wrapBehavioursEnabled: true
                     }}
+                    onLoad={(editor) => console.log("Ace Editor is ready.", editor)}
                     onChange={(value) => {
                         this.setState({ value, edited: true });
                     }}/>

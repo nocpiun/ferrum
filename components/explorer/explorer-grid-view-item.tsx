@@ -10,13 +10,17 @@ import { getFileIcon, getFolderIcon } from "./explorer-item";
 
 import { concatPath, formatSize, getFileType, getFileTypeName } from "@/lib/utils";
 import { useExplorer } from "@/hooks/useExplorer";
+import { useWithSettings } from "@/hooks/useWithSettings";
 
 interface GridViewItemProps extends ViewItemProps {}
 
 const ExplorerGridViewItem: React.FC<GridViewItemProps> = ({
     extname, size, selected, contextMenu, setSelected, handleSelection, handleOpen, onContextMenu, ...props
 }) => {
+    const { settings } = useWithSettings();
     const explorer = useExplorer();
+
+    if(!settings) return <></>;
 
     return (
         <div
@@ -52,7 +56,7 @@ const ExplorerGridViewItem: React.FC<GridViewItemProps> = ({
                         props.type === "folder"
                         ? getFolderIcon(props.name, 34)
                         : (
-                            getFileType(extname ?? "")?.id === "image"
+                            getFileType(extname ?? "")?.id === "image" && settings["view.show-image-thumbnail-preview"]
                             ? <img
                                 className="max-w-[50px] max-h-16"
                                 src={`/api/fs/thumbnail?path=${explorer.disk + concatPath(explorer.stringifyPath(), props.name)}`}

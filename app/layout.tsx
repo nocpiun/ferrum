@@ -4,7 +4,7 @@ import "@/styles/globals.css";
 import "@/styles/toastify.css";
 import "@/styles/context-menu.css";
 import { Metadata, Viewport } from "next";
-import { clsx } from "clsx";
+import { cn } from "@nextui-org/theme";
 
 import { Providers } from "./providers";
 
@@ -36,7 +36,7 @@ export default function RootLayout({
 	return (
 		<html suppressHydrationWarning lang="zh-cn">
 			<head />
-			<body className={clsx("m-0 p-0 w-[100vw] h-[100vh]", fontNoto.className, fontSans.className)}>
+			<body className={cn("m-0 p-0 w-[100vw] h-[100vh]", fontNoto.className, fontSans.className)}>
 				<Providers themeProps={{
 					attribute: "class",
 					defaultTheme: "system",

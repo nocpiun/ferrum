@@ -28,7 +28,8 @@ const DiskItem: React.FC<DiskItemProps> = (props) => {
                     ? "primary"
                     : "danger"
                 }
-                disableAnimation/>
+                disableAnimation
+                aria-label={"磁盘空间占用："+ props._capacity +"%"}/>
         </div>
     );
 }

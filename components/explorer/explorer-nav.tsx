@@ -148,7 +148,8 @@ const ExplorerNav: React.FC = () => {
                             exitViewerIfViewerIsOn();
                             explorer.setDisk(Array.from(keys)[0] as string);
                             explorer.backToRoot();
-                        }}>
+                        }}
+                        aria-label="选择磁盘">
                         {
                             ferrum.disks.map((disk) => (
                                 <DropdownItem

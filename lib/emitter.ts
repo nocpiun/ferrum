@@ -1,3 +1,7 @@
 import EventEmitter from "events";
 
-export const emitter = new EventEmitter();
+const emitter = new EventEmitter();
+
+emitter.setMaxListeners(Infinity);
+
+export { emitter };
