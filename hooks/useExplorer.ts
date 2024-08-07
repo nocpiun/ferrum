@@ -5,6 +5,7 @@ import { to } from "preps";
 
 import { storage } from "@/lib/storage";
 import { diskStorageKey } from "@/lib/global";
+import { emitter } from "@/lib/emitter";
 
 interface ExplorerStore {
     path: string[]
@@ -15,6 +16,7 @@ interface ExplorerStore {
     setPath: (path: string[]) => void
     setDisk: (disk: string) => void
     setCurrentViewing: (file: string) => void
+    setDisplayingMode: (displayingMode: DisplayingMode) => void
     clearCurrentViewing: () => void
     stringifyPath: () => string
     enterPath: (target: string) => void
@@ -46,14 +48,18 @@ export const useExplorer = create<ExplorerStore>((set, get) => ({
     displayingMode: "list",
 
     setPath: (path) => set({ path }),
-    setDisk: (disk: string) => {
+    setDisk: (disk) => {
         set({ disk });
         storage.setItem(diskStorageKey, disk);
     },
     setCurrentViewing: (file) => set({ currentViewing: file }),
+    setDisplayingMode: (displayingMode) => {
+        set({ displayingMode });
+        emitter.emit("displaying-mode-change", displayingMode);
+    },
     clearCurrentViewing: () => set({ currentViewing: null }),
     stringifyPath: () => stringifyPath(get().path),
-    enterPath: (target: string) => {
+    enterPath: (target) => {
         set({ path: [...get().path, target] });
     },
     backToRoot: () => {

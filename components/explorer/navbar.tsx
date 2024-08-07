@@ -1,5 +1,7 @@
 "use client";
 
+import type { DisplayingMode } from "@/types";
+
 import React, { useEffect, useCallback, useState, useMemo } from "react";
 import { Breadcrumbs, BreadcrumbItem } from "@nextui-org/breadcrumbs";
 import { Input } from "@nextui-org/input";
@@ -15,8 +17,9 @@ import DiskItem from "./disk-item";
 
 import { parseStringPath, useExplorer } from "@/hooks/useExplorer";
 import { useFerrum } from "@/hooks/useFerrum";
-import { concatPath, isValidPath } from "@/lib/utils";
+import { concatPath, getExtname, isValidPath } from "@/lib/utils";
 import { emitter } from "@/lib/emitter";
+import { useEmitter } from "@/hooks/useEmitter";
 
 const Navbar: React.FC = () => {
     const ferrum = useFerrum();
@@ -77,8 +80,12 @@ const Navbar: React.FC = () => {
 
     useEffect(() => {
         explorer.displayingMode = displayingMode;
-        emitter.emit("displaying-mode-change");
+        emitter.emit("displaying-mode-change", displayingMode);
     }, [displayingMode]);
+
+    useEmitter([
+        ["displaying-mode-change", (current: DisplayingMode) => setDisplayingMode(current)]
+    ]);
 
     return (
         <>
@@ -191,7 +198,7 @@ const Navbar: React.FC = () => {
                             <BreadcrumbItem
                                 classNames={{ item: "gap-1" }}
                                 isCurrent>
-                                {getFileIcon(explorer.currentViewing.split(".").findLast(() => true) ?? "")}
+                                {getFileIcon(getExtname(explorer.currentViewing))}
                                 {explorer.currentViewing}
                             </BreadcrumbItem>
                         )

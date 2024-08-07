@@ -52,6 +52,10 @@ export function formatSize(bytes: number, fixed: number = 2): string {
     return size.value + getBytesType(size.type);
 }
 
+export function getExtname(fileName: string): string {
+    return fileName.split(".").findLast(() => true) ?? "";
+}
+
 export function getFileType(extname: string): FileType | null {
     extname = extname.toLowerCase();
 

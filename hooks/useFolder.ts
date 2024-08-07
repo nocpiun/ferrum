@@ -20,7 +20,7 @@ export function useFolder(fullPath: string): FolderOperations {
     const explorer = useExplorer();
 
     return {
-        rename: async (newName: string) => {
+        rename: async (newName) => {
             if(/[\\\/:*?"<>|]/.test(newName)) {
                 toast.warn(`文件夹名称中不能包含下列任何字符 \\ / : * ? " < > |`);
     
@@ -107,7 +107,7 @@ export function useFolder(fullPath: string): FolderOperations {
                 }
             });
         },
-        create: async (name: string, type: "folder" | "file") => {
+        create: async (name, type) => {
             const typeName = type === "folder" ? "文件夹" : "文件";
 
             if(/[\\\/:*?"<>|]/.test(name)) {

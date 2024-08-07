@@ -8,13 +8,16 @@ import { Tooltip } from "@nextui-org/tooltip";
 
 import { getFileIcon, getFolderIcon } from "./explorer-item";
 
-import { formatSize, getFileTypeName } from "@/lib/utils";
+import { concatPath, formatSize, getFileType, getFileTypeName } from "@/lib/utils";
+import { useExplorer } from "@/hooks/useExplorer";
 
 interface GridViewItemProps extends ViewItemProps {}
 
 const ExplorerGridViewItem: React.FC<GridViewItemProps> = ({
     extname, size, selected, contextMenu, setSelected, handleSelection, handleOpen, onContextMenu, ...props
 }) => {
+    const explorer = useExplorer();
+
     return (
         <div
             className="w-[6.5rem] h-28 flex flex-col items-center overflow-hidden relative"
@@ -48,7 +51,14 @@ const ExplorerGridViewItem: React.FC<GridViewItemProps> = ({
                     {
                         props.type === "folder"
                         ? getFolderIcon(props.name, 34)
-                        : getFileIcon(extname ?? "", 34)
+                        : (
+                            getFileType(extname ?? "")?.id === "image"
+                            ? <img
+                                className="max-w-[50px] max-h-16"
+                                src={`/api/fs/thumbnail?path=${explorer.disk + concatPath(explorer.stringifyPath(), props.name)}`}
+                                alt="thumbnail"/>
+                            : getFileIcon(extname ?? "", 34)
+                        )
                     }
                 </div>
             </Tooltip>

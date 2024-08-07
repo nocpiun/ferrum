@@ -14,7 +14,7 @@ export function useFile(path: string): FileOperations {
     const fullPath = explorer.disk + path;
 
     return {
-        rename: async (newName: string) => {
+        rename: async (newName) => {
             if(/[\\\/:*?"<>|]/.test(newName)) {
                 toast.warn(`文件名称中不能包含下列任何字符 \\ / : * ? " < > |`);
     

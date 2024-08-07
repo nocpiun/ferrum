@@ -14,6 +14,6 @@ export const useDialog = create<DialogStore>((set) => ({
     type: null,
     data: null,
     isOpened: false,
-    open: (type: DialogType, data?: any) => set({ type, data, isOpened: true }),
+    open: (type, data?) => set({ type, data, isOpened: true }),
     close: () => set({ type: null, data: null, isOpened: false }),
 }));

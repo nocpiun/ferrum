@@ -15,6 +15,8 @@ import { useExplorer } from "@/hooks/useExplorer";
 import { useDialog } from "@/hooks/useDialog";
 import { useForceUpdate } from "@/hooks/useForceUpdate";
 import { useEmitter } from "@/hooks/useEmitter";
+import { getExtname, getFileType } from "@/lib/utils";
+import { emitter } from "@/lib/emitter";
 
 interface FolderResponseData extends BaseResponseData {
     items: DirectoryItem[]
@@ -35,12 +37,24 @@ const Explorer: React.FC = () => {
             .then(({ data }) => {
                 var list: DirectoryItem[] = [];
 
+                // Classify the directory items
+                // And count the amount of image files
+                var imageCount = 0;
                 data.items.forEach((item) => {
                     if(item.type === "folder") list.push(item);
                 });
                 data.items.forEach((item) => {
-                    if(item.type === "file") list.push(item);
+                    if(item.type === "file") {
+                        list.push(item);
+                        if(getFileType(getExtname(item.name))?.id === "image") {
+                            imageCount++;
+                        }
+                    }
                 });
+
+                const defaultDisplayingMode = imageCount >= 5 ? "grid" : "list";
+                explorer.displayingMode = defaultDisplayingMode;
+                emitter.emit("displaying-mode-change", defaultDisplayingMode);
 
                 setItems(list);
             })

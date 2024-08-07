@@ -34,7 +34,7 @@ import ExplorerListViewItem from "./explorer-list-view-item";
 import ExplorerGridViewItem from "./explorer-grid-view-item";
 
 import { useExplorer } from "@/hooks/useExplorer";
-import { concatPath, getFileType } from "@/lib/utils";
+import { concatPath, getExtname, getFileType } from "@/lib/utils";
 import { getViewer } from "@/lib/viewers";
 import { useDialog } from "@/hooks/useDialog";
 import { useFile } from "@/hooks/useFile";
@@ -93,7 +93,7 @@ interface ExplorerItemProps extends DirectoryItem {
 }
 
 const ExplorerItem: React.FC<ExplorerItemProps> = ({ displayingMode, ...props }) => {
-    const extname = useMemo(() => props.name.split(".").findLast(() => true), [props.name]);
+    const extname = getExtname(props.name);
     
     const [selected, setSelected] = useState<boolean>(false);
     

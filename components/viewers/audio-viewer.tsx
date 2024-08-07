@@ -14,6 +14,7 @@ import Viewer, { ViewerProps } from ".";
 import PlayIcon from "@/styles/icons/play.svg";
 import PauseIcon from "@/styles/icons/pause.svg";
 import StopIcon from "@/styles/icons/stop.svg";
+import { getExtname } from "@/lib/utils";
 
 interface Lyric {
     time: number
@@ -119,7 +120,7 @@ export default class AudioViewer extends Viewer<AudioViewerProps, AudioViewerSta
                                 alt={this.state.metadata?.common.picture[0].description}/>
                             : (
                                 <div className="w-full h-full flex justify-center items-center bg-default-100 rounded-lg">
-                                    <span className="text-4xl font-bold text-default-400">{this.props.fileName.split(".").findLast(() => true)?.toUpperCase()}</span>
+                                    <span className="text-4xl font-bold text-default-400">{getExtname(this.props.fileName).toUpperCase()}</span>
                                 </div>
                             )
                         }
