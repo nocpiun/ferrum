@@ -26,6 +26,7 @@
     "@nextui-org/navbar": "2.0.33",
     "@nextui-org/progress": "^2.0.33",
     "@nextui-org/scroll-shadow": "^2.1.19",
+    "@nextui-org/select": "^2.2.5",
     "@nextui-org/skeleton": "^2.0.29",
     "@nextui-org/snippet": "2.0.38",
     "@nextui-org/switch": "2.0.31",

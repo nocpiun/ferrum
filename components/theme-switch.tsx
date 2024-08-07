@@ -14,9 +14,7 @@ const ThemeSwitch: React.FC<ThemeSwitchProps> = ({ size }) => {
     const [mouted, setMouted] = useState<boolean>(false);
 
     const handleSwitchTheme = (value: boolean) => {
-        value
-        ? setTheme("light")
-        : setTheme("dark");
+        setTheme(value ? "light" : "dark");
     };
 
     useEffect(() => {

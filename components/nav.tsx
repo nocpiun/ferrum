@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import Cookies from "js-cookie";
 import {
     Navbar,
     NavbarBrand,
@@ -9,20 +8,15 @@ import {
     NavbarItem
 } from "@nextui-org/navbar";
 import { Image } from "@nextui-org/image";
-import { Button } from "@nextui-org/button";
 import Link from "next/link";
-import { LogOut, Gauge, Folders, Settings2 } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
-import { toast } from "react-toastify";
+import { Gauge, Folders, Settings2 } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 import ThemeSwitch from "./theme-switch";
-
-import { tokenStorageKey } from "@/lib/global";
 
 type NavPage = "dashboard" | "explorer" | "settings";
 
 const Nav: React.FC = () => {
-    const router = useRouter();
     const pathname = usePathname();
     const [page, setPage] = useState<NavPage | null>(() => {
         switch(pathname) {
@@ -37,12 +31,6 @@ const Nav: React.FC = () => {
                 return null;
         }
     });
-
-    const handleLogout = () => {
-        Cookies.remove(tokenStorageKey);
-        toast.success("登出成功");
-        router.refresh();
-    };
 
     return (
         <Navbar
@@ -90,13 +78,7 @@ const Nav: React.FC = () => {
             </NavbarContent>
             <NavbarContent justify="end">
                 <NavbarItem>
-                    <ThemeSwitch />
-                </NavbarItem>
-                <NavbarItem>
-                    <Button color="primary" size="sm" onClick={() => handleLogout()}>
-                        登出
-                        <LogOut size={15}/>
-                    </Button>
+                    {page !== "settings" && <ThemeSwitch />}
                 </NavbarItem>
             </NavbarContent>
         </Navbar>
