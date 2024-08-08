@@ -1,5 +1,3 @@
-"use client";
-
 import type { ViewProps } from "@/types";
 
 import React from "react";

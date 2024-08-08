@@ -1,6 +1,4 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-"use client";
-
 import type { DirectoryItem, DisplayingMode } from "@/types";
 
 import React, { useState, useMemo, useEffect } from "react";

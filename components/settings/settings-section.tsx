@@ -1,5 +1,3 @@
-"use client";
-
 import React, { type PropsWithChildren } from "react";
 import { Card } from "@nextui-org/card";
 

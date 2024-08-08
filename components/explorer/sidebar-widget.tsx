@@ -1,5 +1,3 @@
-"use client";
-
 import React, { type PropsWithChildren } from "react";
 
 interface SidebarWidgetProps extends PropsWithChildren {

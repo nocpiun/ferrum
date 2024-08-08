@@ -1,5 +1,3 @@
-"use client";
-
 import path from "path";
 
 import React from "react";

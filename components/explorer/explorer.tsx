@@ -1,6 +1,4 @@
 /* eslint-disable padding-line-between-statements */
-"use client";
-
 import type { BaseResponseData, DirectoryItem } from "@/types";
 
 import React, { useState, useEffect } from "react";
