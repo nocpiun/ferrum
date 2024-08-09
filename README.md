@@ -5,9 +5,10 @@
 # Ferrum Explorer
 
 [![Author](https://img.shields.io/badge/Author-NriotHrreion-red.svg "Author")](https://github.com/NriotHrreion)
-[![LICENSE](https://img.shields.io/badge/license-MIT-green.svg "LICENSE")](./LICENSE)
+[![LICENSE](https://img.shields.io/badge/license-MIT-blue.svg "LICENSE")](./LICENSE)
 [![Stars](https://img.shields.io/github/stars/nocpiun/ferrum.svg?label=Stars)](https://github.com/nocpiun/ferrum/stargazers)
 [![test](https://img.shields.io/github/actions/workflow/status/nocpiun/ferrum/ci.yml)](https://github.com/nocpiun/ferrum/actions/workflows/ci.yml)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/4bbf93a7-63d0-4512-bb3a-09345632ad1e/deploy-status)](https://app.netlify.com/sites/inspiring-torte-1d7e94/deploys)
 
 > Explore throughout your server
 
@@ -24,6 +25,10 @@ Because it's only maintained by me, so it might have some problems and bugs. You
 ```
 File Explorer -> FE -> Fe (Chemical Element) -> Ferrum
 ```
+
+#### May I have a look?
+
+**[Demo Site](https://ferrum-demo.nin.red)** (Default password is `123456`)
 
 ## Deploy & Use
 
@@ -63,14 +68,6 @@ Do the following commands, then do `npm run start`.
 git fetch origin main:temp
 git merge temp
 npm i
-```
-
-If error at `npm i`, just try:
-
-```bash
-npm i --legacy-peer-deps
-# or
-npm i --force
 ```
 
 ### Something to notice
