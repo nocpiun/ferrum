@@ -65,7 +65,12 @@ export function SOCKET(
             memory: {
                 total: mem.total,
                 usage: (mem.used / mem.total) * 100,
-                amount: memLayout.length
+                amount: memLayout.length,
+                mems: memLayout.map((item) => ({
+                    size: item.size,
+                    type: item.type,
+                    formFactor: item.formFactor
+                }))
             },
             gpu: graphics.controllers.map((gpu) => ({
                 model: gpu.model,

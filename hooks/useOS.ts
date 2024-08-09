@@ -17,6 +17,11 @@ export interface MemoryInfo {
     total: number
     usage: number
     amount: number
+    mems: {
+        size: number
+        type: string
+        formFactor: string
+    }[]
 }
 
 export interface GPUInfo {

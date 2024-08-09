@@ -2,9 +2,10 @@ import type { PropsWithCN } from "@/types";
 
 import React, { useState } from "react";
 import { Progress } from "@nextui-org/progress";
+import { Chip } from "@nextui-org/chip";
+import { ScrollShadow } from "@nextui-org/scroll-shadow";
 
 import DashboardWidget from "./dashboard-widget";
-import Info from "./info";
 
 import { type MemoryInfo, useOS } from "@/hooks/useOS";
 import { formatSize } from "@/lib/utils";
@@ -18,13 +19,23 @@ const MemoryWidget: React.FC<PropsWithCN> = (props) => {
 
     return (
         <DashboardWidget
-            name="内存占用"
+            name="内存状态"
             className={props.className}
-            insideClassName="flex flex-col justify-between">
-            <Info name="内存条" content={memoryInfo?.amount ? `${memoryInfo?.amount} 个` : ""}/>
-            <Info name="容量" content={memoryInfo?.total ? formatSize(memoryInfo.total) : ""}/>
+            insideClassName="relative">
+            <ScrollShadow hideScrollBar className="h-20 space-y-1">
+                {
+                    memoryInfo?.mems.map((mem, index) => (
+                        <div className="flex items-center gap-2" key={index}>
+                            <span className="text-default-500">内存条 {index + 1}</span>
+                            <span>{formatSize(mem.size)}</span>
+                            <Chip size="sm">{mem.type}</Chip>
+                            <Chip size="sm">{mem.formFactor}</Chip>
+                        </div>
+                    ))
+                }
+            </ScrollShadow>
             
-            <div className="flex flex-col gap-4">
+            <div className="absolute left-0 right-0 bottom-0 flex flex-col gap-4">
                 <div className="flex justify-end">
                     <span className="text-3xl font-semibold">{memoryInfo?.usage ? `${memoryInfo?.usage.toFixed(2)}%` : "--%"}</span>
                 </div>
