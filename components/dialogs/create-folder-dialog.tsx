@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { DialogStore, useDialog } from "@/hooks/useDialog";
 import { useExplorer } from "@/hooks/useExplorer";
 import { useFolder } from "@/hooks/useFolder";
+import { isDemo } from "@/lib/global";
 
 const schema = z.object({
     folderName: z.string().min(1, { message: "请输入文件夹名称" }).optional(),
@@ -71,7 +72,8 @@ const CreateFolderDialog: React.FC = () => {
                             autoComplete="off"/>
                         
                         <Checkbox
-                            {...form.register("enterFolder")}>
+                            {...form.register("enterFolder")}
+                            isDisabled={isDemo}>
                             创建后进入文件夹
                         </Checkbox>
                     </ModalBody>
