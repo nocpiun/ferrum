@@ -67,17 +67,15 @@ const DiskWidget: React.FC<PropsWithCN> = (props) => {
                                 </div>
                             </div>
     
-                            <div className="">
-                                <Progress
-                                    size="sm"
-                                    value={capacity}
-                                    color={
-                                        capacity <= 90
-                                        ? "primary"
-                                        : "danger"
-                                    }
-                                    aria-label={disk.mount +" "+ capacity.toFixed(2)}/>
-                            </div>
+                            <Progress
+                                size="sm"
+                                value={capacity}
+                                color={
+                                    capacity <= 90
+                                    ? "primary"
+                                    : "danger"
+                                }
+                                aria-label={disk.mount +" "+ capacity.toFixed(2)}/>
                         </div>
                     );
                 })

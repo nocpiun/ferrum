@@ -13,5 +13,5 @@ export const useFerrum = create<FerrumStore>((set, get) => ({
     disks: [],
 
     setDisks: (disks) => set({ disks }),
-    getMountedList: () => get().disks.map((disk) => disk._mounted),
+    getMountedList: () => get().disks.map((disk) => disk.mount),
 }));

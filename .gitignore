@@ -28,6 +28,7 @@ npminstall-debug.log
 # local env files
 .env
 .env*.local
+.pwd
 
 # vercel
 .vercel
