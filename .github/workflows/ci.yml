@@ -1,4 +1,4 @@
-name: lint
+name: ci
 
 on:
     push:
@@ -26,3 +26,23 @@ jobs:
 
         - name: Run ESLint
           run: npm run lint
+    
+    build:
+
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                node-version: [20.x]
+
+        steps:
+        - uses: actions/checkout@v2
+        - name: Use Node.js ${{ matrix.node-version }}
+          uses: actions/setup-node@v2
+          with:
+            node-version: ${{ matrix.node-version }}
+            cache: 'npm'
+        - run: npm install
+
+        - name: Build production bundle
+          run: npm run build
