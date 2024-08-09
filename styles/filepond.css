@@ -1,0 +1,12 @@
+.filepond--panel-root {
+    background: var(--nextui-default-400);
+    background-color: transparent !important;
+}
+
+html.dark .filepond--drop-label label {
+    color: #808080;
+}
+
+html.light .filepond--drop-label label {
+    color: #a8a8a8;
+}
