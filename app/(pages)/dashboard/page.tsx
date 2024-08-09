@@ -12,6 +12,7 @@ import GPUWidget from "@/components/dashboard/gpu-widget";
 import BatteryWidget from "@/components/dashboard/battery-widget";
 import OSWidget from "@/components/dashboard/os-widget";
 import { WebSocketContext } from "@/hooks/useOS";
+import { isDemo } from "@/lib/global";
 
 export default function Page() {
     const [mounted, setMounted] = useState<boolean>(false);
@@ -22,8 +23,11 @@ export default function Page() {
 
         document.title = "Ferrum - 仪表盘";
 
-        const _ws = new WebSocket(`ws://${window.location.host}/api/os`);
-        setWebSocket(_ws);
+        var _ws: WebSocket;
+        if(!isDemo) {
+            _ws = new WebSocket(`ws://${window.location.host}/api/os`);
+            setWebSocket(_ws);
+        }
 
         return () => _ws?.close();
     }, []);

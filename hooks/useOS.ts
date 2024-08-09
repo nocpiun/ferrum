@@ -1,7 +1,11 @@
 import React, { useContext, useEffect } from "react";
 
+import { isDemo } from "@/lib/global";
+// Demo
+import demoOS from "@/lib/demo/os.json";
+
 interface WebSocketContextType {
-    ws: WebSocket | null;
+    ws: WebSocket | null
 }
 
 export const WebSocketContext = React.createContext<WebSocketContextType>({ ws: null });
@@ -65,6 +69,12 @@ export function useOS(listener: (msg: OSWebSocketMessage) => void) {
     const { ws } = useContext(WebSocketContext);
 
     useEffect(() => {
+        if(isDemo) {
+            listener(demoOS as OSWebSocketMessage);
+
+            return;
+        }
+
         const controller = new AbortController();
 
         ws?.addEventListener("message", (e) => {
