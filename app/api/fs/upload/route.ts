@@ -3,11 +3,13 @@ import path from "node:path";
 
 import { NextRequest } from "next/server";
 
-import { tokenStorageKey } from "@/lib/global";
+import { isDemo, tokenStorageKey } from "@/lib/global";
 import { validateToken } from "@/lib/token";
 import { packet, error } from "@/lib/packet";
 
 export async function POST(req: NextRequest) {
+    if(isDemo) return packet({});
+
     const token = req.cookies.get(tokenStorageKey)?.value;
 
     if(!token) return error(401);

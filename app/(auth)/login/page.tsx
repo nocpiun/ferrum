@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation";
 import ThemeSwitch from "@/components/theme-switch";
 import PasswordInput from "@/components/password-input";
 import { BaseResponseData } from "@/types";
-import { tokenStorageKey } from "@/lib/global";
+import { isDemo, tokenStorageKey } from "@/lib/global";
 
 const schema = z.object({
     password: z.string().min(6, { message: "请输入访问密码" }),
@@ -85,7 +85,7 @@ export default function Page() {
                         src="/icon.png"
                         className="w-[70px] mb-4"
                         style={{ imageRendering: "pixelated" }}/>
-                    <h1 className="font-bold text-2xl mb-2">登录 Ferrum</h1>
+                    <h1 className="font-bold text-2xl mb-2">登录 Ferrum{isDemo ? " (Demo)" : ""}</h1>
                     <p className="text-default-400 text-sm">Explore throughout your server.</p>
                 </div>
 

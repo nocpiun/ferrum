@@ -3,13 +3,15 @@ import fs from "node:fs";
 import { NextRequest, NextResponse } from "next/server";
 import mime from "mime";
 
-import { tokenStorageKey } from "@/lib/global";
+import { isDemo, tokenStorageKey } from "@/lib/global";
 import { validateToken } from "@/lib/token";
-import { error } from "@/lib/packet";
+import { error, packet } from "@/lib/packet";
 import { getExtname, getFileType } from "@/lib/utils";
 import { streamFile } from "@/lib/stream";
 
 export async function GET(req: NextRequest) {
+    if(isDemo) return packet({});
+
     const token = req.cookies.get(tokenStorageKey)?.value;
 
     if(!token) return error(401);

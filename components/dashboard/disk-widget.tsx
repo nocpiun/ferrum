@@ -56,7 +56,7 @@ const DiskWidget: React.FC<PropsWithCN> = (props) => {
                                 <HardDrive size={20} className="stroke-default-400"/>
     
                                 <div className="flex-1 flex justify-between items-end">
-                                    <span className="text-lg font-semibold">
+                                    <span className="text-lg font-semibold overflow-hidden text-ellipsis whitespace-nowrap">
                                         {disk.mount}
                                     </span>
                                     

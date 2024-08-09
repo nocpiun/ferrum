@@ -10,8 +10,10 @@ import { cpuModel, usagePercent as cpuPercent } from "node-system-stats";
 import cookie from "cookie";
 
 import { error } from "@/lib/packet";
-import { tokenStorageKey } from "@/lib/global";
+import { isDemo, tokenStorageKey } from "@/lib/global";
 import { validateToken } from "@/lib/token";
+// Demo
+import demoOS from "@/lib/demo/os.json";
 
 export function GET() {
     return error(400);
@@ -38,6 +40,12 @@ export function SOCKET(
     console.log("[Server: /api/os] Socket client connected.");
 
     const handleRequest = async () => {
+        if(isDemo) {
+            client.send(JSON.stringify(demoOS));
+
+            return;
+        }
+
         const cpu = await si.cpu();
         const cpuTemp = await si.cpuTemperature();
         const mem = await si.mem();

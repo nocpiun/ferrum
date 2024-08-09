@@ -4,13 +4,19 @@ import path from "node:path";
 import { NextRequest, NextResponse } from "next/server";
 import mime from "mime";
 
-import { tokenStorageKey } from "@/lib/global";
+import { isDemo, tokenStorageKey } from "@/lib/global";
 import { validateToken } from "@/lib/token";
 import { packet, error } from "@/lib/packet";
 import { streamFile } from "@/lib/stream";
 import { getFileType } from "@/lib/utils";
+// Demo
+import demoFile from "@/lib/demo/file.json";
 
 export async function GET(req: NextRequest) {
+    if(isDemo) {
+        return packet(demoFile);
+    }
+
     const token = req.cookies.get(tokenStorageKey)?.value;
 
     if(!token) return error(401);
@@ -59,6 +65,8 @@ interface FilePostRequestData {
 }
 
 export async function POST(req: NextRequest) {
+    if(isDemo) return packet({});
+
     const token = req.cookies.get(tokenStorageKey)?.value;
 
     if(!token) return error(401);
@@ -95,6 +103,8 @@ interface FilePatchRequestData {
 }
 
 export async function PATCH(req: NextRequest) {
+    if(isDemo) return packet({});
+
     const token = req.cookies.get(tokenStorageKey)?.value;
 
     if(!token) return error(401);
@@ -125,6 +135,8 @@ export async function PATCH(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
+    if(isDemo) return packet({});
+
     const token = req.cookies.get(tokenStorageKey)?.value;
 
     if(!token) return error(401);

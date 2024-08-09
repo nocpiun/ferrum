@@ -1,0 +1,20 @@
+[
+    {
+        "name": "hello.txt",
+        "type": "file",
+        "size": 53,
+        "access": true
+    },
+    {
+        "name": "test.txt",
+        "type": "file",
+        "size": 1024,
+        "access": true
+    },
+    {
+        "name": "demo-folder",
+        "type": "folder",
+        "size": 0,
+        "access": true
+    }
+]

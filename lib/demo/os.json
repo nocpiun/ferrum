@@ -1,0 +1,94 @@
+{
+    "cpu": {
+        "model": "Intel xeon(R) Platinum 8280",
+        "totalCores": 28,
+        "usage": 34,
+        "temperature": 36
+    },
+    "memory": {
+        "total": 34359738368,
+        "usage": 82,
+        "amount": 4,
+        "mems": [
+            {
+                "size": 34359738368,
+                "type": "DDR4",
+                "formFactor": "DIMM"
+            },
+            {
+                "size": 34359738368,
+                "type": "DDR4",
+                "formFactor": "DIMM"
+            },
+            {
+                "size": 34359738368,
+                "type": "DDR4",
+                "formFactor": "DIMM"
+            },
+            {
+                "size": 34359738368,
+                "type": "DDR4",
+                "formFactor": "DIMM"
+            },
+            {
+                "size": 34359738368,
+                "type": "DDR4",
+                "formFactor": "DIMM"
+            },
+            {
+                "size": 34359738368,
+                "type": "DDR4",
+                "formFactor": "DIMM"
+            },
+            {
+                "size": 34359738368,
+                "type": "DDR4",
+                "formFactor": "DIMM"
+            },
+            {
+                "size": 34359738368,
+                "type": "DDR4",
+                "formFactor": "DIMM"
+            }
+        ]
+    },
+    "gpu": [
+        {
+            "model": "A100 Tensor Core GPU",
+            "vendor": "Nvidia",
+            "memoryTotal": 81920,
+            "memoryUsage": 58
+        }
+    ],
+    "battery": {
+        "hasBattery": true,
+        "isCharging": true,
+        "percent": 90
+    },
+    "disk": [
+        {
+            "mount": "/",
+            "type": "ext4",
+            "size": 107374182400,
+            "used": 71940702208
+        },
+        {
+            "mount": "/media/user/disk-1",
+            "type": "exfat",
+            "size": 1099511627776,
+            "used": 678604832768
+        },
+        {
+            "mount": "/media/user/disk-2",
+            "type": "exfat",
+            "size": 1099511627776,
+            "used": 1055488212992
+        }
+    ],
+    "os": {
+        "arch": "arm64",
+        "platform": "linux",
+        "release": "1.0.0",
+        "version": "1.0.0"
+    }
+}

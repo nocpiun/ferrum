@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3300",
+    "patch": "npx next-ws-cli@latest patch",
     "build": "next build",
-    "build:ci": "npx next-ws-cli@latest patch && npm run build",
+    "build:ci": "npm run patch && npm run build",
     "start": "next start -p 3300",
     "lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix"
   },

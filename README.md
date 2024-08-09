@@ -35,12 +35,13 @@ First, you need to make sure that your server (or computer) has installed Nodejs
 git clone https://github.com/nocpiun/ferrum.git
 cd ferrum
 npm i
+npm run patch
 npm run build
 ```
 
 2. Prepare the `.pwd` file
 
-Rename the `.pwd.example` to `.pwd` in the project root folder. And delete the comments in it. This file stores your access key to Ferrum. The default password is `123456`, and you can change your password in the settings.
+Rename the `.pwd.example` to `.pwd` in the project root folder. This file stores your access key to Ferrum. The default password is `123456`, and you can change your password in the settings.
 
 ```txt
 PASSWORD=....
@@ -102,6 +103,7 @@ An explanation of the `package.json` scripts.
 
 - **`start`** Launch the app in production mode
 - **`dev`** Launch the app in development mode
+- **`patch`** Install `next-ws` plugin
 - **`build`** Create a production build
 - **`build:ci`** Create a production build for CI environment
 - **`lint`** Run ESLint

@@ -4,12 +4,25 @@ import path from "node:path";
 import { NextRequest, NextResponse } from "next/server";
 import mime from "mime";
 
-import { tokenStorageKey } from "@/lib/global";
+import { isDemo, tokenStorageKey } from "@/lib/global";
 import { validateToken } from "@/lib/token";
 import { error } from "@/lib/packet";
 import { streamFile } from "@/lib/stream";
+// Demo
+import demoFile from "@/lib/demo/file.json";
 
 export async function GET(req: NextRequest) {
+    if(isDemo) {
+        return new NextResponse(demoFile.content, {
+            status: 200,
+            headers: {
+                "Content-Disposition": `attachment; filename=hello.txt`,
+                "Content-Type": "text/plain",
+                "Content-Length": demoFile.size.toString()
+            }
+        });
+    }
+
     const token = req.cookies.get(tokenStorageKey)?.value;
 
     if(!token) return error(401);

@@ -5,11 +5,19 @@ import path from "node:path";
 
 import { NextRequest } from "next/server";
 
-import { tokenStorageKey } from "@/lib/global";
+import { isDemo, tokenStorageKey } from "@/lib/global";
 import { validateToken } from "@/lib/token";
 import { packet, error } from "@/lib/packet";
+// Demo
+import demoFiles from "@/lib/demo/files.json";
 
 export async function GET(req: NextRequest) {
+    if(isDemo) {
+        return packet({
+            items: demoFiles
+        });
+    }
+
     const token = req.cookies.get(tokenStorageKey)?.value;
 
     if(!token) return error(401);
@@ -62,6 +70,8 @@ interface FolderPostRequestData {
 }
 
 export async function POST(req: NextRequest) {
+    if(isDemo) return packet({});
+
     const token = req.cookies.get(tokenStorageKey)?.value;
 
     if(!token) return error(401);
@@ -95,6 +105,8 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
+    if(isDemo) return packet({});
+
     const token = req.cookies.get(tokenStorageKey)?.value;
 
     if(!token) return error(401);
@@ -128,6 +140,8 @@ interface FolderPutRequestData {
 }
 
 export async function PUT(req: NextRequest) {
+    if(isDemo) return packet({});
+
     const token = req.cookies.get(tokenStorageKey)?.value;
 
     if(!token) return error(401);
