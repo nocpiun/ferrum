@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Navbar,
     NavbarBrand,
@@ -18,8 +18,9 @@ type NavPage = "dashboard" | "explorer" | "settings";
 
 const Nav: React.FC = () => {
     const pathname = usePathname();
-    const [page, setPage] = useState<NavPage | null>(() => {
-        switch(pathname) {
+    
+    const handlePathnameChange = (changed: string) => {
+        switch(changed) {
             case "/dashboard":
                 return "dashboard";
             case "/explorer":
@@ -30,7 +31,15 @@ const Nav: React.FC = () => {
             default:
                 return null;
         }
+    };
+    
+    const [page, setPage] = useState<NavPage | null>(() => {
+        return handlePathnameChange(pathname);
     });
+
+    useEffect(() => {
+        setPage(handlePathnameChange(pathname));
+    }, [pathname]);
 
     return (
         <Navbar

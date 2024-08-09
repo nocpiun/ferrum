@@ -7,6 +7,7 @@ import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ThemeProviderProps } from "next-themes/dist/types";
 import { ToastContainer } from "react-toastify";
 
+// Dialogs
 import RenameFolderDialog from "@/components/dialogs/rename-folder-dialog";
 import RenameFileDialog from "@/components/dialogs/rename-file-dialog";
 import RemoveFolderDialog from "@/components/dialogs/remove-folder-dialog";

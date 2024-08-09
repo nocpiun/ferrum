@@ -46,7 +46,7 @@ export default function Page() {
     if(!settings) return <></>;
     
     return (
-        <div className={cn("w-[800px] min-h-0 mx-auto mb-9 px-5 py-5 overflow-y-auto flex flex-col gap-10", scrollbarStyle)}>
+        <div className={cn("w-[800px] min-h-0 mx-auto mb-9 p-5 overflow-y-auto flex flex-col gap-10", scrollbarStyle)}>
             <SettingsSection title="通用">
                 <SettingsItem label="Ace Editor 自动换行" description="文本编辑器自动换行">
                     <Switch

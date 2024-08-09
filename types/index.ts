@@ -22,12 +22,10 @@ export enum BytesType {
 }
 
 export interface Drive {
-    readonly _filesystem: string
-    readonly _blocks: number
-    readonly _used: number
-    readonly _available: number
-    readonly _capacity: string
-    readonly _mounted: string
+    used: number
+    size: number
+    capacity: number
+    mount: string
 }
 
 export type SystemPlatform = "aix" | "darwin" | "freebsd" | "linux" | "openbsd" | "sunos" | "win32";

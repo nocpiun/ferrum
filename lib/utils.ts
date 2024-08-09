@@ -49,7 +49,7 @@ export function formatSize(bytes: number, fixed: number = 2): string {
         size = bytesSizeTransform(bytes, BytesType.B, BytesType.TB, fixed);
     }
 
-    return size.value + getBytesType(size.type);
+    return size.value +" "+ getBytesType(size.type);
 }
 
 export function getExtname(fileName: string): string {

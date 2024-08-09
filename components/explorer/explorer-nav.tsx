@@ -153,10 +153,10 @@ const ExplorerNav: React.FC = () => {
                         {
                             ferrum.disks.map((disk) => (
                                 <DropdownItem
-                                    key={disk._mounted}
+                                    key={disk.mount}
                                     className="data-[selected=true]:!bg-default-100"
                                     startContent={<HardDrive className="w-4 h-4 mr-2 stroke-default-400"/>}
-                                    aria-label={disk._mounted}>
+                                    aria-label={disk.mount}>
                                     <DiskItem {...disk}/>
                                 </DropdownItem>
                             ))
