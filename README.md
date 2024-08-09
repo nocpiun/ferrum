@@ -104,6 +104,7 @@ An explanation of the `package.json` scripts.
 - **`start`** Launch the app in production mode
 - **`dev`** Launch the app in development mode
 - **`build`** Create a production build
+- **`build:ci`** Create a production build for CI environment
 - **`lint`** Run ESLint
 
 ## LICENSE
