@@ -72,10 +72,12 @@ export default function Page() {
                 throw err;
             });
 
-        document.title = "Ferrum - "+ explorer.stringifyPath();
-
         explorer.clearCurrentViewing();
     }, []);
+
+    useEffect(() => {
+        document.title = "Ferrum - "+ explorer.stringifyPath();
+    }, [explorer]);
 
     useDetectCookie();
 
