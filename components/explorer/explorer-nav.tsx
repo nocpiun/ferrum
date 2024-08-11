@@ -175,6 +175,7 @@ const ExplorerNav: React.FC = () => {
                     {
                         explorer.path.map((folderName, index, { length }) => (
                             <BreadcrumbItem
+                                className="max-w-40"
                                 classNames={{ item: "gap-1" }}
                                 isCurrent={index !== 0 && index === length - 1 && !explorer.currentViewing}
                                 isDisabled={index === 0 && length === 1 && !explorer.currentViewing}
@@ -185,11 +186,13 @@ const ExplorerNav: React.FC = () => {
                                     ? <FolderRoot size={18}/>
                                     : getFolderIcon(folderName, 18)
                                 }
-                                {
-                                    index === 0
-                                    ? explorer.disk
-                                    : decodeURIComponent(folderName)
-                                }
+                                <span className="overflow-hidden whitespace-nowrap text-ellipsis">
+                                    {
+                                        index === 0
+                                        ? explorer.disk
+                                        : decodeURIComponent(folderName)
+                                    }
+                                </span>
                             </BreadcrumbItem>
                         ))
                     }
@@ -197,10 +200,13 @@ const ExplorerNav: React.FC = () => {
                         explorer.currentViewing
                         ? (
                             <BreadcrumbItem
+                                className="max-w-40"
                                 classNames={{ item: "gap-1" }}
                                 isCurrent>
                                 {getFileIcon(getExtname(explorer.currentViewing))}
-                                {explorer.currentViewing}
+                                <span className="overflow-hidden whitespace-nowrap text-ellipsis">
+                                    {explorer.currentViewing}
+                                </span>
                             </BreadcrumbItem>
                         )
                         : null

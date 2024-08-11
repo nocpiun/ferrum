@@ -34,7 +34,7 @@ File Explorer -> FE -> Fe (Chemical Element) -> Ferrum
 
 First, you need to make sure that your server (or computer) has installed Nodejs.
 
-1. Download and install
+1. **Download and install**
 
 ```bash
 git clone https://github.com/nocpiun/ferrum.git
@@ -44,7 +44,7 @@ npm run patch
 npm run build
 ```
 
-2. Prepare the `.pwd` file
+2. **Prepare the `.pwd` file**
 
 Rename the `.pwd.example` to `.pwd` in the project root folder. This file stores your access key to Ferrum. The default password is `123456`, and you can change your password in the settings.
 
@@ -52,13 +52,13 @@ Rename the `.pwd.example` to `.pwd` in the project root folder. This file stores
 PASSWORD=....
 ```
 
-3. Run the app (Recommended to use Administrator privilege)
+3. **Run the app** (Recommended to use Administrator privilege)
 
 ```bash
 npm run start
 ```
 
-4. Enter `http://localhost:3300`.
+4. **Enter `http://localhost:3300`**
 
 ### To get update
 
