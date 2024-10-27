@@ -28,7 +28,7 @@ File Explorer -> FE -> Fe (Chemical Element) -> Ferrum
 
 #### May I have a look?
 
-**[Demo Site](https://ferrum-demo.nin.red)** (Default password is `123456`)
+**[Demo Site](https://ferrum-demo.nocp.space)** (Default password is `123456`)
 
 ## Deploy & Use
 
