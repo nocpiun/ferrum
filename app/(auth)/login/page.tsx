@@ -102,7 +102,7 @@ export default function Page() {
             </Card>
 
             <div className="w-[500px] p-3 flex justify-between">
-                <span className="text-default-400 text-sm">Copyright &copy; {new Date().getFullYear()} NoahHrreion</span>
+                <span className="text-default-400 text-sm">Copyright &copy; 2024 NoahHrreion</span>
 
                 <ThemeSwitch size="sm"/>
             </div>
